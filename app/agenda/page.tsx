@@ -1,7 +1,7 @@
 'use client';
 import { supabase } from '../../lib/supabaseClient';
 ;
-import { supabase } from '@/lib/supabaseClient';
+
 
 export default function Agenda() {
   const [email, setEmail] = useState('');
