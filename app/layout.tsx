@@ -1,36 +1,23 @@
-// app/layout.tsx
-import type { Metadata } from "next";
-import "./globals.css";
-import { Inter, Playfair_Display } from "next/font/google";
-import Link from "next/link";
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const playfair = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-playfair",
-});
-
-export const metadata: Metadata = {
+export const metadata = {
   title: "Castellanos Abogados",
-  description: "Asesoría legal virtual en 20 minutos.",
+  description:
+    "Asesoría legal virtual en menos de 20 minutos. Agenda segura y con expertos en derecho colombiano.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="es">
       <body>
-        {/* Topbar */}
-        <header className="topbar">
-          <div className="container topbar__inner">
-            <Link href="/" className="brand">
-              {/* Si quieres texto en vez de imagen, borra el <img> y deja el span */}
-              <img src="/logo.png" alt="Castellanos" className="brand__img" />
-              <span className="brand__fallback">Castellanos</span>
-            </Link>
+        <header className="site-header">
+          <div className="container site-header__inner">
+            <a className="brand" href="/">
+              <strong className="brand__title">Castellanos</strong>
+              <span className="brand__subtitle">Abogados</span>
+            </a>
 
             <nav className="nav">
-              <Link href="/agenda" className="btn btn--ghost">¿Cómo funciona?</Link>
-              <Link href="/agenda" className="btn btn--primary">Agendar asesoría</Link>
+              <a className="btn btn--ghost" href="/agenda">Agenda</a>
+              <a className="btn" href="/agenda">Agendar asesoría</a>
             </nav>
           </div>
         </header>
@@ -38,7 +25,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
 
         <footer className="site-footer">
-          © {new Date().getFullYear()} Castellanos Abogados · Orientación legal puntual · No constituye representación judicial.
+          <div className="container site-footer__inner">
+            <div className="site-footer__muted">
+              © {new Date().getFullYear()} Castellanos Abogados. Orientación legal confiable.
+            </div>
+            <nav className="nav">
+              <a className="btn btn--ghost" href="/agenda">Agenda</a>
+            </nav>
+          </div>
         </footer>
       </body>
     </html>
