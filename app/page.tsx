@@ -1,23 +1,22 @@
-// app/page.tsx
 import Image from "next/image";
 
 export default function Home() {
   return (
     <main className="landing">
       {/* HERO */}
-      <section className="hero">
-        <div className="hero-content">
+      <section className="hero full">
+        <div className="overlay">
           <Image
             src="/logo.png"
             alt="Castellanos Abogados"
-            width={320}
-            height={480}
+            width={500}
+            height={700}
             priority
-            className="logo"
+            className="hero-logo"
           />
           <h1>Asesoría Legal Virtual en 20 Minutos</h1>
           <p>
-            Orientación jurídica profesional desde la comodidad de tu hogar. 
+            Orientación jurídica profesional desde la comodidad de tu hogar.
             Conéctate con un abogado experto en derecho colombiano.
           </p>
           <a href="/agenda" className="btn-primary">
