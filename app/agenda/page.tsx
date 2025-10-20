@@ -11,7 +11,7 @@ export default function AgendaPage() {
     >
       <h1 style={{ fontSize: 28, margin: 0 }}>Agenda OK ✅</h1>
       <p style={{ opacity: 0.9, marginTop: 8 }}>
-        Si ves este texto, /agenda está renderizando correctamente sin CSS global.
+        Si ves este texto, /agenda renderiza correctamente.
       </p>
       <a
         href="/"
