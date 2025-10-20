@@ -1,38 +1,51 @@
-import "./globals.css"; // 👈 NECESARIO para que cargue el CSS global
+// app/layout.tsx
+import type { Metadata } from "next";
+import Link from "next/link";
+import "./globals.css";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Castellanos Abogados",
-  description:
-    "Asesoría legal virtual clara y cercana. Agenda segura y conecta con un abogado experto en menos de 20 minutos.",
+  description: "Orientación legal clara y confiable en 20 minutos.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
       <body>
-        <header className="site-header">
-          <div className="container site-header__inner">
-            <a href="/" className="brand">
-              <strong className="brand__title">Castellanos</strong>
-              <span className="brand__subtitle">Abogados</span>
-            </a>
-            <nav className="nav" aria-label="Principal">
-              <a className="btn btn--ghost" href="/agenda">Agenda</a>
-              <a className="btn" href="/agenda">Agendar asesoría</a>
+        {/* Topbar */}
+        <header className="topbar">
+          <div className="wrap">
+            <Link href="/" className="brand" aria-label="Inicio">
+              <span className="brand__fallback">Castellanos <span style={{fontWeight:700}}>Abogados</span></span>
+            </Link>
+            <nav className="nav" aria-label="Navegación principal">
+              <Link href="/agenda" className="btn btn--primary">Agendar asesoría</Link>
             </nav>
           </div>
         </header>
 
-        <main>{children}</main>
+        {/* Main */}
+        <main className="main">
+          {children}
+        </main>
 
-        <footer className="site-footer">
-          <div className="container site-footer__inner">
-            <div className="site-footer__muted">
-              © {new Date().getFullYear()} Castellanos Abogados · Orientación legal confiable
+        {/* Footer */}
+        <footer className="footer">
+          <div className="wrap footer__grid">
+            <div>
+              <div className="footer__title">Castellanos Abogados</div>
+              <div className="footer__muted">
+                Orientación legal puntual y confiable. No constituye representación judicial.
+              </div>
             </div>
-            <nav className="nav">
-              <a className="btn btn--ghost" href="/agenda">Agenda</a>
-            </nav>
+            <div className="footer__links" aria-label="Enlaces">
+              <Link className="link" href="/agenda">Agenda</Link>
+              <a className="link" href="#como-funciona">Cómo funciona</a>
+              <a className="link" href="#servicios">Servicios</a>
+            </div>
+          </div>
+          <div className="wrap footer__legal">
+            © {new Date().getFullYear()} Castellanos Abogados.
           </div>
         </footer>
       </body>
