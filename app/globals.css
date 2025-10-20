@@ -32,7 +32,7 @@ body{
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* LAYOUT BÁSICO QUE YA USAS */
+/* LAYOUT BÁSICO */
 .wrap{ width:100%; max-width:1200px; margin:0 auto; padding:0 24px; }
 .main{ padding-top: 24px; }
 
@@ -85,8 +85,9 @@ body{
   background: linear-gradient(180deg, #60a5fa, #3b82f6);
   box-shadow: 0 12px 26px rgba(59,130,246,.28);
 }
+.btn--lg{ height:52px; padding:0 22px; }
 
-/* TOPBAR (limpia, translucida) */
+/* TOPBAR */
 .topbar{
   position:sticky; top:0; z-index:30;
   backdrop-filter: blur(10px) saturate(130%);
@@ -103,7 +104,7 @@ body{
 }
 .nav{ display:inline-flex; gap:10px; }
 
-/* HERO CLARO, SIN LOGO */
+/* HERO */
 .hero{
   padding: clamp(56px, 8vw, 100px) 0 clamp(36px, 5vw, 60px);
   background:
@@ -114,7 +115,7 @@ body{
 .hero .wrap{ display:grid; gap:18px; }
 .hero__cta{ display:inline-flex; gap:10px; margin-top:8px; }
 
-/* GRID Y TARJETAS */
+/* SERVICIOS */
 .services{ padding: clamp(36px, 7vw, 72px) 0; }
 .center{text-align:center;}
 .muted{ color:var(--muted); }
@@ -143,9 +144,6 @@ body{
   margin:0 0 6px 0; font-size:18px; color:#1f2b46;
 }
 .card__text{ margin:0; color:var(--muted); line-height:1.6; }
-
-@media (min-width: 640px){ .card{ grid-column: span 6; } }
-@media (min-width: 980px){ .card{ grid-column: span 4; } }
 
 /* CTA inferior */
 .cta{ padding: clamp(36px, 7vw, 72px) 0 88px; }
@@ -176,6 +174,10 @@ body{
   text-align:center; padding:14px 0 24px; color:var(--muted); font-size:13px;
 }
 
-/* Helpers existentes */
+/* Página interna */
 .page{ padding:24px; }
-.btn--lg{ height:52px; padding:0 22px; }
+
+/* Accesibilidad táctil móvil */
+:root { --tap: 46px; }
+a, button, .btn { min-height: var(--tap); }
+* { -webkit-tap-highlight-color: rgba(37,99,235,.15); }
