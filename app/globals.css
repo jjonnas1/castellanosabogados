@@ -181,3 +181,11 @@ body{
 :root { --tap: 46px; }
 a, button, .btn { min-height: var(--tap); }
 * { -webkit-tap-highlight-color: rgba(37,99,235,.15); }
+/* DEBUG TEMPORAL — BORRAR LUEGO */
+body::after{
+  content:"v-azul-ok";
+  position:fixed; right:10px; bottom:10px;
+  font:600 12px/1 Inter, system-ui; color:#2563eb;
+  background:#eaf2ff; border:1px solid #cfe0ff; padding:6px 8px; border-radius:8px;
+  z-index:99999; box-shadow:0 4px 10px rgba(0,0,0,.08);
+}
