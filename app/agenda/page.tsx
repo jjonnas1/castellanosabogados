@@ -1,170 +1,135 @@
 'use client';
-
-import { useEffect, useMemo, useState } from 'react';
-import { supabase } from '../../lib/supabaseClient';
-
-const TZ = 'America/Bogota';
-const DAYS_AHEAD = 14;
-const START_HOUR = 8;
-const END_HOUR = 18;
-const SLOT_MINUTES = 20;
-
-function formatColombia(d: Date) {
-  return d.toLocaleString('es-CO', {
-    timeZone: TZ,
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-}
-
-function generateSlots(): Date[] {
-  const now = new Date();
-  const slots: Date[] = [];
-  for (let i = 0; i < DAYS_AHEAD; i++) {
-    const day = new Date(now);
-    day.setDate(day.getDate() + i);
-    const dow = day.getDay();
-    if (dow === 0 || dow === 6) continue;
-    for (let h = START_HOUR; h < END_HOUR; h++) {
-      for (let m = 0; m < 60; m += SLOT_MINUTES) {
-        const slot = new Date(day);
-        slot.setHours(h, m, 0, 0);
-        if (slot > now) slots.push(slot);
-      }
-    }
-  }
-  return slots;
-}
+import { useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
 
 export default function Agenda() {
   const [email, setEmail] = useState('');
   const [topic, setTopic] = useState('Penal');
+  const [when, setWhen] = useState('');
+  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
-  const [available, setAvailable] = useState<Date[]>([]);
-  const [selectedISO, setSelectedISO] = useState<string>('');
 
-  const baseSlots = useMemo(() => generateSlots(), []);
-
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from('preintakes')
-          .select('slot_ts')
-          .gte('slot_ts', baseSlots[0].toISOString())
-          .lte('slot_ts', baseSlots[baseSlots.length - 1].toISOString());
-        if (error) throw error;
-        const booked = new Set(data?.map((r: any) => new Date(r.slot_ts).toISOString()));
-        const free = baseSlots.filter(s => !booked.has(s.toISOString()));
-        setAvailable(free);
-        if (free[0]) setSelectedISO(free[0].toISOString());
-      } catch {
-        setMessage('Error cargando horarios.');
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [baseSlots]);
-
-  async function submit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setMessage(null);
-    try {
-      const { error } = await supabase.from('preintakes').insert([
-        { email, topic, slot_ts: selectedISO },
-      ]);
-      if (error) throw error;
-      setMessage('✅ Solicitud registrada. Te contactaremos por correo.');
+    setMessage('');
+
+    const { error } = await supabase
+      .from('preintakes')
+      .insert([{ email, topic, slot_ts: when }]);
+
+    if (error) {
+      if (error.message.includes('duplicate')) {
+        setMessage('❌ Ese horario ya fue ocupado. Elige otro.');
+      } else {
+        setMessage('⚠️ Error registrando la cita. Intenta de nuevo.');
+      }
+    } else {
+      setMessage('✅ ¡Tu cita fue agendada correctamente!');
       setEmail('');
-    } catch {
-      setMessage('Ese horario ya fue ocupado. Elige otro.');
-    } finally {
-      setLoading(false);
+      setTopic('Penal');
+      setWhen('');
     }
-  }
+
+    setLoading(false);
+  };
+
+  const horarios = [
+    'Lunes, 21 de octubre, 9:00 a.m.',
+    'Lunes, 21 de octubre, 10:40 a.m.',
+    'Martes, 22 de octubre, 3:00 p.m.',
+    'Miércoles, 23 de octubre, 11:00 a.m.',
+    'Jueves, 24 de octubre, 4:30 p.m.',
+  ];
 
   return (
-    <main className="grid">
-      <section className="card">
-        <h2>Agenda tu asesoría</h2>
-        <p>Selecciona un horario disponible (de lunes a viernes, 8:00 a 18:00).</p>
+    <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white p-6">
+      <div className="max-w-lg w-full bg-slate-800/70 backdrop-blur-md border border-slate-700 rounded-2xl shadow-2xl p-8 space-y-6">
+        <h1 className="text-3xl font-bold text-center bg-gradient-to-r from-blue-400 to-cyan-300 text-transparent bg-clip-text">
+          Agenda tu asesoría
+        </h1>
+        <p className="text-center text-slate-300 text-sm">
+          Selecciona un horario disponible (lunes a viernes, 8:00 a 18:00)
+        </p>
 
-        <form onSubmit={submit}>
-          <label>Tu correo</label>
-          <input
-            type="email"
-            placeholder="tucorreo@ejemplo.com"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-          />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block text-sm font-semibold text-slate-200 mb-1">
+              Tu correo
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="tucorreo@ejemplo.com"
+              className="w-full p-3 rounded-xl bg-slate-900/60 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            />
+          </div>
 
-          <label>Tema / Área</label>
-          <select value={topic} onChange={e => setTopic(e.target.value)}>
-            <option>Penal</option>
-            <option>Laboral</option>
-            <option>Civil</option>
-            <option>Familia</option>
-            <option>Comercial</option>
-            <option>Administrativo</option>
-          </select>
+          <div>
+            <label className="block text-sm font-semibold text-slate-200 mb-1">
+              Tema / Área
+            </label>
+            <select
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              className="w-full p-3 rounded-xl bg-slate-900/60 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              <option value="Penal">Penal</option>
+              <option value="Civil">Civil</option>
+              <option value="Laboral">Laboral</option>
+              <option value="Familia">Familia</option>
+            </select>
+          </div>
 
-          <label>Horarios disponibles</label>
-          <select
-            value={selectedISO}
-            onChange={e => setSelectedISO(e.target.value)}
-            disabled={loading || available.length === 0}
+          <div>
+            <label className="block text-sm font-semibold text-slate-200 mb-1">
+              Horario disponible
+            </label>
+            <select
+              value={when}
+              onChange={(e) => setWhen(e.target.value)}
+              required
+              className="w-full p-3 rounded-xl bg-slate-900/60 border border-slate-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-400"
+            >
+              <option value="">Selecciona una hora</option>
+              {horarios.map((h) => (
+                <option key={h} value={h}>
+                  {h}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 transition rounded-xl font-semibold text-slate-900 shadow-lg shadow-cyan-500/30 disabled:opacity-70"
           >
-            {available.map(s => (
-              <option key={s.toISOString()} value={s.toISOString()}>
-                {formatColombia(s)}
-              </option>
-            ))}
-          </select>
-
-          <button type="submit" disabled={loading || !selectedISO}>
-            {loading ? 'Enviando...' : 'Enviar solicitud'}
+            {loading ? 'Agendando...' : '📅 Enviar solicitud'}
           </button>
         </form>
 
-        {message && <p style={{ marginTop: 12 }}>{message}</p>}
-      </section>
+        {message && (
+          <p
+            className={`text-center mt-3 font-medium ${
+              message.includes('✅')
+                ? 'text-green-400'
+                : message.includes('❌')
+                ? 'text-red-400'
+                : 'text-yellow-400'
+            }`}
+          >
+            {message}
+          </p>
+        )}
+      </div>
+
+      <footer className="mt-10 text-xs text-slate-500">
+        © 2025 CastellanosAbogados — Orientación legal puntual.  
+        No constituye representación judicial.
+      </footer>
     </main>
   );
 }
-
-return (
-  <div className="card" style={{maxWidth:720, margin:"0 auto"}}>
-    <h2 style={{marginBottom:8}}>Agenda tu asesoría</h2>
-    <p style={{color:"var(--muted)",marginBottom:16}}>
-      Selecciona un horario disponible (L–V, 8:00–18:00).
-    </p>
-
-    <form onSubmit={submit} style={{display:"grid",gap:12}}>
-      <label className="label">Tu correo</label>
-      <input className="input" type="email" ... />
-
-      <label className="label">Tema / Área</label>
-      <select className="input" ...>...</select>
-
-      <label className="label">Horarios disponibles</label>
-      <select className="input" ...>{/* opciones */}</select>
-
-      <button className="btn" type="submit" disabled={loading || !selectedISO}>
-        {loading ? 'Enviando…' : 'Enviar solicitud'}
-      </button>
-    </form>
-
-    {message && <p style={{marginTop:12,color: message.startsWith('✅') ? 'var(--acc)' : '#fda4af'}}>
-      {message}
-    </p>}
-  </div>
-);
-
