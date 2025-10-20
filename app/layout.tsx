@@ -13,8 +13,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style={{
           margin: 0,
           minHeight: "100vh",
-          backgroundColor: "#0b1220", // fondo oscuro
-          color: "#e6edf6",           // texto claro
+          backgroundColor: "#0b1220", // fondo oscuro visible
+          color: "#e6edf6",           // texto claro visible
           fontFamily: "system-ui, -apple-system, Segoe UI, Inter, Roboto, Helvetica, Arial",
         }}
       >
