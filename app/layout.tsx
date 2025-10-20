@@ -1,3 +1,5 @@
+import "./globals.css"; // 👈 NECESARIO para que cargue el CSS global
+
 export const metadata = {
   title: "Castellanos Abogados",
   description:
@@ -14,7 +16,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <strong className="brand__title">Castellanos</strong>
               <span className="brand__subtitle">Abogados</span>
             </a>
-
             <nav className="nav" aria-label="Principal">
               <a className="btn btn--ghost" href="/agenda">Agenda</a>
               <a className="btn" href="/agenda">Agendar asesoría</a>
