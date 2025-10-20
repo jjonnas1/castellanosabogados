@@ -10,9 +10,9 @@ export default function Home() {
         margin: "0 auto",
       }}
     >
-      <h1 style={{ fontSize: 32, margin: 0 }}>Castellanos Abogados ✅</h1>
+      <h1 style={{ fontSize: 32, margin: 0 }}>Inicio OK ✅</h1>
       <p style={{ opacity: 0.9, margin: 0 }}>
-        Asesoría legal virtual en 20 minutos. (Vista base sin CSS global)
+        Si estás viendo esto, Next.js y el layout están renderizando bien.
       </p>
       <a
         href="/agenda"
