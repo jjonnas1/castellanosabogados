@@ -17,63 +17,70 @@
 /* === RESETEO === */
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-}
-html, body {
-  height: 100%;
-  margin: 0;
-}
+*::after { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
 body {
-  background: radial-gradient(1000px 600px at 50% -10%, #0d0d0d 0%, #090909 60%, #060606 100%);
+  background: radial-gradient(1200px 700px at 50% -15%, #101010 0%, #0a0a0a 55%, #070707 100%);
   color: var(--text);
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
+/* Utilidad contenedor */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
 /* === HERO PRINCIPAL === */
 .hero {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   min-height: 100vh;
-  padding: 40px 20px;
-  background: radial-gradient(circle at 50% -10%, #0d1117, #050708 80%);
-  position: relative;
+  padding: 48px 24px;
+  /* degradado amplio y suave para evitar “columnas” más oscuras */
+  background:
+    radial-gradient(900px 480px at 50% -10%, rgba(255,255,255,0.03), transparent 65%),
+    radial-gradient(1200px 700px at 50% -15%, #0e1013 0%, #080a0c 70%);
   overflow: hidden;
 }
 
-/* Logo */
+/* Logo: grande, nítido y sin “cuadro” gracias al blend */
 .hero-logo {
   width: auto;
-  height: clamp(180px, 30vh, 340px);
-  margin-bottom: 48px;
+  height: clamp(220px, 35vh, 420px);
+  max-width: min(90vw, 900px);
   object-fit: contain;
-  opacity: 0.92;
-  filter: drop-shadow(0 10px 25px rgba(255, 255, 255, 0.05))
-          brightness(1.05);
-  transition: all 0.6s ease;
+  opacity: 0.95;
+  filter: drop-shadow(0 14px 28px rgba(255,255,255,0.06)) brightness(1.05);
+  mix-blend-mode: lighten;               /* <- disimula el fondo negro del PNG */
+  transition: transform .6s ease, opacity .6s ease, filter .6s ease;
 }
 .hero-logo:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
   opacity: 1;
+  filter: drop-shadow(0 18px 36px rgba(255,255,255,0.08)) brightness(1.07);
 }
 
 /* Texto hero */
 .hero h1 {
   font-family: "Playfair Display", serif;
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-size: clamp(1.9rem, 3.2vw, 2.7rem);
   color: var(--text);
-  margin-bottom: 16px;
+  margin: 18px 0 10px;
 }
 .hero p {
   color: var(--muted);
   font-size: clamp(1rem, 1.2vw, 1.1rem);
   line-height: 1.6;
-  max-width: 700px;
-  margin: 0 auto 32px auto;
+  max-width: 720px;
+  margin: 0 auto 28px auto;
 }
 
 /* Botón principal */
@@ -88,10 +95,7 @@ body {
   box-shadow: 0 6px 24px rgba(37, 99, 235, 0.25);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.4);
-}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(59,130,246,0.4); }
 
 /* === SERVICIOS === */
 .services {
@@ -99,14 +103,12 @@ body {
   padding: clamp(60px, 8vw, 100px) 24px;
   background: linear-gradient(180deg, #0a0d10, #0b0f14);
 }
-
 .services h2 {
   font-family: "Playfair Display", serif;
   font-size: clamp(1.8rem, 2.8vw, 2.2rem);
   color: var(--text);
   margin-bottom: 40px;
 }
-
 .services .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -114,7 +116,6 @@ body {
   max-width: 1100px;
   margin: 0 auto;
 }
-
 .card {
   background: linear-gradient(180deg, #141414, #101010);
   border-radius: var(--radius);
@@ -128,20 +129,9 @@ body {
   box-shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
   border-color: #242424;
 }
-.card span {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: 12px;
-}
-.card h3 {
-  color: var(--accent);
-  font-family: "Playfair Display", serif;
-  margin-bottom: 8px;
-}
-.card p {
-  color: var(--muted);
-  line-height: 1.5;
-}
+.card span { font-size: 2rem; display: block; margin-bottom: 12px; }
+.card h3 { color: var(--accent); font-family: "Playfair Display", serif; margin-bottom: 8px; }
+.card p  { color: var(--muted); line-height: 1.5; }
 
 /* === FOOTER === */
 .site-footer {
@@ -152,4 +142,9 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.05);
   background: rgba(10, 14, 22, 0.5);
   font-size: 0.9rem;
+}
+
+/* Pequeños ajustes responsivos */
+@media (min-width: 1024px) {
+  .hero { padding-top: 64px; }
 }
