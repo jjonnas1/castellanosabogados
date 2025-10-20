@@ -1,15 +1,30 @@
+// app/agenda/page.tsx
 export default function AgendaPage() {
   return (
     <main
       style={{
-        minHeight: '100vh',
-        background: '#0b1220',   // azul muy oscuro
-        color: '#e6edf6',        // texto claro
-        padding: '32px',
+        minHeight: "100vh",
+        padding: 48,
+        maxWidth: 900,
+        margin: "0 auto",
       }}
     >
-      <h1 style={{ fontSize: 28, marginBottom: 16 }}>Agenda</h1>
-      <p>Si ves este texto, el problema era CSS o imports previos.</p>
+      <h1 style={{ fontSize: 28, margin: 0 }}>Agenda OK ✅</h1>
+      <p style={{ opacity: 0.9, marginTop: 8 }}>
+        Si ves este texto, /agenda está renderizando correctamente sin CSS global.
+      </p>
+      <a
+        href="/"
+        style={{
+          display: "inline-block",
+          marginTop: 16,
+          color: "#93c5fd",
+          textDecoration: "none",
+          fontWeight: 600,
+        }}
+      >
+        Volver al inicio
+      </a>
     </main>
   );
 }
