@@ -1,38 +1,49 @@
-export default function Home(){
+export default function Home() {
   return (
-    <div style={{display:"grid",gap:24}}>
-      {/* Hero */}
-      <section className="card" style={{padding:32, position:"relative", overflow:"hidden"}}>
-        <div style={{position:"absolute",inset:-80,background:
-          "radial-gradient(600px circle at 20% -10%, rgba(37,99,235,.25), transparent 40%), radial-gradient(600px circle at 120% 20%, rgba(96,165,250,.2), transparent 40%)"}}/>
-        <div style={{position:"relative"}}>
-          <span className="badge">Nueva • Asesoría virtual de 20 minutos</span>
-          <h1 style={{marginTop:12,maxWidth:720}}>
-            Tu consulta de <span style={{color:"var(--brand-2)"}}>derecho colombiano</span>, rápida y clara.
-          </h1>
-          <p style={{color:"var(--muted)",maxWidth:720,marginTop:8}}>
-            Agenda en línea, paga con seguridad (pronto Wompi) y conéctate por videollamada.
-          </p>
-          <div style={{marginTop:18,display:"flex",gap:12}}>
-            <a className="btn" href="/agenda">Agendar ahora</a>
-            <a href="#como-funciona" style={{opacity:.85}}>Cómo funciona</a>
-          </div>
+    <main className="landing">
+      {/* HERO */}
+      <section className="hero">
+        <h1>
+          <span>Castellanos</span> Abogados
+        </h1>
+        <p>
+          Asesoría legal virtual en menos de 20 minutos.<br />
+          Agenda tu cita, paga con seguridad y conéctate por videollamada.
+        </p>
+        <a href="/agenda" className="btn-primary">
+          Agenda ahora →
+        </a>
+      </section>
+
+      {/* SERVICIOS */}
+      <section className="services">
+        <h2>Servicios en línea</h2>
+        <div className="grid">
+          {[
+            { icon: "📅", title: "Agenda Online", desc: "Programa asesorías desde cualquier lugar." },
+            { icon: "💳", title: "Pago Seguro", desc: "Transacciones protegidas (Wompi)." },
+            { icon: "👩‍⚖️", title: "Abogados Expertos", desc: "Profesionales verificados en derecho colombiano." },
+            { icon: "📊", title: "Reportes", desc: "Historial y seguimiento de tus asesorías." },
+            { icon: "🔔", title: "Recordatorios", desc: "Recibe notificaciones automáticas antes de tu cita." },
+            { icon: "🧾", title: "Facturación", desc: "Recibe comprobantes electrónicos al instante." },
+          ].map((item, i) => (
+            <div key={i} className="card">
+              <div className="icon">{item.icon}</div>
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* 3 beneficios */}
-      <section id="como-funciona" className="card" style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",gap:18}}>
-        {[
-          {t:"Rápido",d:"Citas de 20 minutos enfocadas en tu caso."},
-          {t:"Profesional",d:"Abogados verificados y especializados."},
-          {t:"100% online",d:"Reserva, paga y recibe el enlace al instante."},
-        ].map((f,i)=>(
-          <div key={i} style={{padding:8}}>
-            <h3 style={{fontWeight:700,marginBottom:6}}>{f.t}</h3>
-            <p style={{color:"var(--muted)"}}>{f.d}</p>
-          </div>
-        ))}
+      {/* CTA FINAL */}
+      <section className="cta">
+        <h2>Agenda tu primera asesoría</h2>
+        <p>Rápido, profesional y 100% online.</p>
+        <a href="/agenda" className="btn-primary">
+          Iniciar ahora
+        </a>
       </section>
-    </div>
+    </main>
   );
 }
