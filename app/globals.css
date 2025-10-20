@@ -1,4 +1,10 @@
-/* === CastellanosAbogados – Premium UI === */
+html,body {
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:#e6edf6; /* ⚡ forzar color claro visible */
+  font-family:system-ui,-apple-system,Segoe UI,Inter,Roboto,sans-serif;
+}/* === CastellanosAbogados – Premium UI === */
 
 :root{
   --bg:#0b1220; --surface:#0f172a; --muted:#94a3b8; --text:#e5e7eb;
