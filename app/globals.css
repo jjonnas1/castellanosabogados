@@ -1,3 +1,28 @@
+/* === Safe defaults, aunque no existan tus variables === */
+:root{
+  --bg: #0b1220;        /* fondo */
+  --surface: #0f172a;   /* tarjetas */
+  --text: #e6edf6;      /* texto */
+  --muted: #94a3b8;     /* texto suave */
+  --brand: #2563eb;     /* azul principal */
+}
+
+/* Nunca dejes el body sin color/fondo explícitos */
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+}
+
+/* Prevención: cualquier “reset” que haga invisible el texto */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a { color: inherit; text-decoration: none; }
 /* ========== RESET SEGURO ========== */
 *, *::before, *::after { box-sizing: border-box; }
 html, body {
