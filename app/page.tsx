@@ -39,63 +39,64 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Servicios */}
-      <section id="servicios" className="section">
-        <div className="container">
-          <h2>Servicios en línea</h2>
-          <p className="muted">Todo lo necesario para una consulta eficiente y transparente.</p>
+     {/* Servicios en línea */}
+<section className="section services">
+  <div className="wrap">
+    <h2 className="section-title">Servicios en línea</h2>
+    <p className="section-sub">Todo lo necesario para una consulta eficiente y transparente.</p>
 
-          <div className="cards">
-            <article className="tile">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span className="icon">📅</span>
-                <h3 className="title">Agenda Online</h3>
-              </div>
-              <p>Reserva en segundos desde cualquier dispositivo.</p>
-            </article>
-
-            <article className="tile">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span className="icon">🔒</span>
-                <h3 className="title">Pago Seguro</h3>
-              </div>
-              <p>Transacciones protegidas (pronto: Wompi/Stripe).</p>
-            </article>
-
-            <article className="tile">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span className="icon">⚖️</span>
-                <h3 className="title">Abogados Expertos</h3>
-              </div>
-              <p>Profesionales verificados por área de práctica.</p>
-            </article>
-
-            <article className="tile">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span className="icon">📝</span>
-                <h3 className="title">Resumen y próximos pasos</h3>
-              </div>
-              <p>Recibe un resumen claro tras la consulta.</p>
-            </article>
-
-            <article className="tile">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span className="icon">🔔</span>
-                <h3 className="title">Recordatorios</h3>
-              </div>
-              <p>Te avisamos antes de tu cita por correo.</p>
-            </article>
-
-            <article className="tile">
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <span className="icon">🧾</span>
-                <h3 className="title">Facturación</h3>
-              </div>
-              <p>Comprobantes electrónicos al instante.</p>
-            </article>
-          </div>
+    <div className="card-grid">
+      {/* Featured: ocupa 2 columnas en desktop */}
+      <a href="/agenda" className="svc-card card--featured">
+        <div className="svc-icon">📅</div>
+        <div>
+          <h3>Agenda Online</h3>
+          <p>Reserva en segundos desde cualquier dispositivo.</p>
         </div>
-      </section>
+      </a>
+
+      <div className="svc-card">
+        <div className="svc-icon">💳</div>
+        <div>
+          <h3>Pago Seguro</h3>
+          <p>Transacciones protegidas (pronto: Wompi/Stripe).</p>
+        </div>
+      </div>
+
+      <div className="svc-card">
+        <div className="svc-icon">⚖️</div>
+        <div>
+          <h3>Abogados Expertos</h3>
+          <p>Profesionales verificados por área de práctica.</p>
+        </div>
+      </div>
+
+      <div className="svc-card">
+        <div className="svc-icon">📝</div>
+        <div>
+          <h3>Resumen y próximos pasos</h3>
+          <p>Recibe un resumen claro tras la consulta.</p>
+        </div>
+      </div>
+
+      <div className="svc-card">
+        <div className="svc-icon">🔔</div>
+        <div>
+          <h3>Recordatorios</h3>
+          <p>Te avisamos antes de tu cita por correo.</p>
+        </div>
+      </div>
+
+      <div className="svc-card">
+        <div className="svc-icon">🧾</div>
+        <div>
+          <h3>Facturación</h3>
+          <p>Comprobantes electrónicos al instante.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* CTA inferior */}
       <section className="cta">
