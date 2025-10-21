@@ -319,3 +319,40 @@ body {
   border-top: 1px solid #e9eef5;
   box-shadow: 0 -8px 20px rgba(15,23,42,.04) inset;
 }
+/* === Ajuste final: mejor contraste para botones y tarjetas === */
+
+/* Botones: azul más fuerte y texto más visible */
+.btn {
+  background: #f1f5f9; /* gris claro que contraste con el fondo */
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+.btn:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #2563eb, #1d4ed8);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+}
+.btn-primary:hover {
+  background: linear-gradient(180deg, #1d4ed8, #1e40af);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+}
+
+/* Tarjetas (tiles y hero cards): tono ligeramente más oscuro que el fondo */
+.card,
+.tile,
+.cta-panel {
+  background: #f8fafc; /* gris claro */
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+}
+
+/* Fondo general: mantiene claridad pero deja que los cuadros destaquen */
+body {
+  background: linear-gradient(#f9fafb, #f1f5f9);
+}
