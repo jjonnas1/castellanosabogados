@@ -356,3 +356,90 @@ body {
 body {
   background: linear-gradient(#f9fafb, #f1f5f9);
 }
+/* ====== Distribución mejorada para "Servicios en línea" ====== */
+.section.services { padding: clamp(28px, 5vw, 56px) 0; }
+
+.section-title { 
+  font-size: clamp(20px, 2.2vw, 28px); 
+  margin: 0 0 8px 0; 
+}
+.section-sub { 
+  color: var(--muted, #667085); 
+  margin: 0 0 22px 0; 
+}
+
+/* Grid responsivo: 1 col (mobile) → 6 col (tablet) → 12 col (desktop) */
+.card-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .card-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .card-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+}
+
+/* Tarjeta base */
+.svc-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 12px;
+  padding: 18px;
+  min-height: 110px;
+  border-radius: 14px;
+  background: var(--card, #ffffff);           /* distinto al fondo */
+  border: 1px solid var(--stroke, #E6EAF2);
+  box-shadow: 0 6px 16px rgba(16,24,40,.06);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  grid-column: span 12;                       /* móvil: ancho completo */
+}
+.svc-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16,24,40,.10);
+  border-color: #D8DEE9;
+}
+.svc-card h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: var(--text, #101828);
+}
+.svc-card p {
+  margin: 0;
+  color: var(--muted, #667085);
+  line-height: 1.45;
+}
+
+/* Icono en círculo */
+.svc-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  background: linear-gradient(180deg, #EFF4FF, #E9EEF9);
+  color: #1D4ED8;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+/* Distribución por columnas en tablet/desktop */
+@media (min-width: 640px) {
+  .svc-card      { grid-column: span 3; }   /* 6 col → cards de 3 = dos por fila */
+  .card--featured{ grid-column: span 6; }   /* featured ocupa fila completa */
+}
+@media (min-width: 1024px) {
+  .svc-card      { grid-column: span 3; }   /* 12 col → cards de 3 = cuatro por fila */
+  .card--featured{ grid-column: span 6; }   /* featured ocupa media fila (2 de 4) */
+}
+
+/* Ajuste fino en fondos claros */
+:root {
+  /* si tu tema ya define estas vars, se respetan; si no, usa estos defaults */
+  --card: #ffffff;
+  --stroke: #E6EAF2;
+  --text: #101828;
+  --muted: #667085;
+}
