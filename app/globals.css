@@ -443,3 +443,84 @@ body {
   --text: #101828;
   --muted: #667085;
 }
+/* ==== Servicios – distribución mejorada (sin colisionar con estilos previos) ==== */
+.services-block { padding: clamp(28px, 5vw, 56px) 0; }
+.services-block .services-title { 
+  font-size: clamp(20px, 2.2vw, 28px); 
+  margin: 0 0 8px 0; 
+}
+.services-block .services-sub { 
+  color: var(--muted, #667085); 
+  margin: 0 0 22px 0; 
+}
+
+/* Grid: 1 col (mobile) → 6 col (tablet) → 12 col (desktop) */
+.services-block .services-cards {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .services-block .services-cards { grid-template-columns: repeat(6, minmax(0,1fr)); }
+}
+@media (min-width: 1024px) {
+  .services-block .services-cards { grid-template-columns: repeat(12, minmax(0,1fr)); }
+}
+
+/* Tarjeta base */
+.services-block .svc-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 12px;
+  padding: 18px;
+  min-height: 110px;
+  border-radius: 14px;
+  background: var(--card, #fff);
+  border: 1px solid var(--stroke, #E6EAF2);
+  box-shadow: 0 6px 16px rgba(16,24,40,.06);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  grid-column: 1 / -1; /* mobile: ancho completo */
+}
+.services-block .svc-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16,24,40,.10);
+  border-color: #D8DEE9;
+}
+.services-block .svc-card h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: var(--text, #101828);
+}
+.services-block .svc-card p {
+  margin: 0;
+  color: var(--muted, #667085);
+  line-height: 1.45;
+}
+
+/* Icono en círculo */
+.services-block .svc-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  background: linear-gradient(180deg, #EFF4FF, #E9EEF9);
+  color: #1D4ED8;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+}
+
+/* Columnas por breakpoint */
+@media (min-width: 640px) {
+  .services-block .svc-card { grid-column: span 3; }     /* 6 col → 2 por fila */
+  .services-block .svc--featured { grid-column: span 6; }/* 6 col → ocupa fila completa */
+}
+@media (min-width: 1024px) {
+  .services-block .svc-card { grid-column: span 3; }     /* 12 col → 4 por fila */
+  .services-block .svc--featured { 
+    grid-column: span 6;                                  /* media fila (2 de 4) */
+    min-height: 130px;
+  }
+  .services-block .svc--wide { grid-column: span 4; }     /* 3 por fila en la segunda línea */
+}
