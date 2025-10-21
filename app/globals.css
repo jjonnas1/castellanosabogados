@@ -208,3 +208,114 @@ body {
 .footer-inner{
   display: grid; gap: 10px; padding: 18px 0; color: var(--muted); font-size: 14px;
 }
+/* ===== UI REFRESH – Overrides suaves ===== */
+
+/* Fondo: tono más cálido y con degradés suaves */
+body {
+  background:
+    radial-gradient(1100px 700px at -10% -10%, #e8f3ff 0%, transparent 38%),
+    radial-gradient(1100px 700px at 110% -10%, #e9fff6 0%, transparent 38%),
+    linear-gradient(#f9fbfd, #f3f6fa);
+}
+
+/* Topbar un poco más “elevada” y blanquita */
+.topbar {
+  background: rgba(255,255,255,.9);
+  border-bottom: 1px solid #e9eef5;
+  box-shadow: 0 6px 18px rgba(15,23,42,.04);
+}
+
+/* Hero: tarjetas con glass + borde más difuso + sombra suave */
+.hero .card {
+  background: rgba(255,255,255,.88);
+  border: 1px solid rgba(15,23,42,.06);
+  box-shadow: 0 18px 38px rgba(15,23,42,.10);
+  backdrop-filter: blur(6px) saturate(115%);
+}
+
+/* Títulos más “editoriales” pero sin gritar */
+.h1 {
+  letter-spacing: .1px;
+  font-weight: 800;
+  color: #0f172a; /* slate-900 */
+}
+.lead { color: #5b6b81; }
+
+/* Botones más modernos (pilas + gradiente sutil) */
+.btn {
+  border-radius: 999px;
+  border-color: rgba(15,23,42,.08);
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(15,23,42,.06);
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(15,23,42,.09);
+}
+.btn-primary{
+  background: linear-gradient(180deg, #3b82f6, #2563eb);
+  box-shadow: 0 12px 26px rgba(37,99,235,.28);
+}
+
+/* Badges con más aire y pill */
+.badge {
+  padding: 7px 12px;
+  background: #e8efff;
+  color: #1e40af;
+  border: 1px solid rgba(15,23,42,.06);
+}
+
+/* Bullets del hero más “brand” con punticos menta */
+.bullets .dot { background: #10b981; }
+
+/* Sección servicios: fondo ligeramente más vivo */
+.section {
+  background:
+    radial-gradient(900px 500px at 105% 15%, #ecfeff 0%, transparent 42%),
+    radial-gradient(900px 500px at -10% 20%, #eaf2ff 0%, transparent 42%),
+    linear-gradient(#f7faff, #f4f7fb);
+  border-top: 1px solid #e9eef5;
+  border-bottom: 1px solid #e9eef5;
+}
+
+/* Tarjetas: menos “cuadro blanco”, más glass y hover rico */
+.tile {
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(15,23,42,.07);
+  box-shadow: 0 14px 30px rgba(15,23,42,.08);
+  transition: transform .14s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(15,23,42,.12);
+  border-color: rgba(15,23,42,.10);
+}
+
+/* Ícono dentro de un “chip” sutil */
+.tile .icon{
+  display: inline-grid;
+  place-items: center;
+  width: 34px; height: 34px;
+  margin-right: 10px;
+  font-size: 18px;
+  border-radius: 10px;
+  background: #eef4ff;
+  color: #1d4ed8;
+}
+
+/* Título de tarjeta con un pelín más de contraste */
+.tile .title { color: #0f172a; }
+
+/* CTA panel con más glass y foco en el botón */
+.cta-panel {
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(15,23,42,.07);
+  box-shadow: 0 16px 36px rgba(15,23,42,.10);
+}
+
+/* Footer menos plano */
+.footer {
+  background: rgba(255,255,255,.85);
+  border-top: 1px solid #e9eef5;
+  box-shadow: 0 -8px 20px rgba(15,23,42,.04) inset;
+}
