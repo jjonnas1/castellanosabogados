@@ -39,25 +39,26 @@ export default function Page() {
         </div>
       </section>
 
-     {/* Servicios en línea */}
-<section className="section services">
+    {/* Servicios en línea */}
+<section className="services-block">
   <div className="wrap">
-    <h2 className="section-title">Servicios en línea</h2>
-    <p className="section-sub">Todo lo necesario para una consulta eficiente y transparente.</p>
+    <h2 className="services-title">Servicios en línea</h2>
+    <p className="services-sub">Todo lo necesario para una consulta eficiente y transparente.</p>
 
-    <div className="card-grid">
-      {/* Featured: ocupa 2 columnas en desktop */}
-      <a href="/agenda" className="svc-card card--featured">
+    <div className="services-cards">
+      {/* Destacada – ocupa 6/12 en desktop */}
+      <a href="/agenda" className="svc-card svc--featured">
         <div className="svc-icon">📅</div>
-        <div>
+        <div className="svc-content">
           <h3>Agenda Online</h3>
           <p>Reserva en segundos desde cualquier dispositivo.</p>
         </div>
       </a>
 
+      {/* Dos tarjetas para completar la primera fila en desktop */}
       <div className="svc-card">
         <div className="svc-icon">💳</div>
-        <div>
+        <div className="svc-content">
           <h3>Pago Seguro</h3>
           <p>Transacciones protegidas (pronto: Wompi/Stripe).</p>
         </div>
@@ -65,31 +66,32 @@ export default function Page() {
 
       <div className="svc-card">
         <div className="svc-icon">⚖️</div>
-        <div>
+        <div className="svc-content">
           <h3>Abogados Expertos</h3>
           <p>Profesionales verificados por área de práctica.</p>
         </div>
       </div>
 
-      <div className="svc-card">
+      {/* Segunda fila: tres tarjetas más anchas (3×4 = 12) */}
+      <div className="svc-card svc--wide">
         <div className="svc-icon">📝</div>
-        <div>
+        <div className="svc-content">
           <h3>Resumen y próximos pasos</h3>
           <p>Recibe un resumen claro tras la consulta.</p>
         </div>
       </div>
 
-      <div className="svc-card">
+      <div className="svc-card svc--wide">
         <div className="svc-icon">🔔</div>
-        <div>
+        <div className="svc-content">
           <h3>Recordatorios</h3>
           <p>Te avisamos antes de tu cita por correo.</p>
         </div>
       </div>
 
-      <div className="svc-card">
+      <div className="svc-card svc--wide">
         <div className="svc-icon">🧾</div>
-        <div>
+        <div className="svc-content">
           <h3>Facturación</h3>
           <p>Comprobantes electrónicos al instante.</p>
         </div>
