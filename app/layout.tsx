@@ -1,36 +1,33 @@
 // app/layout.tsx
 import type { Metadata } from "next";
-import Link from "next/link";
 import "./globals.css";
+import SiteHeader from "./components/SiteHeader";
 
 export const metadata: Metadata = {
   title: "Castellanos Abogados",
-  description: "Asesoría legal clara y cercana en menos de 20 minutos.",
+  description: "Asesoría legal virtual en menos de 20 minutos.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="es">
+      {/* Enlace de salto accesible */}
+      <a className="skip-link" href="#main">Saltar al contenido</a>
+
       <body>
-        {/* HEADER STICKY (no fixed) */}
-        <header className="site-header">
-          <div className="wrap">
-            <Link href="/" className="brand">Castellanos <span>Abogados</span></Link>
+        {/* Header fijo y accesible */}
+        <SiteHeader />
 
-            <nav className="nav">
-              <Link href="/">Inicio</Link>
-              <Link href="/#servicios">Servicios</Link>
-              <Link href="/agenda">Agenda</Link>
-              <Link href="/#contacto">Contacto</Link>
-              <Link href="/agenda" className="cta">Agendar asesoría</Link>
-            </nav>
-          </div>
-        </header>
+        {/* margen superior para que el header fijo no tape el contenido */}
+        <main id="main" className="page" role="main" tabIndex={-1}>
+          {children}
+        </main>
 
-        {/* El contenido siempre reserva el alto del header */}
-        <main className="page" role="main">{children}</main>
-
-        <footer className="site-footer" id="contacto">
+        <footer className="site-footer">
           © {new Date().getFullYear()} Castellanos Abogados. Orientación legal confiable.
         </footer>
       </body>
