@@ -358,3 +358,122 @@ html { scroll-padding-top: var(--header-h); }
   .site-header .wrap{ padding-inline: 12px; }
   .nav{ gap:10px; }
 }
+/* ===== Accesibilidad y comportamiento ===== */
+
+/* Enlace de salto al contenido */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  padding: 10px 14px;
+  background: #1f2937;
+  color: #fff;
+  border-radius: 8px;
+  z-index: 10000;
+}
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+  outline: 2px solid #2563eb;
+}
+
+/* Header fijo con blur (usamos clases existentes .site-header/.wrap si ya las tienes) */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: saturate(120%) blur(10px);
+  background: color-mix(in oklab, white 70%, transparent);
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 64px;
+}
+
+.brand__title { font-weight: 700; }
+.brand__muted { opacity: .65; }
+
+/* Nav escritorio */
+.nav-primary { display: none; }
+.nav-primary ul { display: flex; gap: 18px; list-style: none; margin: 0; padding: 0; }
+.nav-primary a { text-decoration: none; color: #111827; opacity: .9; }
+.nav-primary a:hover, .nav-primary a:focus { opacity: 1; }
+
+.nav-cta { display: flex; align-items: center; gap: 10px; }
+
+/* Trigger móvil */
+.mobile-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px; width: 40px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: #fff;
+}
+.mobile-trigger:hover { background: #f3f4f6; }
+
+/* Sheet móvil */
+.sheet {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, .35);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.sheet.is-open { opacity: 1; pointer-events: auto; }
+
+.sheet__panel {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: min(360px, 88vw);
+  background: #ffffff;
+  border-left: 1px solid rgba(0,0,0,.06);
+  box-shadow: -20px 0 40px rgba(0,0,0,.15);
+  transform: translateX(100%);
+  transition: transform .25s ease;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.sheet.is-open .sheet__panel { transform: translateX(0); }
+
+.sheet__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px; border-bottom: 1px solid rgba(0,0,0,.06);
+}
+.sheet__close {
+  border: 1px solid rgba(0,0,0,.08);
+  background: #fff; border-radius: 10px; height: 36px; width: 36px;
+}
+.sheet__nav { padding: 16px 18px; }
+.sheet__nav ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.sheet__nav a { display: block; padding: 12px; border-radius: 10px; text-decoration: none; color: #111827; }
+.sheet__nav a:hover, .sheet__nav a:focus { background: #f3f4f6; }
+
+.sheet__footer { padding: 16px 18px; border-top: 1px solid rgba(0,0,0,.06); }
+
+/* Utils botones por si no existen */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; border-radius: 12px; padding: 10px 16px;
+  border: 1px solid rgba(0,0,0,.08); background: #fff; color: #111827;
+  text-decoration: none; font-weight: 600;
+}
+.btn--primary { background: #2563eb; color: #fff; border-color: transparent; }
+.btn--sm { padding: 8px 12px; height: 36px; }
+.btn--lg { padding: 14px 18px; height: 48px; }
+
+/* Layout principal: separa del header fijo */
+.page { padding-top: 16px; }
+
+/* Breakpoint: en >= 900px mostramos nav de escritorio y ocultamos el burger */
+@media (min-width: 900px) {
+  .nav-primary { display: block; }
+  .mobile-trigger { display: none; }
+}
