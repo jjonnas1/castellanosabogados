@@ -15,11 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      {/* Enlace de salto accesible */}
-      <a className="skip-link" href="#main">Saltar al contenido</a>
-
       <body>
-        {/* Header fijo y accesible */}
+        {/* Enlace de salto accesible */}
+        <a className="skip-link" href="#main">Saltar al contenido</a>
+
+        {/* Header fijo */}
         <SiteHeader />
 
         {/* margen superior para que el header fijo no tape el contenido */}
