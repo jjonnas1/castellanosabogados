@@ -12,7 +12,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es">
       <body>
-        {/* Header */}
         <header className="site-header">
           <div className="wrap header-grid">
             <Link href="/" className="brand">
@@ -33,10 +32,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        {/* Contenido principal */}
         <main className="page">{children}</main>
 
-        {/* Footer */}
         <footer className="site-footer">
           <div className="wrap footer-grid">
             <div>
