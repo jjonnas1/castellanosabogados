@@ -1,34 +1,11 @@
 // app/layout.tsx
 import "./globals.css";
 import Link from "next/link";
-import { headers } from "next/headers";
+import type { Metadata } from "next";
 
-function NavLink({
-  href,
-  children,
-  exact,
-}: {
-  href: string;
-  children: React.ReactNode;
-  exact?: boolean;
-}) {
-  const h = headers();
-  const currentPath = h.get("x-pathname") || "/";
-  const isActive = exact ? currentPath === href : currentPath.startsWith(href);
-  return (
-    <Link
-      href={href}
-      className={`nav-link ${isActive ? "nav-link--active" : ""}`}
-    >
-      {children}
-    </Link>
-  );
-}
-
-export const metadata = {
+export const metadata: Metadata = {
   title: "Castellanos Abogados",
-  description:
-    "Asesoría legal clara y cercana. Agenda en línea con abogados verificados.",
+  description: "Asesoría legal clara y cercana. Agenda en línea con abogados verificados.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -44,18 +21,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Link>
 
             <nav className="main-nav">
-              <NavLink href="/" exact>
-                Inicio
-              </NavLink>
-              <NavLink href="/servicios">Servicios</NavLink>
-              <NavLink href="/agenda">Agenda</NavLink>
-              <NavLink href="/contacto">Contacto</NavLink>
+              <Link className="nav-link" href="/">Inicio</Link>
+              <Link className="nav-link" href="/servicios">Servicios</Link>
+              <Link className="nav-link" href="/agenda">Agenda</Link>
+              <Link className="nav-link" href="/contacto">Contacto</Link>
             </nav>
 
             <div className="header-cta">
-              <Link href="/agenda" className="btn btn--primary btn--sm">
-                Agendar asesoría
-              </Link>
+              <Link href="/agenda" className="btn btn--primary btn--sm">Agendar asesoría</Link>
             </div>
           </div>
         </header>
@@ -68,28 +41,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="wrap footer-grid">
             <div>
               <div className="footer-brand">Castellanos Abogados</div>
-              <p className="muted">
-                Orientación legal puntual. No constituye representación judicial.
-              </p>
+              <p className="muted">Orientación legal puntual. No constituye representación judicial.</p>
             </div>
             <div className="footer-links">
-              <Link className="link" href="/servicios">
-                Servicios
-              </Link>
-              <Link className="link" href="/agenda">
-                Agenda
-              </Link>
-              <Link className="link" href="/contacto">
-                Contacto
-              </Link>
-              <Link className="link" href="/">
-                Inicio
-              </Link>
+              <Link className="link" href="/servicios">Servicios</Link>
+              <Link className="link" href="/agenda">Agenda</Link>
+              <Link className="link" href="/contacto">Contacto</Link>
+              <Link className="link" href="/">Inicio</Link>
             </div>
           </div>
-          <div className="wrap footer-legal">
-            © {new Date().getFullYear()} Castellanos Abogados
-          </div>
+          <div className="wrap footer-legal">© {new Date().getFullYear()} Castellanos Abogados</div>
         </footer>
       </body>
     </html>
