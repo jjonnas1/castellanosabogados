@@ -296,3 +296,65 @@ header nav a[href*="agenda"]:hover, header nav a.cta:hover { background: var(--p
   header .wrap { padding-inline: 12px; }
   header nav { gap: 10px; }
 }
+/* ========== FIX SUPERPOSICIONES Y STICKY ==========
+   - Hace sticky el header y obliga al contenido a reservar su alto.
+   - Desactiva cualquier sticky/fixed accidental en el hero/tarjetas.
+=================================================== */
+
+:root { --header-h: 72px; }
+
+/* Header siempre sticky arriba, con altura consistente */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  min-height: var(--header-h);
+  background: rgba(255,255,255,.92);
+  -webkit-backdrop-filter: saturate(120%) blur(8px);
+  backdrop-filter: saturate(120%) blur(8px);
+  border-bottom: 1px solid rgba(28, 39, 53, .08);
+  box-shadow: 0 6px 18px rgba(21, 30, 45, .06);
+}
+.site-header .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  min-height: var(--header-h);
+  gap: 16px;
+}
+
+/* El contenido empuja para no quedar debajo del header */
+.page,
+main,
+#__next,
+#root { padding-top: calc(var(--header-h) + 10px); }
+
+/* Anclas no quedan ocultas por el header */
+html { scroll-padding-top: var(--header-h); }
+
+/* Navegación robusta */
+.nav{ display:flex; flex-wrap:wrap; gap:12px; }
+.nav a{
+  display:inline-flex; align-items:center; height:38px; padding:0 14px;
+  border-radius:999px; text-decoration:none; border:1px solid transparent;
+  color:#0f172a; background:transparent;
+  transition:background .2s ease,border-color .2s ease,transform .08s ease;
+}
+.nav a:hover{ background:#fff; border-color:rgba(28,39,53,.12); transform:translateY(-1px); }
+.nav .cta{ background:#2563eb; color:#fff; border-color:transparent; }
+.nav .cta:hover{ background:#3b82f6; }
+
+/* 🔧 Anti-sticky: si alguna tarjeta/hero quedó sticky/fixed, lo neutralizamos */
+.hero, .hero * { position: revert-layer; }
+.hero.sticky, .hero [class*="sticky"], .card.sticky, .panel.sticky {
+  position: static !important; top:auto !important;
+}
+[class*="sticky"]{ position: static !important; top:auto !important; }
+
+/* Asegura que el hero no flote encima del resto */
+.hero, .hero .card, .hero .panel { z-index: 1; }
+
+/* Móvil */
+@media (max-width: 640px){
+  :root { --header-h: 64px; }
+  .site-header .wrap{ padding-inline: 12px; }
+  .nav{ gap:10px; }
+}
