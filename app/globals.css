@@ -179,3 +179,66 @@ body{
 @media (prefers-reduced-motion: reduce){
   *{ transition:none !important; animation:none !important; }
 }
+/* ===== Header quick fix (sin cambiar layout.tsx) ===== */
+header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: saturate(120%) blur(8px);
+  border-bottom: 1px solid var(--stroke);
+}
+header .wrap{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+}
+
+/* Marca y navegación */
+header .brand{ font-weight: 800; letter-spacing: .2px; }
+header nav{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* Links de navegación como “chips” */
+header nav a{
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid transparent;
+  background: transparent;
+  transition: background .2s ease, border-color .2s ease, transform .08s ease;
+}
+header nav a:hover{
+  background: #fff;
+  border-color: var(--stroke);
+  transform: translateY(-1px);
+}
+
+/* Botón de acción (si existe link de agenda) */
+header nav a.cta,
+header nav a[href*="agendar"],
+header nav a[href="/agenda"]{
+  background: var(--primary);
+  color: #fff;
+  border-color: transparent;
+}
+header nav a.cta:hover,
+header nav a[href*="agendar"]:hover,
+header nav a[href="/agenda"]:hover{
+  background: var(--primary-2);
+}
+
+/* Ajustes móviles */
+@media (max-width: 640px){
+  header .wrap{ padding-inline: 12px; }
+  header nav{ gap: 8px; }
+}
