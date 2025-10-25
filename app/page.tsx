@@ -7,21 +7,27 @@ export default function HomePage() {
       <section className="section">
         <div className="wrap">
           <div className="hero">
-            <span className="badge">Nueva · Asesoría virtual de 20 minutos</span>
-            <h1 className="h1">Asesoría legal clara y cercana,<br/>en menos de 20 minutos.</h1>
-            <p className="muted" style={{maxWidth:720}}>
-              Agenda en línea y conéctate por videollamada con un abogado experto
-              en derecho colombiano. Precio y tiempo definidos. Sin traslados, sin complicaciones.
+            <span className="badge">Nueva · Asesoría legal en línea</span>
+            <h1 className="h1">
+              Asesoría legal clara y cercana,<br />con abogados expertos.
+            </h1>
+            <p className="muted" style={{ maxWidth: 720 }}>
+              Agenda en línea y conéctate por videollamada con un abogado especializado en derecho colombiano. 
+              Atención personalizada, precio definido y respuesta inmediata.
             </p>
 
-            <div style={{display:"flex",gap:12,marginTop:18}}>
-              <Link href="/agenda" className="btn btn--primary">Agendar asesoría</Link>
-              <Link href="#servicios" className="btn btn--ghost">Ver servicios</Link>
+            <div style={{ display: "flex", gap: 12, marginTop: 18 }}>
+              <Link href="/agenda" className="btn btn--primary">
+                Agendar asesoría
+              </Link>
+              <Link href="#servicios" className="btn btn--ghost">
+                Ver servicios
+              </Link>
             </div>
 
-            <div className="panel" style={{marginTop:22}}>
-              <h3 style={{margin:"0 0 .6rem", fontSize:"1.05rem"}}>¿Por qué con nosotros?</h3>
-              <ul style={{margin:0,paddingLeft:18, lineHeight:1.7}}>
+            <div className="panel" style={{ marginTop: 22 }}>
+              <h3 style={{ margin: "0 0 .6rem", fontSize: "1.05rem" }}>¿Por qué con nosotros?</h3>
+              <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.7 }}>
                 <li>Abogados verificados por especialidad.</li>
                 <li>Agenda segura y confirmación por correo.</li>
                 <li>Respuestas claras y accionables.</li>
@@ -34,56 +40,49 @@ export default function HomePage() {
       {/* SERVICIOS */}
       <section id="servicios" className="section" aria-labelledby="srv-title">
         <div className="wrap">
-          <h2 id="srv-title" className="h2" style={{marginBottom:6}}>Servicios en línea</h2>
-          <p className="muted" style={{marginBottom:22}}>
-            Todo lo necesario para una consulta eficiente y transparente.
+          <h2 id="srv-title" className="h2" style={{ marginBottom: 6 }}>
+            Servicios en línea
+          </h2>
+          <p className="muted" style={{ marginBottom: 22 }}>
+            Todo lo necesario para una consulta eficiente, confiable y transparente.
           </p>
 
           <div className="tiles">
             <article className="tile">
               <div className="icon">📅</div>
-              <h3 style={{margin:"0 0 .35rem"}}>Agenda Online</h3>
-              <p className="muted">Reserva en segundos desde cualquier dispositivo. Confirmación inmediata.</p>
+              <h3>Agenda Online</h3>
+              <p className="muted">Reserva tu asesoría en segundos desde cualquier dispositivo. Confirmación inmediata.</p>
             </article>
 
             <article className="tile">
               <div className="icon">💳</div>
-              <h3 style={{margin:"0 0 .35rem"}}>Pago Seguro</h3>
-              <p className="muted">Transacciones protegidas (pronto: Wompi/Stripe). Factura electrónica.</p>
+              <h3>Pago Seguro</h3>
+              <p className="muted">Transacciones protegidas (Wompi/Stripe) y comprobante electrónico.</p>
             </article>
 
             <article className="tile">
               <div className="icon">⚖️</div>
-              <h3 style={{margin:"0 0 .35rem"}}>Abogados Expertos</h3>
-              <p className="muted">Profesionales verificados por área de práctica y experiencia.</p>
+              <h3>Abogados Expertos</h3>
+              <p className="muted">Profesionales especializados por área de práctica y experiencia comprobada.</p>
             </article>
 
             <article className="tile">
               <div className="icon">📝</div>
-              <h3 style={{margin:"0 0 .35rem"}}>Resumen y próximos pasos</h3>
-              <p className="muted">Recibe un resumen claro de la consulta con acciones concretas.</p>
-            </article>
-
-            <article className="tile">
-              <div className="icon">🔔</div>
-              <h3 style={{margin:"0 0 .35rem"}}>Recordatorios</h3>
-              <p className="muted">Te avisamos antes de tu cita por correo electrónico.</p>
-            </article>
-
-            <article className="tile">
-              <div className="icon">🧾</div>
-              <h3 style={{margin:"0 0 .35rem"}}>Documentos</h3>
-              <p className="muted">Revisión de documentos simples (máx. 5 páginas) y notas legales.</p>
+              <h3>Resumen y próximos pasos</h3>
+              <p className="muted">Recibe un resumen claro de la consulta con orientación práctica y formatos de apoyo.</p>
             </article>
           </div>
 
-          {/* Banda CTA */}
-          <div className="cta" style={{marginTop:22}}>
+          <div className="cta" style={{ marginTop: 22 }}>
             <div>
               <strong>¿Listo para agendar?</strong>
-              <div className="muted">Elige tu área legal y la hora disponible que más te convenga.</div>
+              <div className="muted">
+                Elige tu área legal y la hora disponible que más se ajuste a ti.
+              </div>
             </div>
-            <Link href="/agenda" className="btn btn--primary">Agendar ahora</Link>
+            <Link href="/agenda" className="btn btn--primary">
+              Agendar ahora
+            </Link>
           </div>
         </div>
       </section>
@@ -91,9 +90,12 @@ export default function HomePage() {
       {/* CÓMO FUNCIONA */}
       <section className="section" aria-labelledby="how-title">
         <div className="wrap">
-          <h2 id="how-title" className="h2" style={{marginBottom:6}}>¿Cómo funciona?</h2>
-          <p className="muted" style={{marginBottom:22,maxWidth:720}}>
-            Selecciona área, fecha y hora. Completa un breve formulario. Recibe el enlace de videollamada.
+          <h2 id="how-title" className="h2" style={{ marginBottom: 6 }}>
+            ¿Cómo funciona?
+          </h2>
+          <p className="muted" style={{ marginBottom: 22, maxWidth: 720 }}>
+            Selecciona tu área, elige horario y recibe atención legal inmediata por videollamada. 
+            La asesoría tiene una duración promedio de <strong>20 minutos</strong>.
           </p>
 
           <ol className="steps">
@@ -107,13 +109,13 @@ export default function HomePage() {
             </li>
             <li>
               <h4>Videollamada 1:1</h4>
-              <p className="muted">Recibe orientación clara y próximos pasos.</p>
+              <p className="muted">Recibe orientación clara y próximos pasos con tu abogado asignado.</p>
             </li>
             <li>
               <h4>Resumen y formatos</h4>
               <p className="muted">
-                Te enviamos un resumen y, cuando aplica, <strong>formatos pertinentes</strong> para que continúes tu trámite
-                ante juzgados o entidades (peticiones, memoriales, poderes, derechos de petición, etc.).
+                Te enviamos un resumen y, cuando aplica, <strong>formatos pertinentes</strong> para continuar tu trámite
+                ante juzgados o entidades (peticiones, memoriales, poderes, etc.).
               </p>
             </li>
           </ol>
@@ -123,28 +125,32 @@ export default function HomePage() {
       {/* PREGUNTAS FRECUENTES */}
       <section className="section" aria-labelledby="faq-title">
         <div className="wrap">
-          <h2 id="faq-title" className="h2" style={{marginBottom:12}}>Preguntas frecuentes</h2>
+          <h2 id="faq-title" className="h2" style={{ marginBottom: 12 }}>
+            Preguntas frecuentes
+          </h2>
           <div className="faq">
             <details>
-              <summary>¿Qué incluye la asesoría de 20 minutos?</summary>
+              <summary>¿Cuánto dura la asesoría?</summary>
               <p>
-                Un diagnóstico inicial, orientación clara y acciones recomendadas. Además, recibirás un resumen por correo
-                y, si aplica, <strong>formatos listos</strong> (memoriales, peticiones, poderes, etc.) para continuar el trámite.
+                Tiene una duración promedio de <strong>20 minutos</strong>, tiempo suficiente para
+                analizar tu caso y recibir orientación precisa. Si se requiere más tiempo, podrás
+                agendar una ampliación o segunda sesión.
               </p>
             </details>
 
             <details>
-              <summary>¿Pueden representar mi caso en proceso?</summary>
+              <summary>¿Qué incluye la asesoría?</summary>
               <p>
-                Sí. Si tu caso requiere representación, te conectamos con un abogado especialista para cotizar honorarios
-                y etapas procesales.
+                Un diagnóstico inicial, orientación práctica y, si aplica, <strong>formatos listos</strong>
+                (peticiones, memoriales, poderes, etc.) para continuar el trámite ante juzgados o entidades.
               </p>
             </details>
 
             <details>
-              <summary>¿Qué pasa si necesito más tiempo?</summary>
+              <summary>¿Qué pasa si necesito acompañamiento completo?</summary>
               <p>
-                Puedes agendar sesiones adicionales o un plan por horas según la complejidad. Te lo explicamos al finalizar la consulta.
+                Si tu caso requiere representación o actuación judicial, te contactamos con un abogado
+                especializado que te guiará en honorarios y etapas procesales.
               </p>
             </details>
           </div>
