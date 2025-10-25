@@ -2,11 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export default function SiteHeader() {
   const pathname = usePathname();
   const isActive = (href: string, exact?: boolean) =>
     exact ? pathname === href : pathname.startsWith(href);
+
+  // 🔹 Cerrar dropdowns al hacer clic fuera
+  useEffect(() => {
+    const closeDropdowns = (e: MouseEvent) => {
+      document.querySelectorAll("details.dropdown[open]").forEach((d) => {
+        if (!d.contains(e.target as Node)) d.removeAttribute("open");
+      });
+    };
+    document.addEventListener("click", closeDropdowns);
+    return () => document.removeEventListener("click", closeDropdowns);
+  }, []);
 
   return (
     <header className="sitebar">
@@ -19,7 +31,7 @@ export default function SiteHeader() {
 
         {/* Menú principal */}
         <nav aria-label="Principal" className="menu">
-          {/* Enlaces generales “siempre visibles” */}
+          {/* Enlaces generales */}
           <Link
             href="/"
             className={isActive("/", true) ? "active" : undefined}
@@ -42,15 +54,24 @@ export default function SiteHeader() {
             Contacto
           </Link>
 
-          {/* Desplegable: Clientes */}
+          {/* 🔹 Desplegable Clientes */}
           <details className="dropdown" role="list">
             <summary className="dropdown-trigger">
               Clientes
               <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden>
-                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2"/>
+                <path
+                  d="M5 7l5 5 5-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
               </svg>
             </summary>
-            <ul className="dropdown-menu" role="listbox" aria-label="Opciones para clientes">
+            <ul
+              className="dropdown-menu"
+              role="listbox"
+              aria-label="Opciones para clientes"
+            >
               <li>
                 <Link href="/agenda" className="dropdown-link">
                   Agendar asesoría
@@ -66,29 +87,32 @@ export default function SiteHeader() {
                   Soporte y contacto
                 </Link>
               </li>
-              {/* Futuro: paquetes / suscripciones */}
               <li>
                 <Link href="/paquetes" className="dropdown-link">
-                  Paquetes (pronto)
+                  Paquetes (próximamente)
                 </Link>
               </li>
             </ul>
           </details>
 
-          {/* Desplegable: Abogados */}
+          {/* 🔹 Desplegable Abogados */}
           <details className="dropdown" role="list">
             <summary className="dropdown-trigger">
               Abogados
               <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden>
-                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2"/>
+                <path
+                  d="M5 7l5 5 5-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
               </svg>
             </summary>
-            <ul className="dropdown-menu" role="listbox" aria-label="Opciones para abogados">
-              <li>
-                <Link href="/trabaja" className="dropdown-link">
-                  Trabaja con nosotros
-                </Link>
-              </li>
+            <ul
+              className="dropdown-menu"
+              role="listbox"
+              aria-label="Opciones para abogados"
+            >
               <li>
                 <Link href="/registro/abogado" className="dropdown-link">
                   Registro de abogados
@@ -107,8 +131,26 @@ export default function SiteHeader() {
             </ul>
           </details>
 
-          {/* CTA principal (clientes) al final para énfasis */}
-          <Link href="/agenda" className="btn btn--primary">
+          {/* 🔹 Botón destacado: Trabaja con nosotros */}
+          <Link
+            href="/trabaja"
+            className="btn btn--ghost"
+            style={{
+              fontWeight: 600,
+              marginLeft: 10,
+              border: "1px solid #e3e8f5",
+              background: "#fff",
+            }}
+          >
+            Trabaja con nosotros
+          </Link>
+
+          {/* 🔹 CTA principal (clientes) */}
+          <Link
+            href="/agenda"
+            className="btn btn--primary"
+            style={{ marginLeft: 8 }}
+          >
             Agendar asesoría
           </Link>
         </nav>
