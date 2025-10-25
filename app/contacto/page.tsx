@@ -1,60 +1,87 @@
-'use client';
-import { useState } from 'react';
+"use client";
+
+// app/contacto/page.tsx
+import { useState } from "react";
 
 export default function ContactoPage() {
-  const [status, setStatus] = useState<'idle' | 'sending' | 'ok' | 'error'>('idle');
+  const [loading, setLoading] = useState(false);
+  const [ok, setOk] = useState<null | boolean>(null);
+  const [err, setErr] = useState<string | null>(null);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = e.currentTarget;
-    const fd = new FormData(form);
+    setLoading(true);
+    setOk(null);
+    setErr(null);
 
+    const fd = new FormData(e.currentTarget);
     const payload = {
-      name: String(fd.get('name') || ''),
-      email: String(fd.get('email') || ''),
-      message: String(fd.get('message') || ''),
+      name: String(fd.get("name") || ""),
+      email: String(fd.get("email") || ""),
+      message: String(fd.get("message") || ""),
     };
 
-    setStatus('sending');
-
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-
-    setStatus(res.ok ? 'ok' : 'error');
-    if (res.ok) form.reset();
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+      if (json.ok) setOk(true);
+      else {
+        setOk(false);
+        setErr(json.error || "No pudimos enviar tu mensaje.");
+      }
+    } catch (e: any) {
+      setOk(false);
+      setErr(e?.message || "Error de red.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
-    <main className="main section">
+    <main className="section">
       <div className="wrap">
-        <h1 className="h1">Contacto</h1>
-        <p className="muted">Déjanos un mensaje y te respondemos por correo.</p>
+        <h1 className="h2" style={{ marginBottom: 6 }}>Contacto</h1>
+        <p className="muted" style={{ marginBottom: 22 }}>
+          Déjanos un mensaje y te respondemos por correo.
+        </p>
 
-        <form onSubmit={onSubmit} className="panel" style={{ display: 'grid', gap: 12, maxWidth: 680 }}>
-          <label>
-            Nombre
-            <input name="name" type="text" placeholder="Tu nombre" />
-          </label>
-          <label>
-            Correo
-            <input name="email" type="email" placeholder="tucorreo@ejemplo.com" required />
-          </label>
-          <label>
-            Mensaje
-            <textarea name="message" rows={5} placeholder="Cuéntanos brevemente tu caso…" required />
-          </label>
-
-          <div>
-            <button type="submit" className="btn btn--primary" disabled={status === 'sending'}>
-              {status === 'sending' ? 'Enviando...' : 'Enviar'}
-            </button>
+        <form onSubmit={handleSubmit} className="panel" style={{ display: "grid", gap: 14, maxWidth: 720 }}>
+          <div style={{ display: "grid", gap: 6 }}>
+            <label htmlFor="name"><strong>Nombre</strong></label>
+            <input id="name" name="name" type="text" placeholder="Tu nombre" />
           </div>
 
-          {status === 'ok' && <p className="ok">✅ Mensaje enviado correctamente.</p>}
-          {status === 'error' && <p className="error">❌ Error al enviar el mensaje. Intenta nuevamente.</p>}
+          <div style={{ display: "grid", gap: 6 }}>
+            <label htmlFor="email"><strong>Correo</strong></label>
+            <input id="email" name="email" type="email" required placeholder="tucorreo@ejemplo.com" />
+          </div>
+
+          <div style={{ display: "grid", gap: 6 }}>
+            <label htmlFor="message"><strong>Mensaje</strong></label>
+            <textarea id="message" name="message" rows={6} required placeholder="Cuéntanos brevemente tu caso…" />
+          </div>
+
+          <div style={{ display: "flex", gap: 10 }}>
+            <button className="btn btn--primary" type="submit" disabled={loading}>
+              {loading ? "Enviando…" : "Enviar"}
+            </button>
+            <a href="/" className="btn btn--ghost">Volver al inicio</a>
+          </div>
+
+          {ok && (
+            <div className="panel" style={{ background: "#f6ffed", borderColor: "#c6f6d5" }}>
+              ✅ ¡Gracias! Recibimos tu mensaje y te escribiremos pronto.
+            </div>
+          )}
+          {ok === false && (
+            <div className="panel" style={{ background: "#fff5f5", borderColor: "#fed7d7" }}>
+              ❌ {err}
+            </div>
+          )}
         </form>
       </div>
     </main>
