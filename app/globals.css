@@ -155,3 +155,48 @@ input,select,textarea{
   background:#fff;padding:.8rem .9rem;font:inherit;color:var(--ink)
 }
 input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px rgba(99,102,241,.18)}
+
+/* ----- Mejor presencia de “steps” y FAQ ----- */
+.steps{
+  display:grid;gap:18px;
+  counter-reset: step;
+}
+.steps li{
+  list-style:none;
+  background: var(--surface);
+  border:1px solid #e7ecf7;
+  border-radius: var(--radius-md);
+  padding:18px 18px 16px;
+  box-shadow: var(--shadow-soft);
+  position: relative;
+}
+.steps li::before{
+  counter-increment: step;
+  content: counter(step);
+  position:absolute;left:-12px;top:-12px;
+  width:32px;height:32px;border-radius:999px;
+  background: var(--brand-600); color:#fff;
+  display:grid;place-items:center;
+  font-weight:800; box-shadow: var(--shadow-strong);
+}
+
+.faq details{
+  background: var(--surface);
+  border:1px solid #e7ecf7;
+  border-radius: var(--radius-md);
+  padding:14px 16px;
+  box-shadow: var(--shadow-soft);
+}
+.faq details + details{ margin-top:10px; }
+.faq summary{ cursor:pointer; font-weight:700; }
+.faq p{ margin:.6rem 0 0; color:var(--muted); }
+
+/* Forzar CTA del header sin degradados (por si hay estilos viejos) */
+.sitebar .btn--primary{
+  background: var(--brand-600) !important;
+  color:#fff !important;
+  box-shadow: var(--shadow-soft);
+}
+.sitebar .btn--primary:hover{
+  background: var(--brand-700) !important;
+}
