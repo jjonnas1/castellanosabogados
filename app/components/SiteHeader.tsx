@@ -1,15 +1,7 @@
-// app/components/SiteHeader.tsx
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const links = [
-  { href: "/", label: "Inicio", exact: true },
-  { href: "/servicios", label: "Servicios" },
-  { href: "/agenda", label: "Agenda" },
-  { href: "/contacto", label: "Contacto" },
-];
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -19,53 +11,105 @@ export default function SiteHeader() {
   return (
     <header className="sitebar">
       <div className="wrap nav">
-        {/* Logo principal */}
+        {/* Logo */}
         <Link href="/" className="logo" aria-label="Castellanos Abogados">
           <strong>Castellanos</strong>{" "}
           <span style={{ opacity: 0.7 }}>Abogados</span>
         </Link>
 
-        {/* Navegación */}
-        <nav
-          aria-label="Principal"
-          style={{ display: "flex", gap: 8, alignItems: "center" }}
-        >
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={isActive(l.href, l.exact) ? "active" : undefined}
-              style={{
-                padding: "8px 14px",
-                borderRadius: 12,
-                fontWeight: 500,
-              }}
-            >
-              {l.label}
-            </Link>
-          ))}
-
-          {/* CTA para abogados */}
+        {/* Menú principal */}
+        <nav aria-label="Principal" className="menu">
+          {/* Enlaces generales “siempre visibles” */}
           <Link
-            href="/trabaja"
-            className="btn btn--ghost"
-            style={{ marginLeft: 8 }}
+            href="/"
+            className={isActive("/", true) ? "active" : undefined}
+            aria-current={isActive("/", true) ? "page" : undefined}
           >
-            Trabaja con nosotros
+            Inicio
           </Link>
 
-          {/* CTA de clientes */}
+          <Link
+            href="/servicios"
+            className={isActive("/servicios") ? "active" : undefined}
+          >
+            Servicios
+          </Link>
+
+          <Link
+            href="/contacto"
+            className={isActive("/contacto") ? "active" : undefined}
+          >
+            Contacto
+          </Link>
+
+          {/* Desplegable: Clientes */}
+          <details className="dropdown" role="list">
+            <summary className="dropdown-trigger">
+              Clientes
+              <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden>
+                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+            </summary>
+            <ul className="dropdown-menu" role="listbox" aria-label="Opciones para clientes">
+              <li>
+                <Link href="/agenda" className="dropdown-link">
+                  Agendar asesoría
+                </Link>
+              </li>
+              <li>
+                <Link href="/servicios" className="dropdown-link">
+                  Ver servicios
+                </Link>
+              </li>
+              <li>
+                <Link href="/contacto" className="dropdown-link">
+                  Soporte y contacto
+                </Link>
+              </li>
+              {/* Futuro: paquetes / suscripciones */}
+              <li>
+                <Link href="/paquetes" className="dropdown-link">
+                  Paquetes (pronto)
+                </Link>
+              </li>
+            </ul>
+          </details>
+
+          {/* Desplegable: Abogados */}
+          <details className="dropdown" role="list">
+            <summary className="dropdown-trigger">
+              Abogados
+              <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden>
+                <path d="M5 7l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+            </summary>
+            <ul className="dropdown-menu" role="listbox" aria-label="Opciones para abogados">
+              <li>
+                <Link href="/trabaja" className="dropdown-link">
+                  Trabaja con nosotros
+                </Link>
+              </li>
+              <li>
+                <Link href="/registro/abogado" className="dropdown-link">
+                  Registro de abogados
+                </Link>
+              </li>
+              <li>
+                <Link href="/login" className="dropdown-link">
+                  Acceso / Iniciar sesión
+                </Link>
+              </li>
+              <li>
+                <Link href="/panel" className="dropdown-link">
+                  Mi panel
+                </Link>
+              </li>
+            </ul>
+          </details>
+
+          {/* CTA principal (clientes) al final para énfasis */}
           <Link href="/agenda" className="btn btn--primary">
             Agendar asesoría
-          </Link>
-
-          {/* Acceso general (abogados/clientes) */}
-          <Link
-            href="/login"
-            className="btn btn--ghost"
-            style={{ border: "1px solid #e5e9f5" }}
-          >
-            Iniciar sesión
           </Link>
         </nav>
       </div>
