@@ -2,36 +2,41 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
-const nav = [
-  { href: "/", label: "Inicio", exact: true },
-  { href: "/servicios", label: "Servicios" },
-  { href: "/agenda", label: "Agenda" },
-  { href: "/contacto", label: "Contacto" },
-];
+import { useState, useEffect } from "react";
 
 export default function SiteHeader() {
-  const pathname = usePathname() || "/";
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 6);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
+    const active = pathname === href;
+    return (
+      <Link
+        href={href}
+        className={`nav-link ${active ? "nav-link--active" : ""}`}
+      >
+        {children}
+      </Link>
+    );
+  };
 
   return (
-    <header className="site-header">
+    <header className={`topbar ${scrolled ? "topbar--scrolled" : ""}`}>
       <div className="wrap">
-        <Link href="/" className="brand">Castellanos <span className="brand-sub">Abogados</span></Link>
-
+        <Link href="/" className="brand">Castellanos <span className="brand__muted">Abogados</span></Link>
         <nav className="nav">
-          {nav.map((item) => {
-            const isActive = item.exact ? pathname === item.href : pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`nav-link ${isActive ? "is-active" : ""}`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-          <Link href="/agenda" className="btn btn--primary btn--sm">Agendar asesoría</Link>
+          <NavLink href="/">Inicio</NavLink>
+          <NavLink href="/servicios">Servicios</NavLink>
+          <NavLink href="/agenda">Agenda</NavLink>
+          <NavLink href="/contacto">Contacto</NavLink>
+          <Link href="/agenda" className="btn btn--primary">Agendar asesoría</Link>
         </nav>
       </div>
     </header>
