@@ -254,3 +254,60 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px rgba(9
   }
 }
 .cta-band strong { letter-spacing: -.01em; }
+/* --- Menú principal: distribución y separación --- */
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* --- Dropdown accesible con <details> --- */
+.dropdown {
+  position: relative;
+}
+
+.dropdown[open] > .dropdown-trigger {
+  background: var(--brand-100);
+  color: var(--brand-700);
+}
+
+.dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  color: #1f2a44;
+}
+.dropdown-trigger::-webkit-details-marker { display: none; }
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: #fff;
+  border: 1px solid #e6ebf8;
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+  padding: 8px;
+  z-index: 60;
+}
+
+.dropdown-menu li { list-style: none; }
+
+.dropdown-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--ink);
+}
+.dropdown-link:hover {
+  background: var(--brand-100);
+  color: var(--brand-700);
+}
+
+/* Cierre del dropdown al hacer click fuera en móviles: opcional si luego añadimos JS */
