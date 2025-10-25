@@ -1,7 +1,8 @@
+// app/registro/abogado/page.tsx
 "use client";
 
 import { useState } from "react";
-import { supabase } from "../../lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function RegistroPage() {
   const [loading, setLoading] = useState(false);
@@ -17,12 +18,10 @@ export default function RegistroPage() {
     setError(null);
     setOk(false);
 
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: { nombre },
-      },
+      options: { data: { nombre } },
     });
 
     if (error) setError(error.message);
@@ -39,39 +38,20 @@ export default function RegistroPage() {
         <form onSubmit={handleRegister} className="panel" style={{ display: "grid", gap: 14 }}>
           <label>
             Nombre completo
-            <input
-              type="text"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              required
-            />
+            <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
           </label>
 
           <label>
             Correo electrónico
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </label>
 
           <label>
             Contraseña
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </label>
 
-          <button
-            type="submit"
-            className="btn btn--primary"
-            disabled={loading}
-          >
+          <button type="submit" className="btn btn--primary" disabled={loading}>
             {loading ? "Creando cuenta..." : "Registrarme"}
           </button>
         </form>
