@@ -1,33 +1,27 @@
-// app/contacto/page.tsx
 export default function ContactoPage() {
   return (
-    <main className="section">
+    <main className="main section">
       <div className="wrap">
         <h1 className="h1">Contacto</h1>
         <p className="muted">Déjanos un mensaje y te respondemos por correo.</p>
 
-        <div className="panel mt-24">
-          <form className="form-grid">
-            <label>
-              Nombre
-              <input type="text" placeholder="Tu nombre" />
-            </label>
-
-            <label>
-              Correo
-              <input type="email" placeholder="tucorreo@ejemplo.com" />
-            </label>
-
-            <label style={{gridColumn: "span 12"}}>
-              Mensaje
-              <textarea placeholder="Cuéntanos brevemente tu caso…" />
-            </label>
-
-            <div className="form-actions">
-              <button className="btn btn--primary" type="button">Enviar</button>
-            </div>
-          </form>
-        </div>
+        <form className="panel" style={{display:"grid", gap:12, maxWidth:680}}>
+          <label>
+            Nombre
+            <input type="text" placeholder="Tu nombre" />
+          </label>
+          <label>
+            Correo
+            <input type="email" placeholder="tucorreo@ejemplo.com" />
+          </label>
+          <label>
+            Mensaje
+            <textarea rows={5} placeholder="Cuéntanos brevemente tu caso…" />
+          </label>
+          <div>
+            <button type="button" className="btn btn--primary">Enviar</button>
+          </div>
+        </form>
       </div>
     </main>
   );
