@@ -24,7 +24,7 @@ export async function sendContactEmail(params: {
     // Cuando verifiques tu dominio en Resend, usa algo como:
     // from: 'Castellanos Abogados <notificaciones@tudominio.com>'
     from: 'Castellanos Abogados <onboarding@resend.dev>',
-    to: ['tu-correo@ejemplo.com'], // 👈 reemplaza por tu correo de destino
+    to: ['jonatancastellanosabogado@gmail.com'], // 👈 reemplaza por tu correo de destino
     subject: `Nuevo contacto: ${name}`,
     reply_to: email,
     html: `
