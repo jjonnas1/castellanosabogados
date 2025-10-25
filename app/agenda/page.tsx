@@ -58,23 +58,3 @@ export default function AgendaPage() {
       </div>
     </main>
   );
-}
-/* --- Ajustes rápidos Agenda --- */
-.section {
-  padding: clamp(24px, 4vw, 40px) 0;
-}
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 12px;
-  max-width: 720px;
-}
-.form-row .controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-@media (min-width: 780px) {
-  .form-row { gap: 16px; }
-  .form-row .controls { grid-template-columns: 1fr 1fr 1fr; }
-}
