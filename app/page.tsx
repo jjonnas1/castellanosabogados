@@ -1,161 +1,72 @@
-import Link from "next/link";
+{/* === Servicios en línea === */}
+<section className="section">
+  <div className="wrap">
+    <div className="section-head">
+      <span className="eyebrow">Todo en un solo lugar</span>
+      <h2 className="h2">Servicios en línea</h2>
+      <p className="muted">
+        Lo necesario para una consulta eficiente y transparente, disponible en web y app.
+      </p>
+    </div>
 
-export default function HomePage() {
-  return (
-    <main>
-      {/* HERO */}
-      <section className="section">
-        <div className="wrap">
-          <div className="hero">
-            <span className="badge">Nueva · Asesoría legal en línea</span>
-            <h1 className="h1">
-              Asesoría legal clara y cercana,<br />con abogados expertos.
-            </h1>
-            <p className="muted" style={{ maxWidth: 720 }}>
-              Agenda en línea y conéctate por videollamada con un abogado especializado en derecho colombiano. 
-              Atención personalizada, precio definido y respuesta inmediata.
-            </p>
+    <div className="service-grid">
+      {/* 1 */}
+      <article className="service-card">
+        <div className="icon">📅</div>
+        <h3>Agenda Online</h3>
+        <p>Reserva en segundos desde cualquier dispositivo. Recibes confirmación por correo.</p>
+        <a href="/agenda" className="btn btn--ghost btn-inline">Agendar</a>
+      </article>
 
-            <div style={{ display: "flex", gap: 12, marginTop: 18 }}>
-              <Link href="/agenda" className="btn btn--primary">
-                Agendar asesoría
-              </Link>
-              <Link href="#servicios" className="btn btn--ghost">
-                Ver servicios
-              </Link>
-            </div>
+      {/* 2 */}
+      <article className="service-card">
+        <div className="icon">💳</div>
+        <h3>Pago Seguro</h3>
+        <p>Transacciones protegidas (Wompi/Stripe). Recibos y comprobantes automáticos.</p>
+        <a href="/servicios" className="btn btn--ghost btn-inline">Ver opciones</a>
+      </article>
 
-            <div className="panel" style={{ marginTop: 22 }}>
-              <h3 style={{ margin: "0 0 .6rem", fontSize: "1.05rem" }}>¿Por qué con nosotros?</h3>
-              <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.7 }}>
-                <li>Abogados verificados por especialidad.</li>
-                <li>Agenda segura y confirmación por correo.</li>
-                <li>Respuestas claras y accionables.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 3 */}
+      <article className="service-card">
+        <div className="icon">👩‍⚖️</div>
+        <h3>Abogados Expertos</h3>
+        <p>Profesionales verificados por área de práctica. Asesoría clara y accionable.</p>
+        <a href="/servicios" className="btn btn--ghost btn-inline">Explorar</a>
+      </article>
 
-      {/* SERVICIOS */}
-      <section id="servicios" className="section" aria-labelledby="srv-title">
-        <div className="wrap">
-          <h2 id="srv-title" className="h2" style={{ marginBottom: 6 }}>
-            Servicios en línea
-          </h2>
-          <p className="muted" style={{ marginBottom: 22 }}>
-            Todo lo necesario para una consulta eficiente, confiable y transparente.
-          </p>
+      {/* 4 */}
+      <article className="service-card">
+        <div className="icon">🧾</div>
+        <h3>Resumen y próximos pasos</h3>
+        <p>Recibe un resumen breve de la consulta y qué hacer después.</p>
+        <a href="/servicios" className="btn btn--ghost btn-inline">Cómo funciona</a>
+      </article>
 
-          <div className="tiles">
-            <article className="tile">
-              <div className="icon">📅</div>
-              <h3>Agenda Online</h3>
-              <p className="muted">Reserva tu asesoría en segundos desde cualquier dispositivo. Confirmación inmediata.</p>
-            </article>
+      {/* 5 (ancha) */}
+      <article className="service-card span-2">
+        <div className="icon">🔔</div>
+        <h3>Recordatorios</h3>
+        <p>Te avisamos antes de tu cita por correo. Reprograma en 1 clic si lo necesitas.</p>
+      </article>
 
-            <article className="tile">
-              <div className="icon">💳</div>
-              <h3>Pago Seguro</h3>
-              <p className="muted">Transacciones protegidas (Wompi/Stripe) y comprobante electrónico.</p>
-            </article>
+      {/* 6 (ancha) */}
+      <article className="service-card span-2">
+        <div className="icon">📄</div>
+        <h3>Documentos y formatos</h3>
+        <p>
+          Si tu caso requiere trámite, te entregamos <strong>formatos y guías</strong> para continuar ante juzgados
+          u otras entidades.
+        </p>
+      </article>
+    </div>
 
-            <article className="tile">
-              <div className="icon">⚖️</div>
-              <h3>Abogados Expertos</h3>
-              <p className="muted">Profesionales especializados por área de práctica y experiencia comprobada.</p>
-            </article>
-
-            <article className="tile">
-              <div className="icon">📝</div>
-              <h3>Resumen y próximos pasos</h3>
-              <p className="muted">Recibe un resumen claro de la consulta con orientación práctica y formatos de apoyo.</p>
-            </article>
-          </div>
-
-          <div className="cta" style={{ marginTop: 22 }}>
-            <div>
-              <strong>¿Listo para agendar?</strong>
-              <div className="muted">
-                Elige tu área legal y la hora disponible que más se ajuste a ti.
-              </div>
-            </div>
-            <Link href="/agenda" className="btn btn--primary">
-              Agendar ahora
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* CÓMO FUNCIONA */}
-      <section className="section" aria-labelledby="how-title">
-        <div className="wrap">
-          <h2 id="how-title" className="h2" style={{ marginBottom: 6 }}>
-            ¿Cómo funciona?
-          </h2>
-          <p className="muted" style={{ marginBottom: 22, maxWidth: 720 }}>
-            Selecciona tu área, elige horario y recibe atención legal inmediata por videollamada. 
-            La asesoría tiene una duración promedio de <strong>20 minutos</strong>.
-          </p>
-
-          <ol className="steps">
-            <li>
-              <h4>Selecciona tu área</h4>
-              <p className="muted">Penal, laboral, civil, familia u otras.</p>
-            </li>
-            <li>
-              <h4>Agenda y paga</h4>
-              <p className="muted">Confirmación inmediata y recordatorios por correo.</p>
-            </li>
-            <li>
-              <h4>Videollamada 1:1</h4>
-              <p className="muted">Recibe orientación clara y próximos pasos con tu abogado asignado.</p>
-            </li>
-            <li>
-              <h4>Resumen y formatos</h4>
-              <p className="muted">
-                Te enviamos un resumen y, cuando aplica, <strong>formatos pertinentes</strong> para continuar tu trámite
-                ante juzgados o entidades (peticiones, memoriales, poderes, etc.).
-              </p>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      {/* PREGUNTAS FRECUENTES */}
-      <section className="section" aria-labelledby="faq-title">
-        <div className="wrap">
-          <h2 id="faq-title" className="h2" style={{ marginBottom: 12 }}>
-            Preguntas frecuentes
-          </h2>
-          <div className="faq">
-            <details>
-              <summary>¿Cuánto dura la asesoría?</summary>
-              <p>
-                Tiene una duración promedio de <strong>20 minutos</strong>, tiempo suficiente para
-                analizar tu caso y recibir orientación precisa. Si se requiere más tiempo, podrás
-                agendar una ampliación o segunda sesión.
-              </p>
-            </details>
-
-            <details>
-              <summary>¿Qué incluye la asesoría?</summary>
-              <p>
-                Un diagnóstico inicial, orientación práctica y, si aplica, <strong>formatos listos</strong>
-                (peticiones, memoriales, poderes, etc.) para continuar el trámite ante juzgados o entidades.
-              </p>
-            </details>
-
-            <details>
-              <summary>¿Qué pasa si necesito acompañamiento completo?</summary>
-              <p>
-                Si tu caso requiere representación o actuación judicial, te contactamos con un abogado
-                especializado que te guiará en honorarios y etapas procesales.
-              </p>
-            </details>
-          </div>
-        </div>
-      </section>
-    </main>
-  );
-}
+    {/* Banda CTA */}
+    <div className="cta-band">
+      <div>
+        <strong>¿Listo para agendar?</strong>
+        <div className="muted">Elige tu área legal y la hora que más te convenga.</div>
+      </div>
+      <a href="/agenda" className="btn btn--primary">Agendar ahora</a>
+    </div>
+  </div>
+</section>
