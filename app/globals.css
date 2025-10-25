@@ -29,11 +29,11 @@ body{
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   color:var(--ink);
   line-height:1.6;
-  /* Fondo con 2 degradés radiales para evitar “blanco puro” */
   background:
-    radial-gradient(1200px 600px at -10% -10%, var(--brand-50) 0%, transparent 60%),
-    radial-gradient(1200px 600px at 110% -20%, #eaf1ff 0%, transparent 55%),
+    radial-gradient(1000px 600px at -10% -10%, var(--brand-50) 0%, transparent 60%),
+    radial-gradient(1000px 600px at 110% -20%, #eaf1ff 0%, transparent 55%),
     linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
+  background-attachment: fixed;
 }
 
 a{text-decoration:none;color:inherit}
@@ -61,19 +61,42 @@ img{max-width:100%;height:auto;display:block}
   box-shadow: inset 0 0 0 2px var(--brand-300);
 }
 
-/* Botones “píldora” */
+/* ----- BOTONES (alto contraste, sin degradé) ----- */
 .btn{
-  border:0;border-radius:999px;
-  padding:.9rem 1.25rem;font-weight:700;
-  box-shadow:var(--shadow-soft);
-  transition:.22s ease;
+  border:0;
+  border-radius:999px;
+  padding:.9rem 1.25rem;
+  font-weight:700;
+  font-size:1rem;
+  line-height:1;
+  transition:.2s ease;
+  box-shadow: var(--shadow-soft);
 }
-.btn--primary{background:var(--brand-600);color:#fff}
-.btn--primary:hover{background:var(--brand-700);transform:translateY(-1px)}
+
+.btn--primary{
+  background: var(--brand-600);  /* sólido */
+  color: #fff;                   /* alto contraste */
+  text-shadow: none;
+}
+.btn--primary:hover{
+  background: var(--brand-700);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-strong);
+}
+.btn--primary:active{
+  transform: translateY(0);
+  box-shadow: var(--shadow-soft);
+}
+
 .btn--ghost{
-  background:#fff;color:#1f2a44;border:1px solid #e5e9f5
+  background:#fff;
+  color:#1f2a44;
+  border:1px solid #e5e9f5;
 }
-.btn--ghost:hover{background:var(--brand-50)}
+.btn--ghost:hover{
+  background: var(--brand-100);
+  color: var(--brand-700);
+}
 
 /* Hero con superficie tintada + sombra gordita */
 .hero{
