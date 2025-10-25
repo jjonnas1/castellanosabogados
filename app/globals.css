@@ -311,3 +311,74 @@ input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px rgba(9
 }
 
 /* Cierre del dropdown al hacer click fuera en móviles: opcional si luego añadimos JS */
+/* --- Menú principal --- */
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* --- Dropdowns generales --- */
+.dropdown {
+  position: relative;
+}
+
+.dropdown + .dropdown {
+  margin-left: 10px;
+  border-left: 1px solid #e5e9f5;
+  padding-left: 10px;
+}
+
+.dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  color: #1f2a44;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid #e9ecf6;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.dropdown-trigger::-webkit-details-marker {
+  display: none;
+}
+
+.dropdown-trigger:hover {
+  background: var(--brand-50);
+  color: var(--brand-700);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 220px;
+  background: #fff;
+  border: 1px solid #e6ebf8;
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+  padding: 8px;
+  z-index: 60;
+}
+
+.dropdown-menu li {
+  list-style: none;
+}
+
+.dropdown-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+.dropdown-link:hover {
+  background: var(--brand-100);
+  color: var(--brand-700);
+}
