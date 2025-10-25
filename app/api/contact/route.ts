@@ -1,6 +1,6 @@
 // app/api/contact/route.ts
 import { NextResponse } from 'next/server';
-import { sendContactEmail } from '@/lib/resend';
+import { sendContactEmail } from '../../../lib/resend';
 
 export async function POST(req: Request) {
   try {
