@@ -2,44 +2,45 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+
+const links = [
+  { href: "/", label: "Inicio", exact: true },
+  { href: "/servicios", label: "Servicios" },
+  { href: "/agenda", label: "Agenda" },
+  { href: "/contacto", label: "Contacto" },
+];
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 6);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
-    const active = pathname === href;
-    return (
-      <Link
-        href={href}
-        className={`nav-link ${active ? "nav-link--active" : ""}`}
-      >
-        {children}
-      </Link>
-    );
-  };
+  const isActive = (href: string, exact?: boolean) =>
+    exact ? pathname === href : pathname.startsWith(href);
 
   return (
-    <header className={`topbar ${scrolled ? "topbar--scrolled" : ""}`}>
-      <div className="wrap">
-        <Link href="/" className="brand">Castellanos <span className="brand__muted">Abogados</span></Link>
-        <nav className="nav">
-          <NavLink href="/">Inicio</NavLink>
-          <NavLink href="/servicios">Servicios</NavLink>
-          <NavLink href="/agenda">Agenda</NavLink>
-          <NavLink href="/contacto">Contacto</NavLink>
-          <Link href="/agenda" className="btn btn--primary">Agendar asesoría</Link>
+    <header className="sitebar">
+      <div className="wrap nav">
+        <Link href="/" className="logo" aria-label="Castellanos Abogados">
+          <strong>Castellanos</strong> <span style={{opacity:.7}}>Abogados</span>
+        </Link>
+
+        <nav aria-label="Principal" style={{display:"flex",gap:8,alignItems:"center"}}>
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className={isActive(l.href, l.exact) ? "active" : undefined}
+              style={{ padding: "8px 14px", borderRadius: 12 }}
+            >
+              {l.label}
+            </Link>
+          ))}
+
+          {/* CTA sin degradé, alto contraste */}
+          <Link href="/agenda" className="btn btn--primary">
+            Agendar asesoría
+          </Link>
         </nav>
       </div>
     </header>
   );
 }
-
