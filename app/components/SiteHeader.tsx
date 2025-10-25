@@ -12,7 +12,6 @@ const links = [
 
 export default function SiteHeader() {
   const pathname = usePathname();
-
   const isActive = (href: string, exact?: boolean) =>
     exact ? pathname === href : pathname.startsWith(href);
 
@@ -20,10 +19,10 @@ export default function SiteHeader() {
     <header className="sitebar">
       <div className="wrap nav">
         <Link href="/" className="logo" aria-label="Castellanos Abogados">
-          <strong>Castellanos</strong> <span style={{opacity:.7}}>Abogados</span>
+          <strong>Castellanos</strong> <span style={{ opacity: 0.7 }}>Abogados</span>
         </Link>
 
-        <nav aria-label="Principal" style={{display:"flex",gap:8,alignItems:"center"}}>
+        <nav aria-label="Principal" style={{ display: "flex", gap: 8, alignItems: "center" }}>
           {links.map((l) => (
             <Link
               key={l.href}
@@ -35,9 +34,19 @@ export default function SiteHeader() {
             </Link>
           ))}
 
-          {/* CTA sin degradé, alto contraste */}
+          {/* CTA para abogados */}
+          <Link href="/trabaja" className="btn btn--ghost" style={{ marginLeft: 8 }}>
+            Trabaja con nosotros
+          </Link>
+
+          {/* CTA de cliente (mantiene el flujo actual) */}
           <Link href="/agenda" className="btn btn--primary">
             Agendar asesoría
+          </Link>
+
+          {/* Acceso futuro a panel (clientes/abogados) */}
+          <Link href="/login" className="btn btn--ghost">
+            Iniciar sesión
           </Link>
         </nav>
       </div>
