@@ -477,3 +477,46 @@ html { scroll-padding-top: var(--header-h); }
   .nav-primary { display: block; }
   .mobile-trigger { display: none; }
 }
+/* --- Navegación --- */
+.nav { display: flex; gap: 14px; align-items: center; }
+.nav-link { padding: 8px 12px; border-radius: 10px; color: var(--ink-2, #444); text-decoration: none; }
+.nav-link:hover { background: rgba(0,0,0,.04); }
+.nav-link--active { background: #e9eefc; color: #2046d7; font-weight: 600; }
+
+/* --- Header --- */
+.site-header { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(120%) blur(8px); background: rgba(255,255,255,.8); border-bottom: 1px solid rgba(0,0,0,.06); }
+.site-header__row { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.brand { font-weight: 700; letter-spacing: .2px; text-decoration: none; color: #111; }
+.brand span { color: #646cff; font-weight: 600; }
+
+/* --- Layout utilitario --- */
+.section { padding: 40px 0; }
+.panel { background: #fff; border: 1px solid rgba(0,0,0,.06); border-radius: 16px; padding: 18px 18px; box-shadow: 0 15px 35px rgba(10, 21, 46, .06); }
+.panel--xl { padding: 28px 28px; }
+.h1 { font-size: clamp(28px, 3.6vw, 40px); line-height: 1.15; margin: 0 0 6px; }
+.muted { color: #6b7280; }
+.mt-24 { margin-top: 24px; }
+.mt-8 { margin-top: 8px; }
+
+/* --- Form --- */
+.form-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+.form-grid > label { grid-column: span 12; display: grid; gap: 6px; font-weight: 600; color: #374151; }
+.form-grid input, .form-grid select, .form-grid textarea {
+  height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid #e5e7eb; outline: none; background: #fff;
+}
+.form-grid textarea { height: 120px; padding: 12px; }
+.form-actions { grid-column: span 12; display: flex; gap: 10px; align-items: center; }
+
+/* md+ */
+@media (min-width: 720px) {
+  .form-grid > label { grid-column: span 4; }
+  .form-actions { justify-content: flex-start; }
+}
+
+/* --- Botones --- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 12px; font-weight: 600; text-decoration: none; border: 1px solid transparent; }
+.btn--sm { height: 38px; }
+.btn--primary { background: #2563eb; color: #fff; box-shadow: 0 8px 24px rgba(37, 99, 235, .25); }
+.btn--primary:hover { background: #1e4ed8; }
+.btn--ghost { background: #fff; border-color: #e5e7eb; color: #111; }
+.btn--ghost:hover { background: #f8fafc; }
