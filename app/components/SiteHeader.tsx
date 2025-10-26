@@ -2,158 +2,124 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+
+type Item = { href: string; label: string };
+
+function isActivePath(pathname: string, href: string, exact?: boolean) {
+  return exact ? pathname === href : pathname.startsWith(href);
+}
+
+function NavLink({
+  href,
+  label,
+  active,
+}: {
+  href: string;
+  label: string;
+  active?: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={active ? "active" : undefined}
+      style={{ padding: "8px 14px", borderRadius: 12 }}
+    >
+      {label}
+    </Link>
+  );
+}
+
+function DropMenu({
+  label,
+  items,
+  active,
+}: {
+  label: string;
+  items: Item[];
+  active?: boolean;
+}) {
+  return (
+    <details className={`dropdown ${active ? "active" : ""}`}>
+      <summary className="dropdown-trigger">
+        {label}
+        <span className="chev">▾</span>
+      </summary>
+      <div className="dropdown-panel">
+        {items.map((it) => (
+          <Link key={it.href} href={it.href} className="dropdown-item">
+            {it.label}
+          </Link>
+        ))}
+      </div>
+    </details>
+  );
+}
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const isActive = (href: string, exact?: boolean) =>
-    exact ? pathname === href : pathname.startsWith(href);
 
-  // 🔹 Cerrar dropdowns al hacer clic fuera
-  useEffect(() => {
-    const closeDropdowns = (e: MouseEvent) => {
-      document.querySelectorAll("details.dropdown[open]").forEach((d) => {
-        if (!d.contains(e.target as Node)) d.removeAttribute("open");
-      });
-    };
-    document.addEventListener("click", closeDropdowns);
-    return () => document.removeEventListener("click", closeDropdowns);
-  }, []);
+  const clientesItems: Item[] = [
+    { href: "/agenda", label: "Agendar asesoría" },
+    { href: "/servicios", label: "Ver servicios" },
+    { href: "/contacto", label: "Soporte y contacto" },
+    { href: "/clientes/paquetes", label: "Paquetes (próximamente)" },
+  ];
+
+  const abogadosItems: Item[] = [
+    { href: "/registro/abogado", label: "Registro de abogados" },
+    { href: "/login", label: "Acceso / Iniciar sesión" },
+    { href: "/panel", label: "Mi panel" },
+  ];
 
   return (
     <header className="sitebar">
       <div className="wrap nav">
-        {/* Logo */}
-        <Link href="/" className="logo" aria-label="Castellanos Abogados">
-          <strong>Castellanos</strong>{" "}
-          <span style={{ opacity: 0.7 }}>Abogados</span>
-        </Link>
-
-        {/* Menú principal */}
-        <nav aria-label="Principal" className="menu">
-          {/* Enlaces generales */}
-          <Link
-            href="/"
-            className={isActive("/", true) ? "active" : undefined}
-            aria-current={isActive("/", true) ? "page" : undefined}
-          >
-            Inicio
+        {/* IZQUIERDA: logo + navegación primaria */}
+        <div className="nav-left">
+          <Link href="/" className="logo" aria-label="Castellanos Abogados">
+            <strong>Castellanos</strong>{" "}
+            <span style={{ opacity: 0.7 }}>Abogados</span>
           </Link>
 
-          <Link
-            href="/servicios"
-            className={isActive("/servicios") ? "active" : undefined}
-          >
-            Servicios
-          </Link>
+          <nav aria-label="Principal" className="nav-main">
+            <NavLink
+              href="/"
+              label="Inicio"
+              active={isActivePath(pathname, "/", true)}
+            />
+            <NavLink
+              href="/servicios"
+              label="Servicios"
+              active={isActivePath(pathname, "/servicios")}
+            />
+            <NavLink
+              href="/contacto"
+              label="Contacto"
+              active={isActivePath(pathname, "/contacto")}
+            />
 
-          <Link
-            href="/contacto"
-            className={isActive("/contacto") ? "active" : undefined}
-          >
-            Contacto
-          </Link>
+            <DropMenu
+              label="Clientes"
+              items={clientesItems}
+              active={isActivePath(pathname, "/clientes")}
+            />
+            <DropMenu
+              label="Abogados"
+              items={abogadosItems}
+              active={isActivePath(pathname, "/abogados") || isActivePath(pathname, "/registro") || isActivePath(pathname, "/panel") || isActivePath(pathname, "/login")}
+            />
+          </nav>
+        </div>
 
-          {/* 🔹 Desplegable Clientes */}
-          <details className="dropdown" role="list">
-            <summary className="dropdown-trigger">
-              Clientes
-              <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden>
-                <path
-                  d="M5 7l5 5 5-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-              </svg>
-            </summary>
-            <ul
-              className="dropdown-menu"
-              role="listbox"
-              aria-label="Opciones para clientes"
-            >
-              <li>
-                <Link href="/agenda" className="dropdown-link">
-                  Agendar asesoría
-                </Link>
-              </li>
-              <li>
-                <Link href="/servicios" className="dropdown-link">
-                  Ver servicios
-                </Link>
-              </li>
-              <li>
-                <Link href="/contacto" className="dropdown-link">
-                  Soporte y contacto
-                </Link>
-              </li>
-              <li>
-                <Link href="/paquetes" className="dropdown-link">
-                  Paquetes (próximamente)
-                </Link>
-              </li>
-            </ul>
-          </details>
-
-          {/* 🔹 Desplegable Abogados */}
-          <details className="dropdown" role="list">
-            <summary className="dropdown-trigger">
-              Abogados
-              <svg width="14" height="14" viewBox="0 0 20 20" aria-hidden>
-                <path
-                  d="M5 7l5 5 5-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                />
-              </svg>
-            </summary>
-            <ul
-              className="dropdown-menu"
-              role="listbox"
-              aria-label="Opciones para abogados"
-            >
-              <li>
-                <Link href="/registro/abogado" className="dropdown-link">
-                  Registro de abogados
-                </Link>
-              </li>
-              <li>
-                <Link href="/login" className="dropdown-link">
-                  Acceso / Iniciar sesión
-                </Link>
-              </li>
-              <li>
-                <Link href="/panel" className="dropdown-link">
-                  Mi panel
-                </Link>
-              </li>
-            </ul>
-          </details>
-
-          {/* 🔹 Botón destacado: Trabaja con nosotros */}
-          <Link
-            href="/trabaja"
-            className="btn btn--ghost"
-            style={{
-              fontWeight: 600,
-              marginLeft: 10,
-              border: "1px solid #e3e8f5",
-              background: "#fff",
-            }}
-          >
+        {/* DERECHA: CTAs separados y balanceados */}
+        <div className="nav-right">
+          <Link href="/trabaja" className="btn btn--ghost">
             Trabaja con nosotros
           </Link>
-
-          {/* 🔹 CTA principal (clientes) */}
-          <Link
-            href="/agenda"
-            className="btn btn--primary"
-            style={{ marginLeft: 8 }}
-          >
+          <Link href="/agenda" className="btn btn--primary">
             Agendar asesoría
           </Link>
-        </nav>
+        </div>
       </div>
     </header>
   );
