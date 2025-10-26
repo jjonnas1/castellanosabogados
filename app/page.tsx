@@ -1,122 +1,146 @@
 // app/page.tsx
 export default function HomePage() {
   return (
-    <main className="section">
-      <div className="wrap">
-        {/* HERO */}
-        <section className="hero" aria-labelledby="hero-title">
-          <span className="badge">Nueva · Asesoría legal en línea</span>
-          <h1 id="hero-title" className="h1">
-            Asesoría legal clara y cercana, con abogados expertos.
-          </h1>
-          <p className="muted" style={{ maxWidth: 720 }}>
-            Conéctate por videollamada con un abogado especializado en derecho
-            colombiano. Atención personalizada, precio definido y respuesta inmediata.
-          </p>
+    <main>
+      {/* HERO PRINCIPAL */}
+      <section className="section">
+        <div className="wrap">
+          <div className="hero">
+            <span className="badge">Nueva · Asesoría legal en línea</span>
+            <h1 className="h1">
+              Asesoría legal clara y cercana,
+              <br /> con abogados expertos.
+            </h1>
+            <p className="muted" style={{ maxWidth: 680 }}>
+              Conéctate por videollamada con un abogado especializado en derecho
+              colombiano. Atención personalizada, precio definido y respuesta inmediata.
+            </p>
 
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 22 }}>
-            <a href="/agenda" className="btn btn--primary">Agendar asesoría</a>
-            <a href="/servicios" className="btn btn--ghost">Ver servicios</a>
+            <div
+              style={{
+                display: "flex",
+                gap: "12px",
+                flexWrap: "wrap",
+                marginTop: "22px",
+              }}
+            >
+              <a href="/agenda" className="btn btn--primary">
+                Agendar asesoría
+              </a>
+              <a href="/servicios" className="btn btn--ghost">
+                Ver servicios
+              </a>
+            </div>
+
+            <div className="panel" style={{ marginTop: 30 }}>
+              <h3 style={{ marginBottom: 8 }}>¿Por qué con nosotros?</h3>
+              <ul style={{ margin: 0, paddingLeft: 20 }}>
+                <li>✔️ Abogados verificados por especialidad.</li>
+                <li>✔️ Agenda segura y confirmación por correo.</li>
+                <li>✔️ Respuestas claras y accionables.</li>
+              </ul>
+            </div>
           </div>
+        </div>
+      </section>
 
-          <div className="panel" style={{ marginTop: 22 }}>
-            <strong>¿Por qué con nosotros?</strong>
-            <ul style={{ margin: "10px 0 0 18px" }}>
-              <li>Abogados verificados por especialidad.</li>
-              <li>Agenda segura y confirmación por correo.</li>
-              <li>Respuestas claras y accionables.</li>
-            </ul>
-          </div>
-        </section>
-
-        {/* SERVICIOS EN LÍNEA */}
-        <section className="section" aria-labelledby="svc-title" style={{ paddingTop: 40 }}>
-          <h2 id="svc-title" className="h2">Servicios en línea</h2>
-          <p className="muted" style={{ marginBottom: 18 }}>
+      {/* SERVICIOS */}
+      <section className="section" style={{ paddingTop: 40 }}>
+        <div className="wrap">
+          <h2 className="h2">Servicios en línea</h2>
+          <p className="muted" style={{ marginBottom: 40 }}>
             Todo lo necesario para una consulta eficiente y transparente.
           </p>
 
           <div className="tiles">
-            <article className="tile">
+            <div className="tile">
               <div className="icon">📅</div>
-              <h3 className="h3" style={{ margin: 0 }}>Agenda Online</h3>
-              <p className="muted">Reserva en segundos desde cualquier dispositivo.</p>
-            </article>
-
-            <article className="tile">
-              <div className="icon">💳</div>
-              <h3 className="h3" style={{ margin: 0 }}>Pago Seguro</h3>
-              <p className="muted">Transacciones protegidas (Wompi/Stripe).</p>
-            </article>
-
-            <article className="tile">
-              <div className="icon">👩‍⚖️</div>
-              <h3 className="h3" style={{ margin: 0 }}>Abogados Expertos</h3>
-              <p className="muted">Profesionales verificados por área de práctica.</p>
-            </article>
-
-            <article className="tile">
-              <div className="icon">📝</div>
-              <h3 className="h3" style={{ margin: 0 }}>Resumen y próximos pasos</h3>
-              <p className="muted">Recibe un resumen claro tras la consulta.</p>
-            </article>
-          </div>
-
-          <div className="cta" style={{ marginTop: 18 }}>
-            <div>
-              <strong>¿Listo para agendar?</strong>
-              <p className="muted" style={{ margin: 6 }}>
-                Elige tu área legal y la hora disponible que más te convenga.
-              </p>
+              <h3>Agenda Online</h3>
+              <p>Reserva tu asesoría desde cualquier dispositivo, en segundos.</p>
             </div>
-            <a href="/agenda" className="btn btn--primary">Agendar ahora</a>
+
+            <div className="tile">
+              <div className="icon">💳</div>
+              <h3>Pago Seguro</h3>
+              <p>Transacciones protegidas con Wompi o Stripe.</p>
+            </div>
+
+            <div className="tile">
+              <div className="icon">⚖️</div>
+              <h3>Abogados Expertos</h3>
+              <p>Profesionales verificados por área de práctica.</p>
+            </div>
+
+            <div className="tile">
+              <div className="icon">📝</div>
+              <h3>Resumen de Consulta</h3>
+              <p>Recibe un informe claro tras tu sesión con el abogado.</p>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CÓMO FUNCIONA */}
-        <section className="section" aria-labelledby="how-title" style={{ paddingTop: 40 }}>
-          <h2 id="how-title" className="h2">¿Cómo funciona?</h2>
-          <ol style={{ paddingLeft: 18, marginTop: 10, lineHeight: 1.8 }}>
-            <li><strong>Selecciona tu área</strong> · Penal, laboral, civil, familia u otras.</li>
-            <li><strong>Agenda y paga</strong> · Confirmación inmediata y recordatorios por correo.</li>
-            <li><strong>Videollamada 1:1</strong> · Orientación clara y próximos pasos.</li>
-            <li><strong>Resumen</strong> · Te enviamos un resumen con acciones concretas.</li>
-          </ol>
-          <p className="muted" style={{ marginTop: 8 }}>
-            Nota: La sesión típica dura <strong>20–30 minutos</strong>, según la complejidad del caso.
-          </p>
-        </section>
+      {/* CÓMO FUNCIONA */}
+      <section className="section" style={{ paddingTop: 40 }}>
+        <div className="wrap">
+          <h2 className="h2">¿Cómo funciona?</h2>
+          <div className="tiles" style={{ gridTemplateColumns: "repeat(3,1fr)" }}>
+            <div className="tile">
+              <h3>1️⃣ Selecciona tu área</h3>
+              <p>Penal, laboral, civil, familia u otras especialidades.</p>
+            </div>
+            <div className="tile">
+              <h3>2️⃣ Agenda y paga</h3>
+              <p>Confirmación inmediata y recordatorios por correo.</p>
+            </div>
+            <div className="tile">
+              <h3>3️⃣ Videollamada 1:1</h3>
+              <p>Recibe orientación clara y pasos a seguir para tu caso.</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        {/* PREGUNTAS FRECUENTES */}
-        <section className="section" aria-labelledby="faq-title" style={{ paddingTop: 40 }}>
-          <h2 id="faq-title" className="h2">Preguntas frecuentes</h2>
-
-          <details className="panel" style={{ marginTop: 12 }}>
-            <summary><strong>¿Qué incluye la asesoría?</strong></summary>
-            <p className="muted" style={{ marginTop: 8 }}>
-              Videollamada 1:1, revisión breve del caso, orientación inmediata y
-              un resumen con próximos pasos. Cuando aplica, te proporcionamos
-              <strong> formatos pertinentes</strong> para que continúes tu trámite ante
-              juzgados, fiscalía u otras entidades.
+      {/* FAQ / INFO ADICIONAL */}
+      <section className="section" style={{ paddingTop: 60, paddingBottom: 100 }}>
+        <div className="wrap">
+          <h2 className="h2">Preguntas frecuentes</h2>
+          <div className="panel">
+            <h3>¿Cuánto dura una asesoría?</h3>
+            <p>
+              Cada asesoría tiene una duración aproximada de 20 a 40 minutos,
+              dependiendo de la complejidad del caso. En la sesión se brinda
+              orientación inicial, diagnóstico y pasos concretos.
             </p>
-          </details>
 
-          <details className="panel" style={{ marginTop: 12 }}>
-            <summary><strong>¿Puedo reprogramar?</strong></summary>
-            <p className="muted" style={{ marginTop: 8 }}>
-              Sí, puedes reprogramar sin costo con al menos 12 horas de anticipación.
+            <h3>¿Recibo soporte o documentos después?</h3>
+            <p>
+              Sí. Tras la asesoría recibirás, sin costo adicional, los{" "}
+              <strong>formatos o modelos jurídicos pertinentes</strong> para que
+              continúes tu trámite ante la entidad o juzgado correspondiente.
             </p>
-          </details>
 
-          <details className="panel" style={{ marginTop: 12 }}>
-            <summary><strong>¿Qué pasa si necesito representación?</strong></summary>
-            <p className="muted" style={{ marginTop: 8 }}>
-              Te orientamos y, si lo autorizas, te conectamos con un especialista
-              en tu ciudad para la fase judicial o administrativa.
+            <h3>¿Puedo escoger mi abogado?</h3>
+            <p>
+              Sí. Puedes elegir por especialidad o dejar que nuestro sistema te
+              asigne al profesional disponible más adecuado.
             </p>
-          </details>
-        </section>
-      </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer
+        style={{
+          textAlign: "center",
+          padding: "40px 0",
+          borderTop: "1px solid #e7ecf6",
+          fontSize: ".9rem",
+          color: "var(--muted)",
+        }}
+      >
+        © 2025 Castellanos Abogados. Orientación legal confiable.
+      </footer>
     </main>
   );
 }
