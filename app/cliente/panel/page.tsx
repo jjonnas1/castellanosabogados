@@ -339,3 +339,52 @@ function Receipts({ userId }: { userId: string }) {
     </section>
   );
 }
+async function cancelAppt(id: string) {
+  // Traer start_at del slot para calcular diferencia localmente
+  const { data: a } = await supabase
+    .from("appointments")
+    .select("slot_id")
+    .eq("id", id)
+    .single();
+
+  if (a?.slot_id) {
+    const { data: s } = await supabase
+      .from("availability_slots")
+      .select("start_at")
+      .eq("id", a.slot_id)
+      .single();
+
+    if (s?.start_at) {
+      const start = new Date(s.start_at);
+      const now = new Date();
+      const sameDay = start.toDateString() === now.toDateString();
+      const diffMs = +start - +now;
+      const diffH = diffMs / (1000 * 60 * 60);
+
+      const minH = sameDay ? 3 : 24;
+      if (diffH < minH) {
+        alert(
+          `No puedes cancelar: faltan menos de ${minH} horas para tu cita (${
+            sameDay ? "hoy" : "fecha próxima"
+          }).`
+        );
+        return;
+      }
+    }
+  }
+
+  if (!confirm("¿Cancelar esta asesoría?")) return;
+
+  const { error } = await supabase
+    .from("appointments")
+    .update({ status: "cancelled" })
+    .eq("id", id);
+
+  if (error) {
+    // Mensaje de la BD (por si cambió el tiempo entre el check y el update)
+    alert(error.message || "No pudimos cancelar. Intenta nuevamente.");
+  } else {
+    alert("Cita cancelada ✅");
+    setRows((arr) => arr.filter((r) => r.id !== id));
+  }
+}
