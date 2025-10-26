@@ -58,13 +58,16 @@ function DropMenu({
 export default function SiteHeader() {
   const pathname = usePathname();
 
+  // ------------------ CLIENTES ------------------
   const clientesItems: Item[] = [
     { href: "/agenda", label: "Agendar asesoría" },
     { href: "/servicios", label: "Ver servicios" },
     { href: "/contacto", label: "Soporte y contacto" },
     { href: "/clientes/paquetes", label: "Paquetes (próximamente)" },
+    { href: "/cliente/login", label: "Acceso / Panel de cliente" }, // 🔹 agregado
   ];
 
+  // ------------------ ABOGADOS ------------------
   const abogadosItems: Item[] = [
     { href: "/registro/abogado", label: "Registro de abogados" },
     { href: "/login", label: "Acceso / Iniciar sesión" },
@@ -101,12 +104,18 @@ export default function SiteHeader() {
             <DropMenu
               label="Clientes"
               items={clientesItems}
-              active={isActivePath(pathname, "/clientes")}
+              active={isActivePath(pathname, "/clientes") || isActivePath(pathname, "/cliente")}
             />
+
             <DropMenu
               label="Abogados"
               items={abogadosItems}
-              active={isActivePath(pathname, "/abogados") || isActivePath(pathname, "/registro") || isActivePath(pathname, "/panel") || isActivePath(pathname, "/login")}
+              active={
+                isActivePath(pathname, "/abogados") ||
+                isActivePath(pathname, "/registro") ||
+                isActivePath(pathname, "/panel") ||
+                isActivePath(pathname, "/login")
+              }
             />
           </nav>
         </div>
