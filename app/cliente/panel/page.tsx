@@ -1,3 +1,4 @@
+// app/cliente/panel/page.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -5,109 +6,154 @@ import { supabase } from "@/lib/supabaseClient";
 
 type Appt = {
   id: string;
-  status: "pending"|"paid"|"confirmed"|"in_call"|"completed"|"cancelled"|"no_show";
-  meet_url: string | null;
+  client_id: string;
+  lawyer_id: string;
+  status: string;           // pending|paid|confirmed|in_call|completed|cancelled|no_show
   created_at: string;
-  duration_min: number;
+  meet_url: string | null;
   slot_id: string;
 };
-type Slot = { id:string; start_at:string; end_at:string; };
 
-const fmt = (s: string) => new Date(s).toLocaleString("es-CO",{dateStyle:"medium", timeStyle:"short"});
+type Slot = { id: string; start_at: string; end_at: string };
 
-export default function ClientePanelPage(){
-  const [userId,setUserId] = useState<string|null>(null);
-  const [upcoming,setUpcoming]=useState<(Appt&{slot:Slot})[]>([]);
-  const [history,setHistory]=useState<(Appt&{slot:Slot})[]>([]);
-  const [loading,setLoading]=useState(true);
-  const [msg,setMsg]=useState<string|null>(null);
+const fmt = (iso: string) =>
+  new Date(iso).toLocaleString("es-CO", { dateStyle:"medium", timeStyle:"short" });
 
-  useEffect(()=>{ supabase.auth.getUser().then(({data})=>{
-    if(!data.user){ window.location.href="/cliente/login"; return; }
-    setUserId(data.user.id);
-  });},[]);
+export default function ClientePanelPage() {
+  const [userId, setUserId] = useState<string | null>(null);
+  const [email, setEmail] = useState<string>("");
+  const [loading, setLoading] = useState(true);
+  const [upcoming, setUpcoming] = useState<(Appt & {slot?: Slot})[]>([]);
+  const [history, setHistory] = useState<(Appt & {slot?: Slot})[]>([]);
 
-  useEffect(()=>{ (async()=>{
-    if(!userId) return;
-    setLoading(true);
+  useEffect(() => {
+    (async () => {
+      const { data: u } = await supabase.auth.getUser();
+      const id = u.user?.id ?? null;
+      setUserId(id);
+      setEmail(u.user?.email ?? "");
+      if (!id) { setLoading(false); return; }
 
-    // citas activas
-    const { data: apptsActive } = await supabase
-      .from("appointments")
-      .select("*")
-      .eq("client_id", userId)
-      .in("status", ["paid","confirmed","in_call","pending"])
-      .order("created_at", { ascending:false });
+      // Trae citas del cliente
+      const { data: appts } = await supabase
+        .from("appointments")
+        .select("*")
+        .eq("client_id", id)
+        .order("created_at", { ascending: false });
 
-    // historial
-    const { data: apptsHist } = await supabase
-      .from("appointments")
-      .select("*")
-      .eq("client_id", userId)
-      .in("status", ["completed","cancelled","no_show"])
-      .order("created_at", { ascending:false });
+      // Asocia slot (hora)
+      let withSlots: (Appt & {slot?: Slot})[] = appts || [];
+      if (appts && appts.length) {
+        const slotIds = Array.from(new Set(appts.map(a => a.slot_id)));
+        const { data: slots } = await supabase
+          .from("availability_slots")
+          .select("id,start_at,end_at")
+          .in("id", slotIds);
+        const map = new Map((slots||[]).map(s => [s.id, s]));
+        withSlots = appts.map(a => ({ ...a, slot: map.get(a.slot_id) }));
+      }
 
-    async function attachSlots(rows: any[]){ 
-      if(!rows?.length) return [];
-      const ids = rows.map(r=>r.slot_id);
-      const { data: slots } = await supabase.from("availability_slots").select("*").in("id", ids);
-      const map = new Map(slots?.map((s:any)=>[s.id,s]) ?? []);
-      return rows.map(r=>({ ...(r as Appt), slot: map.get(r.slot_id) as Slot }));
-    }
+      // separa próximas vs historial
+      const now = Date.now();
+      const up: (Appt & {slot?: Slot})[] = [];
+      const past: (Appt & {slot?: Slot})[] = [];
+      withSlots.forEach(a => {
+        const endTs = a.slot?.end_at ? new Date(a.slot.end_at).getTime() : 0;
+        if (["cancelled","completed","no_show"].includes(a.status) || endTs < now) past.push(a);
+        else up.push(a);
+      });
 
-    setUpcoming(await attachSlots(apptsActive??[]));
-    setHistory(await attachSlots(apptsHist??[]));
-    setLoading(false);
-  })();},[userId]);
+      setUpcoming(up);
+      setHistory(past);
+      setLoading(false);
+    })();
+  }, []);
 
-  async function cancelar(appt: Appt & {slot:Slot}){
-    setMsg(null);
-    // chequeo frontend (el SQL también lo valida)
-    const starts = new Date(appt.slot.start_at).getTime();
-    const hrsBefore = (starts - Date.now())/36e5;
-    const minWindow = starts - Date.now() < 24*36e5 ? 3 : 12; // 3h si es para hoy, 12h si es a futuro
-    if (hrsBefore < minWindow) { setMsg(`No se puede cancelar con menos de ${minWindow} horas.`); return; }
-
-    const { error } = await supabase.from("appointments").update({ status:"cancelled" }).eq("id", appt.id);
-    if (error) setMsg(error.message); else { setMsg("Cita cancelada."); window.location.reload(); }
+  if (!userId) {
+    return (
+      <main className="section">
+        <div className="wrap" style={{ maxWidth: 860 }}>
+          <div className="panel">
+            <h1 className="h2" style={{ marginBottom: 6 }}>Tu panel</h1>
+            <p className="muted">Para ver tus citas debes iniciar sesión.</p>
+            <a href="/cliente/login" className="btn btn--primary">Acceder</a>
+          </div>
+        </div>
+      </main>
+    );
   }
 
   return (
     <main className="section">
-      <div className="wrap" style={{maxWidth:900}}>
-        <h1 className="h2">Mi panel</h1>
-        {msg && <div className="panel" style={{background:"#fffbe6",borderColor:"#fde68a"}}>{msg}</div>}
-
-        <section style={{marginTop:12}}>
-          <h3>Próximas</h3>
-          <div style={{display:"grid",gap:12}}>
-            {loading && <div className="panel">Cargando…</div>}
-            {!loading && upcoming.length===0 && <div className="panel">No tienes citas próximas.</div>}
-            {upcoming.map(a=>(
-              <div key={a.id} className="panel" style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                <div>
-                  <div style={{fontWeight:700}}>{fmt(a.slot.start_at)} · {a.duration_min} min</div>
-                  <div className="muted">Estado: {a.status}</div>
-                  {a.meet_url && <div><a className="btn btn--ghost" href={a.meet_url}>Entrar a la videollamada</a></div>}
-                </div>
-                <div style={{display:"flex",gap:8}}>
-                  <a className="btn btn--ghost" href="/clientes/agenda">Reagendar</a>
-                  <button className="btn btn--ghost" onClick={()=>cancelar(a)}>Cancelar</button>
-                </div>
-              </div>
-            ))}
+      <div className="wrap" style={{ maxWidth: 860 }}>
+        <header className="panel" style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:12 }}>
+          <div>
+            <div className="muted" style={{ fontWeight:700 }}>Mi panel</div>
+            <div style={{ fontSize:14 }}>Sesión iniciada como <strong>{email || "—"}</strong></div>
           </div>
+          <button
+            className="btn btn--ghost"
+            onClick={async ()=>{ await supabase.auth.signOut(); location.href="/"; }}
+          >
+            Cerrar sesión
+          </button>
+        </header>
+
+        {/* Próximas */}
+        <section style={{ marginTop:16 }}>
+          <h2 className="h2" style={{ marginBottom: 10 }}>Próximas asesorías</h2>
+          {loading ? (
+            <div className="panel">Cargando…</div>
+          ) : upcoming.length === 0 ? (
+            <div className="panel" style={{ display:"grid", gap:6 }}>
+              <div className="muted">Aún no tienes asesorías programadas.</div>
+              <div>
+                <a href="/agenda" className="btn btn--primary">Agendar asesoría</a>
+              </div>
+            </div>
+          ) : (
+            <div style={{ display:"grid", gap:14 }}>
+              {upcoming.map(a => (
+                <div key={a.id} className="panel" style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <div>
+                    <div style={{ fontWeight:700 }}>{a.slot?.start_at ? fmt(a.slot.start_at) : "—"}</div>
+                    <div className="muted">Estado: <strong>{a.status}</strong></div>
+                    {a.meet_url && <div className="muted" style={{ fontSize:14, marginTop:4 }}>Enlace: <a href={a.meet_url} target="_blank" rel="noreferrer">{a.meet_url}</a></div>}
+                  </div>
+                  <div style={{ display:"flex", gap:8 }}>
+                    <button className="btn btn--ghost" disabled>Reagendar</button>
+                    <button className="btn btn--ghost" disabled>Cancelar</button>
+                    <a className="btn btn--primary" href={a.meet_url || "#"} target="_blank" rel="noreferrer">Entrar a la llamada</a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
 
-        <section style={{marginTop:18}}>
-          <h3>Historial</h3>
-          <div style={{display:"grid",gap:12}}>
-            {history.map(a=>(
-              <div key={a.id} className="panel">
-                <div style={{fontWeight:700}}>{fmt(a.slot.start_at)} · {a.status}</div>
-              </div>
-            ))}
-          </div>
+        {/* Historial */}
+        <section style={{ marginTop:24 }}>
+          <h2 className="h2" style={{ marginBottom: 10 }}>Historial</h2>
+          {loading ? (
+            <div className="panel">Cargando…</div>
+          ) : history.length === 0 ? (
+            <div className="panel"><div className="muted">Sin registros.</div></div>
+          ) : (
+            <div style={{ display:"grid", gap:14 }}>
+              {history.map(a => (
+                <div key={a.id} className="panel" style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+                  <div>
+                    <div style={{ fontWeight:700 }}>{a.slot?.start_at ? fmt(a.slot.start_at) : "—"}</div>
+                    <div className="muted">Estado: <strong>{a.status}</strong></div>
+                  </div>
+                  <div style={{ display:"flex", gap:8 }}>
+                    <button className="btn btn--ghost" disabled>Recibo</button>
+                    <button className="btn btn--ghost" disabled>Resumen</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
       </div>
     </main>
