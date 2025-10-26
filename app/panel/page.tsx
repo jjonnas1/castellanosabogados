@@ -4,7 +4,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-// Utilidad simple
+// Utilidades
 const fmt = (d: Date) =>
   d.toLocaleString("es-CO", { dateStyle: "medium", timeStyle: "short" });
 
@@ -22,11 +22,13 @@ type AvRow = {
   id: string;
   user_id: string;
   weekday: number | null;
-  start_time: string | null; // "09:00:00"
-  end_time: string | null;   // "17:00:00"
+  start_time: string | null;   // "09:00:00"
+  end_time: string | null;     // "17:00:00"
   date_override: string | null; // "2025-10-26"
   available: boolean;
   note: string | null;
+  created_at?: string | null;
+  updated_at?: string | null;
 };
 
 export default function LawyerPanelPage() {
@@ -261,17 +263,19 @@ function AvailabilityEditor({ userId }: { userId: string }) {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      const { data, error } = await supabase
-        .from<AvRow>("lawyer_availability")
-        .select("*")
-        .order("weekday", { ascending: true });
 
-      if (!error) {
+      const { data, error } = await supabase
+        .from("lawyer_availability")
+        .select("*")
+        .order("weekday", { ascending: true })
+        .returns<AvRow[]>();
+
+      if (!error && data) {
         // Weekly
         const wk: Record<number, AvRow | undefined> = {};
         data
           .filter((r) => r.date_override === null)
-          .forEach((r) => (wk[(r.weekday ?? -1)] = r));
+          .forEach((r) => (wk[r.weekday ?? -1] = r));
 
         const base = WEEKDAYS.map((d) => {
           const row = wk[d.i];
@@ -303,16 +307,13 @@ function AvailabilityEditor({ userId }: { userId: string }) {
     })();
   }, []);
 
-  const canSave = useMemo(
-    () => !loading && !saving,
-    [loading, saving]
-  );
+  const canSave = useMemo(() => !loading && !saving, [loading, saving]);
 
   async function saveAll() {
     if (!canSave) return;
     setSaving(true);
 
-    // 1) Limpiar todas las filas del user y reinsertar (simple y robusto)
+    // 1) Limpiar todas las filas del user y reinsertar
     const del = await supabase
       .from("lawyer_availability")
       .delete()
@@ -362,10 +363,7 @@ function AvailabilityEditor({ userId }: { userId: string }) {
 
   function addOverride() {
     const today = new Date().toISOString().slice(0, 10);
-    setOverrides((arr) => [
-      ...arr,
-      { date: today, available: false, note: "" },
-    ]);
+    setOverrides((arr) => [...arr, { date: today, available: false, note: "" }]);
   }
 
   function removeOverride(i: number) {
@@ -480,7 +478,12 @@ function AvailabilityEditor({ userId }: { userId: string }) {
             <div
               key={i}
               className="panel"
-              style={{ display: "grid", gridTemplateColumns: "160px 140px 1fr 80px", gap: 10, alignItems: "center" }}
+              style={{
+                display: "grid",
+                gridTemplateColumns: "160px 140px 1fr 80px",
+                gap: 10,
+                alignItems: "center",
+              }}
             >
               <input
                 type="date"
@@ -535,11 +538,7 @@ function AvailabilityEditor({ userId }: { userId: string }) {
         <button className="btn btn--ghost" onClick={() => location.reload()}>
           Descartar cambios
         </button>
-        <button
-          className="btn btn--primary"
-          disabled={!canSave}
-          onClick={saveAll}
-        >
+        <button className="btn btn--primary" disabled={!canSave} onClick={saveAll}>
           {saving ? "Guardando…" : "Guardar disponibilidad"}
         </button>
       </div>
