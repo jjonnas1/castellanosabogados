@@ -1,73 +1,54 @@
-// app/cliente/login/page.tsx
 "use client";
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-export default function ClienteLoginPage() {
-  const [email, setEmail] = useState("");
-  const [sending, setSending] = useState(false);
-  const [ok, setOk] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
+export default function ClienteLogin() {
+  const [email, setEmail]       = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading]   = useState(false);
+  const [msg, setMsg]           = useState<string | null>(null);
 
-  async function handleSend(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    setSending(true);
-    setOk(false);
-    setErr(null);
+    setLoading(true); setMsg(null);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) setMsg(error.message);
+    else window.location.href = "/cliente/panel";
+    setLoading(false);
+  }
 
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || ""}/cliente/panel`,
-        data: { role: "client" },
-      },
+  async function handleGoogle() {
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || ""}/cliente/panel` }
     });
-
-    if (error) setErr(error.message);
-    else setOk(true);
-    setSending(false);
+    if (error) setMsg(error.message);
   }
 
   return (
     <main className="section">
-      <div className="wrap" style={{ maxWidth: 520 }}>
-        <h1 className="h2" style={{ marginBottom: 6 }}>Acceso de clientes</h1>
-        <p className="muted" style={{ marginBottom: 16 }}>
-          Te enviaremos un enlace mágico a tu correo para entrar a tu panel.
-        </p>
-
-        <form onSubmit={handleSend} className="panel" style={{ display:"grid", gap:12 }}>
-          <label>
-            Correo
-            <input
-              type="email"
-              required
-              placeholder="tucorreo@ejemplo.com"
-              value={email}
-              onChange={(e)=>setEmail(e.target.value)}
-            />
+      <div className="wrap" style={{ maxWidth: 480 }}>
+        <h1 className="h2">Iniciar sesión</h1>
+        <form onSubmit={handleLogin} className="panel" style={{ display:"grid", gap:12 }}>
+          <label>Correo
+            <input type="email" value={email} onChange={(e)=>setEmail(e.target.value)} required />
           </label>
-
-          <button className="btn btn--primary" disabled={sending}>
-            {sending ? "Enviando…" : "Recibir enlace de acceso"}
+          <label>Contraseña
+            <input type="password" value={password} onChange={(e)=>setPassword(e.target.value)} required />
+          </label>
+          <button className="btn btn--primary" disabled={loading}>
+            {loading ? "Entrando..." : "Entrar"}
           </button>
-
-          {ok && (
-            <div className="panel" style={{ background:"#f6ffed", borderColor:"#c6f6d5" }}>
-              ✅ Revisa tu correo y abre el enlace para ingresar.
-            </div>
-          )}
-          {err && (
-            <div className="panel" style={{ background:"#fff5f5", borderColor:"#fed7d7" }}>
-              ❌ {err}
-            </div>
-          )}
+          <button type="button" className="btn btn--ghost" onClick={handleGoogle} disabled={loading}>
+            Continuar con Google
+          </button>
         </form>
 
-        <p style={{ marginTop: 10 }}>
-          ¿Eres abogado? <a href="/login">Inicia sesión aquí</a>.
-        </p>
+        {msg && <div className="panel" style={{ marginTop:12 }}>{msg}</div>}
+
+        <p style={{ marginTop:12 }}>¿No tienes cuenta? <a href="/cliente/registro">Regístrate</a>.</p>
       </div>
     </main>
   );
