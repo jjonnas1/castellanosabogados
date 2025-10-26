@@ -1,112 +1,96 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
-const AREAS = ["Penal", "Laboral", "Civil", "Familia", "Administrativo"];
+type Pref = { area: string; whenISO: string; };
 
 export default function AgendaClientePage() {
   const [email, setEmail] = useState("");
-  const [area, setArea] = useState(AREAS[0]);
-  const [pref, setPref] = useState("Hoy 6:00 pm");
-  const [sent, setSent] = useState(false);
-  const [err, setErr] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [area, setArea]   = useState("Penal");
+  const [when, setWhen]   = useState<string>(() => {
+    const t = new Date(Date.now()+ 3*60*60*1000); // default +3h
+    t.setMinutes( t.getMinutes() - (t.getMinutes()%20) ); // múltiplos de 20
+    return t.toISOString().slice(0,16); // yyyy-mm-ddThh:mm
+  });
+  const [loading,setLoading]=useState(false);
+  const [err,setErr]=useState<string|null>(null);
 
-  async function handleSendLink(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setErr(null);
+  // si está logueado, autocompleta correo
+  useEffect(()=>{ supabase.auth.getUser().then(({data})=>{
+    if (data.user?.email) setEmail(data.user.email);
+  });},[]);
 
-    // Guardamos la preferencia en localStorage (el panel puede leerla y
-    // mostrarla arriba mientras se asigna abogado)
-    try {
-      localStorage.setItem(
-        "ca_client_pref",
-        JSON.stringify({ area, pref, when: Date.now() })
-      );
-    } catch {}
+  async function enviar() {
+    setLoading(true); setErr(null);
+    // exige sesión del cliente
+    const { data:{user} } = await supabase.auth.getUser();
+    if (!user) { window.location.href="/cliente/login"; return; }
 
-    // Enviar enlace mágico de acceso al panel del cliente
-    try {
-      const origin =
-        typeof window !== "undefined" ? window.location.origin : "";
-      const emailRedirectTo = `${origin}/cliente/panel`;
+    // 1) crear preintake con hold del slot (slot_ts unique)
+    const slotTs = new Date(when);
+    const { data: pre, error: ePre } = await supabase
+      .from("preintakes")
+      .insert({
+        appointment_id: "00000000-0000-0000-0000-000000000000", // marcador temporal
+        topic: area,
+        description: "",
+        attachments: [],
+        slot_ts: slotTs.toISOString()
+      })
+      .select("id")
+      .single();
 
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo },
-      });
+    if (ePre) { setErr("Ese horario ya fue tomado. Elige otro."); setLoading(false); return; }
 
-      if (error) throw error;
-      setSent(true);
-    } catch (e: any) {
-      setErr(e?.message || "No pudimos enviar el enlace. Intenta de nuevo.");
-    } finally {
-      setLoading(false);
-    }
+    // 2) pedir URL de pago (Wompi test) – API interna
+    const res = await fetch("/api/wompi/checkout",{
+      method:"POST",
+      headers:{ "content-type":"application/json" },
+      body: JSON.stringify({
+        preintake_id: pre!.id,
+        amount_cop: 70000, // tarifa base demo
+        customer_email: email || user.email,
+        description: `Asesoría ${area} (${new Date(when).toLocaleString("es-CO")})`,
+      })
+    });
+    const json = await res.json();
+    if (!json.ok) { setErr(json.error || "No pudimos iniciar el pago."); setLoading(false); return; }
+
+    // 3) redirigir a pasarela
+    window.location.href = json.checkout_url;
   }
 
   return (
     <main className="section">
       <div className="wrap" style={{ maxWidth: 720 }}>
         <h1 className="h2">Agenda tu asesoría</h1>
-        <p className="muted" style={{ marginBottom: 18 }}>
-          Deja tu correo y preferencias. Te enviaremos un{" "}
-          <strong>enlace de acceso</strong> a tu panel para seguir el proceso.
-        </p>
+        <p className="muted">Crea tu cuenta / inicia sesión, elige tema y horario. Te llevamos al pago y listo.</p>
 
-        {!sent ? (
-          <form onSubmit={handleSendLink} className="panel" style={{ display: "grid", gap: 12 }}>
-            <div style={{ display: "grid", gap: 6 }}>
-              <label><strong>Tu correo</strong></label>
-              <input
-                type="email"
-                required
-                placeholder="tucorreo@ejemplo.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+        <div className="panel" style={{ display:"grid", gap:14 }}>
+          <label>Tu correo
+            <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="tucorreo@ejemplo.com"/>
+          </label>
 
-            <div style={{ display: "grid", gap: 6 }}>
-              <label><strong>Tema / Área</strong></label>
-              <select value={area} onChange={(e) => setArea(e.target.value)}>
-                {AREAS.map((a) => (
-                  <option key={a} value={a}>{a}</option>
-                ))}
-              </select>
-            </div>
+          <label>Tema / Área
+            <select value={area} onChange={e=>setArea(e.target.value)}>
+              <option>Penal</option><option>Laboral</option><option>Civil</option><option>Familia</option>
+            </select>
+          </label>
 
-            <div style={{ display: "grid", gap: 6 }}>
-              <label><strong>Horario preferido</strong></label>
-              <select value={pref} onChange={(e) => setPref(e.target.value)}>
-                <option>Hoy 6:00 pm</option>
-                <option>Mañana 9:00 am</option>
-                <option>Mañana 2:00 pm</option>
-                <option>Esta semana</option>
-              </select>
-            </div>
+          <label>Horario (mínimos de 20 min)
+            <input type="datetime-local" value={when} onChange={e=>setWhen(e.target.value)} step={1200}/>
+          </label>
 
-            <div style={{ display: "flex", gap: 10 }}>
-              <button className="btn btn--primary" disabled={loading}>
-                {loading ? "Enviando enlace…" : "Enviar solicitud"}
-              </button>
-              <a href="/" className="btn btn--ghost">Volver al inicio</a>
-            </div>
-
-            {err && (
-              <div className="panel" style={{ background: "#fff5f5", borderColor: "#fed7d7" }}>
-                ❌ {err}
-              </div>
-            )}
-          </form>
-        ) : (
-          <div className="panel" style={{ background: "#f6ffed", borderColor: "#c6f6d5" }}>
-            ✅ Te enviamos un enlace a <strong>{email}</strong>. Ábrelo para entrar a tu panel
-            y completar la agenda.
+          <div style={{ display:"flex", gap:10 }}>
+            <button className="btn btn--primary" onClick={enviar} disabled={loading}>
+              {loading ? "Redirigiendo al pago…" : "Enviar solicitud"}
+            </button>
+            <a className="btn btn--ghost" href="/">Volver al inicio</a>
           </div>
-        )}
+
+          {err && <div className="panel" style={{background:"#fff5f5",borderColor:"#fed7d7"}}>❌ {err}</div>}
+        </div>
       </div>
     </main>
   );
