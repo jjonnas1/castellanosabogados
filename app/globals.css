@@ -188,3 +188,13 @@ input,select,textarea{
   background:#fff;padding:.8rem .9rem;font:inherit;color:var(--ink)
 }
 input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 4px rgba(99,102,241,.18)}
+.time-input {
+  min-width: 140px;
+  font-variant-numeric: tabular-nums;
+  padding: .55rem .7rem;
+}
+@media (max-width: 640px) {
+  .weekly-row { grid-template-columns: 1fr 110px 1fr; }
+  .time-input { min-width: 120px; }
+}
+.badge { line-height: 1; }
