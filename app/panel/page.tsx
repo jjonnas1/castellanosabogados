@@ -30,9 +30,9 @@ type AvRow = {
 
 type PartialBlackout = {
   id?: string;
-  date: string;       // "2025-10-27"
-  start: string;      // "09:00"
-  end: string;        // "11:00"
+  date: string;  // "YYYY-MM-DD"
+  start: string; // "HH:mm"
+  end: string;   // "HH:mm"
   reason: string;
 };
 
@@ -257,39 +257,44 @@ function AvailabilityEditor({ userId }: { userId: string }) {
       setLoading(true);
 
       // 1) reglas + overrides (día completo)
-      const { data: lav, error } = await supabase
-        .from<AvRow>("lawyer_availability")
+      const { data, error } = await supabase
+        .from("lawyer_availability")
         .select("*")
         .order("weekday", { ascending: true });
 
-      if (!error && lav) {
+      const rows = (data ?? []) as AvRow[];
+
+      if (!error) {
         const wk: Record<number, AvRow | undefined> = {};
-        lav.filter(r => r.date_override === null).forEach(r => (wk[r.weekday ?? -1] = r));
-        const base = WEEKDAYS.map(d => {
+        rows
+          .filter((r) => r.date_override === null)
+          .forEach((r) => (wk[r.weekday ?? -1] = r));
+
+        const base = WEEKDAYS.map((d) => {
           const row = wk[d.i];
           return {
             id: row?.id,
             weekday: d.i,
-            start: row?.start_time?.slice(0,5) || "09:00",
-            end: row?.end_time?.slice(0,5) || "17:00",
+            start: row?.start_time?.slice(0, 5) || "09:00",
+            end: row?.end_time?.slice(0, 5) || "17:00",
             enabled: !!row,
           };
         });
         setWeekly(base);
 
-        const ov = lav
-          .filter(r => r.date_override !== null)
-          .map(r => ({
+        const ov = rows
+          .filter((r) => r.date_override !== null)
+          .map((r) => ({
             id: r.id,
             date: r.date_override!,
             available: r.available,
             note: r.note || "",
           }))
-          .sort((a,b) => a.date.localeCompare(b.date));
+          .sort((a, b) => a.date.localeCompare(b.date));
         setOverrides(ov);
       }
 
-      // 2) bloqueos parciales existentes (si quieres listarlos, opcional)
+      // 2) bloqueos parciales existentes (opcional listarlos)
       const { data: meLawyer } = await supabase
         .from("lawyers")
         .select("id")
@@ -309,10 +314,10 @@ function AvailabilityEditor({ userId }: { userId: string }) {
             const de = new Date(b.end_at);
             return {
               id: b.id,
-              date: ds.toISOString().slice(0,10),
-              start: ds.toISOString().slice(11,16),
-              end:   de.toISOString().slice(11,16),
-              reason: b.reason || ""
+              date: ds.toISOString().slice(0, 10),
+              start: ds.toISOString().slice(11, 16),
+              end: de.toISOString().slice(11, 16),
+              reason: b.reason || "",
             };
           });
           setPartials(mapped);
@@ -351,8 +356,8 @@ function AvailabilityEditor({ userId }: { userId: string }) {
     }
 
     const weeklyRows = weekly
-      .filter(w => w.enabled)
-      .map(w => ({
+      .filter((w) => w.enabled)
+      .map((w) => ({
         user_id: userId,
         weekday: w.weekday,
         start_time: w.start + ":00",
@@ -362,14 +367,14 @@ function AvailabilityEditor({ userId }: { userId: string }) {
         note: null,
       }));
 
-    const overrideRows = overrides.map(o => ({
-        user_id: userId,
-        weekday: null,
-        start_time: null,
-        end_time: null,
-        available: o.available,
-        date_override: o.date,
-        note: o.note || null,
+    const overrideRows = overrides.map((o) => ({
+      user_id: userId,
+      weekday: null,
+      start_time: null,
+      end_time: null,
+      available: o.available,
+      date_override: o.date,
+      note: o.note || null,
     }));
 
     const insLav = await supabase.from("lawyer_availability").insert([...weeklyRows, ...overrideRows]);
@@ -379,9 +384,7 @@ function AvailabilityEditor({ userId }: { userId: string }) {
       return;
     }
 
-    // 2) Guardar bloqueos parciales
-    //    Primero borramos los existentes y reinsertamos lo que hay en la UI
-    //    (para simplificar; si prefieres diff fino, podemos hacerlo luego)
+    // 2) Guardar bloqueos parciales (borramos y reinsertamos)
     const delBlk = await supabase.from("lawyer_blackouts").delete().eq("lawyer_id", meLawyer.id);
     if (delBlk.error) {
       alert("Error guardando bloqueos parciales (limpieza).");
@@ -390,16 +393,15 @@ function AvailabilityEditor({ userId }: { userId: string }) {
     }
 
     if (partials.length > 0) {
-      const toInsert = partials.map(p => ({
+      const toInsert = partials.map((p) => ({
         lawyer_id: meLawyer.id,
-        start_at: new Date(`${p.date}T${p.start}:00`), // local -> UTC según tz del server
-        end_at:   new Date(`${p.date}T${p.end}:00`),
+        start_at: new Date(`${p.date}T${p.start}:00`),
+        end_at: new Date(`${p.date}T${p.end}:00`),
         reason: p.reason || null,
       }));
 
       const insBlk = await supabase.from("lawyer_blackouts").insert(toInsert);
       if (insBlk.error) {
-        // Mensaje del trigger si pisa citas asignadas
         alert(insBlk.error.message || "No pudimos guardar bloqueos parciales.");
         setSaving(false);
         return;
@@ -412,18 +414,18 @@ function AvailabilityEditor({ userId }: { userId: string }) {
 
   function addOverride() {
     const today = new Date().toISOString().slice(0, 10);
-    setOverrides(arr => [...arr, { date: today, available: false, note: "" }]);
+    setOverrides((arr) => [...arr, { date: today, available: false, note: "" }]);
   }
   function removeOverride(i: number) {
-    setOverrides(arr => arr.filter((_, idx) => idx !== i));
+    setOverrides((arr) => arr.filter((_, idx) => idx !== i));
   }
 
   function addPartial() {
-    const today = new Date().toISOString().slice(0,10);
-    setPartials(arr => [...arr, { date: today, start: "09:00", end: "10:00", reason: "" }]);
+    const today = new Date().toISOString().slice(0, 10);
+    setPartials((arr) => [...arr, { date: today, start: "09:00", end: "10:00", reason: "" }]);
   }
   function removePartial(i: number) {
-    setPartials(arr => arr.filter((_, idx) => idx !== i));
+    setPartials((arr) => arr.filter((_, idx) => idx !== i));
   }
 
   if (loading) {
