@@ -17,10 +17,10 @@ export default function AgendaPage() {
   const [areas, setAreas] = useState<Area[]>([]);
   const [area, setArea] = useState<string>('');
   const [slot, setSlot] = useState('Hoy 6:00 pm');
+  const [note, setNote] = useState(''); // 🆕 resumen del caso
   const [sending, setSending] = useState(false);
   const [status, setStatus] = useState<null | { ok: boolean; msg: string }>(null);
 
-  // 1) Cargar sesión
   useEffect(() => {
     (async () => {
       const { data } = await supabase.auth.getSession();
@@ -35,7 +35,6 @@ export default function AgendaPage() {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  // 2) Cargar áreas habilitadas (solo si hay sesión)
   useEffect(() => {
     if (!session) return;
     (async () => {
@@ -55,13 +54,9 @@ export default function AgendaPage() {
     })();
   }, [session]);
 
-  // 3) Enviar solicitud (bloquea si no hay sesión)
   async function handleSend() {
     if (!session) {
-      setStatus({
-        ok: false,
-        msg: 'Primero inicia sesión o regístrate para agendar.',
-      });
+      setStatus({ ok: false, msg: 'Primero inicia sesión o regístrate.' });
       return;
     }
     setSending(true);
@@ -76,12 +71,16 @@ export default function AgendaPage() {
           message: `Nueva solicitud de agenda:
 - Área / Tema: ${area}
 - Horario preferido: ${slot}
-- Correo del usuario: ${email}`,
+- Correo del usuario: ${email}
+- Resumen del caso:
+${note || '(sin comentario)'}
+`,
         }),
       });
       const data = await res.json();
       if (!res.ok || !data?.ok) throw new Error(data?.error || 'No se pudo enviar.');
       setStatus({ ok: true, msg: 'Solicitud enviada. Te escribiremos al correo.' });
+      setNote('');
     } catch (e: any) {
       setStatus({ ok: false, msg: e?.message || 'Error enviando la solicitud.' });
     } finally {
@@ -91,22 +90,17 @@ export default function AgendaPage() {
 
   if (!ready) return <main className="main section"><div className="wrap">Cargando…</div></main>;
 
-  // 🔒 Sin sesión: NO mostrar el formulario
+  // 🔒 Sin sesión no mostramos el formulario
   if (!session) {
     return (
       <main className="main section">
         <div className="wrap" style={{ maxWidth: 520 }}>
           <h1 className="h1">Agenda tu asesoría</h1>
-          <p className="muted">
-            Para agendar y ver tus citas debes iniciar sesión o registrarte.
-          </p>
+          <p className="muted">Para agendar y ver tus citas debes iniciar sesión o registrarte.</p>
           <div className="panel" style={{ display: 'grid', gap: 12 }}>
-            <button
-              className="btn btn--primary"
-              onClick={() => (window.location.href = '/cliente/acceso')}
-            >
+            <a href="/cliente/acceso" className="btn btn--primary">
               Iniciar sesión / Registrarme
-            </button>
+            </a>
             <a href="/" className="btn btn--ghost">Volver al inicio</a>
           </div>
         </div>
@@ -114,14 +108,13 @@ export default function AgendaPage() {
     );
   }
 
-  // ✅ Con sesión: mostrar formulario
   return (
     <main className="main section">
       <div className="wrap">
         <h1 className="h1">Agenda tu asesoría</h1>
         <p className="muted">Selecciona el área disponible y tu horario preferido.</p>
 
-        <div className="panel" style={{ display: 'grid', gap: 12, maxWidth: 520 }}>
+        <div className="panel" style={{ display: 'grid', gap: 12, maxWidth: 620 }}>
           <label>
             Tu correo
             <input type="email" value={email} readOnly />
@@ -147,6 +140,16 @@ export default function AgendaPage() {
               </select>
             </label>
           </div>
+
+          <label>
+            Cuéntanos brevemente tu caso (opcional)
+            <textarea
+              placeholder="Ej.: Tengo un proceso por ... Necesito orientación sobre ..."
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              rows={5}
+            />
+          </label>
 
           <div style={{ display: 'flex', gap: 8 }}>
             <button className="btn btn--primary" onClick={handleSend} disabled={sending || !area}>
