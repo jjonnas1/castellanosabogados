@@ -1,143 +1,79 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClient, Session } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 
-// Supabase client directo (evita importar tu wrapper para no romper nada)
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 export default function ClienteAccesoPage() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [mode, setMode] = useState<'login'|'signup'>('login');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState<string | null>(null);
+  const [pass, setPass] = useState('');
+  const [modo, setModo] = useState<'login' | 'signup'>('signup');
+  const [status, setStatus] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session ?? null));
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
-    return () => sub.subscription.unsubscribe();
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) window.location.href = '/cliente/panel';
+    });
   }, []);
 
-  useEffect(() => {
-    if (session) {
-      // Si ya está logueado → enviar a Agenda
-      window.location.href = '/agenda';
-    }
-  }, [session]);
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus(null);
 
-  async function handleEmailPass() {
-    setMsg(null);
-    setLoading(true);
-    try {
-      if (mode === 'login') {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.auth.signUp({ email, password });
-        if (error) throw error;
-        setMsg('Cuenta creada. Revisa tu correo para confirmar.');
+    if (modo === 'signup') {
+      const { data, error } = await supabase.auth.signUp({ email, password: pass });
+      if (error) return setStatus(error.message);
+
+      // crea profile (rol=client) si no existe
+      if (data.user?.id) {
+        await supabase.from('profiles').upsert({
+          id: data.user.id,
+          email,
+          role: 'client',
+          full_name: null,
+          phone: null,
+        });
       }
-    } catch (e: any) {
-      setMsg(e?.message || 'No se pudo procesar la solicitud.');
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleGoogle() {
-    setMsg(null);
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/agenda`,
-        },
-      });
-      if (error) throw error;
-    } catch (e: any) {
-      setMsg(e?.message || 'No se pudo iniciar con Google.');
+      setStatus('Registro enviado. Revisa tu correo para confirmar la cuenta.');
+    } else {
+      const { error } = await supabase.auth.signInWithPassword({ email, password: pass });
+      if (error) return setStatus(error.message);
+      window.location.href = '/cliente/panel';
     }
   }
 
   return (
     <main className="section">
-      <div className="wrap" style={{ maxWidth: 520 }}>
-        <h1 className="h1">Acceso de clientes</h1>
-        <p className="muted" style={{ marginBottom: 16 }}>
-          Crea tu cuenta o inicia sesión para agendar y ver tus citas.
-        </p>
+      <div className="wrap" style={{ maxWidth: 480 }}>
+        <h1 className="h2">{modo === 'signup' ? 'Crear cuenta' : 'Iniciar sesión'}</h1>
+        <p className="muted">Acceso para clientes (ver/gestionar citas y pagos).</p>
 
-        <div className="panel" style={{ display: 'grid', gap: 12 }}>
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button
-              className="btn"
-              onClick={() => setMode('login')}
-              style={{
-                background: mode === 'login' ? 'var(--brand-600)' : '#fff',
-                color: mode === 'login' ? '#fff' : 'var(--ink)',
-                border: '1px solid #e6ebf8',
-                borderRadius: 999,
-              }}
-            >
-              Iniciar sesión
-            </button>
-            <button
-              className="btn"
-              onClick={() => setMode('signup')}
-              style={{
-                background: mode === 'signup' ? 'var(--brand-600)' : '#fff',
-                color: mode === 'signup' ? '#fff' : 'var(--ink)',
-                border: '1px solid #e6ebf8',
-                borderRadius: 999,
-              }}
-            >
-              Registrarme
-            </button>
-          </div>
-
+        <form onSubmit={handleSubmit} className="panel" style={{ display: 'grid', gap: 12 }}>
           <label>
             Correo
-            <input
-              type="email"
-              placeholder="tucorreo@ejemplo.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
-            />
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
           </label>
-
           <label>
             Contraseña
-            <input
-              type="password"
-              placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-            />
+            <input type="password" value={pass} onChange={e => setPass(e.target.value)} required />
           </label>
+          <button className="btn btn--primary" type="submit">
+            {modo === 'signup' ? 'Registrarme' : 'Entrar'}
+          </button>
+          <button
+            className="btn btn--ghost"
+            type="button"
+            onClick={() => setModo(m => (m === 'signup' ? 'login' : 'signup'))}
+          >
+            {modo === 'signup' ? '¿Ya tienes cuenta? Inicia sesión' : '¿Nuevo? Crea tu cuenta'}
+          </button>
 
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button className="btn btn--primary" onClick={handleEmailPass} disabled={loading || !email || !password}>
-              {loading ? 'Procesando…' : mode === 'login' ? 'Entrar' : 'Crear cuenta'}
-            </button>
-            <button className="btn btn--ghost" onClick={handleGoogle}>
-              Continuar con Google
-            </button>
-          </div>
-
-          {msg && (
-            <div className="panel" style={{ background: '#fff7e6', borderColor: '#ffe7ba' }}>
-              {msg}
-            </div>
-          )}
-        </div>
+          {status && <div className="panel" style={{ background: '#fff5f5', borderColor: '#fed7d7' }}>{status}</div>}
+        </form>
       </div>
     </main>
   );
