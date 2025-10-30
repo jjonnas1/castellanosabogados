@@ -66,10 +66,16 @@ export default function AgendaPage() {
   }
 
   async function enviarSolicitud() {
+    if (!session?.user?.email) {
+      setStatus({ ok: false, msg: 'Error: sesión no válida. Vuelve a iniciar sesión.' });
+      return;
+    }
+
     setLoading(true);
     setStatus(null);
+
     try {
-      const email = session.user.email || 'sin-correo';
+      const email = session.user.email;
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
