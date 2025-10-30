@@ -1,62 +1,70 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { createClient, Session } from '@supabase/supabase-js';
 
-// Configura conexión Supabase
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-type Area = {
-  slug: string;
-  name: string;
-};
+type Area = { slug: string; name: string };
 
 export default function AgendaPage() {
+  const [ready, setReady] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
   const [email, setEmail] = useState('');
   const [areas, setAreas] = useState<Area[]>([]);
-  const [area, setArea] = useState('');
+  const [area, setArea] = useState<string>('');
   const [slot, setSlot] = useState('Hoy 6:00 pm');
-  const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
   const [status, setStatus] = useState<null | { ok: boolean; msg: string }>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [ready, setReady] = useState(false);
 
-  // 🟢 Cargar sesión actual
+  // 1) Cargar sesión
   useEffect(() => {
-    async function loadSession() {
+    (async () => {
       const { data } = await supabase.auth.getSession();
-      setSession(data.session);
-      setEmail(data.session?.user?.email || '');
+      setSession(data.session ?? null);
+      setEmail(data.session?.user?.email ?? '');
       setReady(true);
-    }
-    loadSession();
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
+    })();
+    const { data: sub } = supabase.auth.onAuthStateChange((_evt, s) => {
+      setSession(s);
+      setEmail(s?.user?.email ?? '');
+    });
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  // 🟢 Cargar áreas activas desde Supabase
+  // 2) Cargar áreas habilitadas (solo si hay sesión)
   useEffect(() => {
-    async function loadAreas() {
+    if (!session) return;
+    (async () => {
       const { data, error } = await supabase
         .from('service_areas')
-        .select('slug, name')
+        .select('slug,name')
         .eq('enabled', true)
         .order('sort', { ascending: true });
 
       if (!error && data?.length) {
         setAreas(data);
         setArea(data[0].slug);
+      } else {
+        setAreas([]);
+        setArea('');
       }
-    }
-    loadAreas();
-  }, []);
+    })();
+  }, [session]);
 
-  // 🟢 Enviar solicitud
+  // 3) Enviar solicitud (bloquea si no hay sesión)
   async function handleSend() {
-    setLoading(true);
+    if (!session) {
+      setStatus({
+        ok: false,
+        msg: 'Primero inicia sesión o regístrate para agendar.',
+      });
+      return;
+    }
+    setSending(true);
     setStatus(null);
     try {
       const res = await fetch('/api/contact', {
@@ -71,47 +79,47 @@ export default function AgendaPage() {
 - Correo del usuario: ${email}`,
         }),
       });
-
       const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data?.error || 'No se pudo enviar.');
-
+      if (!res.ok || !data?.ok) throw new Error(data?.error || 'No se pudo enviar.');
       setStatus({ ok: true, msg: 'Solicitud enviada. Te escribiremos al correo.' });
-    } catch (err: any) {
-      setStatus({ ok: false, msg: err?.message || 'Error enviando la solicitud.' });
+    } catch (e: any) {
+      setStatus({ ok: false, msg: e?.message || 'Error enviando la solicitud.' });
     } finally {
-      setLoading(false);
+      setSending(false);
     }
   }
 
-  if (!ready) return <div className="wrap">Cargando…</div>;
+  if (!ready) return <main className="main section"><div className="wrap">Cargando…</div></main>;
 
-  // 🟡 Si no hay sesión, pedir login
-  if (!session)
+  // 🔒 Sin sesión: NO mostrar el formulario
+  if (!session) {
     return (
       <main className="main section">
         <div className="wrap" style={{ maxWidth: 520 }}>
           <h1 className="h1">Agenda tu asesoría</h1>
           <p className="muted">
-            Debes iniciar sesión o registrarte para poder agendar y ver tus citas.
+            Para agendar y ver tus citas debes iniciar sesión o registrarte.
           </p>
-          <button
-            className="btn btn--primary"
-            onClick={() => (window.location.href = '/cliente/acceso')}
-          >
-            Iniciar sesión / Registrarme
-          </button>
+          <div className="panel" style={{ display: 'grid', gap: 12 }}>
+            <button
+              className="btn btn--primary"
+              onClick={() => (window.location.href = '/cliente/acceso')}
+            >
+              Iniciar sesión / Registrarme
+            </button>
+            <a href="/" className="btn btn--ghost">Volver al inicio</a>
+          </div>
         </div>
       </main>
     );
+  }
 
-  // 🟢 Si está logueado, mostrar formulario
+  // ✅ Con sesión: mostrar formulario
   return (
     <main className="main section">
       <div className="wrap">
         <h1 className="h1">Agenda tu asesoría</h1>
-        <p className="muted">
-          Selecciona el área legal disponible y un horario preferido.
-        </p>
+        <p className="muted">Selecciona el área disponible y tu horario preferido.</p>
 
         <div className="panel" style={{ display: 'grid', gap: 12, maxWidth: 520 }}>
           <label>
@@ -122,11 +130,9 @@ export default function AgendaPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <label>
               Tema / Área
-              <select value={area} onChange={e => setArea(e.target.value)}>
+              <select value={area} onChange={e => setArea(e.target.value)} disabled={!areas.length}>
                 {areas.map(a => (
-                  <option key={a.slug} value={a.slug}>
-                    {a.name}
-                  </option>
+                  <option key={a.slug} value={a.slug}>{a.name}</option>
                 ))}
               </select>
             </label>
@@ -142,17 +148,11 @@ export default function AgendaPage() {
             </label>
           </div>
 
-          <div className="form-actions" style={{ display: 'flex', gap: 8 }}>
-            <button
-              className="btn btn--primary"
-              onClick={handleSend}
-              disabled={loading || !email}
-            >
-              {loading ? 'Enviando…' : 'Enviar solicitud'}
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button className="btn btn--primary" onClick={handleSend} disabled={sending || !area}>
+              {sending ? 'Enviando…' : 'Enviar solicitud'}
             </button>
-            <a href="/" className="btn btn--ghost">
-              Volver al inicio
-            </a>
+            <a href="/" className="btn btn--ghost">Volver al inicio</a>
           </div>
 
           {status && (
