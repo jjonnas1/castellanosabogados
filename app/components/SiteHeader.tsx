@@ -1,12 +1,16 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
-import type { Session } from '@supabase/supabase-js';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { createClient, Session } from "@supabase/supabase-js";
 
 type Item = { href: string; label: string };
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 function isActivePath(pathname: string, href: string, exact?: boolean) {
   return exact ? pathname === href : pathname.startsWith(href);
@@ -24,8 +28,8 @@ function NavLink({
   return (
     <Link
       href={href}
-      className={active ? 'active' : undefined}
-      style={{ padding: '8px 14px', borderRadius: 12 }}
+      className={active ? "active" : undefined}
+      style={{ padding: "8px 14px", borderRadius: 12 }}
     >
       {label}
     </Link>
@@ -42,7 +46,7 @@ function DropMenu({
   active?: boolean;
 }) {
   return (
-    <details className={`dropdown ${active ? 'active' : ''}`}>
+    <details className={`dropdown ${active ? "active" : ""}`}>
       <summary className="dropdown-trigger">
         {label}
         <span className="chev">▾</span>
@@ -60,115 +64,93 @@ function DropMenu({
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const router = useRouter();
 
   const [session, setSession] = useState<Session | null>(null);
-  const [authReady, setAuthReady] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
-  // Cargar sesión actual y escuchar cambios
   useEffect(() => {
-    let mounted = true;
-
     (async () => {
       const { data } = await supabase.auth.getSession();
-      if (mounted) {
-        setSession(data.session ?? null);
-        setAuthReady(true);
-      }
+      setSession(data.session ?? null);
+      setLoaded(true);
     })();
-
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
-      setSession(s ?? null);
-    });
-
-    return () => {
-      mounted = false;
-      sub.subscription.unsubscribe();
-    };
+    const { data: sub } = supabase.auth.onAuthStateChange((_evt, s) =>
+      setSession(s)
+    );
+    return () => sub.subscription.unsubscribe();
   }, []);
 
-  // CTA: si hay sesión → agenda; si no → acceso cliente
-  const handleAgendar = () => {
-    if (!authReady) return;
-    if (session) router.push('/agenda');
-    else router.push('/cliente/acceso');
-  };
-
-  // Menú Clientes (enfoque claro a login/panel)
   const clientesItems: Item[] = [
-    { href: '/cliente/acceso', label: 'Iniciar sesión / Registrarme' },
-    { href: '/cliente/panel', label: 'Mi panel' },
+    { href: "/cliente/acceso", label: "Acceso / Panel de cliente" },
   ];
 
-  // Menú Abogados
   const abogadosItems: Item[] = [
-    { href: '/registro/abogado', label: 'Registro de abogados' },
-    { href: '/login', label: 'Acceso / Iniciar sesión' },
-    { href: '/panel', label: 'Mi panel' },
+    { href: "/registro/abogado", label: "Registro de abogados" },
+    { href: "/login", label: "Acceso / Iniciar sesión" },
+    { href: "/panel", label: "Mi panel" },
   ];
+
+  // HREF del CTA principal según sesión
+  const ctaHref = !loaded
+    ? "/agenda"
+    : session
+    ? "/agenda"
+    : "/cliente/acceso";
 
   return (
     <header className="sitebar">
       <div className="wrap nav">
-        {/* IZQUIERDA: logo + navegación principal */}
-        <div className="nav-left" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        {/* IZQUIERDA */}
+        <div className="nav-left">
           <Link href="/" className="logo" aria-label="Castellanos Abogados">
-            <strong>Castellanos</strong>{' '}
+            <strong>Castellanos</strong>{" "}
             <span style={{ opacity: 0.7 }}>Abogados</span>
           </Link>
 
-          <nav aria-label="Principal" className="nav-main" style={{ display: 'flex', gap: 6 }}>
+          <nav aria-label="Principal" className="nav-main">
             <NavLink
               href="/"
               label="Inicio"
-              active={isActivePath(pathname, '/', true)}
+              active={isActivePath(pathname, "/", true)}
             />
             <NavLink
               href="/servicios"
               label="Servicios"
-              active={isActivePath(pathname, '/servicios')}
+              active={isActivePath(pathname, "/servicios")}
             />
             <NavLink
               href="/contacto"
               label="Contacto"
-              active={isActivePath(pathname, '/contacto')}
+              active={isActivePath(pathname, "/contacto")}
             />
+
             <DropMenu
               label="Clientes"
               items={clientesItems}
-              active={
-                isActivePath(pathname, '/cliente') ||
-                isActivePath(pathname, '/clientes')
-              }
+              active={isActivePath(pathname, "/cliente")}
             />
             <DropMenu
               label="Abogados"
               items={abogadosItems}
               active={
-                isActivePath(pathname, '/abogados') ||
-                isActivePath(pathname, '/registro') ||
-                isActivePath(pathname, '/panel') ||
-                isActivePath(pathname, '/login')
+                isActivePath(pathname, "/abogados") ||
+                isActivePath(pathname, "/registro") ||
+                isActivePath(pathname, "/panel") ||
+                isActivePath(pathname, "/login")
               }
             />
           </nav>
         </div>
 
-        {/* DERECHA: CTAs destacados */}
-        <div className="nav-right" style={{ display: 'flex', gap: 8 }}>
+        {/* DERECHA: CTAs */}
+        <div className="nav-right">
           <Link href="/trabaja" className="btn btn--ghost">
             Trabaja con nosotros
           </Link>
-          <button
-            type="button"
-            className="btn btn--primary"
-            onClick={handleAgendar}
-            disabled={!authReady}
-            aria-disabled={!authReady}
-            title={authReady ? 'Agendar asesoría' : 'Cargando sesión…'}
-          >
+          {/* Siempre visible; decide a dónde envía según sesión */}
+          <Link href={ctaHref} className="btn btn--primary">
             Agendar asesoría
-          </button>
+          </Link>
         </div>
       </div>
     </header>
