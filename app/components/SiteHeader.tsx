@@ -1,133 +1,153 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { createClient, Session } from '@supabase/supabase-js';
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+type Item = { href: string; label: string };
+
+function isActivePath(pathname: string, href: string, exact?: boolean) {
+  return exact ? pathname === href : pathname.startsWith(href);
+}
+
+function NavLink({
+  href,
+  label,
+  active,
+}: {
+  href: string;
+  label: string;
+  active?: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      className={active ? "active" : undefined}
+      style={{ padding: "8px 14px", borderRadius: 12 }}
+    >
+      {label}
+    </Link>
+  );
+}
+
+function DropMenu({
+  label,
+  items,
+  active,
+}: {
+  label: string;
+  items: Item[];
+  active?: boolean;
+}) {
+  return (
+    <details className={`dropdown ${active ? "active" : ""}`}>
+      <summary className="dropdown-trigger">
+        {label}
+        <span className="chev">▾</span>
+      </summary>
+      <div className="dropdown-panel">
+        {items.map((it) => (
+          <Link key={it.href} href={it.href} className="dropdown-item">
+            {it.label}
+          </Link>
+        ))}
+      </div>
+    </details>
+  );
+}
 
 export default function SiteHeader() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [ready, setReady] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const [hasSession, setHasSession] = useState<boolean>(false);
 
   useEffect(() => {
     let mounted = true;
-
-    (async () => {
-      const { data } = await supabase.auth.getSession();
-      if (mounted) {
-        setSession(data.session ?? null);
-        setReady(true);
-      }
-    })();
-
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
-      setSession(s ?? null);
+    supabase.auth.getSession().then(({ data }) => {
+      if (!mounted) return;
+      setHasSession(!!data.session);
     });
-
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
+      setHasSession(!!s);
+    });
     return () => {
       mounted = false;
       sub.subscription.unsubscribe();
     };
   }, []);
 
-  // Rutas que ya usas en tu proyecto
-  const clientLogin = '/cliente/login';
-  const clientRegister = '/cliente/registro';
-  const clientPanel = '/cliente/panel';
+  // Menú “Clientes”: acceso, registro y panel del cliente
+  const clientesItems: Item[] = [
+    { href: "/cliente/acceso", label: "Iniciar sesión" },
+    { href: "/cliente/registro", label: "Registrarme" },
+    { href: "/cliente/panel", label: "Mi panel" },
+  ];
 
-  const lawyerLogin = '/abogados/login';
-  const lawyerRegister = '/abogados/registro';
-  const lawyerPanel = '/abogados/panel';
+  // Menú “Abogados”: acceso, registro y panel profesional
+  const abogadosItems: Item[] = [
+    { href: "/abogados/acceso", label: "Iniciar sesión (abogados)" },
+    { href: "/abogados/registro", label: "Registro de abogados" },
+    { href: "/panel", label: "Mi panel (abogado)" },
+  ];
 
-  const goAgenda = () => {
-    if (!session) window.location.href = clientLogin; // sin sesión → login cliente
-    else window.location.href = '/agenda';             // con sesión → agenda
-  };
-
-  const logout = async () => {
-    await supabase.auth.signOut();
-    window.location.href = '/';
-  };
-
-  // Mientras hidrata
-  if (!ready) {
-    return (
-      <header className="site-header">
-        <div className="wrap" style={{ display: 'flex', gap: 16, alignItems: 'center', height: 64 }}>
-          <Link href="/" className="logo">Castellanos <strong>Abogados</strong></Link>
-        </div>
-      </header>
-    );
+  // CTA de “Agendar”: si no hay sesión → lleva a /cliente/acceso, si la hay → /agenda
+  function goAgenda() {
+    if (hasSession) router.push("/agenda");
+    else router.push("/cliente/acceso");
   }
 
   return (
-    <header className="site-header">
-      <div className="wrap" style={{ display: 'flex', gap: 16, alignItems: 'center', height: 64 }}>
-        <Link href="/" className="logo">Castellanos <strong>Abogados</strong></Link>
+    <header className="sitebar">
+      <div className="wrap nav">
+        {/* IZQUIERDA: logo + navegación primaria */}
+        <div className="nav-left" style={{ display: "flex", gap: 10, alignItems: "center" }}>
+          <Link href="/" className="logo" aria-label="Castellanos Abogados">
+            <strong>Castellanos</strong>{" "}
+            <span style={{ opacity: 0.7 }}>Abogados</span>
+          </Link>
 
-        <nav style={{ display: 'flex', gap: 12, marginLeft: 24 }}>
-          <Link href="/">Inicio</Link>
-          <Link href="/servicios">Servicios</Link>
-          <Link href="/contacto">Contacto</Link>
+          <nav aria-label="Principal" className="nav-main" style={{ display: "flex", gap: 6, alignItems: "center" }}>
+            <NavLink
+              href="/"
+              label="Inicio"
+              active={isActivePath(pathname, "/", true)}
+            />
+            <NavLink
+              href="/contacto"
+              label="Contacto"
+              active={isActivePath(pathname, "/contacto")}
+            />
+            <DropMenu
+              label="Clientes"
+              items={clientesItems}
+              active={
+                isActivePath(pathname, "/cliente") ||
+                isActivePath(pathname, "/clientes")
+              }
+            />
+            <DropMenu
+              label="Abogados"
+              items={abogadosItems}
+              active={
+                isActivePath(pathname, "/abogados") ||
+                isActivePath(pathname, "/panel") ||
+                isActivePath(pathname, "/registro")
+              }
+            />
+          </nav>
+        </div>
 
-          {/* ====== Menú Clientes ====== */}
-          <div className="menu">
-            <button className="menu__btn">Clientes ▾</button>
-            <div className="menu__list">
-              {!session ? (
-                <>
-                  <Link href={clientRegister}>Registrarse</Link>
-                  <Link href={clientLogin}>Iniciar sesión</Link>
-                </>
-              ) : (
-                <>
-                  <Link href={clientPanel}>Mi panel</Link>
-                  <button onClick={logout} className="aslink">Cerrar sesión</button>
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* ====== Menú Abogados ====== */}
-          <div className="menu">
-            <button className="menu__btn">Abogados ▾</button>
-            <div className="menu__list">
-              {/* Estos accesos son para abogados (independientes) */}
-              <Link href={lawyerRegister}>Registro de abogados</Link>
-              <Link href={lawyerLogin}>Acceso / Iniciar sesión</Link>
-              <Link href={lawyerPanel}>Mi panel</Link>
-            </div>
-          </div>
-        </nav>
-
-        {/* Lado derecho */}
-        <div style={{ marginLeft: 'auto', display: 'flex', gap: 10 }}>
-          <button className="btn btn--primary" onClick={goAgenda}>Agendar asesoría</button>
-          <Link className="btn btn--ghost" href="/trabaja">Trabaja con nosotros</Link>
+        {/* DERECHA: CTAs claros */}
+        <div className="nav-right" style={{ display: "flex", gap: 8 }}>
+          <Link href="/trabaja" className="btn btn--ghost">
+            Trabaja con nosotros
+          </Link>
+          <button className="btn btn--primary" onClick={goAgenda}>
+            Agendar asesoría
+          </button>
         </div>
       </div>
-
-      {/* estilos mínimos para el menú (usa tu CSS si ya lo tienes) */}
-      <style jsx>{`
-        .menu { position: relative; }
-        .menu__btn { background: transparent; border: 0; cursor: pointer; }
-        .menu__list {
-          position: absolute; top: 100%; left: 0;
-          min-width: 220px; display: none; z-index: 40;
-          background: var(--panel, #fff); border: 1px solid #e8e8e8; border-radius: 12px; padding: 8px;
-          box-shadow: 0 12px 24px rgba(0,0,0,0.08);
-        }
-        .menu:hover .menu__list { display: grid; gap: 6px; }
-        .menu__list a, .menu__list .aslink {
-          padding: 8px 10px; border-radius: 10px; text-align: left;
-        }
-        .menu__list a:hover, .menu__list .aslink:hover { background: rgba(0,0,0,.04); }
-        .aslink { background: transparent; border: 0; cursor: pointer; }
-      `}</style>
     </header>
   );
 }
