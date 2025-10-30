@@ -1,14 +1,60 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createClient, Session } from '@supabase/supabase-js';
+
+// Configura conexión Supabase
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
+type Area = {
+  slug: string;
+  name: string;
+};
 
 export default function AgendaPage() {
   const [email, setEmail] = useState('');
-  const [area, setArea] = useState('Penal');
+  const [areas, setAreas] = useState<Area[]>([]);
+  const [area, setArea] = useState('');
   const [slot, setSlot] = useState('Hoy 6:00 pm');
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<null | { ok: boolean; msg: string }>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [ready, setReady] = useState(false);
 
+  // 🟢 Cargar sesión actual
+  useEffect(() => {
+    async function loadSession() {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      setEmail(data.session?.user?.email || '');
+      setReady(true);
+    }
+    loadSession();
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  // 🟢 Cargar áreas activas desde Supabase
+  useEffect(() => {
+    async function loadAreas() {
+      const { data, error } = await supabase
+        .from('service_areas')
+        .select('slug, name')
+        .eq('enabled', true)
+        .order('sort', { ascending: true });
+
+      if (!error && data?.length) {
+        setAreas(data);
+        setArea(data[0].slug);
+      }
+    }
+    loadAreas();
+  }, []);
+
+  // 🟢 Enviar solicitud
   async function handleSend() {
     setLoading(true);
     setStatus(null);
@@ -30,7 +76,6 @@ export default function AgendaPage() {
       if (!res.ok || !data.ok) throw new Error(data?.error || 'No se pudo enviar.');
 
       setStatus({ ok: true, msg: 'Solicitud enviada. Te escribiremos al correo.' });
-      setEmail('');
     } catch (err: any) {
       setStatus({ ok: false, msg: err?.message || 'Error enviando la solicitud.' });
     } finally {
@@ -38,36 +83,54 @@ export default function AgendaPage() {
     }
   }
 
+  if (!ready) return <div className="wrap">Cargando…</div>;
+
+  // 🟡 Si no hay sesión, pedir login
+  if (!session)
+    return (
+      <main className="main section">
+        <div className="wrap" style={{ maxWidth: 520 }}>
+          <h1 className="h1">Agenda tu asesoría</h1>
+          <p className="muted">
+            Debes iniciar sesión o registrarte para poder agendar y ver tus citas.
+          </p>
+          <button
+            className="btn btn--primary"
+            onClick={() => (window.location.href = '/cliente/acceso')}
+          >
+            Iniciar sesión / Registrarme
+          </button>
+        </div>
+      </main>
+    );
+
+  // 🟢 Si está logueado, mostrar formulario
   return (
     <main className="main section">
       <div className="wrap">
         <h1 className="h1">Agenda tu asesoría</h1>
-        <p className="muted">Versión demo: selecciona área legal y te mostramos los siguientes pasos.</p>
+        <p className="muted">
+          Selecciona el área legal disponible y un horario preferido.
+        </p>
 
         <div className="panel" style={{ display: 'grid', gap: 12, maxWidth: 520 }}>
           <label>
             Tu correo
-            <input
-              type="email"
-              placeholder="tucorreo@ejemplo.com"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-            />
+            <input type="email" value={email} readOnly />
           </label>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <label>
               Tema / Área
               <select value={area} onChange={e => setArea(e.target.value)}>
-                <option>Penal</option>
-                <option>Laboral</option>
-                <option>Familia</option>
-                <option>Civil</option>
-                <option>Comercial</option>
-                <option>Administrativo</option>
+                {areas.map(a => (
+                  <option key={a.slug} value={a.slug}>
+                    {a.name}
+                  </option>
+                ))}
               </select>
             </label>
+
             <label>
               Horario preferido
               <select value={slot} onChange={e => setSlot(e.target.value)}>
@@ -80,10 +143,16 @@ export default function AgendaPage() {
           </div>
 
           <div className="form-actions" style={{ display: 'flex', gap: 8 }}>
-            <button className="btn btn--primary" onClick={handleSend} disabled={loading || !email}>
+            <button
+              className="btn btn--primary"
+              onClick={handleSend}
+              disabled={loading || !email}
+            >
               {loading ? 'Enviando…' : 'Enviar solicitud'}
             </button>
-            <a href="/" className="btn btn--ghost">Volver al inicio</a>
+            <a href="/" className="btn btn--ghost">
+              Volver al inicio
+            </a>
           </div>
 
           {status && (
