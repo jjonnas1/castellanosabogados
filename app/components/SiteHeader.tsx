@@ -11,110 +11,68 @@ const supabase = createClient(
 
 export default function SiteHeader() {
   const [session, setSession] = useState<Session | null>(null);
-  const [role, setRole] = useState<'client' | 'lawyer' | 'admin' | null>(null);
-  const isAuthed = !!session;
+  const [role, setRole] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       const { data } = await supabase.auth.getSession();
-      setSession(data.session ?? null);
+      setSession(data.session);
 
-      const uid = data.session?.user?.id;
-      if (uid) {
+      if (data.session?.user?.id) {
         const { data: prof } = await supabase
-          .from('profiles')
+          .from('profiles')              // si usas user_profiles, cambia aquí
           .select('role')
-          .eq('id', uid)
+          .eq('id', data.session.user.id)
           .maybeSingle();
-        if (prof?.role) setRole(prof.role);
-      }
-    })();
 
-    const { data: sub } = supabase.auth.onAuthStateChange(async (_e, s) => {
-      setSession(s);
-      const uid = s?.user?.id;
-      if (uid) {
-        const { data: prof } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', uid)
-          .maybeSingle();
-        if (prof?.role) setRole(prof.role);
+        setRole(prof?.role ?? null);
       } else {
         setRole(null);
       }
+      setLoading(false);
+    })();
+
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      // refresca el header al iniciar / cerrar sesión
+      window.location.reload();
     });
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  function gotoAgenda() {
-    if (!isAuthed) {
-      window.location.href = '/cliente/acceso';
-    } else {
-      window.location.href = '/agenda';
-    }
-  }
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/';
+  };
 
   return (
-    <header className="sitebar">
-      <div className="wrap nav">
-        {/* IZQUIERDA */}
-        <div className="nav-left" style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <Link href="/" className="logo" aria-label="Castellanos Abogados">
-            <strong>Castellanos</strong> <span style={{ opacity: 0.7 }}>Abogados</span>
-          </Link>
+    <header className="header">
+      <nav className="wrap nav">
+        <Link href="/" className="logo">Castellanos <strong>Abogados</strong></Link>
 
-          <nav aria-label="Principal" className="nav-main" style={{ display: 'flex', gap: 6 }}>
-            <Link href="/" className="active" style={{ padding: '8px 14px', borderRadius: 12 }}>Inicio</Link>
-            <Link href="/servicios" style={{ padding: '8px 14px', borderRadius: 12 }}>Servicios</Link>
-            <Link href="/contacto" style={{ padding: '8px 14px', borderRadius: 12 }}>Contacto</Link>
+        <ul className="nav__links">
+          <li><Link href="/">Inicio</Link></li>
+          <li><Link href="/servicios">Servicios</Link></li>
+          <li><Link href="/contacto">Contacto</Link></li>
+          <li><Link href="/agenda">Agendar asesoría</Link></li>
+          {/* Muestra ADMIN si el usuario es admin */}
+          {!loading && role === 'admin' && (
+            <li><Link href="/admin"><strong>Admin</strong></Link></li>
+          )}
+        </ul>
 
-            {/* Clientes */}
-            <details className="dropdown">
-              <summary className="dropdown-trigger">Clientes <span className="chev">▾</span></summary>
-              <div className="dropdown-panel">
-                <Link href="/cliente/acceso" className="dropdown-item">Acceso / Registro</Link>
-                <Link href="/cliente/panel" className="dropdown-item">Mi panel</Link>
-              </div>
-            </details>
+        <div className="nav__auth">
+          {/* Si no hay sesión, mostrar acceso */}
+          {!session && (
+            <Link className="btn btn--ghost" href="/cliente/acceso">Iniciar sesión</Link>
+          )}
 
-            {/* Abogados */}
-            <details className="dropdown">
-              <summary className="dropdown-trigger">Abogados <span className="chev">▾</span></summary>
-              <div className="dropdown-panel">
-                <Link href="/registro/abogado" className="dropdown-item">Registro de abogados</Link>
-                <Link href="/panel" className="dropdown-item">Panel de abogado</Link>
-              </div>
-            </details>
-
-            {/* Admin solo si rol=admin */}
-            {role === 'admin' && (
-              <Link href="/admin" style={{ padding: '8px 14px', borderRadius: 12, fontWeight: 700 }}>
-                Admin
-              </Link>
-            )}
-          </nav>
-        </div>
-
-        {/* DERECHA: CTA + sesión */}
-        <div className="nav-right" style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <button className="btn btn--primary" onClick={gotoAgenda}>Agendar asesoría</button>
-
-          {!isAuthed ? (
-            <Link href="/cliente/acceso" className="btn btn--ghost">Iniciar sesión</Link>
-          ) : (
-            <button
-              className="btn btn--ghost"
-              onClick={async () => {
-                await supabase.auth.signOut();
-                window.location.href = '/';
-              }}
-            >
-              Cerrar sesión
-            </button>
+          {/* Si hay sesión, botón de cerrar */}
+          {session && (
+            <button className="btn btn--ghost" onClick={handleSignOut}>Cerrar sesión</button>
           )}
         </div>
-      </div>
+      </nav>
     </header>
   );
 }
