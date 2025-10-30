@@ -34,13 +34,12 @@ export default function AgendaPage() {
 
   useEffect(() => {
     (async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('service_areas')
         .select('slug,name')
         .eq('enabled', true)
         .order('sort', { ascending: true });
-
-      if (!error && data?.length) {
+      if (data?.length) {
         setAreas(data);
         setArea(data[0].slug);
       }
@@ -54,9 +53,7 @@ export default function AgendaPage() {
       <main className="section">
         <div className="wrap" style={{ maxWidth: 560 }}>
           <h1 className="h1">Agenda tu asesoría</h1>
-          <p className="muted">
-            Debes iniciar sesión o registrarte para poder agendar y ver tus citas.
-          </p>
+          <p className="muted">Debes iniciar sesión o registrarte para poder agendar y ver tus citas.</p>
           <button className="btn btn--primary" onClick={() => (window.location.href = '/cliente/acceso')}>
             Iniciar sesión / Registrarme
           </button>
@@ -70,10 +67,8 @@ export default function AgendaPage() {
       setStatus({ ok: false, msg: 'Error: sesión no válida. Vuelve a iniciar sesión.' });
       return;
     }
-
     setLoading(true);
     setStatus(null);
-
     try {
       const email = session.user.email;
       const res = await fetch('/api/contact', {
@@ -91,7 +86,10 @@ export default function AgendaPage() {
       });
       const json = await res.json();
       if (!json?.ok) throw new Error(json?.error || 'No se pudo enviar la solicitud.');
-      setStatus({ ok: true, msg: 'Solicitud enviada. Te escribiremos por correo con el enlace de pago y confirmación.' });
+      setStatus({
+        ok: true,
+        msg: 'Solicitud enviada. Te escribiremos por correo con el enlace de pago y confirmación.',
+      });
       setNota('');
     } catch (e: any) {
       setStatus({ ok: false, msg: e?.message || 'Error enviando la solicitud.' });
@@ -133,7 +131,7 @@ export default function AgendaPage() {
             Resumen breve del caso
             <textarea
               rows={5}
-              placeholder="Ej.: Estoy en etapa de ejecución de penas; necesito orientación sobre redenciones y subrogados…"
+              placeholder="Ej.: Estoy en ejecución de penas; necesito orientación sobre redenciones y subrogados…"
               value={nota}
               onChange={(e) => setNota(e.target.value)}
             />
