@@ -2,77 +2,68 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { createClient, Session } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { Session } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase-browser';
 
 export default function SiteHeader() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [role, setRole] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState<Session|null>(null);
+  const [role, setRole] = useState<'client'|'lawyer'|'admin'|'unknown'>('unknown');
 
   useEffect(() => {
-    (async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(data.session);
-
-      if (data.session?.user?.id) {
-        const { data: prof } = await supabase
-          .from('profiles')              // si usas user_profiles, cambia aquí
-          .select('role')
-          .eq('id', data.session.user.id)
-          .maybeSingle();
-
-        setRole(prof?.role ?? null);
-      } else {
-        setRole(null);
-      }
-      setLoading(false);
-    })();
-
-    const { data: sub } = supabase.auth.onAuthStateChange(() => {
-      // refresca el header al iniciar / cerrar sesión
-      window.location.reload();
-    });
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    window.location.href = '/';
+  useEffect(() => {
+    (async () => {
+      if (!session?.user?.id) { setRole('unknown'); return; }
+      const { data } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', session.user.id)
+        .maybeSingle();
+      setRole((data?.role as any) ?? 'client');
+    })();
+  }, [session]);
+
+  const gotoAgenda = () => {
+    if (!session) window.location.href = '/cliente/acceso';
+    else window.location.href = '/agenda';
   };
 
   return (
     <header className="header">
-      <nav className="wrap nav">
-        <Link href="/" className="logo">Castellanos <strong>Abogados</strong></Link>
+      <div className="wrap">
+        <Link href="/" className="logo">Castellanos <b>Abogados</b></Link>
 
-        <ul className="nav__links">
-          <li><Link href="/">Inicio</Link></li>
-          <li><Link href="/servicios">Servicios</Link></li>
-          <li><Link href="/contacto">Contacto</Link></li>
-          <li><Link href="/agenda">Agendar asesoría</Link></li>
-          {/* Muestra ADMIN si el usuario es admin */}
-          {!loading && role === 'admin' && (
-            <li><Link href="/admin"><strong>Admin</strong></Link></li>
-          )}
-        </ul>
+        <nav className="nav">
+          <Link href="/">Inicio</Link>
+          <Link href="/servicios">Servicios</Link>
+          <Link href="/contacto">Contacto</Link>
 
-        <div className="nav__auth">
-          {/* Si no hay sesión, mostrar acceso */}
-          {!session && (
-            <Link className="btn btn--ghost" href="/cliente/acceso">Iniciar sesión</Link>
-          )}
-
-          {/* Si hay sesión, botón de cerrar */}
-          {session && (
-            <button className="btn btn--ghost" onClick={handleSignOut}>Cerrar sesión</button>
-          )}
-        </div>
-      </nav>
+          <div className="nav__group">
+            <button className="btn btn--primary" onClick={gotoAgenda}>
+              Agendar asesoría
+            </button>
+            {!session ? (
+              <Link href="/cliente/acceso" className="btn btn--ghost">Iniciar sesión</Link>
+            ) : (
+              <>
+                <Link href="/cliente/panel" className="btn btn--ghost">Mi panel</Link>
+                {role === 'admin' && <Link href="/admin" className="btn btn--ghost">Admin</Link>}
+                <button
+                  className="btn btn--ghost"
+                  onClick={async () => { await supabase.auth.signOut(); location.href='/'; }}
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            )}
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }
+
