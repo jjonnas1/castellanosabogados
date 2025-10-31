@@ -1,41 +1,34 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { supabase } from '@/lib/supabase-browser';
+import { Session } from '@supabase/supabase-js';
 
 export default function AdminPage() {
-  const [ok, setOk] = useState<boolean | null>(null);
+  const [session, setSession] = useState<Session|null>(null);
+  const [role, setRole] = useState<string>('');
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({data})=>setSession(data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e,s)=>setSession(s));
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.auth.getSession();
-      const uid = data.session?.user?.id;
-      if (!uid) {
-        window.location.href = '/cliente/acceso';
-        return;
-      }
-      const { data: prof } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', uid)
-        .maybeSingle();
-
-      if (prof?.role === 'admin') setOk(true);
-      else window.location.href = '/';
+      if (!session?.user?.id) return;
+      const { data } = await supabase.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+      setRole(data?.role ?? '');
     })();
-  }, []);
+  }, [session]);
 
-  if (ok === null) return <div className="wrap">Cargando…</div>;
+  if (!session) { if (typeof window !== 'undefined') window.location.href='/cliente/acceso'; return null; }
+  if (role !== 'admin') return <main className="main section"><div className="wrap"><h1 className="h1">Admin</h1><p>No autorizado.</p></div></main>;
 
   return (
     <main className="main section">
       <div className="wrap">
-        <h1 className="h1">Panel de Administración</h1>
-        <p className="muted">Aquí podrás ver todas las citas, abogados y clientes registrados.</p>
+        <h1 className="h1">Admin</h1>
+        <p className="muted">Aquí administraremos áreas y citas (pendiente construir UI completa).</p>
       </div>
     </main>
   );
