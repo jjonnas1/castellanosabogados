@@ -1,124 +1,103 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClient, Session } from '@supabase/supabase-js';
+import { Session } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase-browser';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
-type Area = { slug: string; name: string };
+type Area = { slug: string; name: string; };
 
 export default function AgendaPage() {
-  const [session, setSession] = useState<Session | null>(null);
-  const [ready, setReady] = useState(false);
-
+  const [session, setSession] = useState<Session|null>(null);
   const [areas, setAreas] = useState<Area[]>([]);
   const [area, setArea] = useState('');
   const [slot, setSlot] = useState('Hoy 6:00 pm');
-  const [nota, setNota] = useState('');
-
+  const [note, setNote] = useState('');
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<null | { ok: boolean; msg: string }>(null);
+  const [msg, setMsg] = useState<string>('');
 
   useEffect(() => {
-    (async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(data.session ?? null);
-      setReady(true);
-    })();
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
     const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
     return () => sub.subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('service_areas')
         .select('slug,name')
         .eq('enabled', true)
         .order('sort', { ascending: true });
-      if (data?.length) {
+      if (!error && data) {
         setAreas(data);
-        setArea(data[0].slug);
+        if (data[0]) setArea(data[0].slug);
       }
     })();
   }, []);
 
-  if (!ready) return <div className="wrap">Cargando…</div>;
-
   if (!session) {
     return (
-      <main className="section">
-        <div className="wrap" style={{ maxWidth: 560 }}>
+      <main className="main section">
+        <div className="wrap" style={{maxWidth:520}}>
           <h1 className="h1">Agenda tu asesoría</h1>
-          <p className="muted">Debes iniciar sesión o registrarte para poder agendar y ver tus citas.</p>
-          <button className="btn btn--primary" onClick={() => (window.location.href = '/cliente/acceso')}>
-            Iniciar sesión / Registrarme
-          </button>
+          <p className="muted">Primero inicia sesión o regístrate para continuar.</p>
+          <a className="btn btn--primary" href="/cliente/acceso">Iniciar sesión / Registrarme</a>
         </div>
       </main>
     );
   }
 
-  async function enviarSolicitud() {
-    if (!session?.user?.email) {
-      setStatus({ ok: false, msg: 'Error: sesión no válida. Vuelve a iniciar sesión.' });
-      return;
-    }
-    setLoading(true);
-    setStatus(null);
+  const email = session.user.email ?? 'sin-correo';
+
+  const send = async () => {
+    setLoading(true); setMsg('');
     try {
-      const email = session.user.email;
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           name: 'Solicitud de agenda',
           email,
-          message: `Nueva solicitud de agenda:
-- Área / Tema: ${area}
+          message: `Nueva solicitud:
+- Área: ${area}
 - Horario preferido: ${slot}
-- Correo del usuario: ${email}
-- Resumen del caso: ${nota || '(sin detalle)'}`,
+- Correo: ${email}
+- Nota: ${note || '(sin nota)'}`,
         }),
       });
-      const json = await res.json();
-      if (!json?.ok) throw new Error(json?.error || 'No se pudo enviar la solicitud.');
-      setStatus({
-        ok: true,
-        msg: 'Solicitud enviada. Te escribiremos por correo con el enlace de pago y confirmación.',
-      });
-      setNota('');
-    } catch (e: any) {
-      setStatus({ ok: false, msg: e?.message || 'Error enviando la solicitud.' });
+      const data = await res.json();
+      if (!res.ok || !data?.ok) throw new Error(data?.error || 'No se pudo enviar');
+      setMsg('✅ Recibimos tu solicitud. Te escribiremos al correo.');
+      setNote('');
+    } catch (e:any) {
+      setMsg('❌ ' + (e?.message ?? 'Error enviando la solicitud'));
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
-    <main className="section">
-      <div className="wrap">
+    <main className="main section">
+      <div className="wrap" style={{maxWidth:640}}>
         <h1 className="h1">Agenda tu asesoría</h1>
-        <p className="muted">Selecciona el área disponible y cuéntanos brevemente tu caso.</p>
+        <p className="muted">Selecciona el área (solo activas) y cuéntanos tu caso brevemente.</p>
 
-        <div className="panel" style={{ display: 'grid', gap: 12, maxWidth: 620 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <label>
-              Tema / Área
-              <select value={area} onChange={(e) => setArea(e.target.value)}>
-                {areas.map((a) => (
-                  <option key={a.slug} value={a.slug}>
-                    {a.name}
-                  </option>
+        <div className="panel" style={{display:'grid', gap:12}}>
+          <label>Tu correo
+            <input type="email" value={email} readOnly />
+          </label>
+
+          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
+            <label>Tema / Área
+              <select value={area} onChange={e=>setArea(e.target.value)}>
+                {areas.map(a=>(
+                  <option key={a.slug} value={a.slug}>{a.name}</option>
                 ))}
               </select>
             </label>
-            <label>
-              Horario preferido
-              <select value={slot} onChange={(e) => setSlot(e.target.value)}>
+
+            <label>Horario preferido
+              <select value={slot} onChange={e=>setSlot(e.target.value)}>
                 <option>Hoy 6:00 pm</option>
                 <option>Mañana 8:30 am</option>
                 <option>Mañana 11:00 am</option>
@@ -127,34 +106,23 @@ export default function AgendaPage() {
             </label>
           </div>
 
-          <label>
-            Resumen breve del caso
+          <label>Cuéntanos tu caso (breve)
             <textarea
-              rows={5}
-              placeholder="Ej.: Estoy en ejecución de penas; necesito orientación sobre redenciones y subrogados…"
-              value={nota}
-              onChange={(e) => setNota(e.target.value)}
+              placeholder="Describe tu caso en pocas líneas…"
+              value={note}
+              onChange={(e)=>setNote(e.target.value)}
+              rows={4}
             />
           </label>
 
-          <div style={{ display: 'flex', gap: 8 }}>
-            <button className="btn btn--primary" onClick={enviarSolicitud} disabled={loading}>
+          <div style={{display:'flex', gap:8}}>
+            <button className="btn btn--primary" onClick={send} disabled={loading}>
               {loading ? 'Enviando…' : 'Enviar solicitud'}
             </button>
-            <a href="/cliente/panel" className="btn btn--ghost">Ir a mi panel</a>
+            <a className="btn btn--ghost" href="/cliente/panel">Ir a mi panel</a>
           </div>
 
-          {status && (
-            <div
-              className="panel"
-              style={{
-                background: status.ok ? '#f6ffed' : '#fff5f5',
-                borderColor: status.ok ? '#c6f6d5' : '#fed7d7',
-              }}
-            >
-              {status.msg}
-            </div>
-          )}
+          {msg && <p className="muted">{msg}</p>}
         </div>
       </div>
     </main>
