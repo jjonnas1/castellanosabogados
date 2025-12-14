@@ -4,6 +4,7 @@
 
 :root {
   color-scheme: light;
+  --font-inter: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 html,
@@ -12,8 +13,9 @@ body {
 }
 
 body {
-  background: #f8fafc;
+  background: #f7f9fb;
   color: #0f172a;
+  font-family: var(--font-inter);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -23,8 +25,18 @@ a {
 }
 
 .container {
-  max-width: 1120px;
+  max-width: 1160px;
   margin: 0 auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.section-shell {
+  padding: 4rem 0;
+}
+
+@media (min-width: 768px) {
+  .section-shell {
+    padding: 5.5rem 0;
+  }
 }

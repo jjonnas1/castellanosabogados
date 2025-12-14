@@ -1,64 +1,71 @@
-// app/servicios/page.tsx
 import Link from "next/link";
+import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
 
-export default function ServiciosPage() {
+export default async function ServiciosPage() {
+  const { data, error } = await fetchServiceAreas();
+  const services = data.map(enrichService);
+
   return (
-    <main className="section">
-      <div className="wrap">
-        <h1 className="h2" style={{ marginBottom: 6 }}>Servicios</h1>
-        <p className="muted" style={{ marginBottom: 22 }}>
-          Áreas de práctica y qué incluye la asesoría de 20 minutos.
+    <main className="bg-gradient-to-b from-white via-slate-50 to-[#eef3f9] min-h-screen pb-16">
+      <header className="border-b border-slate-200 bg-white/80 backdrop-blur">
+        <div className="container flex h-16 items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">Servicios</p>
+            <h1 className="text-xl font-semibold text-slate-900">Áreas de práctica activas</h1>
+          </div>
+          <Link href="/agenda" className="rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white shadow-soft hover:bg-brand-800">
+            Agendar
+          </Link>
+        </div>
+      </header>
+
+      <section className="container section-shell space-y-8">
+        <p className="max-w-3xl text-slate-700">
+          Visualiza las áreas habilitadas directamente desde Supabase. Si no podemos conectarnos mostraremos un aviso y un mensaje de disponibilidad.
         </p>
 
-        <div className="tiles" style={{ marginBottom: 22 }}>
-          <article className="tile">
-            <div className="icon">📞</div>
-            <h3 style={{ margin: "0 0 .35rem" }}>Consulta EXPRESS (20 min)</h3>
-            <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.7 }} className="muted">
-              <li>Videollamada 1:1</li>
-              <li>Revisión breve del caso</li>
-              <li>Próximos pasos y acciones</li>
-            </ul>
-            <div style={{ marginTop: 14 }}>
-              <Link href="/agenda" className="btn btn--primary">Agendar</Link>
-            </div>
-          </article>
-
-          <article className="tile">
-            <div className="icon">🧾</div>
-            <h3 style={{ margin: "0 0 .35rem" }}>Documentos</h3>
-            <p className="muted">
-              Revisión de documentos simples (máx. 5 páginas) y observaciones puntuales.
-            </p>
-          </article>
-
-          <article className="tile">
-            <div className="icon">🔎</div>
-            <h3 style={{ margin: "0 0 .35rem" }}>Orientación especializada</h3>
-            <p className="muted">
-              Derivación con un abogado experto por área de práctica cuando el caso lo exige.
-            </p>
-          </article>
-
-          <article className="tile">
-            <div className="icon">📤</div>
-            <h3 style={{ margin: "0 0 .35rem" }}>Resumen y formatos</h3>
-            <p className="muted">
-              Recibirás un resumen y, si aplica, <strong>formatos pertinentes</strong> para continuar tu trámite
-              ante juzgados o entidades (peticiones, memoriales, poderes, etc.).
-            </p>
-          </article>
-        </div>
-
-        {/* Banda CTA */}
-        <div className="cta">
-          <div>
-            <strong>¿Listo para agendar?</strong>
-            <div className="muted">Elige tu área legal y la hora disponible que más te convenga.</div>
+        {error && (
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            No pudimos recuperar los servicios. Por favor intenta más tarde o contáctanos.
           </div>
-          <Link href="/agenda" className="btn btn--primary">Agendar ahora</Link>
-        </div>
-      </div>
+        )}
+
+        {services.length === 0 ? (
+          <div className="rounded-3xl border border-slate-200 bg-white px-6 py-10 text-center text-slate-700 shadow-soft">
+            <p className="text-lg font-semibold text-slate-900">Servicios no disponibles por el momento</p>
+            <p className="mt-2">Agenda directamente para revisar tu necesidad y te asignaremos el área correcta.</p>
+            <Link href="/agenda" className="mt-4 inline-block rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-soft hover:bg-slate-800">
+              Abrir agenda
+            </Link>
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-3">
+            {services.map((service) => (
+              <article
+                key={service.slug}
+                className="flex h-full flex-col justify-between rounded-3xl border border-slate-100 bg-white p-6 shadow-soft"
+              >
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-700">{service.slug}</p>
+                  <h3 className="text-lg font-semibold text-slate-900">{service.title}</h3>
+                  <p className="text-sm text-slate-700">{service.description}</p>
+                </div>
+                <div className="mt-6 flex items-center gap-3 text-sm text-slate-600">
+                  <Link
+                    href="/agenda"
+                    className="inline-flex items-center rounded-full bg-brand-700 px-4 py-2 font-semibold text-white shadow-soft transition hover:bg-brand-800"
+                  >
+                    Solicitar
+                  </Link>
+                  <Link href="/contacto" className="font-semibold text-brand-800 hover:underline">
+                    Consultar alcance
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
     </main>
   );
 }
