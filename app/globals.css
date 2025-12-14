@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base visual institucional – alineado a Gamma */
+/* Base visual institucional */
 html, body {
   height: 100%;
 }
