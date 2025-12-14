@@ -2,28 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Base visual institucional */
-html, body {
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
   height: 100%;
 }
 
 body {
-  background-color: #f8fafc;
-  color: #111827;
+  background: #f8fafc;
+  color: #0f172a;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3 {
-  letter-spacing: -0.02em;
+a {
+  text-decoration: none;
 }
 
-p {
-  color: #6b7280;
-  line-height: 1.65;
-  font-size: 16px;
-}
-
-/* Contenedor estándar */
 .container {
   max-width: 1120px;
   margin: 0 auto;
