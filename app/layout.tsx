@@ -1,9 +1,10 @@
 import "./globals.css";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Castellanos Abogados",
   description:
-    "Asesoría estratégica y preventiva del riesgo penal asociado a decisiones sensibles en contratación estatal.",
+    "Acompañamiento estratégico y preventivo del riesgo penal asociado a decisiones sensibles en contratación estatal.",
 };
 
 export default function RootLayout({

@@ -2,34 +2,43 @@ import Link from "next/link";
 
 export default function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-200">
-      <div className="container h-16 flex items-center justify-between">
-        <div className="flex flex-col">
-          <span className="text-sm font-semibold text-gray-900">
-            Castellanos Abogados
-          </span>
-          <span className="text-xs text-gray-500">
-            Asesoría estratégica
+    <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-baseline gap-2">
+          <span className="text-sm font-semibold text-slate-900">Castellanos Abogados</span>
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+            Riesgo penal en contratación estatal
           </span>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm text-gray-600">
-          <Link href="/#que-hacemos">Qué hacemos</Link>
-          <Link href="/#servicios">Servicios</Link>
-          <Link href="/#como">Cómo trabajamos</Link>
-          <Link href="/contacto">Contacto</Link>
+        <nav className="hidden items-center gap-7 text-sm font-medium text-slate-600 md:flex">
+          <Link className="hover:text-slate-900" href="/#que-hacemos">
+            Qué hacemos
+          </Link>
+          <Link className="hover:text-slate-900" href="/#servicios">
+            Servicios
+          </Link>
+          <Link className="hover:text-slate-900" href="/#como-trabajamos">
+            Cómo trabajamos
+          </Link>
+          <Link className="hover:text-slate-900" href="/#a-quien-servimos">
+            A quién servimos
+          </Link>
+          <Link className="hover:text-slate-900" href="/contacto">
+            Contacto
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">
           <Link
             href="/agenda"
-            className="rounded-full bg-gray-900 px-5 py-2 text-sm font-semibold text-white hover:bg-gray-800 transition"
+            className="hidden rounded-full border border-brand-200 bg-brand-600 px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:bg-brand-700 md:inline-flex"
           >
             Solicitar evaluación
           </Link>
           <Link
             href="/cliente/acceso"
-            className="hidden sm:block text-sm text-gray-600 hover:text-gray-900"
+            className="rounded-full px-4 py-2 text-sm font-semibold text-brand-800 transition hover:bg-brand-50"
           >
             Iniciar sesión
           </Link>
