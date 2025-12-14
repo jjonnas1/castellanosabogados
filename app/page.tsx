@@ -1,145 +1,104 @@
-// app/page.tsx
-export default function HomePage() {
+import SiteHeader from "./components/SiteHeader";
+import Link from "next/link";
+
+export default function Home() {
   return (
     <main>
-      {/* HERO PRINCIPAL */}
-      <section className="section">
-        <div className="wrap">
-          <div className="hero">
-            <span className="badge">Nueva · Asesoría legal en línea</span>
-            <h1 className="h1">
-              Asesoría legal clara y cercana,
-              <br /> con abogados expertos.
+      <SiteHeader />
+
+      {/* HERO */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div
+            className="h-full w-full bg-cover bg-center"
+            style={{
+              backgroundImage:
+                "url(https://images.unsplash.com/photo-1521791136064-7986c2920216)",
+              opacity: 0.15,
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/80 to-white" />
+        </div>
+
+        <div className="container relative py-24">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl font-semibold text-gray-900">
+              Estrategia jurídica sobria para decisiones sensibles en contratación estatal
             </h1>
-            <p className="muted" style={{ maxWidth: 680 }}>
-              Conéctate por videollamada con un abogado especializado en derecho
-              colombiano. Atención personalizada, precio definido y respuesta inmediata.
+
+            <p className="mt-6">
+              Acompañamos a representantes legales y directivos en la gestión
+              estratégica y preventiva del riesgo penal asociado a decisiones
+              de alto impacto.
             </p>
 
-            <div
-              style={{
-                display: "flex",
-                gap: "12px",
-                flexWrap: "wrap",
-                marginTop: "22px",
-              }}
-            >
-              <a href="/agenda" className="btn btn--primary">
-                Agendar asesoría
-              </a>
-              <a href="/servicios" className="btn btn--ghost">
-                Ver servicios
-              </a>
-            </div>
-
-            <div className="panel" style={{ marginTop: 30 }}>
-              <h3 style={{ marginBottom: 8 }}>¿Por qué con nosotros?</h3>
-              <ul style={{ margin: 0, paddingLeft: 20 }}>
-                <li>✔️ Abogados verificados por especialidad.</li>
-                <li>✔️ Agenda segura y confirmación por correo.</li>
-                <li>✔️ Respuestas claras y accionables.</li>
-              </ul>
+            <div className="mt-8">
+              <Link
+                href="/agenda"
+                className="inline-block rounded-full bg-gray-900 px-6 py-3 text-sm font-semibold text-white hover:bg-gray-800 transition"
+              >
+                Solicitar evaluación estratégica
+              </Link>
             </div>
           </div>
         </div>
+      </section>
+
+      {/* QUÉ HACEMOS */}
+      <section id="que-hacemos" className="container py-20">
+        <h2 className="text-2xl font-semibold text-gray-900">
+          Qué hacemos
+        </h2>
+        <p className="mt-4 max-w-2xl">
+          No operamos como despacho penal tradicional ni como asesoría jurídica general.
+          Intervenimos de forma focalizada sobre decisiones y eventos con impacto penal potencial.
+        </p>
       </section>
 
       {/* SERVICIOS */}
-      <section className="section" style={{ paddingTop: 40 }}>
-        <div className="wrap">
-          <h2 className="h2">Servicios en línea</h2>
-          <p className="muted" style={{ marginBottom: 40 }}>
-            Todo lo necesario para una consulta eficiente y transparente.
-          </p>
+      <section id="servicios" className="container pb-24">
+        <h2 className="text-2xl font-semibold text-gray-900">
+          Servicios
+        </h2>
 
-          <div className="tiles">
-            <div className="tile">
-              <div className="icon">📅</div>
-              <h3>Agenda Online</h3>
-              <p>Reserva tu asesoría desde cualquier dispositivo, en segundos.</p>
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              t: "DRP-CE",
+              d: "Diagnóstico inicial de riesgo penal en contratación estatal.",
+            },
+            {
+              t: "AEC-CE",
+              d: "Acompañamiento estratégico continuo para decisiones sensibles.",
+            },
+            {
+              t: "ICP-CE",
+              d: "Diseño de ruta estratégica ante escenarios de crisis.",
+            },
+          ].map((s) => (
+            <div
+              key={s.t}
+              className="rounded-2xl border border-gray-200 bg-white p-6"
+            >
+              <h3 className="font-semibold text-gray-900">{s.t}</h3>
+              <p className="mt-3 text-sm">{s.d}</p>
+              <Link
+                href="/agenda"
+                className="mt-5 inline-block text-sm font-semibold text-gray-900"
+              >
+                Solicitar →
+              </Link>
             </div>
-
-            <div className="tile">
-              <div className="icon">💳</div>
-              <h3>Pago Seguro</h3>
-              <p>Transacciones protegidas con Wompi o Stripe.</p>
-            </div>
-
-            <div className="tile">
-              <div className="icon">⚖️</div>
-              <h3>Abogados Expertos</h3>
-              <p>Profesionales verificados por área de práctica.</p>
-            </div>
-
-            <div className="tile">
-              <div className="icon">📝</div>
-              <h3>Resumen de Consulta</h3>
-              <p>Recibe un informe claro tras tu sesión con el abogado.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CÓMO FUNCIONA */}
-      <section className="section" style={{ paddingTop: 40 }}>
-        <div className="wrap">
-          <h2 className="h2">¿Cómo funciona?</h2>
-          <div className="tiles" style={{ gridTemplateColumns: "repeat(3,1fr)" }}>
-            <div className="tile">
-              <h3>1️⃣ Selecciona tu área</h3>
-              <p>Penal, laboral, civil, familia u otras especialidades.</p>
-            </div>
-            <div className="tile">
-              <h3>2️⃣ Agenda y paga</h3>
-              <p>Confirmación inmediata y recordatorios por correo.</p>
-            </div>
-            <div className="tile">
-              <h3>3️⃣ Videollamada 1:1</h3>
-              <p>Recibe orientación clara y pasos a seguir para tu caso.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ / INFO ADICIONAL */}
-      <section className="section" style={{ paddingTop: 60, paddingBottom: 100 }}>
-        <div className="wrap">
-          <h2 className="h2">Preguntas frecuentes</h2>
-          <div className="panel">
-            <h3>¿Cuánto dura una asesoría?</h3>
-            <p>
-              Cada asesoría tiene una duración aproximada de 20 a 40 minutos,
-              dependiendo de la complejidad del caso. En la sesión se brinda
-              orientación inicial, diagnóstico y pasos concretos.
-            </p>
-
-            <h3>¿Recibo soporte o documentos después?</h3>
-            <p>
-              Sí. Tras la asesoría recibirás, sin costo adicional, los{" "}
-              <strong>formatos o modelos jurídicos pertinentes</strong> para que
-              continúes tu trámite ante la entidad o juzgado correspondiente.
-            </p>
-
-            <h3>¿Puedo escoger mi abogado?</h3>
-            <p>
-              Sí. Puedes elegir por especialidad o dejar que nuestro sistema te
-              asigne al profesional disponible más adecuado.
-            </p>
-          </div>
+          ))}
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer
-        style={{
-          textAlign: "center",
-          padding: "40px 0",
-          borderTop: "1px solid #e7ecf6",
-          fontSize: ".9rem",
-          color: "var(--muted)",
-        }}
-      >
-        © 2025 Castellanos Abogados. Orientación legal confiable.
+      <footer className="border-t border-gray-200 py-10">
+        <div className="container flex justify-between text-xs text-gray-500">
+          <span>© {new Date().getFullYear()} Castellanos Abogados</span>
+          <span>Criterio · Control · Tranquilidad</span>
+        </div>
       </footer>
     </main>
   );
