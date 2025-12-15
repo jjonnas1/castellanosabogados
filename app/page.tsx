@@ -46,7 +46,10 @@ export default async function Home() {
               <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
                 Solicitar evaluación estratégica
               </Link>
-              <Link href="#como-trabajamos" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
+              <Link
+                href="/como-trabajamos"
+                className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+              >
                 Ver cómo trabajamos
               </Link>
             </div>
