@@ -1,310 +1,540 @@
-import Link from "next/link";
-import SiteHeader from "./components/SiteHeader";
-import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
+import Link from “next/link”;
+import SiteHeader from “./components/SiteHeader”;
+import { enrichService, fetchServiceAreas } from “@/lib/serviceAreas”;
+
+const heroBackground =
+“linear-gradient(120deg, rgba(12,17,29,0.88), rgba(17,37,68,0.82)), url(‘https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80’)”;
+const executiveDesk =
+“linear-gradient(180deg, rgba(13,21,40,0.9), rgba(13,21,40,0.8)), url(‘https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2100&q=80’)”;
+const skylineBackground =
+“linear-gradient(180deg, rgba(15,23,42,0.9), rgba(17,37,68,0.75)), url(‘https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2000&q=80’)”;
+const counselSession =
+“linear-gradient(180deg, rgba(12,17,29,0.85), rgba(17,37,68,0.78)), url(‘https://images.unsplash.com/photo-1439778615639-28529f7628bc?auto=format&fit=crop&w=2000&q=80’)”;
+const personalAdvisory =
+“linear-gradient(140deg, rgba(10,16,28,0.88), rgba(20,32,52,0.78)), url(‘https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=2200&q=80’)”;
 
 export default async function Home() {
-  const { data: services, error } = await fetchServiceAreas();
-  const serviceList = services.map(enrichService);
+const { data: services, error } = await fetchServiceAreas();
+const serviceList = services.map(enrichService);
 
-  return (
-    <main className="bg-gradient-to-b from-white via-slate-50 to-[#eef3f9] pb-16">
-      <SiteHeader />
+return (
+    <section
+    id="riesgo-empresarial"
+    className="relative overflow-hidden border-b border-border/60 text-white"
+    style={{
+      backgroundImage: heroBackground,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}
+  >
+    <div
+      className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.12),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.14),transparent_36%)]"
+      aria-hidden
+    />
+    <div className="container section-shell relative grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div className="space-y-7">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-200">
+          <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ring-1 ring-white/25">
+            Estrategia penal en contratación estatal
+          </span>
+          <span className="text-xs uppercase tracking-[0.18em] text-slate-200">
+            Comités · Juntas · Decisiones críticas
+          </span>
+        </div>
 
-      <section className="container section-shell grid gap-10 lg:grid-cols-2 lg:items-center">
-        <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-xs font-semibold text-brand-800 shadow-soft ring-1 ring-brand-100">
-            Boutique ejecutiva · Riesgo penal en contratación estatal
-          </div>
-          <h1 className="text-4xl font-semibold tracking-tight text-slate-900 md:text-5xl">
-            Tranquilidad y control para decisiones sensibles en contratación estatal
+        <div className="space-y-4">
+          <h1 className="text-white max-w-3xl">
+            Control penal para decisiones sensibles y juntas que no admiten improvisación
           </h1>
-          <p className="text-lg text-slate-700">
-            Acompañamos a representantes legales y equipos directivos para anticipar, mitigar y administrar el riesgo penal asociado a decisiones de alto impacto.
+          <p className="max-w-2xl text-lg text-slate-100">
+            Proveemos acompañamiento ejecutivo para líderes que requieren criterio inmediato,
+            documentación impecable y activación táctica sin ruido.
           </p>
-          <div className="flex flex-wrap items-center gap-4">
-            <Link
-              href="/agenda"
-              className="rounded-full bg-brand-700 px-6 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-brand-800"
-            >
-              Agendar evaluación inicial
-            </Link>
-            <Link
-              href="/servicios"
-              className="rounded-full px-6 py-3 text-sm font-semibold text-brand-800 transition hover:bg-brand-50"
-            >
-              Ver servicios
-            </Link>
-          </div>
-          <div className="flex flex-wrap gap-6 text-sm text-slate-600">
-            <div>
-              <p className="font-semibold text-slate-900">Cobertura</p>
-              <p>Contratación estatal, gobierno corporativo, juntas y órganos de control.</p>
-            </div>
-            <div>
-              <p className="font-semibold text-slate-900">Enfoque</p>
-              <p>Prevención, controles y reacción táctica ante eventos críticos.</p>
-            </div>
-          </div>
         </div>
 
-        <div className="relative">
-          <div className="absolute -left-6 -top-6 h-24 w-24 rounded-3xl bg-brand-100 blur-2xl" aria-hidden />
-          <div className="absolute -right-10 -bottom-10 h-28 w-28 rounded-3xl bg-slate-200 blur-3xl" aria-hidden />
-          <div className="relative overflow-hidden rounded-3xl bg-white p-8 shadow-soft ring-1 ring-slate-100">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">Modelo</p>
-                <h3 className="mt-2 text-xl font-semibold text-slate-900">Acompañamiento estratégico</h3>
-                <p className="mt-3 text-sm text-slate-600">
-                  Integramos prevención penal, control interno y gobierno corporativo para proteger decisiones clave.
-                </p>
-              </div>
-              <span className="rounded-full bg-brand-50 px-4 py-2 text-xs font-semibold text-brand-700">Confidencial</span>
-            </div>
-            <div className="mt-6 grid gap-4 text-sm text-slate-700">
-              <div className="rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3">
-                Decisiones sensibles · contrataciones complejas · comités y juntas extraordinarias.
-              </div>
-              <div className="rounded-2xl border border-slate-100 bg-white px-4 py-3">
-                Mapas de riesgo penal + reglas de actuación + preparación de vocerías y soportes.
-              </div>
-              <div className="rounded-2xl border border-slate-100 bg-white px-4 py-3">
-                Activación táctica ante incidentes: contención, documentación y coordinación externa.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="que-hacemos" className="section-shell bg-white/70">
-        <div className="container grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-center">
-          <div className="space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">Qué hacemos</p>
-            <h2 className="text-3xl font-semibold text-slate-900">Intervenimos donde las decisiones mueven riesgo</h2>
-            <p className="text-slate-700">
-              No somos un despacho penal masivo. Operamos como célula estratégica para juntas, representantes legales y equipos de cumplimiento que necesitan criterios accionables y trazables.
-            </p>
-            <ul className="grid gap-3 text-slate-800">
-              <li className="flex gap-3 rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-100">
-                <span className="mt-0.5 h-2 w-2 rounded-full bg-brand-600" aria-hidden />
-                Decisiones de contratación estatal y gobierno corporativo con exposición penal.
-              </li>
-              <li className="flex gap-3 rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-100">
-                <span className="mt-0.5 h-2 w-2 rounded-full bg-brand-600" aria-hidden />
-                Configuración de controles y reglas de actuación frente a eventos sensibles.
-              </li>
-              <li className="flex gap-3 rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-100">
-                <span className="mt-0.5 h-2 w-2 rounded-full bg-brand-600" aria-hidden />
-                Coordinación táctica en incidentes críticos y escenarios de investigación.
-              </li>
-            </ul>
-          </div>
-          <div className="rounded-3xl border border-slate-100 bg-gradient-to-br from-brand-50 to-white p-8 shadow-soft">
-            <h3 className="text-xl font-semibold text-slate-900">Para quién</h3>
-            <p className="mt-3 text-slate-700">Órganos directivos, representantes legales y equipos de cumplimiento que exigen soporte ejecutivo, rápido y discreto.</p>
-            <div className="mt-6 grid gap-4 text-sm text-slate-800">
-              <div className="rounded-2xl bg-white/70 px-4 py-3 ring-1 ring-brand-100">
-                Comités de contratación y juntas extraordinarias.
-              </div>
-              <div className="rounded-2xl bg-white/70 px-4 py-3 ring-1 ring-brand-100">
-                Oficinas jurídicas, control interno y auditoría.
-              </div>
-              <div className="rounded-2xl bg-white/70 px-4 py-3 ring-1 ring-brand-100">
-                Equipos de asuntos públicos y relacionamiento con entes de control.
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="servicios" className="container section-shell">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">Servicios</p>
-            <h2 className="text-3xl font-semibold text-slate-900">Áreas de práctica focalizadas</h2>
-            <p className="mt-2 max-w-2xl text-slate-700">
-              Mostramos únicamente las áreas habilitadas en Supabase. Cada tarjeta incluye un acceso directo para solicitar agenda.
-            </p>
-          </div>
-          <Link href="/agenda" className="inline-flex rounded-full bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white shadow-soft hover:bg-brand-800">
-            Programar una sesión
+        <div className="flex flex-wrap items-center gap-4">
+          <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+            Solicitar evaluación estratégica
+          </Link>
+          <Link
+            href="/como-trabajamos"
+            className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+          >
+            Ver cómo trabajamos
           </Link>
         </div>
 
-        {error && (
-          <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            No pudimos conectar con Supabase. La lista de servicios puede no estar completa.
-          </div>
-        )}
+        <div className="grid gap-4 text-sm text-slate-100 sm:grid-cols-3">
+          {[
+            { label: "Ámbito", value: "Contratación estatal, gobierno corporativo, órganos de control." },
+            { label: "Enfoque", value: "Prevención penal, controles operativos, reacción táctica." },
+            { label: "Ritmo", value: "Sesiones cortas, entregables ejecutivos, decisiones trazables." },
+          ].map((item) => (
+            <div key={item.label} className="rounded-2xl border border-white/12 bg-white/5 px-4 py-3">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-slate-300">{item.label}</p>
+              <p className="mt-2 font-semibold leading-relaxed">{item.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
 
-        {serviceList.length === 0 ? (
-          <div className="mt-8 rounded-3xl border border-slate-200 bg-white px-6 py-10 text-center text-slate-700 shadow-soft">
-            <p className="text-lg font-semibold text-slate-900">Servicios no disponibles por el momento</p>
-            <p className="mt-2">Vuelve pronto o contáctanos para agendar una revisión prioritaria.</p>
-            <Link href="/contacto" className="mt-4 inline-block rounded-full bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white shadow-soft hover:bg-brand-800">
-              Contacto directo
+      <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-8 shadow-soft ring-1 ring-white/15">
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.16em] text-slate-300">Modelo</p>
+            <h3 className="mt-2 text-white">Documento de acompañamiento estratégico</h3>
+          </div>
+          <span className="rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white ring-1 ring-white/20">
+            Confidencial
+          </span>
+        </div>
+        <div className="mt-6 space-y-4 text-sm text-slate-100">
+          {[
+            "Decisiones sensibles con exposición penal inmediata.",
+            "Mapas de riesgo y reglas de actuación listos para junta.",
+            "Activación táctica ante incidentes con contención y coordinación.",
+          ].map((item) => (
+            <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+              <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
+              {item}
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 grid gap-3 text-xs uppercase tracking-[0.16em] text-slate-300 sm:grid-cols-3">
+          {["Diagnóstico", "Protocolos", "Activación"].map((tag) => (
+            <div key={tag} className="rounded-full bg-white/10 px-3 py-2 text-center">
+              {tag}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section className="section-shell bg-surface/80">
+    <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div className="space-y-4">
+        <p className="pill w-fit">Riesgo penal empresarial</p>
+        <h2>Penal para empresas: contratación estatal y gobierno corporativo</h2>
+        <p className="max-w-2xl">
+          Nuestro foco exclusivo es la prevención y el control penal asociado a decisiones sensibles en contratación estatal y gobierno corporativo.
+          Trabajamos con juntas, comités y representantes legales; los acompañamos con documentación ejecutiva y límites claros.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {[
+            { title: "Modelo", body: "Ruta táctica y preventiva alineada con órganos de control y cumplimiento." },
+            { title: "Delimitación", body: "No intervenimos en litigios ni asumimos representación judicial." },
+            { title: "Activación", body: "Sesiones ejecutivas previo, durante y posterior a decisiones críticas." },
+            { title: "Trazabilidad", body: "Entregables ejecutivos, minutas y soportes listos para auditoría." },
+          ].map((item) => (
+            <div key={item.title} className="card-shell bg-white px-5 py-5 shadow-soft/40">
+              <p className="text-[12px] uppercase tracking-[0.16em] text-accent-700">{item.title}</p>
+              <p className="mt-2 text-sm font-semibold text-ink leading-relaxed">{item.body}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="inline-flex items-center gap-3 rounded-2xl border border-border bg-white px-4 py-3 text-sm text-muted shadow-soft/30">
+          <span className="rounded-full bg-subtle px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-700">
+            Línea paralela
+          </span>
+          Asesoría penal a personas se gestiona de forma separada y secundaria.
+        </div>
+      </div>
+
+      <div
+        className="relative card-shell overflow-hidden bg-ink p-0 text-white shadow-soft"
+        style={{ backgroundImage: counselSession, backgroundSize: "cover", backgroundPosition: "center" }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/85 to-accent-700/70" aria-hidden />
+        <div className="relative grid gap-4 p-8">
+          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-slate-200">
+            <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">Foco principal</span>
+            <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">Penal corporativo</span>
+          </div>
+          <h3 className="text-white">Acompañamiento ejecutivo para juntas y comités</h3>
+          <p className="text-slate-100">
+            Definimos ritmo, soportes y responsables en decisiones de alto impacto: minutas, protocolos activables,
+            reportes para auditoría y coordinación con control interno.
+          </p>
+          <div className="grid gap-3 text-sm text-slate-100 md:grid-cols-2">
+            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">
+              <p className="text-xs uppercase tracking-[0.16em] text-white/80">Activación</p>
+              <p className="mt-1 font-semibold">Alerta temprana y decisiones sensibles</p>
+              <p className="text-slate-200">Sesiones urgentes con responsables clave para definir alcance y controles.</p>
+            </div>
+            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">
+              <p className="text-xs uppercase tracking-[0.16em] text-white/80">Ejecución</p>
+              <p className="mt-1 font-semibold">Protocolos operativos y trazabilidad</p>
+              <p className="text-slate-200">Documentación ejecutiva, instrucciones puntuales y coordinación con compliance.</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link href="/servicios" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+              Detalle de servicios
+            </Link>
+            <Link
+              href="/contacto"
+              className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+            >
+              Coordinar con junta
             </Link>
           </div>
-        ) : (
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {serviceList.map((service) => (
-              <div
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicios" className="relative overflow-hidden border-y border-border/60 bg-surface/90">
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_30%,rgba(31,54,93,0.08),transparent_32%),radial-gradient(circle_at_80%_30%,rgba(15,23,42,0.06),transparent_34%)]" aria-hidden />
+    <div className="container section-shell relative space-y-8">
+      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div className="space-y-3">
+          <p className="pill w-fit">Servicios empresariales</p>
+          <h2>Áreas activas de riesgo penal corporativo</h2>
+          <p className="max-w-2xl">
+            Mostramos únicamente las áreas habilitadas en Supabase para empresas y órganos directivos.
+            Priorizamos el ingreso por DRP-CE y escalamos cuando el comité lo exige.
+          </p>
+          <div className="inline-flex items-center gap-3 rounded-2xl border border-border bg-white px-4 py-3 text-sm text-muted shadow-soft/30">
+            <span className="rounded-full bg-subtle px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-700">
+              Línea separada
+            </span>
+            Asesoría penal a personas está disponible en{" "}
+            <Link href="/personas" className="font-semibold text-ink underline-offset-4 hover:text-accent-700">
+              /personas
+            </Link>
+            .
+          </div>
+        </div>
+        <Link href="/agenda" className="btn-primary">
+          Programar una sesión
+        </Link>
+      </div>
+
+      {error && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          No pudimos conectar con Supabase. La lista de servicios puede no estar completa.
+        </div>
+      )}
+
+      {serviceList.length === 0 ? (
+        <div className="mt-6 card-shell bg-white px-6 py-10 text-center text-muted">
+          <p className="text-lg font-semibold text-ink">Servicios no disponibles por el momento</p>
+          <p className="mt-2">Vuelve pronto o contáctanos para agendar una revisión prioritaria.</p>
+          <Link href="/contacto" className="mt-4 inline-block btn-primary">
+            Contacto directo
+          </Link>
+        </div>
+      ) : (
+        <div className="grid gap-5 lg:grid-cols-3">
+          {serviceList.map((service) => {
+            const isEntrada = service.slug === "drp-ce";
+            return (
+              <article
                 key={service.slug}
-                className="flex h-full flex-col justify-between rounded-3xl border border-slate-100 bg-white p-6 shadow-soft"
+                className={`card-shell group flex h-full flex-col justify-between p-6 transition ${
+                  isEntrada
+                    ? "lg:col-span-2 bg-gradient-to-br from-ink to-accent-700 text-white ring-1 ring-white/10"
+                    : "bg-white"
+                }`}
               >
                 <div className="space-y-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-brand-700">{service.slug}</p>
-                  <h3 className="text-lg font-semibold text-slate-900">{service.title}</h3>
-                  <p className="text-sm text-slate-700">{service.description}</p>
+                  <p
+                    className={`text-[11px] font-semibold uppercase tracking-[0.14em] ${
+                      isEntrada ? "text-white/80" : "text-accent-700"
+                    }`}
+                  >
+                    {service.slug}
+                  </p>
+                  <h3 className={isEntrada ? "text-white" : "text-ink"}>{service.title}</h3>
+                  <p className={`text-sm ${isEntrada ? "text-slate-100" : "text-muted"}`}>{service.description}</p>
                 </div>
-                <Link
-                  href="/agenda"
-                  className="mt-6 inline-flex w-fit items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-                >
-                  Solicitar
-                </Link>
+
+                <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
+                  <Link
+                    href="/agenda"
+                    className={`inline-flex items-center rounded-full px-4 py-2 font-semibold transition duration-200 ${
+                      isEntrada
+                        ? "bg-white text-ink shadow-hover hover:-translate-y-[1px] hover:bg-slate-100"
+                        : "bg-ink text-white hover:-translate-y-[1px] hover:bg-accent-700"
+                    }`}
+                  >
+                    {isEntrada ? "Ingresar evaluación" : "Solicitar"}
+                  </Link>
+                  <Link
+                    href="/contacto"
+                    className={`font-semibold transition ${
+                      isEntrada ? "text-white/90 hover:text-white" : "text-accent-700 hover:text-ink"
+                    }`}
+                  >
+                    {isEntrada ? "Coordinar con junta" : "Consultar alcance"}
+                  </Link>
+                  <Link
+                    href={`/servicios/${service.slug}`}
+                    className={`font-semibold transition ${
+                      isEntrada ? "text-white/80 hover:text-white" : "text-muted hover:text-ink"
+                    }`}
+                  >
+                    Ver detalle
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section id="como-trabajamos" className="section-shell bg-panel/60">
+    <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div className="space-y-4">
+        <p className="pill w-fit">Cómo trabajamos</p>
+        <h2>Proceso ejecutivo con límites claros</h2>
+        <p>Secuencia corta, medible y documentada para mantener control y trazabilidad.</p>
+
+        <div className="relative mt-6 grid gap-4">
+          {[
+            { title: "Evaluación", detail: "20-30 minutos para delimitar riesgo penal y alcance." },
+            { title: "Mapa de riesgo", detail: "Dependencias críticas, reglas de actuación y soportes inmediatos." },
+            { title: "Acompañamiento", detail: "Sesiones ejecutivas en hitos sensibles y seguimiento puntual." },
+            { title: "Activación táctica", detail: "Protocolo de incidentes, contención y coordinación externa." },
+          ].map((item, idx) => (
+            <div key={item.title} className="card-shell relative flex gap-4 bg-white px-5 py-5 shadow-soft/30">
+              <div className="flex flex-col items-center">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ink text-xs font-semibold text-white">
+                  {idx + 1}
+                </span>
+                {idx < 3 && <span className="mt-2 h-full w-px bg-border" aria-hidden />}
               </div>
-            ))}
-          </div>
-        )}
-      </section>
+              <div className="space-y-1">
+                <p className="font-semibold text-ink">{item.title}</p>
+                <p className="text-sm text-muted leading-relaxed">{item.detail}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
 
-      <section id="como-trabajamos" className="section-shell bg-white/70">
-        <div className="container grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-          <div className="space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">Cómo trabajamos</p>
-            <h2 className="text-3xl font-semibold text-slate-900">Disciplina y límites claros</h2>
-            <p className="text-slate-700">Operamos con procesos breves y medibles para mantener control y trazabilidad.</p>
-            <ol className="space-y-3 text-sm text-slate-800">
-              {[
-                "Evaluación inicial de riesgo y alcance (20-30 minutos).",
-                "Mapa de decisiones y controles aplicables a tu comité o junta.",
-                "Acompañamiento puntual en hitos críticos y seguimiento ejecutable.",
-                "Activación de protocolo de incidentes y coordinación con aliados especializados.",
-              ].map((item) => (
-                <li key={item} className="flex gap-3 rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-100">
-                  <span className="mt-0.5 text-brand-700">●</span>
-                  {item}
-                </li>
-              ))}
-            </ol>
-          </div>
-          <div className="rounded-3xl border border-slate-100 bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-white shadow-soft">
-            <h3 className="text-xl font-semibold">Alcance y límites</h3>
-            <p className="mt-3 text-slate-200">No ofrecermos defensa penal litigiosa ni representación masiva. Nos enfocamos en prevención, control y coordinación estratégica.</p>
-            <div className="mt-6 grid gap-3 text-sm text-slate-100">
-              <div className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">Sesiones por videollamada o en sitio (según agenda).</div>
-              <div className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">Reportes ejecutivos, minutas y reglas de actuación.</div>
-              <div className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">Coordinación con aliados técnicos y comunicaciones.</div>
+      <div
+        className="card-shell relative overflow-hidden bg-gradient-to-b from-ink to-accent-700 p-8 text-white"
+        style={{ backgroundImage: executiveDesk, backgroundSize: "cover", backgroundPosition: "center" }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/84 to-accent-700/80" aria-hidden />
+        <div className="relative space-y-4">
+          <h3>Alcance y límites</h3>
+          <p className="text-slate-100">
+            No ofrecemos defensa penal litigiosa ni representación masiva. Operamos en prevención, control y coordinación estratégica para decisiones sensibles.
+          </p>
+          <div className="mt-6 grid gap-3 text-sm text-slate-100">
+            <div className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+              Sesiones por videollamada o en sitio (según agenda).
+            </div>
+            <div className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+              Reportes ejecutivos, minutas y reglas de actuación.
+            </div>
+            <div className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+              Coordinación con aliados técnicos y comunicaciones.
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 
-      <section id="a-quien-servimos" className="container section-shell">
-        <div className="grid gap-8 lg:grid-cols-2 lg:items-start">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">A quién servimos</p>
-            <h2 className="text-3xl font-semibold text-slate-900">Equipos que requieren criterio y control</h2>
-            <p className="mt-3 text-slate-700">Acompañamos roles que necesitan decisiones serenas y documentación impecable.</p>
-            <div className="mt-6 grid gap-3 md:grid-cols-2">
-              {["Representantes legales", "Miembros de junta", "Comités de contratación", "Direcciones jurídicas", "Auditoría y control interno", "Relaciones con entes de control"].map((item) => (
-                <div key={item} className="rounded-2xl border border-slate-100 bg-white px-4 py-3 text-sm font-semibold text-slate-900 shadow-soft">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-soft">
-            <h3 className="text-xl font-semibold text-slate-900">Compromisos</h3>
-            <ul className="mt-4 space-y-3 text-sm text-slate-700">
-              <li className="flex gap-3">
-                <span className="mt-0.5 text-brand-700">●</span> Confidencialidad estricta y trazabilidad de hallazgos.
-              </li>
-              <li className="flex gap-3">
-                <span className="mt-0.5 text-brand-700">●</span> Entregables ejecutivos claros y accionables.
-              </li>
-              <li className="flex gap-3">
-                <span className="mt-0.5 text-brand-700">●</span> Disponibilidad prioritaria en incidentes críticos.
-              </li>
-              <li className="flex gap-3">
-                <span className="mt-0.5 text-brand-700">●</span> Coordinación con compliance, auditoría y comunicaciones.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
+  <section id="a-quien-servimos" className="container section-shell">
+    <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+      <div className="space-y-3">
+        <p className="pill w-fit">A quién servimos</p>
+        <h2>Roles que necesitan control inmediato</h2>
+        <p>Intervenimos donde se decide rápido y se documenta con rigor.</p>
 
-      <section id="contacto" className="section-shell bg-white/70">
-        <div className="container grid gap-8 lg:grid-cols-2 lg:items-center">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-700">Contacto</p>
-            <h2 className="text-3xl font-semibold text-slate-900">Coordinemos una revisión prioritaria</h2>
-            <p className="mt-3 text-slate-700">Déjanos tus datos y te responderemos con la disponibilidad más cercana. También puedes escribirnos para coordinar agenda ejecutiva.</p>
-            <div className="mt-6 space-y-2 text-sm text-slate-700">
-              <p><strong className="text-slate-900">Correo:</strong> contacto@castellanosabogados.com</p>
-              <p><strong className="text-slate-900">Agenda:</strong> Respuesta en menos de 24 horas hábiles.</p>
+        <div className="mt-5 grid gap-3 md:grid-cols-2">
+          {[
+            "Representantes legales",
+            "Miembros de junta",
+            "Comités de contratación",
+            "Direcciones jurídicas",
+            "Auditoría y control interno",
+            "Relación con entes de control",
+          ].map((item) => (
+            <div key={item} className="card-shell bg-white px-4 py-3 text-sm font-semibold text-ink shadow-soft/40">
+              {item}
             </div>
-          </div>
-          <form className="rounded-3xl border border-slate-100 bg-white p-8 shadow-soft">
-            <div className="grid gap-4">
-              <label className="text-sm font-semibold text-slate-800">
-                Nombre completo
-                <input
-                  type="text"
-                  placeholder="Tu nombre"
-                  className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
-                />
-              </label>
-              <label className="text-sm font-semibold text-slate-800">
-                Correo corporativo
-                <input
-                  type="email"
-                  placeholder="nombre@empresa.com"
-                  className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
-                />
-              </label>
-              <label className="text-sm font-semibold text-slate-800">
-                Interés
-                <select className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100">
-                  <option>Evaluación inicial</option>
-                  <option>Agenda para junta o comité</option>
-                  <option>Protocolo de incidentes</option>
-                  <option>Otro</option>
-                </select>
-              </label>
-              <label className="text-sm font-semibold text-slate-800">
-                Contexto (opcional)
-                <textarea
-                  rows={4}
-                  placeholder="Comparte el contexto en 3-4 líneas"
-                  className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
-                />
-              </label>
-              <button
-                type="button"
-                className="mt-2 inline-flex justify-center rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-              >
-                Enviar mensaje
-              </button>
-              <p className="text-xs text-slate-500">Este formulario es referencial. Para coordinación inmediata usa el correo directo.</p>
-            </div>
-          </form>
+          ))}
         </div>
-      </section>
+      </div>
 
-      <footer className="border-t border-slate-200 bg-white py-8">
-        <div className="container flex flex-col gap-3 text-sm text-slate-600 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="font-semibold text-slate-900">Castellanos Abogados</p>
-            <p>Boutique ejecutiva · Riesgo penal en contratación estatal</p>
-          </div>
-          <div className="text-right text-slate-700">
-            <p className="font-semibold text-slate-900">Criterio • Control • Tranquilidad</p>
-            <p>© {new Date().getFullYear()} Todos los derechos reservados.</p>
-          </div>
+      <div className="card-shell bg-white p-8">
+        <h3>Compromisos</h3>
+        <ul className="mt-4 space-y-3 text-sm text-muted">
+          <li className="flex gap-3">
+            <span className="mt-0.5 h-2 w-2 rounded-full bg-ink" aria-hidden /> Confidencialidad estricta y trazabilidad de hallazgos.
+          </li>
+          <li className="flex gap-3">
+            <span className="mt-0.5 h-2 w-2 rounded-full bg-ink" aria-hidden /> Entregables ejecutivos claros y accionables.
+          </li>
+          <li className="flex gap-3">
+            <span className="mt-0.5 h-2 w-2 rounded-full bg-ink" aria-hidden /> Disponibilidad prioritaria en incidentes críticos.
+          </li>
+          <li className="flex gap-3">
+            <span className="mt-0.5 h-2 w-2 rounded-full bg-ink" aria-hidden /> Coordinación con compliance, auditoría y comunicaciones.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section className="section-shell border-t border-border/70 bg-gradient-to-r from-panel to-surface/80">
+    <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div className="space-y-4">
+        <p className="pill w-fit">Asesoría a personas (línea secundaria)</p>
+        <h2>Asesoría penal a personas naturales</h2>
+        <p className="max-w-2xl">
+          Mantenemos una línea separada y discreta para personas naturales con situaciones penales puntuales.
+          No mezcla recursos con la operación empresarial ni altera nuestras prioridades corporativas.
+        </p>
+
+        <div className="grid gap-3 sm:grid-cols-2">
+          {[
+            "Contexto privado y delimitado",
+            "Evaluación rápida sin litigio",
+            "Instrucciones claras y documentos base",
+            "Derivación a aliados cuando se requiere representación",
+          ].map((item) => (
+            <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
+              {item}
+            </div>
+          ))}
         </div>
-      </footer>
-    </main>
-  );
+
+        <div className="flex flex-wrap gap-3">
+          <Link href="/personas" className="btn-secondary">
+            Ver línea personal
+          </Link>
+          <Link href="/contacto" className="btn-primary">
+            Contacto directo
+          </Link>
+        </div>
+
+        <p className="text-sm text-muted">
+          Esta línea no sustituye asesoría corporativa ni implica representación judicial.
+        </p>
+      </div>
+
+      <div
+        className="card-shell relative overflow-hidden bg-ink p-0 text-white"
+        style={{ backgroundImage: personalAdvisory, backgroundSize: "cover", backgroundPosition: "center" }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/82 via-ink/86 to-accent-700/72" aria-hidden />
+        <div className="relative grid gap-4 p-8">
+          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-slate-200">
+            <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">Línea separada</span>
+            <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">Confidencial</span>
+          </div>
+          <h3 className="text-white">Atención personalizada y delimitada</h3>
+          <p className="text-slate-100">
+            Evaluamos el caso, fijamos límites y, si se requiere representación litigiosa, articulamos aliados externos sin perder el control documental.
+          </p>
+          <div className="grid gap-3 text-sm text-slate-100 md:grid-cols-2">
+            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Sesiones breves y privadas.</div>
+            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Protocolos básicos y guías de actuación.</div>
+          </div>
+          <Link href="/personas" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+            Acceder a la línea personal
+          </Link>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="contacto"
+    className="relative overflow-hidden section-shell"
+    style={{ backgroundImage: skylineBackground, backgroundSize: "cover", backgroundPosition: "center" }}
+  >
+    <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/82 to-accent-700/70" aria-hidden />
+    <div className="container relative grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-start text-white">
+      <div className="space-y-4">
+        <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Contacto prioritario</p>
+        <h2 className="text-white">Primer punto de control</h2>
+        <p className="text-slate-100">
+          Comparte el contexto esencial y coordinamos la disponibilidad más cercana. Si requieres activación inmediata, escribe directo al correo indicado.
+        </p>
+        <div className="space-y-2 text-sm text-slate-100">
+          <p>
+            <strong className="text-white">Correo directo:</strong> contacto@castellanosabogados.com
+          </p>
+          <p>
+            <strong className="text-white">Respuesta estimada:</strong> menos de 24 horas hábiles.
+          </p>
+        </div>
+      </div>
+
+      <form className="card-shell bg-white/90 p-8 text-ink backdrop-blur">
+        <div className="grid gap-4">
+          <label className="text-sm font-semibold text-ink">
+            Nombre y rol
+            <input
+              type="text"
+              placeholder="Ej. Representante legal, miembro de junta"
+              className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+            />
+          </label>
+
+          <label className="text-sm font-semibold text-ink">
+            Correo corporativo
+            <input
+              type="email"
+              placeholder="nombre@empresa.com"
+              className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+            />
+          </label>
+
+          <label className="text-sm font-semibold text-ink">
+            Motivo prioritario
+            <select className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50">
+              <option>Evaluación inicial / DRP-CE</option>
+              <option>Escalamiento estratégico / AEC-CE</option>
+              <option>Incidente crítico / ICP-CE</option>
+              <option>Otro</option>
+            </select>
+          </label>
+
+          <label className="text-sm font-semibold text-ink">
+            Contexto breve (opcional)
+            <textarea
+              rows={4}
+              placeholder="3-4 líneas para entender la urgencia"
+              className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+            />
+          </label>
+
+          <button type="button" className="btn-primary justify-center">
+            Enviar para revisión
+          </button>
+
+          <p className="text-xs text-muted">
+            Formulario referencial. Para activación inmediata usa el correo directo.
+          </p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer className="border-t border-border bg-white/90 py-8 backdrop-blur">
+    <div className="container flex flex-col gap-3 text-sm text-muted md:flex-row md:items-center md:justify-between">
+      <div>
+        <p className="font-heading text-base font-semibold text-ink">Castellanos Abogados</p>
+        <p>Boutique ejecutiva · Riesgo penal en contratación estatal</p>
+      </div>
+      <div className="text-right text-muted">
+        <p className="font-heading font-semibold text-ink">Criterio • Control • Tranquilidad</p>
+        <p>© {new Date().getFullYear()} Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+</main>
+);
 }

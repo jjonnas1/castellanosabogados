@@ -1,34 +1,70 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import(‘tailwindcss’).Config} /
 module.exports = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./new/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
-      },
-      colors: {
-        brand: {
-          50: "#f3f7fb",
-          100: "#e4ecf6",
-          200: "#c4d8ee",
-          300: "#95bbe2",
-          400: "#6498d1",
-          500: "#3f75b5",
-          600: "#2f5c97",
-          700: "#284a7a",
-          800: "#243f66",
-          900: "#203755",
-        },
-      },
-      boxShadow: {
-        soft: "0 10px 40px rgba(15, 23, 42, 0.12)",
-      },
+content: [
+“./app/**/.{js,ts,jsx,tsx,mdx}”,
+“./components//*.{js,ts,jsx,tsx,mdx}”,
+“./pages//.{js,ts,jsx,tsx,mdx}”,
+“./new/**/.{js,ts,jsx,tsx,mdx}”,
+],
+theme: {
+container: {
+center: true,
+padding: {
+DEFAULT: “1.25rem”,
+sm: “1.5rem”,
+md: “2rem”,
+lg: “2.5rem”,
+},
+screens: {
+“2xl”: “1280px”,
+},
+},
+extend: {
+fontFamily: {
+sans: [“var(–font-inter)”, “system-ui”, “-apple-system”, “sans-serif”],
+heading: [“var(–font-serif)”, “‘Source Serif 4’”, “Georgia”, “serif”],
+},
+colors: {
+canvas: “var(–color-canvas)”,
+surface: “var(–color-surface)”,
+panel: “var(–color-panel)”,
+card: “var(–color-card)”,
+ink: “var(–color-ink)”,
+muted: “var(–color-muted)”,
+border: “var(–color-border)”,
+subtle: “var(–color-subtle)”,
+accent: {
+50: “var(–color-accent-soft)”,
+500: “var(–color-accent)”,
+700: “var(–color-accent-strong)”,
+},    // Opcional: mantener paleta "brand" para estilos antiguos (compatibilidad)
+    brand: {
+      50: "#f3f7fb",
+      100: "#e4ecf6",
+      200: "#c4d8ee",
+      300: "#95bbe2",
+      400: "#6498d1",
+      500: "#3f75b5",
+      600: "#2f5c97",
+      700: "#284a7a",
+      800: "#243f66",
+      900: "#203755",
     },
   },
-  plugins: [],
+  boxShadow: {
+    soft: "var(--shadow-soft)",
+    hover: "var(--shadow-hover)",
+    inset: "inset 0 1px 0 rgba(255,255,255,0.2)",
+  },
+  borderRadius: {
+    lg: "var(--radius-lg)",
+    xl: "var(--radius-xl)",
+    "2xl": "26px",
+    "3xl": "32px",
+  },
+  letterSpacing: {
+    tightest: "-0.02em",
+  },
+},},
+plugins: [],
 };
