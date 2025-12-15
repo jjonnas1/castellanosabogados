@@ -1,13 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
+import { supabase } from '@/lib/supabase-browser';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 type Area = { slug: string; name: string };
 type Profile = { id: string; email: string; role: 'client'|'lawyer'|'admin'; full_name: string|null };
