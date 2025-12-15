@@ -1,4 +1,5 @@
 import Link from "next/link";
+import SiteHeader from "@/app/components/SiteHeader";
 import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
 import { getServiceDetail } from "@/lib/serviceDetails";
 
@@ -14,6 +15,7 @@ export default async function ServiciosPage() {
 
   return (
     <main className="min-h-screen bg-canvas pb-16">
+      <SiteHeader />
       <header
         className="relative overflow-hidden border-b border-border/70 text-white"
         style={{ backgroundImage: headerBackground, backgroundSize: "cover", backgroundPosition: "center" }}
