@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
+import { getServiceDetail } from "@/lib/serviceDetails";
 
 const headerBackground =
   "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
 
 export default async function ServiciosPage() {
   const { data, error } = await fetchServiceAreas();
-  const services = data.map(enrichService);
+  const services = data.map(enrichService).map((service) => ({
+    ...service,
+    detail: getServiceDetail(service.slug),
+  }));
 
   return (
     <main className="min-h-screen bg-canvas pb-16">
@@ -16,14 +20,14 @@ export default async function ServiciosPage() {
       >
         <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/82 to-accent-700/70" aria-hidden />
         <div className="container relative flex flex-col gap-3 py-14">
-          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Servicios</p>
-          <h1 className="text-white">Áreas de práctica activas</h1>
+          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Riesgo penal empresarial</p>
+          <h1 className="text-white">Servicios ejecutivos en contratación estatal</h1>
           <p className="max-w-3xl text-slate-100">
-            Visualiza las áreas habilitadas directamente desde Supabase. Si no podemos conectarnos, mostraremos un aviso y un mensaje de disponibilidad.
+            Priorizamos el trabajo con juntas, comités y representantes legales. Mostramos únicamente las áreas habilitadas desde Supabase; si la conexión falla, verás un aviso y podrás coordinar directamente.
           </p>
           <div className="mt-3 flex gap-3">
             <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
-              Agendar
+              Solicitar evaluación estratégica
             </Link>
             <Link href="/" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
               Volver al inicio
@@ -89,30 +93,78 @@ export default async function ServiciosPage() {
         ) : (
           <div className="grid gap-6 md:grid-cols-3">
             {services.map((service) => (
-              <article
-                key={service.slug}
-                className="card-shell flex h-full flex-col justify-between bg-white p-6"
-              >
+              <article key={service.slug} className="card-shell flex h-full flex-col justify-between bg-white p-6">
                 <div className="space-y-3">
                   <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-700">{service.slug}</p>
                   <h3 className="text-lg font-heading font-semibold text-ink">{service.title}</h3>
                   <p className="text-sm text-muted leading-relaxed">{service.description}</p>
+                  {service.detail && (
+                    <div className="space-y-2 text-sm text-muted">
+                      <div>
+                        <p className="font-semibold text-ink">Cuándo se activa</p>
+                        <ul className="mt-1 space-y-1 list-disc pl-4">
+                          {service.detail.activation.slice(0, 2).map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-ink">Entregables</p>
+                        <ul className="mt-1 space-y-1 list-disc pl-4">
+                          {service.detail.deliverables.slice(0, 2).map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <div className="mt-6 flex items-center gap-3 text-sm text-muted">
+                <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted">
                   <Link
                     href="/agenda"
                     className="inline-flex items-center rounded-full bg-ink px-4 py-2 font-semibold text-white shadow-soft transition hover:-translate-y-[1px] hover:bg-accent-700"
                   >
                     Solicitar
                   </Link>
-                  <Link href="/contacto" className="font-semibold text-accent-700 transition hover:text-ink">
-                    Consultar alcance
+                  <Link href={`/servicios/${service.slug}`} className="font-semibold text-accent-700 transition hover:text-ink">
+                    Ver detalle
+                  </Link>
+                  <Link href="/contacto" className="font-semibold text-muted transition hover:text-ink">
+                    Coordinar alcance
                   </Link>
                 </div>
               </article>
             ))}
           </div>
         )}
+      </section>
+
+      <section className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div className="space-y-4">
+          <p className="pill w-fit">Asesoría a personas (secundaria)</p>
+          <h2>Atención penal para personas naturales</h2>
+          <p className="max-w-2xl text-muted">
+            Gestionamos una línea independiente y discreta para casos personales. No interfiere con los servicios corporativos ni sustituye representación litigiosa.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {["Evaluación breve y confidencial", "Guía de actuación inmediata", "Documentos base de soporte", "Derivación a aliados para litigio"].map((item) => (
+              <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
+                {item}
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/personas" className="btn-secondary">Ver línea personal</Link>
+            <Link href="/contacto" className="btn-primary">Contacto directo</Link>
+          </div>
+        </div>
+        <div className="card-shell bg-ink p-8 text-white">
+          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Línea separada</p>
+          <h3 className="mt-3 text-white">Claridad de alcance</h3>
+          <p className="text-slate-100">
+            La línea personal está pensada para orientar y documentar. Si el caso requiere defensa judicial, articulamos aliados externos manteniendo el control documental y la coordinación con el cliente.
+          </p>
+        </div>
       </section>
     </main>
   );

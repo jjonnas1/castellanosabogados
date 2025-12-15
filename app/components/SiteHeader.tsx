@@ -2,11 +2,12 @@ import Link from "next/link";
 
 export default function SiteHeader() {
   const navLinks = [
-    { href: "/#que-hacemos", label: "Qué hacemos" },
-    { href: "/#servicios", label: "Servicios" },
+    { href: "/", label: "Inicio" },
+    { href: "/#riesgo-empresarial", label: "Riesgo penal empresarial" },
+    { href: "/servicios", label: "Servicios" },
     { href: "/#como-trabajamos", label: "Cómo trabajamos" },
     { href: "/#a-quien-servimos", label: "A quién servimos" },
-    { href: "/contacto", label: "Contacto" },
+    { href: "/#contacto", label: "Contacto" },
   ];
 
   return (
@@ -46,6 +47,12 @@ export default function SiteHeader() {
             className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
           >
             Iniciar sesión
+          </Link>
+          <Link
+            href="/personas"
+            className="hidden text-sm font-semibold text-muted underline-offset-4 transition hover:text-ink md:inline-flex"
+          >
+            Asesoría a personas
           </Link>
         </div>
       </div>
