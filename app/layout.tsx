@@ -1,9 +1,10 @@
 import "./globals.css";
+import type { Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Castellanos Abogados",
   description:
-    "Asesoría estratégica y preventiva del riesgo penal asociado a decisiones sensibles en contratación estatal.",
+    "Acompañamiento estratégico y preventivo del riesgo penal asociado a decisiones sensibles en contratación estatal.",
 };
 
 export default function RootLayout({
@@ -12,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
-      <body className="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <html lang="es" className="theme-a">
+      <body className="min-h-screen bg-canvas text-ink antialiased">
         {children}
       </body>
     </html>

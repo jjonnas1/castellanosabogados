@@ -1,35 +1,49 @@
 import Link from "next/link";
 
 export default function SiteHeader() {
+  const navLinks = [
+    { href: "/#inicio", label: "Inicio" },
+    { href: "/#arquitectura", label: "Arquitectura" },
+    { href: "/#servicios", label: "Servicios" },
+    { href: "/#activacion", label: "Activación" },
+    { href: "/#contacto", label: "Contacto" },
+  ];
+
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-gray-200">
-      <div className="container h-16 flex items-center justify-between">
-        <div className="flex flex-col">
-          <span className="text-sm font-semibold text-gray-900">
-            Castellanos Abogados
-          </span>
-          <span className="text-xs text-gray-500">
-            Asesoría estratégica
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-white/80 backdrop-blur">
+      <div className="container flex h-20 items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="flex flex-col leading-tight">
+            <span className="text-base font-heading font-semibold text-ink">Castellanos Abogados</span>
+            <span className="text-[11px] uppercase tracking-[0.22em] text-muted">
+              Riesgo penal · decisiones críticas
+            </span>
+          </div>
+          <span className="hidden rounded-full bg-subtle px-3 py-1 text-[11px] font-semibold text-ink/80 ring-1 ring-border md:inline-flex">
+            Contratación estatal · juntas · crisis
           </span>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm text-gray-600">
-          <Link href="/#que-hacemos">Qué hacemos</Link>
-          <Link href="/#servicios">Servicios</Link>
-          <Link href="/#como">Cómo trabajamos</Link>
-          <Link href="/contacto">Contacto</Link>
+        <nav className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
+          {navLinks.map((item) => (
+            <Link
+              key={item.href}
+              className="relative transition hover:text-ink"
+              href={item.href}
+            >
+              {item.label}
+              <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-ink transition-all duration-200 hover:w-full" />
+            </Link>
+          ))}
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            href="/agenda"
-            className="rounded-full bg-gray-900 px-5 py-2 text-sm font-semibold text-white hover:bg-gray-800 transition"
-          >
+          <Link href="/agenda" className="hidden btn-primary md:inline-flex">
             Solicitar evaluación
           </Link>
           <Link
             href="/cliente/acceso"
-            className="hidden sm:block text-sm text-gray-600 hover:text-gray-900"
+            className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
           >
             Iniciar sesión
           </Link>
