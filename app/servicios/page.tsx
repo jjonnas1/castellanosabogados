@@ -93,50 +93,65 @@ export default async function ServiciosPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-3">
-            {services.map((service) => (
-              <article key={service.slug} className="card-shell flex h-full flex-col justify-between bg-white p-6">
-                <div className="space-y-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-700">{service.slug}</p>
-                  <h3 className="text-lg font-heading font-semibold text-ink">{service.title}</h3>
-                  <p className="text-sm text-muted leading-relaxed">{service.description}</p>
-                  {service.detail && (
-                    <div className="space-y-2 text-sm text-muted">
-                      <div>
-                        <p className="font-semibold text-ink">Cuándo se activa</p>
-                        <ul className="mt-1 space-y-1 list-disc pl-4">
-                          {service.detail.activation.slice(0, 2).map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-ink">Entregables</p>
-                        <ul className="mt-1 space-y-1 list-disc pl-4">
-                          {service.detail.deliverables.slice(0, 2).map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
+          <div className="space-y-8">
+            {["drp-ce", "aec-ce", "icp-ce"].map((slug) => {
+              const service = services.find((item) => item.slug === slug);
+              if (!service) return null;
+
+              return (
+                <article key={service.slug} className="card-shell bg-white p-6">
+                  <div className="flex flex-col gap-4 md:flex-row md:justify-between md:gap-8">
+                    <div className="space-y-3 md:max-w-2xl">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-700">{service.slug}</p>
+                      <h3 className="text-2xl font-heading font-semibold text-ink">{service.title}</h3>
+                      <p className="text-sm text-muted leading-relaxed">{service.description}</p>
+                      {service.detail && (
+                        <div className="grid gap-3 md:grid-cols-2">
+                          <div className="space-y-1 text-sm text-muted">
+                            <p className="font-semibold text-ink">Cuándo se activa</p>
+                            <ul className="mt-1 space-y-1 list-disc pl-4">
+                              {service.detail.activation.slice(0, 3).map((item) => (
+                                <li key={item}>{item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div className="space-y-1 text-sm text-muted">
+                            <p className="font-semibold text-ink">Entregables</p>
+                            <ul className="mt-1 space-y-1 list-disc pl-4">
+                              {service.detail.deliverables.slice(0, 3).map((item) => (
+                                <li key={item}>{item}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-col gap-3 text-sm text-muted md:min-w-[260px]">
+                      {service.detail && (
+                        <div className="rounded-2xl border border-border bg-subtle px-4 py-3">
+                          <p className="font-semibold text-ink">Resumen ejecutivo</p>
+                          <p className="mt-1 text-muted">{service.detail.summary}</p>
+                        </div>
+                      )}
+                      <div className="flex flex-wrap gap-3">
+                        <Link
+                          href="/agenda"
+                          className="btn-primary"
+                        >
+                          Solicitar
+                        </Link>
+                        <Link href={`/servicios/${service.slug}`} className="btn-secondary">
+                          Ver detalle
+                        </Link>
+                        <Link href="/contacto" className="font-semibold text-accent-700 underline-offset-4 transition hover:text-ink">
+                          Coordinar alcance
+                        </Link>
                       </div>
                     </div>
-                  )}
-                </div>
-                <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted">
-                  <Link
-                    href="/agenda"
-                    className="inline-flex items-center rounded-full bg-ink px-4 py-2 font-semibold text-white shadow-soft transition hover:-translate-y-[1px] hover:bg-accent-700"
-                  >
-                    Solicitar
-                  </Link>
-                  <Link href={`/servicios/${service.slug}`} className="font-semibold text-accent-700 transition hover:text-ink">
-                    Ver detalle
-                  </Link>
-                  <Link href="/contacto" className="font-semibold text-muted transition hover:text-ink">
-                    Coordinar alcance
-                  </Link>
-                </div>
-              </article>
-            ))}
+                  </div>
+                </article>
+              );
+            })}
           </div>
         )}
       </section>
