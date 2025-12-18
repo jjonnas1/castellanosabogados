@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase-browser';
 
@@ -65,7 +65,7 @@ export default function AdminCitasPage() {
   }, []);
 
   // load appointments (admin ve todo gracias a RLS)
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true);
 
     let q = supabase.from('appointments')
@@ -100,9 +100,11 @@ export default function AdminCitasPage() {
       setItems(withJoin);
     }
     setLoading(false);
-  }
+  }, [qArea, qLawyer, qStatus]);
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [qStatus,qArea,qLawyer]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
   async function assignLawyer(id: string, lawyer_id: string|null) {
     await supabase.from('appointments').update({ lawyer_id, status: lawyer_id ? 'confirmed' : 'pending' }).eq('id', id);

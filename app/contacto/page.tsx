@@ -129,14 +129,14 @@ export default function ContactoPage() {
               />
             </div>
 
-            <div className="flex flex-wrap gap-3">
-              <button className="btn-primary" type="submit" disabled={loading}>
-                {loading ? "Enviando…" : "Enviar"}
-              </button>
-              <a href="/" className="btn-secondary">
-                Volver al inicio
-              </a>
-            </div>
+              <div className="flex flex-wrap gap-3">
+                <button className="btn-primary" type="submit" disabled={loading}>
+                  {loading ? "Enviando…" : "Enviar"}
+                </button>
+                <Link href="/" className="btn-secondary">
+                  Volver al inicio
+                </Link>
+              </div>
 
             {ok && (
               <div className="rounded-xl border border-green-500/40 bg-green-50 px-4 py-3 text-sm font-semibold text-ink">

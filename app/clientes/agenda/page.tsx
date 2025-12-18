@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
@@ -86,7 +87,9 @@ export default function AgendaClientePage() {
             <button className="btn btn--primary" onClick={enviar} disabled={loading}>
               {loading ? "Redirigiendo al pago…" : "Enviar solicitud"}
             </button>
-            <a className="btn btn--ghost" href="/">Volver al inicio</a>
+              <Link className="btn btn--ghost" href="/">
+                Volver al inicio
+              </Link>
           </div>
 
           {err && <div className="panel" style={{background:"#fff5f5",borderColor:"#fed7d7"}}>❌ {err}</div>}

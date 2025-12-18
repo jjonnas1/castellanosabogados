@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   const navLinks = [
     { href: "/", label: "Inicio" },
@@ -75,6 +79,7 @@ export default function SiteHeader() {
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-ink transition hover:-translate-y-[1px] hover:shadow-soft md:hidden"
             onClick={() => setOpen((prev) => !prev)}
             aria-label="Abrir menú"
+            aria-expanded={open}
           >
             <span className="sr-only">Menú</span>
             <div className="flex h-3 flex-col justify-between">
