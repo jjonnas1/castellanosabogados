@@ -34,13 +34,13 @@ export default async function ServiciosPage() {
 
       <section className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
         <div className="space-y-4">
-          <p className="pill w-fit">Identidad de la firma</p>
-          <h2>Asesoría estratégica en contratación estatal</h2>
+          <p className="pill w-fit">Enfoque</p>
+          <h2>Gestión del riesgo penal en decisiones críticas</h2>
           <p className="max-w-2xl text-muted">
-            Proporcionamos criterio sólido, control absoluto y serenidad estratégica en cada fase de decisiones críticas y procesos contractuales.
+            Proporcionamos criterio jurídico, controles y trazabilidad para decisiones sensibles en organizaciones y personas naturales.
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
-            {["Estrategia penal en contratación estatal", "Prevención, control y activación táctica", "Documentación ejecutiva y trazabilidad", "Coordinación con juntas y comités"].map((item) => (
+            {["Prevención y control de riesgo penal", "Documentación y evidencia prioritaria", "Protocolos y reglas de actuación", "Coordinación con juntas, comités y defensas"].map((item) => (
               <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
                 {item}
               </div>

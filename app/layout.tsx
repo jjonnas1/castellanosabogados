@@ -6,7 +6,7 @@ import { ScrollToTop } from "./components/ScrollToTop";
 export const metadata: Metadata = {
   title: "Castellanos Abogados",
   description:
-    "Acompañamiento estratégico y preventivo del riesgo penal asociado a decisiones sensibles en contratación estatal.",
+    "Gestión y control del riesgo penal en decisiones críticas para organizaciones y personas, con método y trazabilidad.",
 };
 
 export default function RootLayout({

@@ -3,15 +3,15 @@ import Link from "next/link";
 const servicios = [
   {
     title: "Prevención y gestión de riesgo penal",
-    detail: "Evaluamos decisiones de contratación estatal, roles y trazabilidad para reducir exposición penal.",
+    detail: "Evaluamos decisiones sensibles, roles y trazabilidad para reducir exposición penal." ,
   },
   {
-    title: "Controles y documentación ejecutiva",
-    detail: "Protocolos, actas y soportes para juntas y comités con foco en evidencia y cumplimiento.",
+    title: "Controles y documentación",
+    detail: "Protocolos, actas y soportes con responsables definidos para juntas y comités.",
   },
   {
-    title: "Acompañamiento a junta y comité de crisis",
-    detail: "Sesiones breves, definición de responsables y activación coordinada con equipos internos y externos.",
+    title: "Reglas de actuación y acompañamiento",
+    detail: "Criterios claros, alertas y coordinación para decisiones empresariales bajo presión.",
   },
 ];
 
@@ -23,9 +23,9 @@ export default function PenalEmpresasServicios() {
           <div className="flex items-center justify-between">
             <div className="space-y-3">
               <p className="pill w-fit">Penal / Empresas</p>
-              <h1 className="max-w-3xl">Servicios para organizaciones en contratación estatal</h1>
+              <h1 className="max-w-3xl">Servicios para organizaciones</h1>
               <p className="max-w-2xl text-lg text-muted">
-                Operamos como equipo de control penal preventivo: decisiones claras, documentación y reacción en crisis.
+                Prevención, control documental y acompañamiento en decisiones corporativas con riesgo penal.
               </p>
             </div>
             <Link href="/" className="hidden text-sm font-semibold text-accent-700 underline-offset-4 hover:underline md:inline-flex">

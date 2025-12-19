@@ -10,7 +10,7 @@ export type ServiceArea = {
 const serviceCopy: Record<string, { title: string; description: string }> = {
   "drp-ce": {
     title: "DRP-CE",
-    description: "Diagnóstico inicial del riesgo penal en contratación estatal para decisiones inmediatas.",
+    description: "Diagnóstico inicial del riesgo penal y delimitación rápida para decisiones inmediatas.",
   },
   "aec-ce": {
     title: "AEC-CE",
