@@ -1,12 +1,39 @@
 import Link from "next/link";
 
 export default function SiteHeader() {
-  const navLinks = [
-    { href: "/#inicio", label: "Inicio" },
-    { href: "/#arquitectura", label: "Arquitectura" },
-    { href: "/#servicios", label: "Servicios" },
-    { href: "/#activacion", label: "Activación" },
-    { href: "/#contacto", label: "Contacto" },
+  const navGroups = [
+    {
+      href: "/#inicio",
+      label: "Inicio",
+      detail: "Resumen de los servicios",
+      links: [{ href: "/#inicio", label: "Ver inicio" }],
+    },
+    {
+      href: "/#servicios",
+      label: "Penal / Empresas",
+      detail: "Servicios • Contacto",
+      links: [
+        { href: "/#servicios", label: "Servicios" },
+        { href: "/#contacto", label: "Contacto" },
+      ],
+    },
+    {
+      href: "/#servicios",
+      label: "Penal / Personas",
+      detail: "Servicios • Asesoría • Regístrate • Log in",
+      links: [
+        { href: "/#servicios", label: "Servicios" },
+        { href: "/agenda", label: "Asesoría" },
+        { href: "/cliente/registro", label: "Registrarse" },
+        { href: "/cliente/acceso", label: "Log in" },
+      ],
+    },
+    {
+      href: "/#contacto",
+      label: "Contacto",
+      detail: "Coordinación inmediata",
+      links: [{ href: "/#contacto", label: "Contacto" }],
+    },
   ];
 
   return (
@@ -24,16 +51,29 @@ export default function SiteHeader() {
           </span>
         </div>
 
-        <nav className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
-          {navLinks.map((item) => (
-            <Link
-              key={item.href}
-              className="relative transition hover:text-ink"
-              href={item.href}
-            >
-              {item.label}
-              <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-ink transition-all duration-200 hover:w-full" />
-            </Link>
+        <nav className="hidden items-center gap-8 text-sm font-medium text-muted md:flex">
+          {navGroups.map((item) => (
+            <div key={item.label} className="group flex flex-col gap-1">
+              <Link
+                className="relative text-ink transition hover:text-ink"
+                href={item.href}
+              >
+                {item.label}
+                <span className="absolute -bottom-2 left-0 h-[2px] w-0 bg-ink transition-all duration-200 group-hover:w-full" />
+              </Link>
+              <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
+                {item.links.map((sub) => (
+                  <Link
+                    key={sub.href}
+                    href={sub.href}
+                    className="rounded-full bg-subtle/80 px-2.5 py-1 transition hover:bg-ink hover:text-white"
+                  >
+                    {sub.label}
+                  </Link>
+                ))}
+              </div>
+              <span className="text-[12px] text-muted">{item.detail}</span>
+            </div>
           ))}
         </nav>
 
