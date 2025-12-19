@@ -20,7 +20,7 @@ export default async function Home() {
       <SiteHeader />
 
       <section
-        id="inicio"
+        id="resumen-servicios"
         className="relative overflow-hidden border-b border-border/70 text-white"
         style={{ backgroundImage: heroBackdrop, backgroundSize: "cover", backgroundPosition: "center" }}
       >
