@@ -15,7 +15,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   {
     label: "Inicio",
-    href: "/#resumen-servicios",
+    href: "/",
     activePaths: ["/"],
     description: "Resumen de servicios",
   },
@@ -89,6 +89,9 @@ export default function SiteHeader() {
   };
 
   useEffect(() => {
+    setMobileOpen(false);
+    setMobileDropdown({});
+
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
         setDesktopOpen(null);
@@ -111,7 +114,7 @@ export default function SiteHeader() {
       document.removeEventListener("touchstart", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <header
@@ -128,7 +131,7 @@ export default function SiteHeader() {
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-6 text-sm font-semibold text-muted md:flex">
+        <nav className="hidden flex-1 items-center justify-center gap-6 text-sm font-semibold text-muted md:flex">
           {navItems.map((item) => {
             const parentActive = isActive(item.activePaths, item.href);
             const hasDropdown = item.links && item.links.length > 0;
@@ -143,11 +146,6 @@ export default function SiteHeader() {
                     aria-expanded={desktopOpen === item.label}
                     aria-controls={`menu-${item.label}`}
                     onClick={() => setDesktopOpen((prev) => (prev === item.label ? null : item.label))}
-                    onBlur={(e) => {
-                      if (!e.currentTarget.contains(e.relatedTarget)) {
-                        setDesktopOpen((prev) => (prev === item.label ? null : prev));
-                      }
-                    }}
                   >
                     {item.label}
                     <ChevronDownIcon />
