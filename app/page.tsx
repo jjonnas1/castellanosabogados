@@ -1,5 +1,4 @@
 import Link from "next/link";
-import SiteHeader from "./components/SiteHeader";
 import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
 
 const heroBackdrop =
@@ -17,8 +16,6 @@ export default async function Home() {
 
   return (
     <main className="bg-canvas text-ink">
-      <SiteHeader />
-
       <section
         id="resumen-servicios"
         className="relative overflow-hidden border-b border-border/70 text-white"

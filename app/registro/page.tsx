@@ -5,6 +5,12 @@ export default function Registro() {
     <main className="bg-canvas text-ink">
       <section className="section-shell border-b border-border/70 bg-gradient-to-br from-ink/6 via-surface to-subtle/30">
         <div className="container space-y-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-accent-700 underline-offset-4 hover:underline"
+          >
+            ← Volver a inicio
+          </Link>
           <p className="pill w-fit">Registro</p>
           <h1 className="max-w-3xl">Crear acceso para coordinación penal</h1>
           <p className="max-w-2xl text-lg text-muted">

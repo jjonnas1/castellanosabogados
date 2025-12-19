@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const navConfig = [
   {
     label: "Inicio",
     href: "/#resumen-servicios",
+    activePath: "/",
     description: "Resumen de los servicios",
     links: [{ label: "Resumen", href: "/#resumen-servicios" }],
   },
@@ -74,19 +75,54 @@ export default function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileDropdown, setMobileDropdown] = useState<Record<string, boolean>>({});
   const [desktopOpen, setDesktopOpen] = useState<string | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
 
-  const isActive = (href?: string) => {
-    if (!href) return false;
-    if (href.startsWith("/#")) return pathname === "/";
-    return pathname === href || pathname.startsWith(`${href}/`);
+  const normalize = (href?: string) => href?.split("#")[0];
+
+  const isActive = (href?: string, activePath?: string) => {
+    const target = activePath ?? normalize(href);
+    if (!target) return false;
+    if (target === "/") return pathname === "/";
+    return pathname === target || pathname.startsWith(`${target}/`);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
+        setDesktopOpen(null);
+        setMobileOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setDesktopOpen(null);
+        setMobileOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-white/80 backdrop-blur">
-      <div className="container flex h-16 items-center justify-between gap-4 md:h-20">
-        <div className="flex items-center gap-3">
+    <header
+      ref={headerRef}
+      className="sticky top-0 z-50 border-b border-border/80 bg-white/85 backdrop-blur"
+      role="navigation"
+      aria-label="Navegación principal"
+    >
+      <div className="container flex h-16 items-center justify-between gap-6 md:h-20">
+        <div className="flex min-w-0 items-center gap-3">
           <div className="flex flex-col leading-tight">
-            <Link href="/" className="text-base font-heading font-semibold text-ink">
+            <Link href="/" className="text-base font-heading font-semibold text-ink" aria-label="Volver a inicio">
               Castellanos Abogados
             </Link>
             <span className="text-[11px] uppercase tracking-[0.22em] text-muted">
@@ -98,71 +134,70 @@ export default function SiteHeader() {
           </span>
         </div>
 
-        <nav className="hidden items-center gap-6 text-sm font-medium text-muted md:flex">
-          {navConfig.map((item) => (
-            <div
-              key={item.label}
-              className="group relative flex flex-col gap-1"
-              onMouseEnter={() => setDesktopOpen(item.label)}
-              onMouseLeave={() => setDesktopOpen(null)}
-              onFocus={() => setDesktopOpen(item.label)}
-              onBlur={() => setDesktopOpen(null)}
-            >
-              {item.links && item.links.length > 1 ? (
-                <button
-                  className={`flex items-center gap-2 rounded-full px-3 py-2 transition hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
-                    isActive(item.href) ? "text-ink" : "text-muted"
-                  }`}
-                  aria-haspopup="true"
-                  aria-expanded={desktopOpen === item.label}
-                >
-                  {item.label}
-                  <ChevronDownIcon />
-                </button>
-              ) : (
-                <Link
-                  href={item.href ?? item.links?.[0].href ?? "#"}
-                  className={`flex items-center gap-2 rounded-full px-3 py-2 transition hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
-                    isActive(item.href ?? item.links?.[0].href) ? "text-ink" : "text-muted"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              )}
-
-              {item.links && item.links.length > 1 ? (
-                <div
-                  className={`absolute left-1/2 top-[calc(100%+12px)] w-64 -translate-x-1/2 rounded-2xl border border-border bg-white/95 p-3 shadow-soft backdrop-blur transition ${
-                    desktopOpen === item.label ? "visible opacity-100" : "invisible opacity-0"
-                  } group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100`}
-                >
-                  <div className="space-y-1 text-sm text-ink">
-                    {item.links.map((link) => (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        className={`flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-subtle ${
-                          isActive(link.href) ? "bg-subtle text-ink font-semibold" : "text-ink"
-                        }`}
-                      >
-                        <span>{link.label}</span>
-                        <span className="text-[11px] uppercase tracking-[0.18em] text-muted">{item.label}</span>
-                      </Link>
-                    ))}
+        <nav className="hidden flex-1 items-center justify-center gap-8 text-sm font-semibold text-muted md:flex">
+          {navConfig.map((item) => {
+            const parentActive =
+              item.links?.some((link) => isActive(link.href)) || isActive(item.href, item.activePath);
+            return (
+              <div key={item.label} className="group relative flex flex-col items-start gap-1">
+                {item.links && item.links.length > 1 ? (
+                  <button
+                    className={`flex items-center gap-2 rounded-full px-3 py-2 transition hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
+                      parentActive ? "text-ink" : "text-muted"
+                    }`}
+                    aria-haspopup="true"
+                    aria-expanded={desktopOpen === item.label}
+                    aria-controls={`menu-${item.label}`}
+                    onClick={() => setDesktopOpen((prev) => (prev === item.label ? null : item.label))}
+                  >
+                    {item.label}
+                    <ChevronDownIcon />
+                  </button>
+                ) : (
+                  <Link
+                    href={item.href ?? item.links?.[0].href ?? "#"}
+                    className={`flex items-center gap-2 rounded-full px-3 py-2 transition hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
+                      parentActive ? "text-ink" : "text-muted"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                )}
+                {item.links && item.links.length > 1 ? (
+                  <div
+                    id={`menu-${item.label}`}
+                    className={`absolute left-0 top-full z-40 mt-3 min-w-[240px] rounded-2xl border border-border bg-white p-3 shadow-soft transition duration-150 ease-out ${
+                      desktopOpen === item.label ? "opacity-100" : "pointer-events-none opacity-0"
+                    }`}
+                  >
+                    <div className="space-y-1 text-sm text-ink">
+                      {item.links.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          className={`flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-subtle ${
+                            isActive(link.href) ? "bg-subtle text-ink font-semibold" : "text-ink"
+                          }`}
+                        >
+                          <span>{link.label}</span>
+                          <span className="text-[11px] uppercase tracking-[0.18em] text-muted">{item.label}</span>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ) : null}
-              <span className="text-[12px] text-muted">{item.description}</span>
-            </div>
-          ))}
+                ) : null}
+                <span className="text-[12px] text-muted">{item.description}</span>
+              </div>
+            );
+          })}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <Link href="/agenda" className="hidden btn-primary md:inline-flex">
+        <div className="flex shrink-0 items-center gap-3">
+          <Link href="/penal-personas/asesoria" className="hidden btn-primary md:inline-flex">
             Solicitar evaluación
           </Link>
           <Link
-            href="/cliente/acceso"
+            href="/login"
             className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
           >
             Iniciar sesión
@@ -170,6 +205,7 @@ export default function SiteHeader() {
           <button
             className="inline-flex items-center justify-center rounded-full border border-border bg-white/70 p-2 text-ink md:hidden"
             aria-label="Abrir menú"
+            aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((prev) => !prev)}
           >
             {mobileOpen ? <CloseIcon /> : <MenuIcon />}
@@ -205,7 +241,9 @@ export default function SiteHeader() {
                     <Link
                       href={item.href ?? item.links?.[0].href ?? "#"}
                       className={`block rounded-lg px-2 py-2 text-base font-semibold ${
-                        isActive(item.href ?? item.links?.[0].href) ? "text-ink" : "text-muted"
+                        isActive(item.href ?? item.links?.[0].href, item.activePath)
+                          ? "text-ink"
+                          : "text-muted"
                       }`}
                       onClick={() => setMobileOpen(false)}
                     >
@@ -239,11 +277,15 @@ export default function SiteHeader() {
               );
             })}
             <div className="flex flex-col gap-2 py-3">
-              <Link href="/agenda" className="btn-primary w-full justify-center" onClick={() => setMobileOpen(false)}>
+              <Link
+                href="/penal-personas/asesoria"
+                className="btn-primary w-full justify-center"
+                onClick={() => setMobileOpen(false)}
+              >
                 Solicitar evaluación
               </Link>
               <Link
-                href="/cliente/acceso"
+                href="/login"
                 className="btn-secondary w-full justify-center border-transparent bg-white text-ink"
                 onClick={() => setMobileOpen(false)}
               >

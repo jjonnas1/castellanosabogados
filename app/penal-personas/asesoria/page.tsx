@@ -5,6 +5,12 @@ export default function PenalPersonasAsesoria() {
     <main className="bg-canvas text-ink">
       <section className="section-shell border-b border-border/70 bg-gradient-to-r from-ink/8 via-surface to-subtle/30">
         <div className="container space-y-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-accent-700 underline-offset-4 hover:underline"
+          >
+            ← Volver a inicio
+          </Link>
           <p className="pill w-fit">Asesoría</p>
           <h1 className="max-w-3xl">Sesión ejecutiva para personas con exposición penal</h1>
           <p className="max-w-2xl text-lg text-muted">

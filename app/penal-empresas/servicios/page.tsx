@@ -5,6 +5,12 @@ export default function PenalEmpresasServicios() {
     <main className="bg-canvas text-ink">
       <section className="section-shell border-b border-border/70 bg-gradient-to-br from-ink/5 via-surface to-subtle/40">
         <div className="container space-y-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-accent-700 underline-offset-4 hover:underline"
+          >
+            ← Volver a inicio
+          </Link>
           <p className="pill w-fit">Penal / Empresas</p>
           <h1 className="max-w-3xl">Servicios ejecutivos para juntas y contratación estatal</h1>
           <p className="max-w-2xl text-lg text-muted">
