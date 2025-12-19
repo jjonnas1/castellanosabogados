@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import SiteHeader from "./components/SiteHeader";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "Castellanos Abogados",
@@ -17,7 +18,8 @@ export default function RootLayout({
     <html lang="es" className="theme-a">
       <body className="min-h-screen bg-canvas text-ink antialiased">
         <SiteHeader />
-        <main className="pt-16 md:pt-20">{children}</main>
+        <ScrollToTop />
+        <main className="pt-[76px] md:pt-24">{children}</main>
       </body>
     </html>
   );

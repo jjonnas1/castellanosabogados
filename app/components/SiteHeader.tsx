@@ -4,45 +4,50 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const navConfig = [
+type NavItem = {
+  label: string;
+  href?: string;
+  activePaths?: readonly string[];
+  description?: string;
+  links?: readonly { label: string; href: string }[];
+};
+
+const navItems: NavItem[] = [
   {
     label: "Inicio",
     href: "/#resumen-servicios",
-    activePath: "/",
-    description: "Resumen de los servicios",
-    links: [{ label: "Resumen", href: "/#resumen-servicios" }],
+    activePaths: ["/"],
+    description: "Resumen de servicios",
   },
   {
     label: "Penal/Empresas",
-    description: "Servicios • Contacto",
+    activePaths: ["/penal-empresas"],
     links: [
       { label: "Servicios", href: "/penal-empresas/servicios" },
-      { label: "Contacto", href: "/contacto" },
+      { label: "Contacto", href: "/penal-empresas/contacto" },
     ],
   },
   {
     label: "Penal/Personas",
-    description: "Servicios • Asesoría • Registrarse • Log in",
+    activePaths: ["/penal-personas", "/auth"],
     links: [
       { label: "Servicios", href: "/penal-personas/servicios" },
       { label: "Asesoría", href: "/penal-personas/asesoria" },
-      { label: "Registrarse", href: "/registro" },
-      { label: "Log in", href: "/login" },
+      { label: "Registrarse", href: "/auth/registro" },
+      { label: "Log in", href: "/auth/login" },
     ],
   },
   {
     label: "Acerca de nosotros",
     href: "/acerca-de",
-    description: "Quiénes somos",
-    links: [{ label: "Conócenos", href: "/acerca-de" }],
+    activePaths: ["/acerca-de"],
   },
   {
     label: "Contacto",
     href: "/contacto",
-    description: "Coordinación inmediata",
-    links: [{ label: "Contacto", href: "/contacto" }],
+    activePaths: ["/contacto"],
   },
-];
+] as const;
 
 const iconStyles = "h-5 w-5 text-ink";
 
@@ -77,20 +82,16 @@ export default function SiteHeader() {
   const [desktopOpen, setDesktopOpen] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
 
-  const normalize = (href?: string) => href?.split("#")[0];
-
-  const isActive = (href?: string, activePath?: string) => {
-    const target = activePath ?? normalize(href);
-    if (!target) return false;
-    if (target === "/") return pathname === "/";
-    return pathname === target || pathname.startsWith(`${target}/`);
+  const isActive = (paths: readonly string[] | undefined, href?: string) => {
+    const normalized = href ? href.split("#")[0] : undefined;
+    return paths?.some((path) => pathname === path || pathname.startsWith(`${path}/`)) ||
+      (normalized ? pathname === normalized : false);
   };
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
         setDesktopOpen(null);
-        setMobileOpen(false);
       }
     };
 
@@ -115,32 +116,25 @@ export default function SiteHeader() {
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 border-b border-border/80 bg-white/85 backdrop-blur"
+      className="fixed inset-x-0 top-0 z-50 border-b border-border/80 bg-white/85 backdrop-blur"
       role="navigation"
       aria-label="Navegación principal"
     >
-      <div className="container flex h-16 items-center justify-between gap-6 md:h-20">
+      <div className="container flex h-[72px] items-center justify-between gap-6 md:h-20">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="flex flex-col leading-tight">
-            <Link href="/" className="text-base font-heading font-semibold text-ink" aria-label="Volver a inicio">
-              Castellanos Abogados
-            </Link>
-            <span className="text-[11px] uppercase tracking-[0.22em] text-muted">
-              Riesgo penal · decisiones críticas
-            </span>
-          </div>
-          <span className="hidden rounded-full bg-subtle px-3 py-1 text-[11px] font-semibold text-ink/80 ring-1 ring-border md:inline-flex">
-            Contratación estatal · juntas · crisis
-          </span>
+          <Link href="/" className="flex items-center gap-3 text-lg font-semibold text-ink">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-ink text-white shadow-soft">CA</span>
+            <span className="hidden sm:inline">Castellanos Abogados</span>
+          </Link>
         </div>
 
-        <nav className="hidden flex-1 items-center justify-center gap-8 text-sm font-semibold text-muted md:flex">
-          {navConfig.map((item) => {
-            const parentActive =
-              item.links?.some((link) => isActive(link.href)) || isActive(item.href, item.activePath);
+        <nav className="hidden items-center gap-6 text-sm font-semibold text-muted md:flex">
+          {navItems.map((item) => {
+            const parentActive = isActive(item.activePaths, item.href);
+            const hasDropdown = item.links && item.links.length > 0;
             return (
-              <div key={item.label} className="group relative flex flex-col items-start gap-1">
-                {item.links && item.links.length > 1 ? (
+              <div key={item.label} className="relative flex flex-col items-start gap-1">
+                {hasDropdown ? (
                   <button
                     className={`flex items-center gap-2 rounded-full px-3 py-2 transition hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
                       parentActive ? "text-ink" : "text-muted"
@@ -149,13 +143,18 @@ export default function SiteHeader() {
                     aria-expanded={desktopOpen === item.label}
                     aria-controls={`menu-${item.label}`}
                     onClick={() => setDesktopOpen((prev) => (prev === item.label ? null : item.label))}
+                    onBlur={(e) => {
+                      if (!e.currentTarget.contains(e.relatedTarget)) {
+                        setDesktopOpen((prev) => (prev === item.label ? null : prev));
+                      }
+                    }}
                   >
                     {item.label}
                     <ChevronDownIcon />
                   </button>
                 ) : (
                   <Link
-                    href={item.href ?? item.links?.[0].href ?? "#"}
+                    href={item.href ?? "#"}
                     className={`flex items-center gap-2 rounded-full px-3 py-2 transition hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
                       parentActive ? "text-ink" : "text-muted"
                     }`}
@@ -163,7 +162,7 @@ export default function SiteHeader() {
                     {item.label}
                   </Link>
                 )}
-                {item.links && item.links.length > 1 ? (
+                {hasDropdown ? (
                   <div
                     id={`menu-${item.label}`}
                     className={`absolute left-0 top-full z-40 mt-3 min-w-[240px] rounded-2xl border border-border bg-white p-3 shadow-soft transition duration-150 ease-out ${
@@ -171,13 +170,14 @@ export default function SiteHeader() {
                     }`}
                   >
                     <div className="space-y-1 text-sm text-ink">
-                      {item.links.map((link) => (
+                      {item.links?.map((link) => (
                         <Link
                           key={link.href}
                           href={link.href}
                           className={`flex items-center justify-between rounded-lg px-3 py-2 transition hover:bg-subtle ${
-                            isActive(link.href) ? "bg-subtle text-ink font-semibold" : "text-ink"
+                            isActive(item.activePaths, link.href) ? "bg-subtle text-ink font-semibold" : "text-ink"
                           }`}
+                          onClick={() => setDesktopOpen(null)}
                         >
                           <span>{link.label}</span>
                           <span className="text-[11px] uppercase tracking-[0.18em] text-muted">{item.label}</span>
@@ -186,7 +186,6 @@ export default function SiteHeader() {
                     </div>
                   </div>
                 ) : null}
-                <span className="text-[12px] text-muted">{item.description}</span>
               </div>
             );
           })}
@@ -197,7 +196,7 @@ export default function SiteHeader() {
             Solicitar evaluación
           </Link>
           <Link
-            href="/login"
+            href="/auth/login"
             className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
           >
             Iniciar sesión
@@ -216,13 +215,13 @@ export default function SiteHeader() {
       {mobileOpen ? (
         <div className="border-t border-border bg-white/95 backdrop-blur md:hidden">
           <div className="container divide-y divide-border/80">
-            {navConfig.map((item) => {
-              const expandable = item.links && item.links.length > 1;
+            {navItems.map((item) => {
+              const hasDropdown = item.links && item.links.length > 0;
               const key = item.label;
               const expanded = mobileDropdown[key];
               return (
                 <div key={key} className="py-3">
-                  {expandable ? (
+                  {hasDropdown ? (
                     <button
                       className="flex w-full items-center justify-between rounded-lg px-2 py-2 text-left text-base font-semibold text-ink"
                       aria-expanded={expanded}
@@ -239,11 +238,9 @@ export default function SiteHeader() {
                     </button>
                   ) : (
                     <Link
-                      href={item.href ?? item.links?.[0].href ?? "#"}
+                      href={item.href ?? "#"}
                       className={`block rounded-lg px-2 py-2 text-base font-semibold ${
-                        isActive(item.href ?? item.links?.[0].href, item.activePath)
-                          ? "text-ink"
-                          : "text-muted"
+                        isActive(item.activePaths, item.href) ? "text-ink" : "text-muted"
                       }`}
                       onClick={() => setMobileOpen(false)}
                     >
@@ -251,17 +248,14 @@ export default function SiteHeader() {
                     </Link>
                   )}
 
-                  {expandable ? (
-                    <div
-                      id={`mobile-${key}`}
-                      className={`${expanded ? "mt-2 space-y-2" : "hidden"}`}
-                    >
+                  {hasDropdown ? (
+                    <div id={`mobile-${key}`} className={`${expanded ? "mt-2 space-y-2" : "hidden"}`}>
                       {item.links?.map((link) => (
                         <Link
                           key={link.href}
                           href={link.href}
                           className={`block rounded-lg px-3 py-2 text-sm ${
-                            isActive(link.href) ? "bg-subtle text-ink font-semibold" : "text-ink"
+                            isActive(item.activePaths, link.href) ? "bg-subtle text-ink font-semibold" : "text-ink"
                           }`}
                           onClick={() => setMobileOpen(false)}
                         >
@@ -269,9 +263,6 @@ export default function SiteHeader() {
                         </Link>
                       ))}
                     </div>
-                  ) : null}
-                  {item.description ? (
-                    <p className="mt-1 px-2 text-[12px] text-muted">{item.description}</p>
                   ) : null}
                 </div>
               );
@@ -285,7 +276,7 @@ export default function SiteHeader() {
                 Solicitar evaluación
               </Link>
               <Link
-                href="/login"
+                href="/auth/login"
                 className="btn-secondary w-full justify-center border-transparent bg-white text-ink"
                 onClick={() => setMobileOpen(false)}
               >
