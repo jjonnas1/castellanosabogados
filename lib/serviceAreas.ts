@@ -52,16 +52,21 @@ export function enrichService(area: ServiceArea, locale: SupportedLocale) {
 }
 
 export async function fetchServiceAreas() {
-  if (!supabaseConfigured) {
-    return { data: [] as ServiceArea[], error: new Error("Supabase env no configurado") };
+  try {
+    if (!supabaseConfigured) {
+      return { data: [] as ServiceArea[], error: null };
+    }
+
+    const { data, error } = await supabase
+      .from("service_areas")
+      .select("slug, name, enabled, sort")
+      .eq("enabled", true)
+      .order("sort", { ascending: true });
+
+    if (error || !data) return { data: [] as ServiceArea[], error: error ?? null };
+    return { data, error: null };
+  } catch (error) {
+    console.error("Error fetching service areas", error);
+    return { data: [] as ServiceArea[], error: error as Error };
   }
-
-  const { data, error } = await supabase
-    .from("service_areas")
-    .select("slug, name, enabled, sort")
-    .eq("enabled", true)
-    .order("sort", { ascending: true });
-
-  if (error || !data) return { data: [] as ServiceArea[], error };
-  return { data, error: null };
 }
