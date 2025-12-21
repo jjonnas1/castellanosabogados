@@ -33,6 +33,11 @@ export default async function PenalEmpresarialPage() {
               Acompañamiento ejecutivo, documentación lista para junta y activación táctica cuando el riesgo penal se cruza con decisiones
               urgentes. Nos alineamos con comités, órganos de control y cumplimiento interno.
             </p>
+            <p className="max-w-3xl text-slate-100">
+              Las decisiones quedan soportadas con mapas de riesgo penal, actas ejecutivas y protocolos activables. Incorporamos
+              capacitaciones para juntas, comités y áreas jurídicas sobre prevención, trazabilidad y coordinación frente a eventos
+              críticos, sin desplazar al equipo interno ni prometer resultados.
+            </p>
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
@@ -61,6 +66,11 @@ export default async function PenalEmpresarialPage() {
               Definimos ritmo, responsables, soportes y límites antes, durante y después de cada decisión sensible. No asumimos litigio, sí
               aseguramos criterio, trazabilidad y protocolos accionables.
             </p>
+            <p className="max-w-2xl text-muted">
+              También desarrollamos charlas y capacitaciones internas para que las áreas de negocio, jurídico y compliance comprendan los
+              riesgos penales asociados a contratación estatal y cómo documentarlos con rigor. La formación se integra al mismo plan de
+              trabajo y queda registrada para auditoría.
+            </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {["Diseño de rutas ejecutivas", "Mapeo de riesgo penal", "Protocolos activables", "Coordinación con control interno"].map(
                 (item) => (
@@ -78,6 +88,14 @@ export default async function PenalEmpresarialPage() {
               Un solo documento vivo que alinea comités, define límites y activa protocolos. Incluye minutas, escenarios, mensajes clave y
               responsables. Mantiene un rastro claro para auditoría y órganos de control.
             </p>
+            <ul className="mt-4 space-y-2 text-sm text-muted">
+              {["Lineamientos para juntas y comités en español o inglés.", "Registro de decisiones y validaciones con fecha y responsable.", "Protocolos para capacitación de equipos clave."].map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
             <div className="mt-5 grid gap-3 text-xs uppercase tracking-[0.16em] text-muted sm:grid-cols-3">
               {["Diagnóstico", "Protocolos", "Activación"].map((tag) => (
                 <div key={tag} className="rounded-full bg-subtle px-3 py-2 text-center text-ink">
@@ -133,6 +151,11 @@ export default async function PenalEmpresarialPage() {
             <p className="max-w-2xl text-muted">
               Etapas cortas con entregables visibles para juntas y órganos de control. Cada fase puede activarse de forma independiente y
               mantiene registro ejecutivo.
+            </p>
+            <p className="max-w-2xl text-muted">
+              Cada intervención incorpora documentación de riesgo penal, minuta ejecutiva y, cuando se requiere, una sesión de formación para
+              responsables internos. El objetivo es que la organización conserve criterio y trazabilidad aun cuando la defensa litigiosa se
+              delegue a terceros.
             </p>
             <div className="grid gap-4 md:grid-cols-2">
               {[{ title: "Evaluación", body: "Contexto, hipótesis de riesgo y responsables." }, { title: "Mapa de riesgo", body: "Matrices, dependencias y rutas de mitigación." }, { title: "Acompañamiento", body: "Sesiones ejecutivas con documentos listos." }, { title: "Activación", body: "Protocolos, mensajes y coordinación táctica." }].map(

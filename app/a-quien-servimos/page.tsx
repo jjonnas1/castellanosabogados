@@ -35,6 +35,20 @@ export default function AQuienServimosPage() {
             Nos conectamos con quienes pueden activar controles inmediatos: representantes legales, juntas, comités y órganos de control.
             No trabajamos como firma litigante; somos acompañamiento estratégico y documental.
           </p>
+          <p className="max-w-3xl text-slate-100">
+            La firma es dirigida por su fundador, abogado y licenciado en lenguas modernas con experiencia en el sector público y en análisis
+            jurídico penal. Lidera personalmente la estrategia, maneja varios idiomas y mantiene la coordinación con los equipos de cada cliente.
+            Espacio reservado para fotografía profesional.
+          </p>
+          <ul className="max-w-3xl space-y-2 text-sm text-slate-100">
+            {["Gestión de riesgo penal con documentación y trazabilidad.", "Acompañamiento a juntas y comités en español o inglés.", "Coordinación con defensa y áreas internas sin promesas de resultado."]
+              .map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
+                  {item}
+                </li>
+              ))}
+          </ul>
           <div className="flex flex-wrap gap-3">
             <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
               Solicitar evaluación
@@ -52,6 +66,11 @@ export default function AQuienServimosPage() {
           <h2>Quiénes intervienen</h2>
           <p className="max-w-3xl text-muted">
             Articulamos responsables internos y externos para que cada decisión quede soportada y trazable.
+          </p>
+          <p className="max-w-3xl text-muted">
+            Cada rol recibe instrucciones específicas, bitácoras de seguimiento y, cuando aplica, sesiones de capacitación sobre
+            gestión del riesgo penal en contratación estatal. El objetivo es que todos conozcan el alcance y las fronteras de la
+            actuación penal antes de firmar o ejecutar.
           </p>
         </div>
         <div className="grid gap-4 md:grid-cols-2">

@@ -22,6 +22,10 @@ export default function AsesoriaPersonasPage() {
             Intervención corta y confidencial para situaciones puntuales. No implica representación litigiosa y no interfiere con el foco
             corporativo de la firma.
           </p>
+          <p className="max-w-3xl text-slate-100">
+            La asesoría se centra en tomar decisiones responsables, documentar cada paso y coordinar con defensores cuando es necesario.
+            Nos enfocamos en que la persona comprenda su exposición penal, actúe con prudencia y conserve trazabilidad de lo discutido.
+          </p>
           <div className="flex flex-wrap gap-3">
             <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
               Solicitar orientación
@@ -40,6 +44,11 @@ export default function AsesoriaPersonasPage() {
           <p className="max-w-2xl text-muted">
             Revisamos el caso, delimitamos alcance y entregamos instrucciones accionables. Si se requiere defensa judicial, articulamos
             aliados externos manteniendo el control documental.
+          </p>
+          <p className="max-w-2xl text-muted">
+            La disponibilidad que ve el cliente corresponde a la agenda real del abogado asociado. El pago se habilita cuando eliges un
+            horario disponible y se genera el soporte de la reserva. Las sesiones pueden complementarse con notas escritas para facilitar
+            la coordinación con tu defensa.
           </p>
           <div className="grid gap-3 sm:grid-cols-2">
             {["Contexto y alcance en 20-30 minutos", "Guías de actuación y protocolos base", "Documentos y soportes listos para consulta", "Coordinación con aliados litigiosos cuando es necesario"].map(

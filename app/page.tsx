@@ -50,6 +50,12 @@ return (
             Proveemos acompañamiento ejecutivo para líderes que requieren criterio inmediato,
             documentación impecable y activación táctica sin ruido.
           </p>
+          <p className="max-w-2xl text-slate-100">
+            Cada decisión se aborda con gestión de riesgo penal, trazabilidad y soporte documental
+            que permite justificar el criterio adoptado ante auditorías, entes de control y órganos
+            internos de gobierno. Sin promesas de resultado, dejamos rastro de control y límites
+            operativos claros.
+          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-4">
@@ -69,6 +75,7 @@ return (
             { label: "Ámbito", value: "Contratación estatal, gobierno corporativo, órganos de control." },
             { label: "Enfoque", value: "Prevención penal, controles operativos, reacción táctica." },
             { label: "Ritmo", value: "Sesiones cortas, entregables ejecutivos, decisiones trazables." },
+            { label: "Control", value: "Trazabilidad completa: actas, minutas, decisiones justificadas." },
           ].map((item) => (
             <div key={item.label} className="rounded-2xl border border-white/12 bg-white/5 px-4 py-3">
               <p className="text-[11px] uppercase tracking-[0.18em] text-slate-300">{item.label}</p>
@@ -120,12 +127,17 @@ return (
           Nuestro foco exclusivo es la prevención y el control penal asociado a decisiones sensibles en contratación estatal y gobierno corporativo.
           Trabajamos con juntas, comités y representantes legales; los acompañamos con documentación ejecutiva y límites claros.
         </p>
+        <p className="max-w-2xl text-muted">
+          Incluimos capacitación aplicada a los responsables que intervienen en la toma de decisiones y en la operación: sesiones de formación interna,
+          charlas para juntas y entrenamientos puntuales en gestión del riesgo penal para proyectos y contratos de alto impacto.
+        </p>
         <div className="grid gap-4 sm:grid-cols-2">
           {[
             { title: "Modelo", body: "Ruta táctica y preventiva alineada con órganos de control y cumplimiento." },
             { title: "Delimitación", body: "No intervenimos en litigios ni asumimos representación judicial." },
             { title: "Activación", body: "Sesiones ejecutivas previo, durante y posterior a decisiones críticas." },
             { title: "Trazabilidad", body: "Entregables ejecutivos, minutas y soportes listos para auditoría." },
+            { title: "Formación", body: "Capacitaciones internas y jornadas para juntas sobre gestión del riesgo penal." },
           ].map((item) => (
             <div key={item.title} className="card-shell bg-white px-5 py-5 shadow-soft/40">
               <p className="text-[12px] uppercase tracking-[0.16em] text-accent-700">{item.title}</p>
@@ -156,6 +168,11 @@ return (
           <p className="text-slate-100">
             Definimos ritmo, soportes y responsables en decisiones de alto impacto: minutas, protocolos activables,
             reportes para auditoría y coordinación con control interno.
+          </p>
+          <p className="text-slate-100">
+            La formación corporativa hace parte de la misma línea: diseñamos charlas ejecutivas, jornadas para juntas y
+            capacitaciones internas sobre responsabilidad penal, documentación, flujo de aprobación y actuación frente a
+            incidentes. Todo queda integrado en la agenda y soportes del comité.
           </p>
           <div className="grid gap-3 text-sm text-slate-100 md:grid-cols-2">
             <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">
@@ -293,6 +310,11 @@ return (
         <p className="pill w-fit">Cómo trabajamos</p>
         <h2>Proceso ejecutivo con límites claros</h2>
         <p>Secuencia corta, medible y documentada para mantener control y trazabilidad.</p>
+        <p className="text-muted">
+          Cada fase incluye documentación de soporte, responsables designados y una matriz de riesgos penales que permite
+          justificar la decisión frente a auditoría o revisión posterior. No prometemos resultados; garantizamos orden y
+          registros verificables.
+        </p>
 
         <div className="relative mt-6 grid gap-4">
           {[
@@ -300,6 +322,7 @@ return (
             { title: "Mapa de riesgo", detail: "Dependencias críticas, reglas de actuación y soportes inmediatos." },
             { title: "Acompañamiento", detail: "Sesiones ejecutivas en hitos sensibles y seguimiento puntual." },
             { title: "Activación táctica", detail: "Protocolo de incidentes, contención y coordinación externa." },
+            { title: "Capacitación", detail: "Charlas y talleres breves para juntas, comités y equipos jurídicos." },
           ].map((item, idx) => (
             <div key={item.title} className="card-shell relative flex gap-4 bg-white px-5 py-5 shadow-soft/30">
               <div className="flex flex-col items-center">
@@ -327,6 +350,11 @@ return (
           <p className="text-slate-100">
             No ofrecemos defensa penal litigiosa ni representación masiva. Operamos en prevención, control y coordinación estratégica para decisiones sensibles.
           </p>
+          <p className="text-slate-100">
+            En paralelo, organizamos capacitaciones en español o inglés para juntas, comités y áreas jurídicas sobre cómo prevenir,
+            documentar y reportar decisiones con impacto penal. Cada sesión queda acompañada de material de referencia y reglas
+            de actuación aprobadas por los responsables.
+          </p>
           <div className="mt-6 grid gap-3 text-sm text-slate-100">
             <div className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
               Sesiones por videollamada o en sitio (según agenda).
@@ -349,6 +377,11 @@ return (
         <p className="pill w-fit">A quién servimos</p>
         <h2>Roles que necesitan control inmediato</h2>
         <p>Intervenimos donde se decide rápido y se documenta con rigor.</p>
+        <p className="text-muted max-w-2xl">
+          El acompañamiento incluye preparación previa para reuniones críticas, documentación ejecutiva, bitácoras de decisiones
+          y lineamientos que sostienen la trazabilidad penal. Cuando el cliente lo solicita, incorporamos módulos de formación
+          para que los equipos repliquen internamente los controles.
+        </p>
 
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {[
@@ -440,6 +473,7 @@ return (
           <div className="grid gap-3 text-sm text-slate-100 md:grid-cols-2">
             <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Sesiones breves y privadas.</div>
             <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Protocolos básicos y guías de actuación.</div>
+            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Coordinación temprana con defensores para no duplicar esfuerzos.</div>
           </div>
           <Link href="/personas" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
             Acceder a la línea personal
