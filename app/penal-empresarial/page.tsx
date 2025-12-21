@@ -2,13 +2,14 @@ import Link from "next/link";
 
 import SiteHeader from "@/app/components/SiteHeader";
 import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
+import { defaultLocale } from "@/lib/i18n/config";
 
 const heroBackground =
   "linear-gradient(120deg, rgba(12,17,29,0.9), rgba(17,37,68,0.82)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
 
 export default async function PenalEmpresarialPage() {
   const { data: services } = await fetchServiceAreas();
-  const serviceList = services.map(enrichService);
+  const serviceList = services.map((service) => enrichService(service, defaultLocale));
 
   return (
     <main className="bg-canvas text-ink">

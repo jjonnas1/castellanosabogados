@@ -65,6 +65,11 @@ export type Dictionary = {
       noteLabel: string;
       noteText: string;
       cta: string;
+      statusActive: string;
+      statusInquiry: string;
+      advisoryCta: string;
+      contactCta: string;
+      trainingCta: string;
       advisoryTitle: string;
       advisoryDescription: string;
       advisoryItems: string[];
@@ -317,6 +322,11 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         noteLabel: "Capacitaciones",
         noteText: "Charlas, jornadas para juntas y formación interna en riesgo penal corporativo.",
         cta: "Solicitar ingreso",
+        statusActive: "Activo",
+        statusInquiry: "Consulta",
+        advisoryCta: "Asesoría a personas",
+        contactCta: "Contacto",
+        trainingCta: "Penal/Empresas",
         advisoryTitle: "Asesoría a personas",
         advisoryDescription:
           "La agenda se habilita por disponibilidad del abogado asignado y solo se muestra la oferta real.",
@@ -748,6 +758,11 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         noteLabel: "Training",
         noteText: "Talks, board workshops, and internal training on corporate criminal risk.",
         cta: "Request onboarding",
+        statusActive: "Active",
+        statusInquiry: "Inquiry",
+        advisoryCta: "Advisory for individuals",
+        contactCta: "Contact",
+        trainingCta: "Corporate", 
         advisoryTitle: "Advisory for individuals",
         advisoryDescription:
           "Scheduling depends on the assigned lawyer's availability; only real slots are shown.",

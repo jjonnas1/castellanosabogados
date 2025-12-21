@@ -1,4 +1,5 @@
 import { supabase, supabaseConfigured } from "@/lib/supabaseClient";
+import { type SupportedLocale } from "./i18n/config";
 
 export type ServiceArea = {
   slug: string;
@@ -7,23 +8,46 @@ export type ServiceArea = {
   sort?: number | null;
 };
 
-const serviceCopy: Record<string, { title: string; description: string }> = {
-  "drp-ce": {
-    title: "DRP-CE",
-    description: "Diagnóstico inicial del riesgo penal en contratación estatal para decisiones inmediatas.",
+const serviceCopy: Record<
+  SupportedLocale,
+  Record<string, { title: string; description: string }>
+> = {
+  es: {
+    "drp-ce": {
+      title: "DRP-CE",
+      description: "Diagnóstico inicial del riesgo penal en contratación estatal para decisiones inmediatas.",
+    },
+    "aec-ce": {
+      title: "AEC-CE",
+      description: "Acompañamiento estratégico continuo para órganos directivos en decisiones sensibles.",
+    },
+    "icp-ce": {
+      title: "ICP-CE",
+      description: "Ruta de acción y control frente a incidentes críticos y potenciales crisis reputacionales.",
+    },
   },
-  "aec-ce": {
-    title: "AEC-CE",
-    description: "Acompañamiento estratégico continuo para órganos directivos en decisiones sensibles.",
-  },
-  "icp-ce": {
-    title: "ICP-CE",
-    description: "Ruta de acción y control frente a incidentes críticos y potenciales crisis reputacionales.",
+  en: {
+    "drp-ce": {
+      title: "DRP-CE",
+      description: "Initial assessment of criminal risk in public procurement for immediate decisions.",
+    },
+    "aec-ce": {
+      title: "AEC-CE",
+      description: "Ongoing strategic support for governing bodies in sensitive decisions.",
+    },
+    "icp-ce": {
+      title: "ICP-CE",
+      description: "Action and control route for critical incidents and potential crises.",
+    },
   },
 };
 
-export function enrichService(area: ServiceArea) {
-  const copy = serviceCopy[area.slug] ?? { title: area.name, description: "Servicio disponible bajo consulta." };
+export function enrichService(area: ServiceArea, locale: SupportedLocale) {
+  const copy =
+    serviceCopy[locale]?.[area.slug] ?? {
+      title: area.name,
+      description: locale === "en" ? "Service available on request." : "Servicio disponible bajo consulta.",
+    };
   return { ...area, ...copy };
 }
 

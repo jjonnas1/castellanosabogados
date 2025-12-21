@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { defaultLocale } from "@/lib/i18n/config";
 import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
 import { getServiceDetail } from "@/lib/serviceDetails";
 
@@ -7,7 +8,7 @@ const headerBackground =
 
 export default async function ServiciosPage() {
   const { data, error } = await fetchServiceAreas();
-  const services = data.map(enrichService).map((service) => ({
+  const services = data.map((area) => enrichService(area, defaultLocale)).map((service) => ({
     ...service,
     detail: getServiceDetail(service.slug),
   }));

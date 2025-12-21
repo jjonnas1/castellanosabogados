@@ -16,15 +16,15 @@ const personalAdvisory =
 
 export default async function Home() {
   const { data: services } = await fetchServiceAreas();
-  const serviceList = services.map(enrichService);
 
-  return <HomeContent serviceList={serviceList} />;
+  return <HomeContent serviceList={services} />;
 }
 
-function HomeContent({ serviceList }: { serviceList: ReturnType<typeof enrichService>[] }) {
+function HomeContent({ serviceList }: { serviceList: Awaited<ReturnType<typeof fetchServiceAreas>>["data"] }) {
   "use client";
-  const { messages } = useLanguage();
+  const { messages, locale } = useLanguage();
   const { home } = messages;
+  const localizedServices = serviceList.map((area) => enrichService(area, locale));
 
   return (
     <main className="bg-canvas text-ink">
@@ -210,12 +210,12 @@ function HomeContent({ serviceList }: { serviceList: ReturnType<typeof enrichSer
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
-            {serviceList.map((area) => (
+            {localizedServices.map((area) => (
               <div key={area.slug} className="card-shell flex flex-col gap-3 bg-white px-4 py-4 shadow-soft/40">
                 <div className="flex items-center justify-between gap-3">
                   <p className="pill text-xs">{area.slug.toUpperCase()}</p>
                   <span className="rounded-full bg-subtle px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-700">
-                    {area.enabled ? "Activo" : "Consulta"}
+                    {area.enabled ? home.serviceAreas.statusActive : home.serviceAreas.statusInquiry}
                   </span>
                 </div>
                 <h3 className="text-xl font-semibold text-ink">{area.title}</h3>
@@ -242,10 +242,10 @@ function HomeContent({ serviceList }: { serviceList: ReturnType<typeof enrichSer
             </ul>
             <div className="flex flex-wrap gap-3">
               <Link href="/asesoria-personas" className="btn-primary">
-                Asesoría a personas
+                {home.serviceAreas.advisoryCta}
               </Link>
               <Link href="/contacto" className="btn-secondary">
-                Contacto
+                {home.serviceAreas.contactCta}
               </Link>
             </div>
           </div>
@@ -284,7 +284,7 @@ function HomeContent({ serviceList }: { serviceList: ReturnType<typeof enrichSer
                 ))}
               </div>
               <Link href="/penal-empresarial" className="btn-primary bg-white text-ink">
-                Penal/Empresas
+                {home.serviceAreas.trainingCta}
               </Link>
             </div>
           </div>
