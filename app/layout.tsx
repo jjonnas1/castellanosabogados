@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { LanguageProvider } from "./components/LanguageProvider";
+import ClientLayout from "./components/ClientLayout";
 import { defaultLocale, supportedLocales, type SupportedLocale } from "@/lib/i18n/config";
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export default async function RootLayout({
   return (
     <html lang={initialLocale} className="theme-a">
       <body className="min-h-screen bg-canvas text-ink antialiased">
-        <LanguageProvider initialLocale={initialLocale}>{children}</LanguageProvider>
+        <ClientLayout initialLocale={initialLocale}>{children}</ClientLayout>
       </body>
     </html>
   );
