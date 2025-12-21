@@ -1,37 +1,63 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLanguage } from "./LanguageProvider";
 
 export default function SiteHeader() {
   const pathname = usePathname();
+  const { locale, setLocale, messages } = useLanguage();
   const [open, setOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const closeTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const navLinks = [
-    { href: "/", label: "Inicio" },
-    {
-      label: "Penal/Empresas",
-      children: [
-        { href: "/penal-empresarial", label: "Servicios" },
-        { href: "/contacto", label: "Contacto" },
-      ],
-    },
-    {
-      label: "Penal/Personas",
-      children: [
-        { href: "/personas", label: "Servicios" },
-        { href: "/asesoria-personas", label: "Asesoría" },
-        { href: "/registro", label: "Registrarse" },
-        { href: "/login", label: "Log in" },
-      ],
-    },
-    { href: "/a-quien-servimos", label: "Acerca de nosotros" },
-    { href: "/contacto", label: "Contacto" },
-  ];
+  const navLinks = useMemo(
+    () => [
+      { href: "/", label: messages.navigation.home },
+      {
+        label: messages.navigation.business,
+        children: [
+          { href: "/penal-empresarial", label: messages.navigation.services },
+          { href: "/contacto", label: messages.navigation.contact },
+        ],
+      },
+      {
+        label: messages.navigation.people,
+        children: [
+          { href: "/personas", label: messages.navigation.services },
+          { href: "/asesoria-personas", label: messages.navigation.advisory },
+          { href: "/registro", label: messages.navigation.register },
+          { href: "/login", label: messages.navigation.login },
+        ],
+      },
+      { href: "/a-quien-servimos", label: messages.navigation.about },
+      { href: "/contacto", label: messages.navigation.contact },
+    ],
+    [messages.navigation],
+  );
 
   const isActive = (href: string) =>
     pathname === href || (href !== "/" && pathname.startsWith(href));
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpenDropdown(null);
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  const handleOpen = (label: string) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpenDropdown(label);
+  };
+
+  const handleClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpenDropdown(null), 180);
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-white/85 backdrop-blur">
@@ -51,16 +77,35 @@ export default function SiteHeader() {
         <nav className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
           {navLinks.map((item) =>
             item.children ? (
-              <div key={item.label} className="group relative">
+              <div
+                key={item.label}
+                className="relative"
+                onMouseEnter={() => handleOpen(item.label)}
+                onMouseLeave={handleClose}
+                onFocus={() => handleOpen(item.label)}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget as Node)) handleClose();
+                }}
+              >
                 <button
                   type="button"
                   className="flex items-center gap-1 transition hover:text-ink"
                   aria-haspopup="true"
+                  aria-expanded={openDropdown === item.label}
+                  onClick={() =>
+                    setOpenDropdown((current) => (current === item.label ? null : item.label))
+                  }
                 >
                   {item.label}
                   <span className="text-xs text-muted">▾</span>
                 </button>
-                <div className="pointer-events-none absolute left-0 top-full mt-3 hidden min-w-[220px] flex-col gap-1 rounded-2xl border border-border bg-white/95 p-3 shadow-soft transition group-hover:flex group-hover:pointer-events-auto">
+                <div
+                  className={`absolute left-0 top-full mt-3 min-w-[220px] flex-col gap-1 rounded-2xl border border-border bg-white/95 p-3 shadow-soft transition ${
+                    openDropdown === item.label ? "flex" : "hidden"
+                  }`}
+                  onMouseEnter={() => handleOpen(item.label)}
+                  onMouseLeave={handleClose}
+                >
                   {item.children.map((child) => (
                     <Link
                       key={child.href}
@@ -101,14 +146,37 @@ export default function SiteHeader() {
             href="/cliente/acceso"
             className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
           >
-            Iniciar sesión
+            {messages.navigation.signIn}
           </Link>
           <Link
             href="/asesoria-personas"
             className="hidden text-sm font-semibold text-muted underline-offset-4 transition hover:text-ink md:inline-flex"
           >
-            Asesoría a personas
+            {messages.navigation.peopleAdvisory}
           </Link>
+          <div className="hidden items-center gap-1 rounded-full border border-border bg-white/80 px-2 py-1 text-xs font-semibold text-ink shadow-soft md:flex">
+            <button
+              type="button"
+              className={`rounded-full px-2 py-1 transition ${
+                locale === "es" ? "bg-subtle text-ink" : "text-muted hover:text-ink"
+              }`}
+              onClick={() => setLocale("es")}
+              aria-pressed={locale === "es"}
+            >
+              ES
+            </button>
+            <span className="text-muted">|</span>
+            <button
+              type="button"
+              className={`rounded-full px-2 py-1 transition ${
+                locale === "en" ? "bg-subtle text-ink" : "text-muted hover:text-ink"
+              }`}
+              onClick={() => setLocale("en")}
+              aria-pressed={locale === "en"}
+            >
+              EN
+            </button>
+          </div>
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-ink transition hover:-translate-y-[1px] hover:shadow-soft md:hidden"
@@ -165,7 +233,7 @@ export default function SiteHeader() {
               className="rounded-xl px-3 py-2 text-ink transition hover:bg-subtle"
               onClick={() => setOpen(false)}
             >
-              Asesoría a personas
+              {messages.navigation.peopleAdvisory}
             </Link>
             <Link
               href="/agenda"
@@ -179,8 +247,33 @@ export default function SiteHeader() {
               className="btn-secondary w-full justify-center"
               onClick={() => setOpen(false)}
             >
-              Iniciar sesión
+              {messages.navigation.signIn}
             </Link>
+            <div className="flex items-center justify-between rounded-xl bg-subtle px-3 py-2 text-xs font-semibold text-ink">
+              <span>Idioma</span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className={`rounded-full px-3 py-1 transition ${
+                    locale === "es" ? "bg-white text-ink shadow-soft" : "text-muted hover:text-ink"
+                  }`}
+                  onClick={() => setLocale("es")}
+                  aria-pressed={locale === "es"}
+                >
+                  ES
+                </button>
+                <button
+                  type="button"
+                  className={`rounded-full px-3 py-1 transition ${
+                    locale === "en" ? "bg-white text-ink shadow-soft" : "text-muted hover:text-ink"
+                  }`}
+                  onClick={() => setLocale("en")}
+                  aria-pressed={locale === "en"}
+                >
+                  EN
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
