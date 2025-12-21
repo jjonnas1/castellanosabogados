@@ -374,6 +374,130 @@ export default async function Home() {
     </div>
   </section>
 
+  <section className="section-shell bg-white">
+    <div className="container space-y-10">
+      <div className="space-y-3">
+        <p className="pill w-fit">Por qué nos buscan</p>
+        <h2>Lo que las juntas y los equipos esperan resolver</h2>
+        <p className="max-w-3xl text-muted">
+          Llegan cuando necesitan criterio penal aplicado y documentación que resista auditoría. La estructura actual ya funciona;
+          reforzamos el contenido para dejar claros los motivos de activación y los límites del servicio.
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {[{
+          title: "Decisiones sensibles",
+          detail:
+            "Comités y juntas que requieren validar rutas penales antes de aprobar contratos, prórrogas o terminaciones.",
+        },
+        {
+          title: "Crisis o alertas",
+          detail:
+            "Incidentes, comunicaciones de entes de control o prensa que exigen mensajes alineados y protocolos activables.",
+        },
+        {
+          title: "Auditoría y trazabilidad",
+          detail:
+            "Necesidad de dejar minutas, soportes y actas que evidencien decisiones informadas y controles asumidos.",
+        }].map((item) => (
+          <div key={item.title} className="card-shell bg-subtle px-5 py-5 shadow-soft/30">
+            <p className="text-[12px] uppercase tracking-[0.16em] text-accent-700">{item.title}</p>
+            <p className="mt-2 text-sm font-semibold text-ink leading-relaxed">{item.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div className="space-y-3">
+          <p className="pill w-fit">Qué entregamos</p>
+          <h3>Control penal visible y accionable</h3>
+          <p className="max-w-3xl text-muted">
+            Cada intervención produce documentación concreta, registro de decisiones y líneas de capacitación para quienes deben
+            ejecutar. No prometemos resultado, sí rigor y trazabilidad.
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {["Actas y minutas listas para junta", "Protocolos activables y mensajes clave", "Mapas de riesgo penal con responsables", "Guías de actuación en español e inglés"].map(
+              (item) => (
+                <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
+                  {item}
+                </div>
+              ),
+            )}
+          </div>
+        </div>
+        <div className="card-shell bg-ink text-white p-8 shadow-soft">
+          <p className="pill w-fit bg-white/10 text-white ring-1 ring-white/20">Capacitaciones visibles</p>
+          <h3 className="mt-3 text-white">Capacitaciones y conferencias integradas</h3>
+          <p className="text-slate-100">
+            Línea clara de negocio para juntas, comités y áreas jurídicas. Charlas ejecutivas, jornadas internas y sesiones
+            virtuales o presenciales en gestión del riesgo penal. Español o inglés según la audiencia.
+          </p>
+          <div className="mt-4 space-y-2 text-sm text-slate-100">
+            {[
+              "Diseño a medida para gobierno corporativo y contratación estatal.",
+              "Materiales y bitácoras entregados para trazabilidad.",
+              "Coordinación directa con administración y compliance para agenda y registro.",
+            ].map((item) => (
+              <div key={item} className="flex gap-3">
+                <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
+                {item}
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link href="/penal-empresarial" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+              Ver opciones de capacitación
+            </Link>
+            <Link href="/contacto" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
+              Coordinar agenda
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section className="section-shell bg-surface/70">
+    <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div className="space-y-4">
+        <p className="pill w-fit">Escenarios frecuentes</p>
+        <h2>Dónde intervenimos de forma recurrente</h2>
+        <p className="max-w-2xl text-muted">
+          Identificamos patrones y preparamos respuestas listas para activar. Cada escenario incluye quién decide, qué soportes
+          se generan y cómo se registra la trazabilidad.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {["Contratación estatal con presión de tiempo", "Peticiones de entes de control o auditores", "Renovaciones o liquidaciones contractuales", "Crisis reputacional con frente penal", "Transición de gobierno o cambios de junta", "Revisión de cláusulas sensibles y pólizas"].map(
+            (item) => (
+              <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
+                {item}
+              </div>
+            ),
+          )}
+        </div>
+      </div>
+      <div className="card-shell bg-white p-8 shadow-soft/40">
+        <p className="pill w-fit">Próximas capacidades</p>
+        <h3 className="mt-3 text-ink">Roles y bilingüismo listos para activarse</h3>
+        <p className="text-sm text-muted">
+          La arquitectura contempla selector de idioma (ES/EN) y paneles diferenciados: administrador con control total,
+          abogados asociados aprobados y clientes que solo ven horarios reales. El contenido ya indica la disponibilidad y los
+          límites de cada rol.
+        </p>
+        <ul className="mt-4 space-y-2 text-sm text-muted">
+          <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden /> Administrador: aprueba abogados, gestiona agenda global, pagos y solicitudes de capacitación.</li>
+          <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden /> Abogado asociado: configura disponibilidad y atiende asesorías asignadas sin ver datos administrativos.</li>
+          <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden /> Cliente penal/personas: agenda solo en horarios disponibles, paga al reservar y accede a su historial.</li>
+        </ul>
+        <p className="mt-4 text-xs text-muted">
+          La disponibilidad que configure el abogado se reflejará en el calendario del cliente; el pago se habilitará solo al
+          seleccionar un horario válido. El selector ES/EN mostrará cada vista completa en un idioma a la vez.
+        </p>
+      </div>
+    </div>
+  </section>
+
   <section id="a-quien-servimos" className="container section-shell">
     <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
       <div className="space-y-3">

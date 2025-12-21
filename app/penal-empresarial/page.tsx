@@ -107,6 +107,60 @@ export default async function PenalEmpresarialPage() {
         </div>
       </section>
 
+      <section className="border-y border-border bg-white">
+        <div className="container section-shell grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="space-y-4">
+            <p className="pill w-fit">Capacitaciones y conferencias</p>
+            <h2>Riesgo penal explicado a quienes deciden y operan</h2>
+            <p className="max-w-3xl text-muted">
+              La formación es una línea visible del servicio, no un complemento opcional. Diseñamos charlas y capacitaciones en
+              español o inglés para juntas, comités, áreas jurídicas, compliance y equipos de proyectos. Cada sesión queda
+              documentada con materiales, bitácoras y responsables para trazabilidad.
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {["Charlas ejecutivas para juntas", "Capacitaciones internas y talleres", "Jornadas para comités y board", "Modalidad virtual o presencial", "Sesiones en español o inglés", "Materiales y registro para auditoría"].map(
+                (item) => (
+                  <div key={item} className="rounded-2xl bg-subtle px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
+                    {item}
+                  </div>
+                ),
+              )}
+            </div>
+            <p className="max-w-3xl text-sm text-muted">
+              Las solicitudes de capacitación ingresan al panel del administrador para coordinar agenda y alcance. Si se requiere
+              combinación con asesoría a juntas, se integra al mismo calendario y documentación.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/agenda" className="btn-primary">
+                Coordinar sesión de capacitación
+              </Link>
+              <Link href="/contacto" className="btn-secondary">
+                Solicitar propuesta detallada
+              </Link>
+            </div>
+          </div>
+          <div className="card-shell bg-ink text-white p-8 shadow-soft">
+            <p className="pill w-fit bg-white/10 text-white ring-1 ring-white/20">Formato</p>
+            <h3 className="mt-3 text-white">Integración con la agenda corporativa</h3>
+            <p className="text-slate-100">
+              El mismo orden operativo aplica a la formación: agenda validada por el administrador, disponibilidad configurada
+              por el abogado asociado y confirmación visible para el cliente corporativo.
+            </p>
+            <ul className="mt-4 space-y-3 text-sm text-slate-100">
+              {["Casos y ejemplos vinculados a contratación estatal.", "Protocolos de actuación compartidos antes y después de la sesión.", "Registro de asistencia y materiales como soporte de cumplimiento."].map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-xs text-slate-200">
+              Las capacitaciones se activan sin pago automático; el administrador coordina condiciones y confirmaciones.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <section className="border-y border-border/70 bg-white">
         <div className="container section-shell space-y-6">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

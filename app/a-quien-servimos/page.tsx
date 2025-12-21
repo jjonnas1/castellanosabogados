@@ -60,6 +60,41 @@ export default function AQuienServimosPage() {
         </div>
       </header>
 
+      <section className="border-b border-border bg-white/90">
+        <div className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="space-y-3">
+            <p className="pill w-fit">Fundador</p>
+            <h2>Dirección jurídica y enfoque bilingüe</h2>
+            <p className="max-w-3xl text-muted">
+              La firma es dirigida por su fundador, abogado penal y licenciado en lenguas modernas. Cuenta con experiencia en el
+              sector público y en análisis jurídico penal, maneja varios idiomas y lidera personalmente la estrategia para cada
+              cliente. Coordina en español o inglés según la audiencia y mantiene el enlace con aliados cuando el caso lo
+              requiere.
+            </p>
+            <p className="max-w-3xl text-muted">
+              Mantiene control directo sobre la documentación, los mensajes clave y la preparación de juntas y comités. El
+              espacio para fotografía profesional se conserva para reforzar cercanía y formalidad.
+            </p>
+            <div className="grid gap-2 text-sm text-muted">
+              <div className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden /> Coordinación
+                estratégica en español e inglés con órganos de gobierno corporativo.</div>
+              <div className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden /> Experiencia en
+                poder público y análisis penal aplicada a decisiones empresariales y personales.</div>
+              <div className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden /> Alineación con
+                compliance, auditoría y defensa para mantener trazabilidad.</div>
+            </div>
+          </div>
+          <div className="card-shell bg-subtle p-8 shadow-soft/40">
+            <div className="aspect-[4/3] rounded-2xl border border-border bg-white/60" aria-hidden />
+            <p className="mt-3 text-sm text-muted">Espacio reservado para fotografía profesional.</p>
+            <div className="mt-4 space-y-2 text-sm text-muted">
+              <p>Rol: Administrador del sistema con aprobación de abogados asociados y control de agenda y pagos.</p>
+              <p>Interacción: coordina solicitudes de capacitación y valida la disponibilidad que ven los clientes.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="container section-shell space-y-6">
         <div className="space-y-3">
           <p className="pill w-fit">Roles clave</p>
