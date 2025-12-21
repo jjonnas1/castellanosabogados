@@ -1,32 +1,35 @@
-import Link from “next/link”;
-import SiteHeader from “./components/SiteHeader”;
-import { enrichService, fetchServiceAreas } from “@/lib/serviceAreas”;
+import Link from "next/link";
+import SiteHeader from "./components/SiteHeader";
+import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
 
 const heroBackground =
-“linear-gradient(120deg, rgba(12,17,29,0.88), rgba(17,37,68,0.82)), url(‘https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80’)”;
+"linear-gradient(120deg, rgba(12,17,29,0.88), rgba(17,37,68,0.82)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
 const executiveDesk =
-“linear-gradient(180deg, rgba(13,21,40,0.9), rgba(13,21,40,0.8)), url(‘https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2100&q=80’)”;
+"linear-gradient(180deg, rgba(13,21,40,0.9), rgba(13,21,40,0.8)), url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2100&q=80')";
 const skylineBackground =
-“linear-gradient(180deg, rgba(15,23,42,0.9), rgba(17,37,68,0.75)), url(‘https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2000&q=80’)”;
+"linear-gradient(180deg, rgba(15,23,42,0.9), rgba(17,37,68,0.75)), url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2000&q=80')";
 const counselSession =
-“linear-gradient(180deg, rgba(12,17,29,0.85), rgba(17,37,68,0.78)), url(‘https://images.unsplash.com/photo-1439778615639-28529f7628bc?auto=format&fit=crop&w=2000&q=80’)”;
+"linear-gradient(180deg, rgba(12,17,29,0.85), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1439778615639-28529f7628bc?auto=format&fit=crop&w=2000&q=80')";
 const personalAdvisory =
-“linear-gradient(140deg, rgba(10,16,28,0.88), rgba(20,32,52,0.78)), url(‘https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=2200&q=80’)”;
+"linear-gradient(140deg, rgba(10,16,28,0.88), rgba(20,32,52,0.78)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=2200&q=80')";
 
 export default async function Home() {
-const { data: services, error } = await fetchServiceAreas();
-const serviceList = services.map(enrichService);
+  const { data: services, error } = await fetchServiceAreas();
+  const serviceList = services.map(enrichService);
 
-return (
-    <section
-    id="riesgo-empresarial"
-    className="relative overflow-hidden border-b border-border/60 text-white"
-    style={{
-      backgroundImage: heroBackground,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}
-  >
+  return (
+    <main className="bg-canvas text-ink">
+      <SiteHeader />
+
+      <section
+        id="riesgo-empresarial"
+        className="relative overflow-hidden border-b border-border/60 text-white"
+        style={{
+          backgroundImage: heroBackground,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
     <div
       className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.12),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.14),transparent_36%)]"
       aria-hidden
@@ -569,6 +572,6 @@ return (
       </div>
     </div>
   </footer>
-</main>
-);
+    </main>
+  );
 }
