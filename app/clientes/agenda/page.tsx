@@ -43,7 +43,7 @@ export default function AgendaClientePage() {
 
     if (ePre) { setErr("Ese horario ya fue tomado. Elige otro."); setLoading(false); return; }
 
-    // 2) pedir URL de pago (Wompi test) – API interna
+    // 2) pedir URL de pago (Wompi test) -- API interna
     const res = await fetch("/api/wompi/checkout",{
       method:"POST",
       headers:{ "content-type":"application/json" },

@@ -39,12 +39,23 @@ type PartialBlackout = {
 export default function LawyerPanelPage() {
   const [tab, setTab] = useState<"agenda" | "history" | "availability">("availability");
   const [userId, setUserId] = useState<string | null>(null);
+  const [approved, setApproved] = useState<boolean | null>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setUserId(data.user?.id ?? null);
     });
   }, []);
+
+  useEffect(() => {
+    if (!userId) return;
+    supabase
+      .from("profiles")
+      .select("approved")
+      .eq("id", userId)
+      .maybeSingle()
+      .then(({ data }) => setApproved(data?.approved ?? false));
+  }, [userId]);
 
   return (
     <main className="section">
@@ -96,6 +107,16 @@ export default function LawyerPanelPage() {
         {tab === "agenda" && <MockAgenda />}
         {tab === "history" && <MockHistory />}
         {tab === "availability" && userId && <AvailabilityEditor userId={userId} />}
+
+        {approved === false && (
+          <div className="panel" style={{ marginTop: 20 }}>
+            <strong>Estado: pendiente de aprobación del administrador.</strong>
+            <p className="muted" style={{ marginTop: 6 }}>
+              No se mostrará tu disponibilidad a clientes hasta que sea aprobada. El administrador puede
+              habilitar o bloquear horarios críticos desde su panel.
+            </p>
+          </div>
+        )}
       </div>
     </main>
   );

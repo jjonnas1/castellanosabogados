@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { useLanguage } from "../components/LanguageProvider";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { messages } = useLanguage();
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -20,19 +22,19 @@ export default function LoginPage() {
     });
 
     if (error) setError(error.message);
-    else window.location.href = "/panel"; // 👈 redirige luego al dashboard (lo haremos)
+    else window.location.href = "/panel";
     setLoading(false);
   }
 
   return (
     <main className="section">
       <div className="wrap" style={{ maxWidth: 420 }}>
-        <h1 className="h2">Iniciar sesión</h1>
-        <p className="muted">Accede a tu cuenta para gestionar tus asesorías.</p>
+        <h1 className="h2">{messages.auth.login.title}</h1>
+        <p className="muted">{messages.auth.login.description}</p>
 
         <form onSubmit={handleLogin} className="panel" style={{ display: "grid", gap: 14 }}>
           <label>
-            Correo electrónico
+            {messages.forms.email}
             <input
               type="email"
               required
@@ -43,7 +45,7 @@ export default function LoginPage() {
           </label>
 
           <label>
-            Contraseña
+            {messages.forms.password}
             <input
               type="password"
               required
@@ -54,20 +56,20 @@ export default function LoginPage() {
           </label>
 
           <button className="btn btn--primary" disabled={loading}>
-            {loading ? "Ingresando..." : "Entrar"}
+            {loading ? messages.common.loading : messages.auth.login.submit}
           </button>
 
           <p style={{ fontSize: ".9rem", marginTop: 8 }}>
-            ¿No tienes cuenta?{" "}
-            <a href="/registro/abogado" style={{ color: "var(--brand-600)" }}>
-              Regístrate como abogado
+            {messages.auth.login.cta}
+            <a href="/registro/abogado" style={{ color: "var(--brand-600)", marginLeft: 4 }}>
+              {messages.auth.register.lawyerCta}
             </a>
           </p>
         </form>
 
         {error && (
           <div className="panel" style={{ background: "#fff5f5", borderColor: "#fed7d7", marginTop: 12 }}>
-            ❌ {error}
+            ❌ {messages.auth.login.error}: {error}
           </div>
         )}
       </div>
