@@ -56,11 +56,11 @@ export default function SiteHeader() {
 
   const handleClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setOpenDropdown(null), 180);
+    closeTimer.current = setTimeout(() => setOpenDropdown(null), 240);
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/70 bg-white/85 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-border/70 bg-white/90 backdrop-blur">
       <div className="container flex h-20 items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="flex flex-col leading-tight">
@@ -69,17 +69,17 @@ export default function SiteHeader() {
               Riesgo penal · decisiones críticas
             </span>
           </div>
-          <span className="hidden rounded-full bg-subtle px-3 py-1 text-[11px] font-semibold text-ink/80 ring-1 ring-border md:inline-flex">
+          <span className="hidden rounded-full bg-subtle px-3 py-1 text-[11px] font-semibold text-ink/80 ring-1 ring-border lg:inline-flex">
             Contratación estatal · juntas · crisis
           </span>
         </div>
 
-        <nav className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
+        <nav className="hidden items-center gap-6 text-sm font-medium text-muted md:flex">
           {navLinks.map((item) =>
             item.children ? (
               <div
                 key={item.label}
-                className="relative"
+                className="group relative"
                 onMouseEnter={() => handleOpen(item.label)}
                 onMouseLeave={handleClose}
                 onFocus={() => handleOpen(item.label)}
@@ -100,12 +100,13 @@ export default function SiteHeader() {
                   <span className="text-xs text-muted">▾</span>
                 </button>
                 <div
-                  className={`absolute left-0 top-full mt-3 min-w-[220px] flex-col gap-1 rounded-2xl border border-border bg-white/95 p-3 shadow-soft transition ${
+                  className={`pointer-events-auto absolute left-0 top-full z-40 mt-2 min-w-[220px] flex-col gap-1 rounded-2xl border border-border bg-white/95 p-3 shadow-soft transition ${
                     openDropdown === item.label ? "flex" : "hidden"
                   }`}
                   onMouseEnter={() => handleOpen(item.label)}
                   onMouseLeave={handleClose}
                 >
+                  <div className="absolute -top-2 left-0 h-3 w-full" aria-hidden />
                   {item.children.map((child) => (
                     <Link
                       key={child.href}
