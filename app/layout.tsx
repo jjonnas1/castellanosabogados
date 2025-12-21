@@ -1,6 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { LanguageProvider } from "./components/LanguageProvider";
+import { defaultLocale, supportedLocales, type SupportedLocale } from "@/lib/i18n/config";
 
 export const metadata: Metadata = {
   title: "Castellanos Abogados",
@@ -8,15 +10,24 @@ export const metadata: Metadata = {
     "Acompañamiento estratégico y preventivo del riesgo penal asociado a decisiones sensibles en contratación estatal.",
 };
 
-export default function RootLayout({
+async function getInitialLocale(): Promise<SupportedLocale> {
+  const cookieStore = await cookies();
+  const stored = cookieStore.get("ca_locale")?.value as SupportedLocale | undefined;
+  if (stored && supportedLocales.includes(stored)) return stored;
+  return defaultLocale;
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const initialLocale = await getInitialLocale();
+
   return (
-    <html lang="es" className="theme-a">
+    <html lang={initialLocale} className="theme-a">
       <body className="min-h-screen bg-canvas text-ink antialiased">
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider initialLocale={initialLocale}>{children}</LanguageProvider>
       </body>
     </html>
   );
