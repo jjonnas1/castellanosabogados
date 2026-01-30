@@ -113,7 +113,7 @@ export default function BusinessPageContent({
         <div className="container section-shell grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="space-y-4">
             <p className="pill w-fit">{business.services.trainingTitle}</p>
-            <h2>{business.services.trainingDescription}</h2>
+            <h2>{business.services.trainingTitle}</h2>
             <p className="max-w-3xl text-muted">{business.services.trainingDescription}</p>
             <div className="grid gap-3 sm:grid-cols-2">
               {business.services.trainingModes.map((item) => (
@@ -122,7 +122,6 @@ export default function BusinessPageContent({
                 </div>
               ))}
             </div>
-            <p className="max-w-3xl text-sm text-muted">{business.services.trainingDescription}</p>
             <div className="flex flex-wrap gap-3">
               <Link href="/agenda" className="btn-primary">
                 {business.services.trainingCta}
@@ -145,6 +144,53 @@ export default function BusinessPageContent({
               ))}
             </ul>
             <p className="mt-4 text-xs text-slate-200">{home.serviceAreas.noteText}</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-canvas">
+        <div className="container space-y-8">
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="card-shell bg-white p-6">
+              <p className="pill w-fit">{home.motivations.title}</p>
+              <h2 className="mt-3 text-ink">{home.motivations.title}</h2>
+              <div className="mt-4 grid gap-3">
+                {home.motivations.items.map((item) => (
+                  <div key={item.title} className="rounded-2xl border border-border bg-subtle px-4 py-3">
+                    <p className="text-sm font-semibold text-ink">{item.title}</p>
+                    <p className="mt-1 text-sm text-muted">{item.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="card-shell bg-white p-6">
+              <p className="pill w-fit">{home.deliveries.title}</p>
+              <h2 className="mt-3 text-ink">{home.deliveries.title}</h2>
+              <div className="mt-4 grid gap-3">
+                {home.deliveries.items.map((item) => (
+                  <div key={item.title} className="rounded-2xl border border-border bg-subtle px-4 py-3">
+                    <p className="text-sm font-semibold uppercase tracking-[0.16em] text-ink/70">{item.title}</p>
+                    <p className="mt-1 text-sm text-muted">{item.body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <p className="pill w-fit">{home.scenarios.title}</p>
+              <h2>{home.scenarios.title}</h2>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {home.scenarios.items.map((item) => (
+                <div key={item.title} className="rounded-2xl border border-border bg-white p-5 shadow-soft/30">
+                  <p className="text-sm font-semibold text-ink">{item.title}</p>
+                  <p className="mt-2 text-sm text-muted">{item.body}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

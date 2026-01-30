@@ -8,18 +8,9 @@ import SiteHeader from "./SiteHeader";
 
 const heroBackground =
   "linear-gradient(120deg, rgba(12,17,29,0.88), rgba(17,37,68,0.82)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
-const executiveDesk =
-  "linear-gradient(180deg, rgba(13,21,40,0.9), rgba(13,21,40,0.8)), url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2100&q=80')";
-const skylineBackground =
-  "linear-gradient(180deg, rgba(15,23,42,0.9), rgba(17,37,68,0.75)), url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2000&q=80')";
-const counselSession =
-  "linear-gradient(180deg, rgba(12,17,29,0.85), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1439778615639-28529f7628bc?auto=format&fit=crop&w=2000&q=80')";
-const personalAdvisory =
-  "linear-gradient(140deg, rgba(10,16,28,0.88), rgba(20,32,52,0.78)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=2200&q=80')";
-
 export default function HomeContent({ serviceList }: { serviceList: ServiceArea[] }) {
   const { messages, locale } = useLanguage();
-  const { home, navigation } = messages;
+  const { home } = messages;
   const localizedServices = serviceList.map((area) => enrichService(area, locale));
 
   return (
@@ -212,38 +203,36 @@ export default function HomeContent({ serviceList }: { serviceList: ServiceArea[
         </div>
       </section>
 
-      <section className="section-shell bg-gradient-to-br from-ink via-ink/95 to-slate-900 text-white" style={{ backgroundImage: executiveDesk }}>
-        <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="space-y-4">
-            <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{home.peopleLine.title}</p>
-            <h2 className="text-white">{home.serviceAreas.advisoryTitle}</h2>
-            <p className="text-lg text-slate-100">{home.serviceAreas.advisoryDescription}</p>
-            <ul className="space-y-2 text-sm text-slate-200">
-              {home.serviceAreas.advisoryItems.map((item) => (
-                <li key={item} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm text-slate-100">
-              <span className="font-semibold uppercase tracking-[0.14em] text-[11px] text-slate-200">{home.serviceAreas.noteLabel}: </span>
-              {home.serviceAreas.advisoryNote}
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/asesoria-personas" className="btn-primary bg-white text-ink">
+      <section className="section-shell bg-surface/80">
+        <div className="container grid gap-6 lg:grid-cols-2 lg:items-stretch">
+          <div className="card-shell bg-white p-7">
+            <div className="space-y-3">
+              <p className="pill w-fit">{home.serviceAreas.advisoryTitle}</p>
+              <h2 className="text-ink">{home.serviceAreas.advisoryTitle}</h2>
+              <p className="text-muted">{home.serviceAreas.advisoryDescription}</p>
+              <ul className="space-y-2 text-sm text-muted">
+                {home.serviceAreas.advisoryItems.map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/asesoria-personas" className="btn-primary">
                 {home.serviceAreas.advisoryCta}
               </Link>
-              <Link href="/agenda" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15">
-                {home.serviceAreas.advisoryTitle}
+              <Link href="/agenda" className="btn-secondary">
+                {home.serviceAreas.agendaTitle}
               </Link>
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-white/5 p-8 shadow-soft">
+          <div className="card-shell bg-ink p-7 text-white">
             <div className="space-y-3">
-              <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{home.serviceAreas.trainingTitle}</p>
-              <h3 className="text-white">{home.serviceAreas.trainingTitle}</h3>
+              <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/25">{home.serviceAreas.trainingTitle}</p>
+              <h2 className="text-white">{home.serviceAreas.trainingTitle}</h2>
               <p className="text-slate-100">{home.serviceAreas.trainingDescription}</p>
               <ul className="space-y-2 text-sm text-slate-100">
                 {home.serviceAreas.trainingItems.map((item) => (
@@ -254,7 +243,7 @@ export default function HomeContent({ serviceList }: { serviceList: ServiceArea[
                 ))}
               </ul>
             </div>
-            <div className="mt-5 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/penal-empresarial" className="btn-primary bg-white text-ink">
                 {home.serviceAreas.trainingCta}
               </Link>
@@ -262,113 +251,6 @@ export default function HomeContent({ serviceList }: { serviceList: ServiceArea[
                 {home.serviceAreas.contactCta}
               </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell bg-surface/80">
-        <div className="container space-y-8">
-          <div className="space-y-3 max-w-3xl">
-            <p className="pill w-fit">{home.motivations.title}</p>
-            <h2>{home.deliveries.title}</h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {home.motivations.items.map((item) => (
-              <div key={item.title} className="card-shell bg-white">
-                <h3 className="text-lg text-ink">{item.title}</h3>
-                <p className="mt-2 text-sm text-muted">{item.body}</p>
-              </div>
-            ))}
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {home.deliveries.items.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-border bg-white p-4">
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-ink/70">{item.title}</p>
-                <p className="mt-2 text-sm text-muted">{item.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell bg-canvas" style={{ backgroundImage: skylineBackground, backgroundSize: "cover" }}>
-        <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-          <div className="space-y-4 text-white">
-            <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/20">{home.serviceAreas.agendaTitle}</p>
-            <h2 className="text-white">{home.serviceAreas.agendaTitle}</h2>
-            <p className="text-lg text-slate-100">{home.serviceAreas.agendaDescription}</p>
-            <ul className="space-y-2 text-sm text-slate-100">
-              {home.serviceAreas.agendaItems.map((item) => (
-                <li key={item} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="rounded-2xl border border-white/20 bg-white/10 px-5 py-4 text-sm text-slate-100">
-              <span className="font-semibold uppercase tracking-[0.14em] text-[11px] text-slate-200">{home.serviceAreas.noteLabel}: </span>
-              {home.serviceAreas.agendaNote}
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link href="/agenda" className="btn-primary bg-white text-ink">
-                {home.serviceAreas.advisoryCta}
-              </Link>
-              <Link href="/contacto" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15">
-                {home.serviceAreas.contactCta}
-              </Link>
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-white/15 bg-white/5 p-8 text-white shadow-soft" style={{ backgroundImage: counselSession, backgroundSize: "cover" }}>
-            <div className="space-y-3">
-              <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/20">{home.peopleLine.title}</p>
-              <h3 className="text-white">{home.peopleLine.title}</h3>
-              <p className="text-slate-100">{home.peopleLine.paragraphs[0]}</p>
-              <ul className="space-y-2 text-sm text-slate-100">
-                {home.peopleLine.cards.map((card) => (
-                  <li key={card.title} className="flex gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
-                    <div>
-                      <p className="font-semibold">{card.title}</p>
-                      <p className="text-slate-200">{card.body}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <Link href="/asesoria-personas" className="btn-primary bg-white text-ink">
-                {home.serviceAreas.advisoryCta}
-              </Link>
-              <Link href="/login" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15">
-                {navigation.login}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell bg-surface/80" style={{ backgroundImage: personalAdvisory, backgroundSize: "cover" }}>
-        <div className="container space-y-8 text-white">
-          <div className="space-y-3 max-w-3xl">
-            <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{home.methodology.pill}</p>
-            <h2 className="text-white">{home.methodology.title}</h2>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {home.methodology.pillars.map((pillar) => (
-              <div key={pillar.title} className="rounded-2xl border border-white/20 bg-white/10 p-4">
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-white">{pillar.title}</p>
-                <p className="mt-2 text-sm text-slate-100">{pillar.body}</p>
-              </div>
-            ))}
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            {home.methodology.steps.map((step) => (
-              <div key={step.title} className="rounded-2xl border border-white/20 bg-white/10 p-4">
-                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-white">{step.title}</p>
-                <p className="mt-2 text-sm text-slate-100">{step.body}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

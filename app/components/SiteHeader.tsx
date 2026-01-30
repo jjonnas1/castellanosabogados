@@ -61,20 +61,17 @@ export default function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-white/90 backdrop-blur">
-      <div className="container flex h-20 items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
+      <div className="container flex h-16 items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
           <div className="flex flex-col leading-tight">
             <span className="text-base font-heading font-semibold text-ink">Castellanos Abogados</span>
-            <span className="text-[11px] uppercase tracking-[0.22em] text-muted">
+            <span className="text-[10px] uppercase tracking-[0.18em] text-muted">
               Riesgo penal · decisiones críticas
             </span>
           </div>
-          <span className="hidden rounded-full bg-subtle px-3 py-1 text-[11px] font-semibold text-ink/80 ring-1 ring-border lg:inline-flex">
-            Contratación estatal · juntas · crisis
-          </span>
         </div>
 
-        <nav className="hidden items-center gap-6 text-sm font-medium text-muted md:flex">
+        <nav className="hidden items-center gap-5 text-sm font-medium text-muted md:flex">
           {navLinks.map((item) =>
             item.children ? (
               <div
@@ -141,19 +138,13 @@ export default function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <Link href="/agenda" className="hidden btn-primary md:inline-flex">
-            Solicitar evaluación
+            {messages.home.hero.ctaPrimary}
           </Link>
           <Link
             href="/cliente/acceso"
             className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
           >
             {messages.navigation.signIn}
-          </Link>
-          <Link
-            href="/asesoria-personas"
-            className="hidden text-sm font-semibold text-muted underline-offset-4 transition hover:text-ink md:inline-flex"
-          >
-            {messages.navigation.peopleAdvisory}
           </Link>
           <div className="hidden items-center gap-1 rounded-full border border-border bg-white/80 px-2 py-1 text-xs font-semibold text-ink shadow-soft md:flex">
             <button
@@ -230,18 +221,11 @@ export default function SiteHeader() {
               ),
             )}
             <Link
-              href="/asesoria-personas"
-              className="rounded-xl px-3 py-2 text-ink transition hover:bg-subtle"
-              onClick={() => setOpen(false)}
-            >
-              {messages.navigation.peopleAdvisory}
-            </Link>
-            <Link
               href="/agenda"
               className="btn-primary w-full justify-center"
               onClick={() => setOpen(false)}
             >
-              Solicitar evaluación
+              {messages.home.hero.ctaPrimary}
             </Link>
             <Link
               href="/cliente/acceso"
