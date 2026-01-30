@@ -101,156 +101,61 @@ export default function HomeContent({ serviceList }: { serviceList: ServiceArea[
       </section>
 
       <section className="section-shell bg-surface">
-        <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="space-y-4">
-            <p className="pill w-fit">{home.businessFocus.pill}</p>
-            <h2>{home.businessFocus.title}</h2>
-            <div className="space-y-3 text-base text-muted">
-              {home.businessFocus.paragraphs.map((p) => (
-                <p key={p} className="max-w-3xl">
-                  {p}
-                </p>
-              ))}
-            </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {home.businessFocus.cards.map((card) => (
-                <div key={card.title} className="card-shell bg-white p-6">
-                  <h3 className="text-lg text-ink">{card.title}</h3>
-                  <p className="mt-2 text-sm text-muted">{card.body}</p>
-                </div>
-              ))}
-            </div>
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-950 shadow-soft/20">
-              <p className="font-semibold uppercase tracking-wide text-[11px] text-amber-700">{home.businessFocus.noteLabel}</p>
-              <p className="mt-2 max-w-3xl leading-relaxed">{home.businessFocus.noteText}</p>
-            </div>
+        <div className="container space-y-10">
+          <div className="space-y-3 text-center">
+            <p className="pill mx-auto w-fit">{home.motivations.title}</p>
+            <h2>{home.motivations.title}</h2>
+            <p className="mx-auto max-w-3xl text-muted">{home.deliveries.title}</p>
           </div>
-
-          <div className="relative overflow-hidden rounded-3xl border border-border bg-white p-8 shadow-soft">
-            <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-ink/80">
-              {home.businessPanel.badges.map((badge) => (
-                <span key={badge} className="rounded-full bg-slate-100 px-3 py-1 font-semibold">
-                  {badge}
-                </span>
-              ))}
-            </div>
-            <div className="mt-4 space-y-3">
-              <h3>{home.businessPanel.title}</h3>
-              <div className="space-y-2 text-sm text-muted">
-                {home.businessPanel.paragraphs.map((p) => (
-                  <p key={p}>{p}</p>
-                ))}
+          <div className="grid gap-6 md:grid-cols-3">
+            {home.motivations.items.map((item) => (
+              <div key={item.title} className="card-shell bg-white p-6">
+                <h3 className="text-lg text-ink">{item.title}</h3>
+                <p className="mt-2 text-sm text-muted">{item.body}</p>
               </div>
-            </div>
-            <div className="mt-6 grid gap-4 sm:grid-cols-3">
-              {home.businessPanel.cards.map((card) => (
-                <div key={card.title} className="rounded-2xl border border-border bg-subtle px-4 py-3 text-sm shadow-soft/20">
-                  <p className="font-semibold text-ink">{card.title}</p>
-                  <p className="mt-2 text-muted">{card.body}</p>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              {home.businessPanel.ctas.map((cta) => (
-                <Link key={cta.label} href={cta.href} className="btn-secondary">
-                  {cta.label}
-                </Link>
-              ))}
-            </div>
+            ))}
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {home.deliveries.items.map((item) => (
+              <div key={item.title} className="card-shell bg-white p-6">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink/70">{item.title}</p>
+                <p className="mt-2 text-sm text-muted">{item.body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       <section className="section-shell bg-canvas">
         <div className="container space-y-6">
-          <div className="flex flex-wrap justify-center gap-3 text-sm">
-            <span className="pill w-fit bg-ink text-white ring-white/20">{home.serviceAreas.pill}</span>
-            <span className="pill w-fit bg-amber-100 text-amber-900 ring-amber-200">{home.serviceAreas.noteLabel}</span>
-          </div>
           <div className="space-y-3 text-center">
+            <p className="pill mx-auto w-fit">{home.serviceAreas.pill}</p>
             <h2>{home.serviceAreas.title}</h2>
-            <p className="mx-auto max-w-3xl text-lg text-muted">{home.serviceAreas.description}</p>
+            <p className="mx-auto max-w-3xl text-muted">{home.serviceAreas.description}</p>
           </div>
-          <p className="mx-auto max-w-3xl rounded-2xl border border-blue-200 bg-blue-50 px-5 py-3 text-sm text-blue-900">
-            <span className="font-semibold">{home.serviceAreas.noteLabel}: </span>
-            {home.serviceAreas.noteText}
-          </p>
-          <div className="grid gap-6 sm:grid-cols-3">
-            {localizedServices.map((service) => (
+          <div className="grid gap-6 md:grid-cols-3">
+            {localizedServices.slice(0, 3).map((service) => (
               <article key={service.slug} className="card-shell bg-white p-6">
-                <div className="flex items-start justify-between gap-3">
-                  <p className="pill w-fit bg-ink text-white ring-ink/30">{home.serviceAreas.pill}</p>
-                  <span className="rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-green-800">
-                    {home.serviceAreas.statusActive}
-                  </span>
-                </div>
                 <h3 className="text-lg text-ink">{service.title}</h3>
-                <p className="text-sm text-muted">{service.description}</p>
-                <div className="mt-4 grid gap-3 text-sm">
+                <p className="mt-2 text-sm text-muted">{service.description}</p>
+                <div className="mt-4 flex flex-wrap gap-3 text-sm">
                   <Link href={`/servicios/${service.slug}`} className="btn-secondary">
                     {home.serviceAreas.cta}
                   </Link>
-                  <Link href={`/servicios/${service.slug}`} className="btn-primary bg-ink text-white">
+                  <Link href="/agenda" className="btn-primary">
                     {home.serviceAreas.advisoryCta}
-                  </Link>
-                  <Link href="/contacto" className="btn-secondary">
-                    {home.serviceAreas.trainingCta}
                   </Link>
                 </div>
               </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="section-shell bg-surface">
-        <div className="container grid gap-8 lg:grid-cols-2 lg:items-stretch">
-          <div className="card-shell bg-white p-8">
-            <div className="space-y-3">
-              <p className="pill w-fit">{home.serviceAreas.advisoryTitle}</p>
-              <h2 className="text-ink">{home.serviceAreas.advisoryTitle}</h2>
-              <p className="text-muted">{home.serviceAreas.advisoryDescription}</p>
-              <ul className="space-y-2 text-sm text-muted">
-                {home.serviceAreas.advisoryItems.map((item) => (
-                  <li key={item} className="flex gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/asesoria-personas" className="btn-primary">
-                {home.serviceAreas.advisoryCta}
-              </Link>
-              <Link href="/agenda" className="btn-secondary">
-                {home.serviceAreas.agendaTitle}
-              </Link>
-            </div>
-          </div>
-
-          <div className="card-shell bg-ink p-8 text-white">
-            <div className="space-y-3">
-              <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/25">{home.serviceAreas.trainingTitle}</p>
-              <h2 className="text-white">{home.serviceAreas.trainingTitle}</h2>
-              <p className="text-slate-100">{home.serviceAreas.trainingDescription}</p>
-              <ul className="space-y-2 text-sm text-slate-100">
-                {home.serviceAreas.trainingItems.map((item) => (
-                  <li key={item} className="flex gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/penal-empresarial" className="btn-primary bg-white text-ink">
-                {home.serviceAreas.trainingCta}
-              </Link>
-              <Link href="/contacto" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15">
-                {home.serviceAreas.contactCta}
-              </Link>
-            </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href="/servicios" className="btn-secondary">
+              {home.serviceAreas.cta}
+            </Link>
+            <Link href="/contacto" className="btn-primary">
+              {home.serviceAreas.contactCta}
+            </Link>
           </div>
         </div>
       </section>

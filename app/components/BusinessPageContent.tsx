@@ -109,6 +109,43 @@ export default function BusinessPageContent({
         </div>
       </section>
 
+      <section className="section-shell bg-canvas">
+        <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+          <div className="space-y-4">
+            <p className="pill w-fit">{home.businessFocus.pill}</p>
+            <h2>{home.businessFocus.title}</h2>
+            <div className="space-y-3 text-muted">
+              {home.businessFocus.paragraphs.map((p) => (
+                <p key={p} className="max-w-3xl">
+                  {p}
+                </p>
+              ))}
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {home.businessFocus.cards.map((card) => (
+                <div key={card.title} className="card-shell bg-white p-6">
+                  <h3 className="text-lg text-ink">{card.title}</h3>
+                  <p className="mt-2 text-sm text-muted">{card.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-3xl border border-border bg-white p-8 shadow-soft">
+            <p className="pill w-fit">{home.businessFocus.noteLabel}</p>
+            <h3 className="mt-3 text-ink">{home.businessFocus.noteLabel}</h3>
+            <p className="mt-3 text-sm text-muted">{home.businessFocus.noteText}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/agenda" className="btn-primary">
+                {business.hero.ctaPrimary}
+              </Link>
+              <Link href="/contacto" className="btn-secondary">
+                {navigation.contact}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="border-y border-border bg-white">
         <div className="container section-shell grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="space-y-4">

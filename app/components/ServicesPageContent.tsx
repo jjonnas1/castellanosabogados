@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import { useLanguage } from "./LanguageProvider";
 import { enrichService, type ServiceArea } from "@/lib/serviceAreas";
-import { getServiceDetail } from "@/lib/serviceDetails";
 
 const headerBackground =
   "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
@@ -21,9 +20,7 @@ export default function ServicesPageContent({
   const primary = servicesPage.sections[0];
   const secondary = servicesPage.sections[1];
   const tertiary = servicesPage.sections[2];
-  const localized = services
-    .map((area) => enrichService(area, locale))
-    .map((service) => ({ ...service, detail: getServiceDetail(service.slug) }));
+  const localized = services.map((area) => enrichService(area, locale));
 
   return (
     <main className="min-h-screen bg-canvas pb-16">
@@ -92,6 +89,96 @@ export default function ServicesPageContent({
         </div>
       </section>
 
+      <section className="section-shell bg-canvas">
+        <div className="container space-y-6">
+          <div className="space-y-3 text-center">
+            <p className="pill mx-auto w-fit">{home.serviceAreas.pill}</p>
+            <h2>{home.serviceAreas.title}</h2>
+            <p className="mx-auto max-w-3xl text-muted">{home.serviceAreas.description}</p>
+          </div>
+          {hasError && (
+            <div className="mx-auto max-w-3xl rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+              {home.serviceAreas.noteText}
+            </div>
+          )}
+          <p className="mx-auto max-w-3xl rounded-2xl border border-blue-200 bg-blue-50 px-5 py-3 text-sm text-blue-900">
+            <span className="font-semibold">{home.serviceAreas.noteLabel}: </span>
+            {home.serviceAreas.noteText}
+          </p>
+          <div className="grid gap-6 md:grid-cols-3">
+            {localized.map((service) => (
+              <article key={service.slug} className="card-shell flex h-full flex-col justify-between bg-white p-6">
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-700">{service.slug}</p>
+                  <h3 className="text-lg font-heading font-semibold text-ink">{service.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted">{service.description}</p>
+                </div>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Link href={`/servicios/${service.slug}`} className="btn-secondary">
+                    {home.serviceAreas.cta}
+                  </Link>
+                  <Link href="/agenda" className="btn-primary">
+                    {home.serviceAreas.advisoryCta}
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-surface">
+        <div className="container grid gap-8 lg:grid-cols-2 lg:items-stretch">
+          <div className="card-shell bg-white p-8">
+            <div className="space-y-3">
+              <p className="pill w-fit">{home.serviceAreas.advisoryTitle}</p>
+              <h2 className="text-ink">{home.serviceAreas.advisoryTitle}</h2>
+              <p className="text-muted">{home.serviceAreas.advisoryDescription}</p>
+              <ul className="space-y-2 text-sm text-muted">
+                {home.serviceAreas.advisoryItems.map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/asesoria-personas" className="btn-primary">
+                {home.serviceAreas.advisoryCta}
+              </Link>
+              <Link href="/agenda" className="btn-secondary">
+                {home.serviceAreas.agendaTitle}
+              </Link>
+            </div>
+          </div>
+
+          <div className="card-shell bg-ink p-8 text-white">
+            <div className="space-y-3">
+              <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/25">{home.serviceAreas.trainingTitle}</p>
+              <h2 className="text-white">{home.serviceAreas.trainingTitle}</h2>
+              <p className="text-slate-100">{home.serviceAreas.trainingDescription}</p>
+              <ul className="space-y-2 text-sm text-slate-100">
+                {home.serviceAreas.trainingItems.map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link href="/penal-empresarial" className="btn-primary bg-white text-ink">
+                {home.serviceAreas.trainingCta}
+              </Link>
+              <Link href="/contacto" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15">
+                {home.serviceAreas.contactCta}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="border-t border-border bg-surface">
         <div className="container section-shell space-y-6">
           <div className="space-y-2 text-center">
@@ -110,63 +197,6 @@ export default function ServicesPageContent({
         </div>
       </section>
 
-      <section className="container section-shell space-y-8">
-        {hasError && (
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            {home.serviceAreas.noteText}
-          </div>
-        )}
-
-        {localized.length === 0 ? (
-          <div className="card-shell bg-white px-6 py-10 text-center text-muted">
-            <p className="text-lg font-semibold text-ink">{home.serviceAreas.statusInquiry}</p>
-            <p className="mt-2">{home.serviceAreas.advisoryDescription}</p>
-            <Link href="/agenda" className="mt-4 inline-block btn-primary">
-              {home.serviceAreas.agendaTitle}
-            </Link>
-          </div>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-3">
-            {localized.map((service) => (
-              <article key={service.slug} className="card-shell flex h-full flex-col justify-between bg-white p-6">
-                <div className="space-y-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-700">{service.slug}</p>
-                  <h3 className="text-lg font-heading font-semibold text-ink">{service.title}</h3>
-                  <p className="text-sm leading-relaxed text-muted">{service.description}</p>
-                  {service.detail && (
-                    <div className="space-y-2 text-sm text-muted">
-                      <div>
-                        <p className="font-semibold text-ink">{home.serviceAreas.agendaTitle}</p>
-                        <ul className="mt-1 space-y-1 list-disc pl-4">
-                          {service.detail.activation.slice(0, 2).map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-ink">{servicesPage.sections[1].title}</p>
-                        <ul className="mt-1 space-y-1 list-disc pl-4">
-                          {service.detail.deliverables.slice(0, 2).map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="mt-4 flex flex-wrap gap-3">
-                  <Link href={`/servicios/${service.slug}`} className="btn-secondary">
-                    {home.serviceAreas.cta}
-                  </Link>
-                  <Link href="/agenda" className="btn-primary">
-                    {home.serviceAreas.advisoryCta}
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
     </main>
   );
 }
