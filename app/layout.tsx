@@ -5,9 +5,21 @@ import ClientLayout from "./components/ClientLayout";
 import { defaultLocale, supportedLocales, type SupportedLocale } from "@/lib/i18n/config";
 
 export const metadata: Metadata = {
-  title: "Castellanos Abogados",
+  title: "Castellanos Abogados | Gestión penal preventiva",
   description:
-    "Acompañamiento estratégico y preventivo del riesgo penal asociado a decisiones sensibles en contratación estatal.",
+    "Estrategia penal preventiva para decisiones sensibles, juntas y comités. Enfoque en trazabilidad, documentación y control.",
+  openGraph: {
+    title: "Castellanos Abogados",
+    description:
+      "Estrategia penal preventiva para decisiones sensibles, juntas y comités. Trazabilidad y documentación ejecutiva.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Castellanos Abogados",
+    description:
+      "Estrategia penal preventiva para decisiones sensibles, juntas y comités. Trazabilidad y documentación ejecutiva.",
+  },
 };
 
 async function getInitialLocale(): Promise<SupportedLocale> {
@@ -27,6 +39,20 @@ export default async function RootLayout({
   return (
     <html lang={initialLocale} className="theme-a">
       <body className="min-h-screen bg-canvas text-ink antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LegalService",
+              name: "Castellanos Abogados",
+              description:
+                "Estrategia penal preventiva para decisiones sensibles, juntas y comités. Trazabilidad y documentación ejecutiva.",
+              areaServed: "CO",
+              serviceType: "Criminal risk prevention",
+            }),
+          }}
+        />
         <ClientLayout initialLocale={initialLocale}>{children}</ClientLayout>
       </body>
     </html>

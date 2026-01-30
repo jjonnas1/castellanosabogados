@@ -16,7 +16,7 @@ export default function ServicesPageContent({
   hasError?: boolean;
 }) {
   const { messages, locale } = useLanguage();
-  const { servicesPage, navigation, common, home } = messages;
+  const { servicesPage, common, home } = messages;
   const primary = servicesPage.sections[0];
   const secondary = servicesPage.sections[1];
   const tertiary = servicesPage.sections[2];
@@ -117,9 +117,6 @@ export default function ServicesPageContent({
                   <Link href={`/servicios/${service.slug}`} className="btn-secondary">
                     {home.serviceAreas.cta}
                   </Link>
-                  <Link href="/agenda" className="btn-primary">
-                    {home.serviceAreas.advisoryCta}
-                  </Link>
                 </div>
               </article>
             ))}
@@ -137,7 +134,7 @@ export default function ServicesPageContent({
               <ul className="space-y-2 text-sm text-muted">
                 {home.serviceAreas.advisoryItems.map((item) => (
                   <li key={item} className="flex gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -161,7 +158,7 @@ export default function ServicesPageContent({
               <ul className="space-y-2 text-sm text-slate-100">
                 {home.serviceAreas.trainingItems.map((item) => (
                   <li key={item} className="flex gap-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-white" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -179,21 +176,19 @@ export default function ServicesPageContent({
         </div>
       </section>
 
-      <section className="border-t border-border bg-surface">
-        <div className="container section-shell space-y-6">
-          <div className="space-y-2 text-center">
-            <p className="pill mx-auto w-fit">{home.scenarios.title}</p>
-            <h2>{home.scenarios.title}</h2>
-            <p className="mx-auto max-w-3xl text-muted">{servicesPage.hero.cta}</p>
+      <section className="section-shell bg-surface">
+        <div className="container text-center space-y-4">
+          <h2>{home.finalCta.title}</h2>
+          <p className="mx-auto max-w-2xl text-muted">{home.finalCta.description}</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href="/agenda" className="btn-primary">
+              {home.finalCta.ctaPrimary}
+            </Link>
+            <Link href="/metodologia" className="btn-secondary">
+              {home.finalCta.ctaSecondary}
+            </Link>
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {home.scenarios.items.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-border bg-white p-6 shadow-soft/30">
-                <p className="text-sm font-semibold text-ink">{item.title}</p>
-                <p className="mt-2 text-sm text-muted">{item.body}</p>
-              </div>
-            ))}
-          </div>
+          <p className="text-xs uppercase tracking-[0.18em] text-muted">{home.finalCta.note}</p>
         </div>
       </section>
 

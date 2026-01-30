@@ -9,6 +9,7 @@ export type Dictionary = {
     business: string;
     people: string;
     services: string;
+    methodology: string;
     contact: string;
     advisory: string;
     register: string;
@@ -28,20 +29,42 @@ export type Dictionary = {
   };
   home: {
     hero: {
+      label: string;
       badges: string[];
-      title: string;
-      paragraph1: string;
-      paragraph2: string;
+      titleA: string;
+      subtitleA: string;
+      titleB: string;
+      subtitleB: string;
+      note: string;
       ctaPrimary: string;
       ctaSecondary: string;
-      highlights: { label: string; value: string }[];
-      model: {
-        badge: string;
-        title: string;
-        badgeSecondary: string;
-        items: string[];
-        tags: string[];
-      };
+      trustNote: string;
+    };
+    outcomes: { title: string }[];
+    outcomesTitle: string;
+    howWeWork: {
+      title: string;
+      steps: { title: string; body: string }[];
+    };
+    servicesPreview: {
+      title: string;
+      description: string;
+      cards: { title: string; body: string; href: string; cta: string }[];
+    };
+    fit: {
+      title: string;
+      forTitle: string;
+      forItems: string[];
+      notForTitle: string;
+      notForItems: string[];
+    };
+    faq: { title: string; items: { question: string; answer: string }[] };
+    finalCta: {
+      title: string;
+      description: string;
+      note: string;
+      ctaPrimary: string;
+      ctaSecondary: string;
     };
     businessFocus: {
       pill: string;
@@ -115,6 +138,9 @@ export type Dictionary = {
       ctaPrimary: string;
       ctaSecondary: string;
     };
+    problems: { title: string; items: { title: string; body: string }[] };
+    deliverables: { title: string; items: { title: string; body: string }[] };
+    faq: { title: string; items: { question: string; answer: string }[] };
     services: {
       title: string;
       intro: string;
@@ -179,10 +205,19 @@ export type Dictionary = {
       description: string;
       fields: {
         name: string;
+        company: string;
+        role: string;
         email: string;
         phone: string;
+        caseType: string;
+        urgency: string;
         message: string;
+        privacy: string;
         submit: string;
+      };
+      options: {
+        caseType: string[];
+        urgency: string[];
       };
     };
     info: {
@@ -193,6 +228,17 @@ export type Dictionary = {
   servicesPage: {
     hero: { title: string; description: string; cta: string };
     sections: { title: string; body: string }[];
+  };
+  methodologyPage: {
+    hero: { title: string; subtitle: string; note: string };
+    phases: {
+      title: string;
+      description: string;
+      deliverables: string[];
+    }[];
+    safeguards: { title: string; items: string[] };
+    faq: { title: string; items: { question: string; answer: string }[] };
+    cta: { title: string; description: string; primary: string; secondary: string };
   };
   forms: {
     email: string;
@@ -224,6 +270,7 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
       business: "Penal/Empresas",
       people: "Penal/Personas",
       services: "Servicios",
+      methodology: "Metodología",
       contact: "Contacto",
       advisory: "Asesoría",
       register: "Registrarse",
@@ -243,71 +290,138 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
     },
     home: {
       hero: {
-        badges: [
-          "Estrategia penal en contratación estatal",
-          "Comités · Juntas · Decisiones críticas",
-        ],
-        title: "Control penal para decisiones sensibles y juntas que no admiten improvisación",
-        paragraph1:
-          "Proveemos acompañamiento ejecutivo para líderes que requieren criterio inmediato, documentación impecable y activación táctica sin ruido.",
-        paragraph2:
-          "Cada decisión se aborda con gestión de riesgo penal, trazabilidad y soporte documental que permite justificar el criterio adoptado ante auditorías, entes de control y órganos internos de gobierno. Sin promesas de resultado, dejamos rastro de control y límites operativos claros.",
+        label: "Gestión penal preventiva",
+        badges: ["Decisiones sensibles · juntas y comités", "Contratación estatal · compliance · control"],
+        titleA: "Decisiones sensibles que no admiten improvisación.",
+        subtitleA:
+          "Estrategia penal preventiva para órganos de gobierno y áreas jurídicas que exigen criterio, trazabilidad y documentación ejecutiva.",
+        titleB: "Criterio penal para decisiones críticas con respaldo documental.",
+        subtitleB:
+          "Acompañamiento preventivo y confidencial para líderes responsables que deben justificar sus decisiones ante control interno y externo.",
+        note: "Actuamos con discreción, límites claros y soporte escrito.",
         ctaPrimary: "Solicitar evaluación estratégica",
         ctaSecondary: "Ver cómo trabajamos",
-        highlights: [
-          { label: "Ámbito", value: "Contratación estatal, gobierno corporativo, órganos de control." },
-          { label: "Enfoque", value: "Prevención penal, controles operativos, reacción táctica." },
-          { label: "Ritmo", value: "Sesiones cortas, entregables ejecutivos, decisiones trazables." },
-          { label: "Control", value: "Trazabilidad completa: actas, minutas, decisiones justificadas." },
-        ],
-        model: {
-          badge: "Modelo",
-          title: "Documento de acompañamiento estratégico",
-          badgeSecondary: "Confidencial",
-          items: [
-            "Decisiones sensibles con exposición penal inmediata.",
-            "Mapas de riesgo y reglas de actuación listos para junta.",
-            "Activación táctica ante incidentes con contención y coordinación.",
-          ],
-          tags: ["Diagnóstico", "Protocolos", "Activación"],
-        },
+        trustNote: "Tu información se maneja con confidencialidad.",
       },
-      businessFocus: {
-        pill: "Riesgo penal empresarial",
-        title: "Penal para empresas: contratación estatal y gobierno corporativo",
-        paragraphs: [
-          "Nuestro foco exclusivo es la prevención y el control penal asociado a decisiones sensibles en contratación estatal y gobierno corporativo. Trabajamos con juntas, comités y representantes legales; los acompañamos con documentación ejecutiva y límites claros.",
-          "Incluimos capacitación aplicada a los responsables que intervienen en la toma de decisiones y en la operación: sesiones de formación interna, charlas para juntas y entrenamientos puntuales en gestión del riesgo penal para proyectos y contratos de alto impacto.",
-        ],
-        cards: [
-          { title: "Modelo", body: "Ruta táctica y preventiva alineada con órganos de control y cumplimiento." },
-          { title: "Delimitación", body: "No intervenimos en litigios ni asumimos representación judicial." },
-          { title: "Activación", body: "Sesiones ejecutivas previo, durante y posterior a decisiones críticas." },
-          { title: "Trazabilidad", body: "Entregables ejecutivos, minutas y soportes listos para auditoría." },
+      outcomes: [
+        { title: "Trazabilidad y soporte documental." },
+        { title: "Coordinación jurídica en decisiones críticas." },
+        { title: "Protocolos claros para prevención y contención." },
+      ],
+      outcomesTitle: "Resultados clave",
+      howWeWork: {
+        title: "Cómo trabajamos",
+        steps: [
           {
-            title: "Formación",
-            body: "Capacitaciones internas y jornadas para juntas sobre gestión del riesgo penal.",
+            title: "Diagnóstico",
+            body: "Levantamos hechos, actores y riesgos para definir alcance y prioridades.",
+          },
+          {
+            title: "Protocolos",
+            body: "Definimos criterios, documentación y rutas de aprobación para la decisión.",
+          },
+          {
+            title: "Activación",
+            body: "Acompañamiento táctico en sesiones clave, con control y seguimiento.",
           },
         ],
+      },
+      servicesPreview: {
+        title: "Líneas de servicio",
+        description:
+          "Dos frentes complementarios. Empresas concentra el foco principal; Personas se atiende bajo disponibilidad y coordinación.",
+        cards: [
+          {
+            title: "Penal/Empresas",
+            body: "Prevención penal para juntas, comités y áreas jurídicas con alto nivel de exposición.",
+            href: "/penal-empresarial",
+            cta: "Ver Penal/Empresas",
+          },
+          {
+            title: "Penal/Personas",
+            body: "Asesoría preventiva individual con trazabilidad y coordinación con defensa cuando aplica.",
+            href: "/personas",
+            cta: "Ver Penal/Personas",
+          },
+        ],
+      },
+      fit: {
+        title: "Para quién es / Para quién no es",
+        forTitle: "Es para",
+        forItems: [
+          "Juntas, comités y representantes legales que deben justificar decisiones.",
+          "Áreas jurídicas y compliance que requieren soporte documental y control.",
+          "Organizaciones con exposición penal preventiva en procesos críticos.",
+        ],
+        notForTitle: "No es para",
+        notForItems: [
+          "Litigios o representación judicial.",
+          "Promesas de resultado o soluciones improvisadas.",
+          "Procesos sin voluntad de documentación y control.",
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Cuándo llamar?",
+            answer:
+              "Cuando la decisión es sensible y requiere criterio, trazabilidad y soporte documental.",
+          },
+          {
+            question: "¿Qué entregables recibo?",
+            answer: "Minutas, protocolos, criterios y rutas de actuación con responsables definidos.",
+          },
+          {
+            question: "¿Qué pasa ante incidentes urgentes?",
+            answer: "Activamos sesiones tácticas y coordinamos instrucciones con el equipo clave.",
+          },
+          {
+            question: "¿Cómo manejan la confidencialidad?",
+            answer: "Toda la información se trata con reserva y control documental interno.",
+          },
+          {
+            question: "¿Incluye representación judicial?",
+            answer: "No. Nos enfocamos en prevención, documentación y acompañamiento estratégico.",
+          },
+          {
+            question: "¿Qué incluye una evaluación estratégica?",
+            answer: "Diagnóstico inicial, definición de alcance y prioridades de control.",
+          },
+        ],
+      },
+      finalCta: {
+        title: "Solicitar evaluación estratégica",
+        description: "Conversemos sobre el contexto, el alcance y el nivel de exposición.",
+        note: "Respuesta en 24–48 horas hábiles.",
+        ctaPrimary: "Solicitar evaluación estratégica",
+        ctaSecondary: "Ver cómo trabajamos",
+      },
+      businessFocus: {
+        pill: "Penal/Empresas",
+        title: "Riesgo penal preventivo para órganos de gobierno y contratación sensible",
+        paragraphs: [
+          "Trabajamos con juntas, comités y representantes legales que requieren criterio penal preventivo, soportes ejecutivos y límites claros para decisiones de alto impacto.",
+          "El foco es la trazabilidad: actas, minutas, criterios y rutas de aprobación que permitan justificar decisiones ante control interno y externo.",
+        ],
+        cards: [
+          { title: "Trazabilidad", body: "Documentación ejecutiva y soportes listos para auditoría." },
+          { title: "Criterio", body: "Definición de límites, riesgos y responsables con claridad." },
+          { title: "Activación", body: "Sesiones tácticas cuando se presentan incidentes o alertas." },
+        ],
         noteLabel: "Línea paralela",
-        noteText: "Asesoría penal a personas se gestiona de forma separada y secundaria.",
+        noteText: "La asesoría a personas se atiende como línea secundaria y bajo disponibilidad.",
       },
       businessPanel: {
         badges: ["Foco principal", "Penal corporativo"],
         title: "Acompañamiento ejecutivo para juntas y comités",
         paragraphs: [
-          "Definimos ritmo, soportes y responsables en decisiones de alto impacto: minutas, protocolos activables, reportes para auditoría y coordinación con control interno.",
-          "La formación corporativa hace parte de la misma línea: diseñamos charlas ejecutivas, jornadas para juntas y capacitaciones internas sobre responsabilidad penal, documentación, flujo de aprobación y actuación frente a incidentes. Todo queda integrado en la agenda y soportes del comité.",
+          "Definimos ritmo, soportes y responsables en decisiones de alto impacto: minutas, criterios y reportes listos para auditoría.",
+          "Capacitaciones y jornadas para juntas complementan el acompañamiento con reglas de actuación y documentación clara.",
         ],
         cards: [
-          {
-            title: "Activación",
-            body: "Sesiones urgentes con responsables clave para definir alcance y controles.",
-          },
-          {
-            title: "Ejecución",
-            body: "Documentación ejecutiva, instrucciones puntuales y coordinación con compliance.",
-          },
+          { title: "Activación", body: "Sesiones urgentes con responsables clave para definir alcance." },
+          { title: "Ejecución", body: "Documentación ejecutiva y coordinación con compliance." },
         ],
         ctas: [
           { label: "Detalle de servicios", href: "/servicios" },
@@ -315,90 +429,67 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         ],
       },
       serviceAreas: {
-        pill: "Servicios empresariales",
-        title: "Áreas activas de riesgo penal corporativo",
+        pill: "Servicios",
+        title: "Áreas activas de riesgo penal",
         description:
-          "Mostramos únicamente las áreas habilitadas en Supabase para empresas y órganos directivos. Priorizamos el ingreso por DRP-CE y escalamos cuando el comité lo exige.",
+          "Servicios habilitados según el contexto del cliente. Priorizamos trazabilidad, documentación y control de decisiones.",
         noteLabel: "Capacitaciones",
-        noteText: "Charlas, jornadas para juntas y formación interna en riesgo penal corporativo.",
-        cta: "Solicitar ingreso",
+        noteText: "Charlas y jornadas internas para juntas, compliance y áreas jurídicas.",
+        cta: "Ver servicios",
         statusActive: "Activo",
         statusInquiry: "Consulta",
         advisoryCta: "Asesoría a personas",
         contactCta: "Contacto",
         trainingCta: "Penal/Empresas",
-        advisoryTitle: "Asesoría a personas",
+        advisoryTitle: "Penal/Personas",
         advisoryDescription:
-          "La agenda se habilita por disponibilidad del abogado asignado y solo se muestra la oferta real.",
+          "Asesoría preventiva con agenda real, coordinación con defensa y soporte documental.",
         advisoryItems: [
-          "Ingreso con registro y validación básica.",
-          "Selección de horario disponible (sin promesas ni urgencias).",
-          "Pago en línea para confirmar la sesión.",
+          "Ingreso con validación básica.",
+          "Selección de horario disponible.",
+          "Pago al reservar la sesión.",
         ],
         advisoryNote: "Coordinamos con defensa técnica cuando ya existe.",
         agendaTitle: "Coordinación con defensa",
-        agendaDescription: "Mantenemos trazabilidad de cada paso y acuerdos con defensa principal.",
+        agendaDescription: "Trazabilidad de instrucciones y acuerdos con la defensa principal.",
         agendaItems: [
           "Sesiones a ritmo corto y enfocadas.",
           "Registro de instrucciones y soportes.",
-          "Seguimiento al plan acordado con el cliente.",
+          "Seguimiento al plan acordado.",
         ],
         agendaNote: "El pago se habilita solo cuando hay horario disponible.",
-        trainingTitle: "Capacitaciones y conferencias",
-        trainingDescription:
-          "Línea de formación ejecutiva en responsabilidad penal, documentación y actuación en juntas y comités.",
+        trainingTitle: "Capacitaciones",
+        trainingDescription: "Formación ejecutiva en responsabilidad penal y documentación.",
         trainingItems: [
-          "Charlas ejecutivas para juntas y comités.",
+          "Charlas para juntas y comités.",
           "Capacitaciones internas para equipos legales y compliance.",
           "Modalidad virtual o presencial en español o inglés.",
         ],
       },
       peopleLine: {
-        title: "Penal para personas: agenda visible y trazabilidad",
+        title: "Penal/Personas",
         paragraphs: [
-          "La asesoría a personas sigue una ruta clara: disponibilidad real, pago al reservar y coordinación con defensa cuando aplica.",
-          "Cada sesión deja registro de lo acordado y de los límites del servicio; no se ofrecen promesas ni actuaciones judiciales.",
+          "La asesoría a personas es una línea paralela con agenda real y coordinación con defensa cuando aplica.",
+          "Cada sesión deja registro de lo acordado y de los límites del servicio.",
         ],
         cards: [
-          {
-            title: "Disponibilidad real",
-            body: "El horario visible es el que el abogado define como libre; no se ofrecen horas que no existan.",
-          },
-          {
-            title: "Pago al reservar",
-            body: "El enlace de pago se habilita solo cuando se selecciona un espacio disponible.",
-          },
-          {
-            title: "Coordinación",
-            body: "Si ya existe defensa técnica, alineamos criterios y límites antes de la sesión.",
-          },
-          {
-            title: "Historial",
-            body: "Cada sesión queda documentada para evitar confusiones y mantener el foco.",
-          },
+          { title: "Disponibilidad real", body: "Se muestran únicamente horarios confirmados." },
+          { title: "Pago al reservar", body: "Se habilita al seleccionar un horario disponible." },
+          { title: "Coordinación", body: "Se articula con defensa técnica cuando existe." },
         ],
       },
       methodology: {
-        pill: "Cómo operamos",
-        title: "Metodología de acompañamiento y control",
+        pill: "Metodología",
+        title: "Cómo trabajamos",
         pillars: [
-          { title: "Criterio", body: "Evaluamos riesgo penal con base en hechos, roles y exposición real." },
-          { title: "Documentación", body: "Cada decisión deja trazabilidad ejecutiva y soportes listos para auditoría." },
-          { title: "Control", body: "Definimos límites operativos y responsables para evitar improvisación." },
+          { title: "Diagnóstico", body: "Contexto y hechos críticos para definir alcance." },
+          { title: "Protocolos", body: "Reglas de actuación y documentación ejecutiva." },
+          { title: "Activación", body: "Acompañamiento táctico y seguimiento a decisiones." },
         ],
         steps: [
-          {
-            title: "Ingreso",
-            body: "Sesión corta para delimitar alcance, responsables y documentación existente.",
-          },
-          {
-            title: "Acompañamiento",
-            body: "Sesiones ejecutivas con minutas, protocolos y entregables para junta o comité.",
-          },
-          {
-            title: "Seguimiento",
-            body: "Registro de decisiones, bloqueos y excepciones; actualización con defensa o compliance.",
-          },
+          { title: "Levantamiento", body: "Revisión de documentos, actores y cronología." },
+          { title: "Criterios", body: "Definición de límites y rutas de aprobación." },
+          { title: "Reporte", body: "Entregables listos para junta y archivo." },
         ],
       },
       motivations: {
@@ -406,19 +497,15 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         items: [
           {
             title: "Decisiones sensibles",
-            body: "Necesidad de criterio penal inmediato en juntas, comités o proyectos con presión de tiempo.",
+            body: "Juntas y comités que requieren criterio penal preventivo.",
           },
           {
-            title: "Documentación y trazabilidad",
-            body: "Requerimiento de actas y soportes que resistan auditoría y expliquen límites de actuación.",
+            title: "Contratación estatal",
+            body: "Procesos con exposición a entes de control y auditorías.",
           },
           {
-            title: "Prevención en contratación estatal",
-            body: "Control penal para procesos de contratación, interventoría, supervisión y ejecución." ,
-          },
-          {
-            title: "Formación aplicada",
-            body: "Capacitaciones y jornadas para órganos directivos y equipos jurídicos en responsabilidad penal.",
+            title: "Incidentes urgentes",
+            body: "Activaciones tácticas para contener riesgos y coordinar equipos.",
           },
         ],
       },
@@ -426,20 +513,16 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         title: "Qué entregamos",
         items: [
           {
-            title: "Minutas ejecutivas",
-            body: "Resúmenes accionables con criterios penales y decisiones acordadas.",
+            title: "Actas y minutas",
+            body: "Registro ejecutivo y trazable de decisiones y soportes.",
           },
           {
-            title: "Protocolos activables",
-            body: "Rutas de actuación frente a incidentes, con responsables y límites claros.",
+            title: "Protocolos",
+            body: "Reglas claras de actuación y documentación por área.",
           },
           {
-            title: "Trazabilidad",
-            body: "Registro de acuerdos, bloqueos y excepciones para sustentar cada paso.",
-          },
-          {
-            title: "Formación",
-            body: "Charlas y capacitaciones enfocadas en prevención y toma de decisiones responsables.",
+            title: "Mapas de riesgo",
+            body: "Rutas de mitigación con responsables y controles.",
           },
         ],
       },
@@ -447,37 +530,79 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         title: "Escenarios frecuentes",
         items: [
           {
-            title: "Contratación estatal",
-            body: "Definición de límites penales en procesos de contratación y ejecución de proyectos.",
+            title: "Comités y juntas",
+            body: "Decisiones con impacto penal y necesidad de documentación formal.",
           },
           {
-            title: "Gobierno corporativo",
-            body: "Acompañamiento a juntas y comités en decisiones con exposición penal personal.",
+            title: "Contratación estatal",
+            body: "Procesos críticos con auditorías y supervisión permanente.",
           },
           {
             title: "Crisis e incidentes",
-            body: "Activación táctica ante hallazgos, auditorías o requerimientos de entes de control.",
-          },
-          {
-            title: "Personas",
-            body: "Asesoría individual con coordinación de defensa y agenda real disponible.",
+            body: "Activaciones urgentes para definir alcance y responsabilidades.",
           },
         ],
       },
     },
     business: {
       hero: {
-        title: "Riesgo penal empresarial en contratación estatal y gobierno corporativo",
-        subtitle: "Acompañamiento preventivo y táctico para juntas, comités y órganos decisores.",
+        title: "Penal/Empresas: criterio preventivo para decisiones críticas",
+        subtitle: "Acompañamiento preventivo para juntas, comités y áreas jurídicas.",
         description:
-          "Estructuramos la documentación y los límites operativos que soportan las decisiones críticas frente a control interno, auditoría y entes externos.",
+          "Definimos criterios, límites y documentación ejecutiva que respaldan decisiones sensibles ante control interno y externo.",
         items: [
-          "Sesiones ejecutivas con minutas y acuerdos claros.",
+          "Documentación ejecutiva y trazabilidad.",
           "Protocolos activables y rutas de escalamiento.",
-          "Capacitaciones y jornadas para órganos directivos.",
+          "Capacitaciones para órganos directivos.",
         ],
-        ctaPrimary: "Solicitar coordinación",
-        ctaSecondary: "Ver servicios activos",
+        ctaPrimary: "Solicitar evaluación estratégica",
+        ctaSecondary: "Ver cómo trabajamos",
+      },
+      problems: {
+        title: "Problemas típicos",
+        items: [
+          {
+            title: "Contratación estatal",
+            body: "Procesos con exposición a entes de control que requieren criterio y trazabilidad.",
+          },
+          {
+            title: "Juntas y comités",
+            body: "Decisiones críticas que necesitan documentación ejecutiva y límites claros.",
+          },
+          {
+            title: "Compliance penal",
+            body: "Riesgos internos que exigen protocolos, responsables y rutas de aprobación.",
+          },
+        ],
+      },
+      deliverables: {
+        title: "Entregables clave",
+        items: [
+          { title: "Minutas ejecutivas", body: "Registro claro de decisiones y criterios adoptados." },
+          { title: "Protocolos", body: "Reglas de actuación y documentación por cada frente." },
+          { title: "Mapas de riesgo", body: "Prioridades, responsables y controles definidos." },
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Incluye representación judicial?",
+            answer: "No. Nos enfocamos en prevención, documentación y acompañamiento estratégico.",
+          },
+          {
+            question: "¿Qué obtiene la junta?",
+            answer: "Minutas, criterios, protocolos y soportes trazables para auditoría.",
+          },
+          {
+            question: "¿Cómo se coordinan decisiones urgentes?",
+            answer: "Activamos sesiones tácticas y acompañamos la documentación.",
+          },
+          {
+            question: "¿Incluye capacitaciones?",
+            answer: "Sí. Charlas y jornadas para juntas y equipos internos.",
+          },
+        ],
       },
       services: {
         title: "Servicios y líneas activas",
@@ -485,16 +610,16 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
           "Trabajamos con líderes corporativos que requieren orden, trazabilidad y soporte penal preventivo. Integrar capacitación hace parte del control.",
         blocks: [
           {
-            title: "Diagnóstico DRP-CE",
-            body: "Evaluación rápida del riesgo penal en contratación estatal y gobierno corporativo para definir alcance y responsables.",
+            title: "Diagnóstico preventivo",
+            body: "Evaluación inicial para definir riesgos, alcance y responsables.",
           },
           {
-            title: "Acompañamiento AEC-CE",
-            body: "Sesiones periódicas con juntas y comités para documentar decisiones sensibles y sus límites.",
+            title: "Protocolos y criterios",
+            body: "Reglas de actuación y documentación para decisiones sensibles.",
           },
           {
-            title: "Incidentes ICP-CE",
-            body: "Actuación táctica frente a hallazgos o eventos que requieren documentación y contención inmediata.",
+            title: "Acompañamiento a juntas",
+            body: "Sesiones ejecutivas con minutas, acuerdos y trazabilidad.",
           },
           {
             title: "Formación corporativa",
@@ -527,40 +652,37 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
     },
     people: {
       hero: {
-        title: "Asesoría penal para personas con agenda real",
-        subtitle: "Sesiones responsables, sin promesas, coordinadas con defensa técnica cuando aplica.",
+        title: "Penal/Personas con enfoque preventivo",
+        subtitle: "Línea paralela con agenda real y coordinación con defensa cuando aplica.",
         description:
-          "La disponibilidad que define el abogado es la única visible. El pago se activa al reservar y cada sesión deja registro de lo acordado.",
+          "Asesoría responsable, sin promesas de resultado y con trazabilidad documental en cada sesión.",
         items: [
-          "Reserva según horarios disponibles.",
-          "Pago en línea al confirmar.",
-          "Historial de sesiones y acuerdos.",
+          "Agenda según disponibilidad real.",
+          "Pago al reservar la sesión.",
+          "Registro de acuerdos y límites.",
         ],
         ctaPrimary: "Agendar asesoría",
         ctaSecondary: "Ver proceso",
       },
       flow: {
         title: "Proceso de acompañamiento",
-        description: "Ruta clara desde el registro hasta la sesión y su seguimiento.",
+        description: "Ruta breve y clara para sesiones individuales.",
         steps: [
-          { title: "Registro", body: "Creación de cuenta y validación básica del caso." },
-          { title: "Disponibilidad real", body: "Selección de horario visible según agenda definida por el abogado." },
-          { title: "Pago", body: "Checkout habilitado solo sobre espacios disponibles." },
-          { title: "Sesión", body: "Encuentro con registro de acuerdos y recomendaciones." },
-          { title: "Seguimiento", body: "Historial accesible y coordinación con defensa si aplica." },
+          { title: "Registro y contexto", body: "Recibimos la información esencial y validamos alcance." },
+          { title: "Horario disponible", body: "Se selecciona un horario real y se confirma la reserva." },
+          { title: "Sesión y registro", body: "Sesión enfocada con registro de acuerdos y próximos pasos." },
         ],
         notes: [
-          "No se ofrecen actuaciones judiciales ni promesas de resultado.",
-          "La agenda puede ser bloqueada o ajustada por el administrador si es necesario.",
+          "Coordinamos con defensa existente cuando aplica.",
+          "No asumimos representación judicial ni litigios.",
         ],
       },
       expectations: {
         title: "Qué puedes esperar",
         items: [
-          { title: "Criterio claro", body: "Enfoque penal responsable y explicaciones sin triunfalismo." },
-          { title: "Coordinación", body: "Si ya tienes defensa, alineamos límites y responsabilidades." },
-          { title: "Transparencia", body: "Costos y alcances definidos antes de cada sesión." },
-          { title: "Documentación", body: "Minutas ejecutivas para que no se pierdan instrucciones." },
+          { title: "Confidencialidad", body: "Manejo reservado de información y soporte documental." },
+          { title: "Criterio preventivo", body: "Enfoque en decisiones responsables y límites claros." },
+          { title: "Trazabilidad", body: "Registro de acuerdos, instrucciones y compromisos." },
         ],
       },
     },
@@ -597,49 +719,137 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
     },
     contact: {
       hero: {
-        title: "Coordinemos la agenda",
-        description: "Escríbenos para coordinar asesorías, capacitaciones o ingreso a los programas empresariales.",
+        title: "Solicitar evaluación estratégica",
+        description:
+          "Comparte el contexto y el nivel de exposición. Te respondemos con la ruta adecuada y los siguientes pasos.",
       },
       form: {
         title: "Envíanos un mensaje",
-        description: "Respondemos con opciones de agenda y el canal adecuado para tu caso.",
+        description: "Esta información es confidencial. Respondemos en 24–48 horas hábiles.",
         fields: {
           name: "Nombre completo",
+          company: "Empresa",
+          role: "Rol o cargo",
           email: "Correo electrónico",
           phone: "Teléfono",
-          message: "Mensaje",
-          submit: "Enviar",
+          caseType: "Tipo de situación",
+          urgency: "Nivel de urgencia",
+          message: "Cuéntanos el contexto",
+          privacy: "Acepto tratamiento de datos",
+          submit: "Solicitar evaluación estratégica",
+        },
+        options: {
+          caseType: [
+            "Contratación estatal",
+            "Decisión de junta o comité",
+            "Riesgo penal corporativo",
+            "Asesoría individual",
+            "Otro",
+          ],
+          urgency: ["Inmediata (24–48h)", "Alta (7 días)", "Normal (15 días)"],
         },
       },
       info: {
         title: "También puedes",
         items: [
-          "Agendar una evaluación",
-          "Solicitar una capacitación",
-          "Coordinar con junta o comité",
+          "Coordinar una sesión con junta o comité",
+          "Solicitar una capacitación interna",
+          "Ver cómo trabajamos antes de agendar",
         ],
       },
     },
     servicesPage: {
       hero: {
-        title: "Detalle de servicios",
-        description: "Selecciona la línea que aplica: empresas, juntas y comités; o asesoría individual con agenda real.",
-        cta: "Volver al inicio",
+        title: "Servicios y líneas de actuación",
+        description:
+          "Selecciona la línea que aplica según tu contexto. Cada servicio incluye trazabilidad y límites claros.",
+        cta: "Ver inicio",
       },
       sections: [
         {
-          title: "Penal empresarial",
-          body: "DRP-CE, AEC-CE e ICP-CE con documentación ejecutiva, protocolos activables y formación corporativa.",
+          title: "Penal/Empresas",
+          body: "Diagnóstico, protocolos activables y acompañamiento ejecutivo para juntas y comités.",
         },
         {
           title: "Capacitaciones",
-          body: "Charlas, jornadas para juntas y capacitaciones internas en responsabilidad penal y documentación.",
+          body: "Charlas y jornadas internas para juntas, compliance y áreas jurídicas.",
         },
         {
-          title: "Penal para personas",
-          body: "Agenda visible según disponibilidad real, pago al reservar y coordinación con defensa si existe.",
+          title: "Penal/Personas",
+          body: "Asesoría preventiva con agenda real y coordinación con defensa cuando aplica.",
         },
       ],
+    },
+    methodologyPage: {
+      hero: {
+        title: "Metodología de trabajo",
+        subtitle: "Diagnóstico → Protocolos → Activación con entregables claros y trazables.",
+        note: "No incluye representación judicial ni litigios.",
+      },
+      phases: [
+        {
+          title: "Diagnóstico",
+          description: "Revisión de contexto, actores, riesgos y documentación existente.",
+          deliverables: [
+            "Mapa de riesgos preliminar",
+            "Cronología crítica",
+            "Alcance y prioridades",
+          ],
+        },
+        {
+          title: "Protocolos",
+          description: "Definición de criterios, rutas de aprobación y documentación ejecutiva.",
+          deliverables: [
+            "Criterios de actuación",
+            "Minutas y formatos ejecutivos",
+            "Checklist de control",
+          ],
+        },
+        {
+          title: "Activación",
+          description: "Acompañamiento táctico en sesiones clave y seguimiento.",
+          deliverables: [
+            "Registro de decisiones",
+            "Instrucciones coordinadas",
+            "Plan de seguimiento",
+          ],
+        },
+      ],
+      safeguards: {
+        title: "Salvaguardas de criterio",
+        items: [
+          "Confidencialidad y trazabilidad documental.",
+          "Límites de servicio definidos desde el inicio.",
+          "Coordinación con defensa cuando exista.",
+        ],
+      },
+      faq: {
+        title: "Preguntas frecuentes",
+        items: [
+          {
+            question: "¿Cuánto dura cada fase?",
+            answer: "Se ajusta al alcance. Priorizamos entregables ejecutivos en ciclos cortos.",
+          },
+          {
+            question: "¿Qué recibe la junta o el comité?",
+            answer: "Minutas, criterios, checklist y soportes de decisión trazables.",
+          },
+          {
+            question: "¿Incluye representación judicial?",
+            answer: "No. La metodología se enfoca en prevención y documentación.",
+          },
+          {
+            question: "¿Puede integrarse con compliance interno?",
+            answer: "Sí, coordinamos con los responsables internos.",
+          },
+        ],
+      },
+      cta: {
+        title: "Solicitar evaluación estratégica",
+        description: "Definamos el alcance y la fase adecuada para tu caso.",
+        primary: "Solicitar evaluación estratégica",
+        secondary: "Ver cómo trabajamos",
+      },
     },
     forms: {
       email: "Correo electrónico",
@@ -669,6 +879,7 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
       business: "Corporate Defense",
       people: "Individuals",
       services: "Services",
+      methodology: "Methodology",
       contact: "Contact",
       advisory: "Advisory",
       register: "Sign up",
@@ -688,187 +899,291 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
     },
     home: {
       hero: {
-        badges: ["Criminal strategy for public procurement", "Boards · Committees · Critical decisions"],
-        title: "Criminal control for sensitive decisions and boards that cannot improvise",
-        paragraph1:
-          "We provide executive support for leaders who need immediate judgment, impeccable documentation, and tactical activation without noise.",
-        paragraph2:
-          "Every decision is handled with criminal risk management, traceability, and documentation that justifies the chosen course before audits, oversight bodies, and internal governance. No promises of outcome—only documented control and clear operational limits.",
+        label: "Preventive criminal risk",
+        badges: ["Sensitive decisions · boards and committees", "Public procurement · compliance · control"],
+        titleA: "Sensitive decisions that leave no room for improvisation.",
+        subtitleA:
+          "Preventive criminal strategy for governing bodies and legal teams that require judgment, traceability, and executive documentation.",
+        titleB: "Criminal judgment for critical decisions with documentary backing.",
+        subtitleB:
+          "Confidential, preventive support for leaders who must justify decisions to internal and external oversight.",
+        note: "We operate discreetly, with clear limits and written support.",
         ctaPrimary: "Request strategic evaluation",
         ctaSecondary: "See how we work",
-        highlights: [
-          { label: "Scope", value: "Public procurement, corporate governance, oversight bodies." },
-          { label: "Approach", value: "Criminal prevention, operational controls, tactical response." },
-          { label: "Pace", value: "Short sessions, executive deliverables, traceable decisions." },
-          { label: "Control", value: "Full traceability: minutes, notes, justified decisions." },
-        ],
-        model: {
-          badge: "Model",
-          title: "Strategic accompaniment document",
-          badgeSecondary: "Confidential",
-          items: [
-            "Sensitive decisions with immediate criminal exposure.",
-            "Risk maps and rules of engagement ready for the board.",
-            "Tactical activation for incidents with containment and coordination.",
-          ],
-          tags: ["Diagnosis", "Protocols", "Activation"],
-        },
+        trustNote: "Your information is handled confidentially.",
       },
-      businessFocus: {
-        pill: "Corporate criminal risk",
-        title: "Criminal for companies: public procurement and corporate governance",
-        paragraphs: [
-          "We focus exclusively on criminal prevention and control tied to sensitive decisions in public procurement and corporate governance. We work with boards, committees, and legal reps; we support them with executive documentation and clear boundaries.",
-          "Training is integrated: internal sessions, board-oriented talks, and targeted workshops on criminal risk for high-impact projects and contracts.",
-        ],
-        cards: [
-          { title: "Model", body: "Tactical and preventive route aligned with oversight and compliance." },
-          { title: "Delimitation", body: "We do not litigate or assume judicial representation." },
-          { title: "Activation", body: "Executive sessions before, during, and after critical decisions." },
-          { title: "Traceability", body: "Executive deliverables, minutes, and audit-ready support." },
+      outcomes: [
+        { title: "Traceability and documentary support." },
+        { title: "Legal coordination for critical decisions." },
+        { title: "Clear protocols for prevention and containment." },
+      ],
+      outcomesTitle: "Key outcomes",
+      howWeWork: {
+        title: "How we work",
+        steps: [
           {
-            title: "Training",
-            body: "Internal trainings and board workshops on criminal risk management.",
+            title: "Diagnosis",
+            body: "We gather facts, actors, and risks to define scope and priorities.",
+          },
+          {
+            title: "Protocols",
+            body: "We set criteria, documentation, and approval routes for the decision.",
+          },
+          {
+            title: "Activation",
+            body: "Tactical support in key sessions, with control and follow-up.",
           },
         ],
+      },
+      servicesPreview: {
+        title: "Service lines",
+        description:
+          "Two complementary fronts. Companies is the main focus; Individuals is handled with availability and coordination.",
+        cards: [
+          {
+            title: "Corporate Defense",
+            body: "Preventive criminal support for boards, committees, and legal teams with high exposure.",
+            href: "/penal-empresarial",
+            cta: "View Corporate Defense",
+          },
+          {
+            title: "Individuals",
+            body: "Preventive advisory with traceability and coordination with defense when needed.",
+            href: "/personas",
+            cta: "View Individuals",
+          },
+        ],
+      },
+      fit: {
+        title: "For whom / Not for whom",
+        forTitle: "It is for",
+        forItems: [
+          "Boards, committees, and legal representatives who must justify decisions.",
+          "Legal and compliance teams that require documentary support and control.",
+          "Organizations with preventive criminal exposure in critical processes.",
+        ],
+        notForTitle: "It is not for",
+        notForItems: [
+          "Litigation or court representation.",
+          "Result guarantees or improvised solutions.",
+          "Processes without willingness to document and control.",
+        ],
+      },
+      faq: {
+        title: "Frequently asked questions",
+        items: [
+          {
+            question: "When should we call?",
+            answer:
+              "When a decision is sensitive and requires judgment, traceability, and documentary support.",
+          },
+          {
+            question: "What deliverables do we receive?",
+            answer: "Minutes, protocols, criteria, and action routes with defined owners.",
+          },
+          {
+            question: "What happens in urgent incidents?",
+            answer: "We activate tactical sessions and coordinate instructions with the key team.",
+          },
+          {
+            question: "How do you handle confidentiality?",
+            answer: "All information is treated with reserve and internal documentary control.",
+          },
+          {
+            question: "Does this include court representation?",
+            answer: "No. We focus on prevention, documentation, and strategic support.",
+          },
+          {
+            question: "What is included in a strategic evaluation?",
+            answer: "Initial diagnosis, scope definition, and control priorities.",
+          },
+        ],
+      },
+      finalCta: {
+        title: "Request strategic evaluation",
+        description: "Let us review the context, scope, and level of exposure.",
+        note: "Response within 24–48 business hours.",
+        ctaPrimary: "Request strategic evaluation",
+        ctaSecondary: "See how we work",
+      },
+      businessFocus: {
+        pill: "Corporate Defense",
+        title: "Preventive criminal risk for governing bodies and sensitive contracting",
+        paragraphs: [
+          "We advise boards, committees, and legal representatives who require preventive criminal judgment, executive documentation, and clear limits for high-impact decisions.",
+          "The focus is traceability: minutes, criteria, and approval routes that help justify decisions before internal and external oversight.",
+        ],
+        cards: [
+          { title: "Traceability", body: "Executive documentation and audit-ready support." },
+          { title: "Judgment", body: "Clear limits, risks, and responsible parties." },
+          { title: "Activation", body: "Tactical sessions when incidents or alerts arise." },
+        ],
         noteLabel: "Parallel line",
-        noteText: "Advisory for individuals is managed separately as a secondary line.",
+        noteText: "Individual advisory is handled as a secondary line under availability.",
       },
       businessPanel: {
         badges: ["Primary focus", "Corporate criminal"],
         title: "Executive support for boards and committees",
         paragraphs: [
-          "We set pace, documentation, and responsible roles for high-impact decisions: minutes, actionable protocols, audit reports, and coordination with internal control.",
-          "Training is part of the same line: we design board talks, committee workshops, and internal trainings on criminal liability, documentation, approval flow, and incident response—everything integrated into the committee agenda and records.",
+          "We define rhythm, documentation, and responsibilities in high-impact decisions: minutes, criteria, and audit-ready reports.",
+          "Training and board sessions complement the support with rules of action and clear documentation.",
         ],
         cards: [
-          { title: "Activation", body: "Urgent sessions with key roles to define scope and controls." },
-          { title: "Execution", body: "Executive documentation, pointed instructions, and compliance coordination." },
+          { title: "Activation", body: "Urgent sessions with key owners to define scope." },
+          { title: "Execution", body: "Executive documentation and compliance coordination." },
         ],
         ctas: [
-          { label: "Service detail", href: "/servicios" },
+          { label: "Service details", href: "/servicios" },
           { label: "Coordinate with board", href: "/contacto" },
         ],
       },
       serviceAreas: {
-        pill: "Corporate services",
-        title: "Active corporate criminal risk areas",
+        pill: "Services",
+        title: "Active criminal risk areas",
         description:
-          "We display only the areas enabled in Supabase for companies and governing bodies. Entry starts with DRP-CE and scales when the committee requires it.",
+          "Services enabled based on client context. We prioritize traceability, documentation, and decision control.",
         noteLabel: "Training",
-        noteText: "Talks, board workshops, and internal training on corporate criminal risk.",
-        cta: "Request onboarding",
+        noteText: "Executive sessions for boards, compliance, and legal teams.",
+        cta: "View services",
         statusActive: "Active",
         statusInquiry: "Inquiry",
-        advisoryCta: "Advisory for individuals",
+        advisoryCta: "Individuals advisory",
         contactCta: "Contact",
-        trainingCta: "Corporate", 
-        advisoryTitle: "Advisory for individuals",
-        advisoryDescription:
-          "Scheduling depends on the assigned lawyer's availability; only real slots are shown.",
+        trainingCta: "Corporate Defense",
+        advisoryTitle: "Individuals",
+        advisoryDescription: "Preventive advisory with real availability and documentary support.",
         advisoryItems: [
-          "Sign-up with basic validation.",
-          "Choose an available slot (no promises, no urgency).",
-          "Online payment to confirm the session.",
+          "Access with basic validation.",
+          "Select an available time.",
+          "Payment when booking the session.",
         ],
-        advisoryNote: "We coordinate with existing defense when applicable.",
-        agendaTitle: "Coordination with defense",
-        agendaDescription: "We keep traceability of every step and agreements with lead defense.",
+        advisoryNote: "We coordinate with defense counsel when already engaged.",
+        agendaTitle: "Defense coordination",
+        agendaDescription: "Traceability of instructions and agreements with lead counsel.",
         agendaItems: [
           "Short, focused sessions.",
-          "Record of instructions and support.",
-          "Follow-up on the plan agreed with the client.",
+          "Instruction logs and support.",
+          "Follow-up on the agreed plan.",
         ],
-        agendaNote: "Payment is enabled only when a real slot is selected.",
-        trainingTitle: "Training and conferences",
-        trainingDescription:
-          "Executive training on criminal liability, documentation, and action for boards and committees.",
+        agendaNote: "Payment is enabled only when a slot is available.",
+        trainingTitle: "Training",
+        trainingDescription: "Executive training on criminal responsibility and documentation.",
         trainingItems: [
           "Executive talks for boards and committees.",
-          "Internal trainings for legal and compliance teams.",
-          "Virtual or onsite delivery in Spanish or English.",
+          "Internal training for legal and compliance teams.",
+          "Virtual or in-person in Spanish or English.",
         ],
       },
       peopleLine: {
-        title: "Criminal advisory for individuals: visible schedule and traceability",
+        title: "Individuals",
         paragraphs: [
-          "Individual advisory follows a clear path: real availability, pay when reserving, and coordination with defense when needed.",
-          "Each session is documented with scope and limits—no promises of outcome or litigation offers.",
+          "Individuals advisory is a parallel line with real availability and coordination with defense when needed.",
+          "Each session records agreements and service limits.",
         ],
         cards: [
-          { title: "Real availability", body: "Displayed slots are exactly what the lawyer has opened." },
-          { title: "Pay on reserve", body: "Payment link appears only after choosing an available time." },
-          { title: "Coordination", body: "If defense already exists, we align criteria and limits first." },
-          { title: "History", body: "Every session is documented to avoid confusion and keep focus." },
+          { title: "Real availability", body: "Only confirmed times are shown." },
+          { title: "Pay to book", body: "Enabled when selecting a real slot." },
+          { title: "Coordination", body: "Aligned with defense counsel when applicable." },
         ],
       },
       methodology: {
-        pill: "How we operate",
-        title: "Methodology for accompaniment and control",
+        pill: "Methodology",
+        title: "How we work",
         pillars: [
-          { title: "Judgment", body: "We assess criminal risk based on facts, roles, and real exposure." },
-          { title: "Documentation", body: "Every decision leaves executive traceability and audit-ready support." },
-          { title: "Control", body: "We set operational limits and responsible roles to avoid improvisation." },
+          { title: "Diagnosis", body: "Context and critical facts to define scope." },
+          { title: "Protocols", body: "Rules of action and executive documentation." },
+          { title: "Activation", body: "Tactical support and decision follow-up." },
         ],
         steps: [
-          { title: "Intake", body: "Brief session to set scope, roles, and existing documentation." },
-          { title: "Support", body: "Executive sessions with minutes, protocols, and deliverables for boards or committees." },
-          { title: "Follow-up", body: "Record of decisions, blocks, and exceptions; updates with defense or compliance." },
+          { title: "Review", body: "Documents, actors, and timeline." },
+          { title: "Criteria", body: "Limits and approval routes." },
+          { title: "Report", body: "Deliverables ready for board review." },
         ],
       },
       motivations: {
         title: "Why clients engage us",
         items: [
-          {
-            title: "Sensitive decisions",
-            body: "Need for immediate criminal judgment in boards, committees, or projects under time pressure.",
-          },
-          {
-            title: "Documentation and traceability",
-            body: "Requirement for minutes and support that withstand audit and clarify boundaries.",
-          },
-          {
-            title: "Public procurement prevention",
-            body: "Criminal control for procurement processes, oversight, supervision, and execution.",
-          },
-          {
-            title: "Applied training",
-            body: "Training and workshops for governing bodies and legal teams on criminal responsibility.",
-          },
+          { title: "Sensitive decisions", body: "Boards and committees needing preventive criminal judgment." },
+          { title: "Public procurement", body: "Processes exposed to audits and oversight." },
+          { title: "Urgent incidents", body: "Tactical activations to contain risk." },
         ],
       },
       deliveries: {
         title: "What we deliver",
         items: [
-          { title: "Executive minutes", body: "Actionable summaries with criminal criteria and agreed decisions." },
-          { title: "Activatable protocols", body: "Response routes for incidents with roles and clear limits." },
-          { title: "Traceability", body: "Record of agreements, blocks, and exceptions to justify each move." },
-          { title: "Training", body: "Talks and training focused on prevention and responsible decisions." },
+          { title: "Minutes", body: "Executive, traceable records of decisions." },
+          { title: "Protocols", body: "Clear rules of action and documentation." },
+          { title: "Risk maps", body: "Mitigation routes with owners and controls." },
         ],
       },
       scenarios: {
-        title: "Common scenarios",
+        title: "Frequent scenarios",
         items: [
-          { title: "Public procurement", body: "Defining criminal limits in procurement and project execution." },
-          { title: "Corporate governance", body: "Support for boards and committees facing personal exposure." },
-          { title: "Crises and incidents", body: "Tactical activation for findings, audits, or oversight requests." },
-          { title: "Individuals", body: "Individual advisory with defense coordination and real availability." },
+          { title: "Boards and committees", body: "Decisions with criminal exposure and documentation needs." },
+          { title: "Public procurement", body: "Critical processes with continuous oversight." },
+          { title: "Crises and incidents", body: "Urgent activations to define scope and responsibility." },
         ],
       },
     },
     business: {
       hero: {
-        title: "Corporate criminal risk for public procurement and governance",
-        subtitle: "Preventive and tactical support for boards, committees, and decision-makers.",
+        title: "Corporate Defense: preventive judgment for critical decisions",
+        subtitle: "Preventive support for boards, committees, and legal teams.",
         description:
-          "We structure documentation and operational limits that sustain critical decisions before internal control, audit, and external regulators.",
+          "We define criteria, limits, and executive documentation that support sensitive decisions before internal and external oversight.",
         items: [
-          "Executive sessions with clear minutes and agreements.",
+          "Executive documentation and traceability.",
           "Activatable protocols and escalation routes.",
-          "Training and workshops for governing bodies.",
+          "Training for governing bodies.",
         ],
-        ctaPrimary: "Request coordination",
-        ctaSecondary: "See active services",
+        ctaPrimary: "Request strategic evaluation",
+        ctaSecondary: "See how we work",
+      },
+      problems: {
+        title: "Typical scenarios",
+        items: [
+          {
+            title: "Public procurement",
+            body: "Processes exposed to oversight that require judgment and traceability.",
+          },
+          {
+            title: "Boards and committees",
+            body: "Critical decisions needing executive documentation and clear limits.",
+          },
+          {
+            title: "Criminal compliance",
+            body: "Internal risks that demand protocols, owners, and approval routes.",
+          },
+        ],
+      },
+      deliverables: {
+        title: "Key deliverables",
+        items: [
+          { title: "Executive minutes", body: "Clear record of decisions and criteria adopted." },
+          { title: "Protocols", body: "Rules of action and documentation for each front." },
+          { title: "Risk maps", body: "Priorities, owners, and defined controls." },
+        ],
+      },
+      faq: {
+        title: "Frequently asked questions",
+        items: [
+          {
+            question: "Does it include court representation?",
+            answer: "No. We focus on prevention, documentation, and strategic support.",
+          },
+          {
+            question: "What does the board receive?",
+            answer: "Minutes, criteria, protocols, and traceable audit support.",
+          },
+          {
+            question: "How are urgent decisions handled?",
+            answer: "We activate tactical sessions and support documentation.",
+          },
+          {
+            question: "Does it include training?",
+            answer: "Yes. Talks and workshops for boards and internal teams.",
+          },
+        ],
       },
       services: {
         title: "Services and active lines",
@@ -876,16 +1191,16 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
           "We work with corporate leaders who need order, traceability, and preventive criminal support. Training is integrated into control.",
         blocks: [
           {
-            title: "DRP-CE Assessment",
-            body: "Rapid evaluation of criminal risk in public procurement and governance to set scope and roles.",
+            title: "Preventive diagnosis",
+            body: "Initial assessment to define risks, scope, and responsible parties.",
           },
           {
-            title: "AEC-CE Support",
-            body: "Regular sessions with boards and committees to document sensitive decisions and boundaries.",
+            title: "Protocols and criteria",
+            body: "Rules of action and documentation for sensitive decisions.",
           },
           {
-            title: "ICP-CE Incidents",
-            body: "Tactical action for findings or events requiring immediate documentation and containment.",
+            title: "Board accompaniment",
+            body: "Executive sessions with minutes, agreements, and traceability.",
           },
           {
             title: "Corporate training",
@@ -918,40 +1233,37 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
     },
     people: {
       hero: {
-        title: "Criminal advisory for individuals with real availability",
-        subtitle: "Responsible sessions—no promises—coordinated with defense when applicable.",
+        title: "Individuals with preventive focus",
+        subtitle: "Parallel line with real availability and defense coordination when needed.",
         description:
-          "Only the availability set by the lawyer is shown. Payment activates upon booking and every session leaves a record.",
+          "Responsible advisory, no outcome promises, and documentary traceability in every session.",
         items: [
-          "Book according to available times.",
-          "Online payment upon confirmation.",
-          "Session history and agreements.",
+          "Schedule based on real availability.",
+          "Payment when booking the session.",
+          "Recorded agreements and limits.",
         ],
         ctaPrimary: "Book advisory",
         ctaSecondary: "View process",
       },
       flow: {
-        title: "Accompaniment process",
-        description: "Clear path from registration to session and follow-up.",
+        title: "Advisory process",
+        description: "A short, clear route for individual sessions.",
         steps: [
-          { title: "Registration", body: "Account creation with basic case validation." },
-          { title: "Real availability", body: "Choose a visible time slot set by the lawyer." },
-          { title: "Payment", body: "Checkout enabled only for available slots." },
-          { title: "Session", body: "Meeting with documented agreements and recommendations." },
-          { title: "Follow-up", body: "Accessible history and coordination with defense if needed." },
+          { title: "Registration and context", body: "We receive essential information and validate scope." },
+          { title: "Available time", body: "Select a real slot and confirm the booking." },
+          { title: "Session and record", body: "Focused session with documented agreements and next steps." },
         ],
         notes: [
-          "No litigation or promises of outcome are offered.",
-          "The administrator may block or adjust the agenda if needed.",
+          "We coordinate with existing defense counsel when applicable.",
+          "We do not provide litigation or court representation.",
         ],
       },
       expectations: {
         title: "What to expect",
         items: [
-          { title: "Clear judgment", body: "Responsible criminal focus with straightforward explanations." },
-          { title: "Coordination", body: "If you already have defense, we align boundaries and duties." },
-          { title: "Transparency", body: "Costs and scope defined before each session." },
-          { title: "Documentation", body: "Executive minutes to keep instructions clear." },
+          { title: "Confidentiality", body: "Reserved handling of information and documentary support." },
+          { title: "Preventive judgment", body: "Focus on responsible decisions and clear limits." },
+          { title: "Traceability", body: "Records of agreements, instructions, and commitments." },
         ],
       },
     },
@@ -988,49 +1300,125 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
     },
     contact: {
       hero: {
-        title: "Let's coordinate the agenda",
-        description: "Write to coordinate advisory sessions, trainings, or entry into corporate programs.",
+        title: "Request strategic evaluation",
+        description:
+          "Share the context and level of exposure. We reply with the appropriate route and next steps.",
       },
       form: {
         title: "Send us a message",
-        description: "We respond with scheduling options and the right channel for your matter.",
+        description: "This information is confidential. We respond within 24–48 business hours.",
         fields: {
           name: "Full name",
+          company: "Company",
+          role: "Role or title",
           email: "Email",
           phone: "Phone",
-          message: "Message",
-          submit: "Send",
+          caseType: "Situation type",
+          urgency: "Urgency level",
+          message: "Share the context",
+          privacy: "I accept data processing",
+          submit: "Request strategic evaluation",
+        },
+        options: {
+          caseType: [
+            "Public procurement",
+            "Board or committee decision",
+            "Corporate criminal risk",
+            "Individual advisory",
+            "Other",
+          ],
+          urgency: ["Immediate (24–48h)", "High (7 days)", "Standard (15 days)"],
         },
       },
       info: {
         title: "You can also",
         items: [
-          "Book an evaluation",
-          "Request a training",
-          "Coordinate with a board or committee",
+          "Coordinate a board or committee session",
+          "Request an internal training",
+          "See how we work before scheduling",
         ],
       },
     },
     servicesPage: {
       hero: {
-        title: "Service detail",
-        description: "Choose the applicable line: companies, boards and committees; or individual advisory with real availability.",
+        title: "Services and engagement lines",
+        description:
+          "Select the line that fits your context. Each service includes traceability and clear limits.",
         cta: "Back to home",
       },
       sections: [
         {
-          title: "Corporate criminal",
-          body: "DRP-CE, AEC-CE, and ICP-CE with executive documentation, activatable protocols, and corporate training.",
+          title: "Corporate Defense",
+          body: "Diagnosis, activatable protocols, and executive support for boards and committees.",
         },
         {
           title: "Training",
-          body: "Talks, board workshops, and internal trainings on criminal liability and documentation.",
+          body: "Talks and internal workshops for boards, compliance, and legal teams.",
         },
         {
           title: "Individuals",
-          body: "Visible agenda based on real availability, payment upon booking, and coordination with defense if any.",
+          body: "Preventive advisory with real availability and defense coordination when applicable.",
         },
       ],
+    },
+    methodologyPage: {
+      hero: {
+        title: "Methodology",
+        subtitle: "Diagnosis → Protocols → Activation with clear, traceable deliverables.",
+        note: "Does not include litigation or court representation.",
+      },
+      phases: [
+        {
+          title: "Diagnosis",
+          description: "Review of context, actors, risks, and existing documentation.",
+          deliverables: ["Preliminary risk map", "Critical timeline", "Scope and priorities"],
+        },
+        {
+          title: "Protocols",
+          description: "Definition of criteria, approval routes, and executive documentation.",
+          deliverables: ["Decision criteria", "Executive minutes and formats", "Control checklist"],
+        },
+        {
+          title: "Activation",
+          description: "Tactical support in key sessions and follow-up.",
+          deliverables: ["Decision log", "Coordinated instructions", "Follow-up plan"],
+        },
+      ],
+      safeguards: {
+        title: "Judgment safeguards",
+        items: [
+          "Confidentiality and documentary traceability.",
+          "Clear service limits from the outset.",
+          "Coordination with defense counsel when applicable.",
+        ],
+      },
+      faq: {
+        title: "Frequently asked questions",
+        items: [
+          {
+            question: "How long does each phase take?",
+            answer: "It depends on scope. We prioritize executive deliverables in short cycles.",
+          },
+          {
+            question: "What does the board receive?",
+            answer: "Minutes, criteria, checklists, and traceable decision support.",
+          },
+          {
+            question: "Does it include court representation?",
+            answer: "No. The methodology focuses on prevention and documentation.",
+          },
+          {
+            question: "Can it integrate with internal compliance?",
+            answer: "Yes, we coordinate with internal stakeholders.",
+          },
+        ],
+      },
+      cta: {
+        title: "Request strategic evaluation",
+        description: "Define the scope and the right phase for your case.",
+        primary: "Request strategic evaluation",
+        secondary: "See how we work",
+      },
     },
     forms: {
       email: "Email",

@@ -22,8 +22,14 @@ export default function ContactoPage() {
     const fd = new FormData(e.currentTarget);
     const payload = {
       name: String(fd.get("name") || ""),
+      company: String(fd.get("company") || ""),
+      role: String(fd.get("role") || ""),
       email: String(fd.get("email") || ""),
+      phone: String(fd.get("phone") || ""),
+      caseType: String(fd.get("caseType") || ""),
+      urgency: String(fd.get("urgency") || ""),
       message: String(fd.get("message") || ""),
+      privacy: Boolean(fd.get("privacy")),
     };
 
     try {
@@ -65,7 +71,7 @@ export default function ContactoPage() {
           <ul className="space-y-2 text-sm text-muted">
             {contact.info.items.map((item) => (
               <li key={item} className="flex gap-3">
-                <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
                 {item}
               </li>
             ))}
@@ -93,7 +99,33 @@ export default function ContactoPage() {
                 name="name"
                 type="text"
                 placeholder={contact.form.fields.name}
-                className="w-full rounded-xl border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-ink" htmlFor="company">
+                {contact.form.fields.company}
+              </label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                placeholder={contact.form.fields.company}
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-ink" htmlFor="role">
+                {contact.form.fields.role}
+              </label>
+              <input
+                id="role"
+                name="role"
+                type="text"
+                placeholder={contact.form.fields.role}
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
               />
             </div>
 
@@ -107,8 +139,66 @@ export default function ContactoPage() {
                 type="email"
                 required
                 placeholder={contact.form.fields.email}
-                className="w-full rounded-xl border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
               />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-ink" htmlFor="phone">
+                {contact.form.fields.phone}
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder={contact.form.fields.phone}
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+              />
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-ink" htmlFor="caseType">
+                  {contact.form.fields.caseType}
+                </label>
+                <select
+                  id="caseType"
+                  name="caseType"
+                  className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                  defaultValue=""
+                  required
+                >
+                  <option value="" disabled>
+                    {contact.form.fields.caseType}
+                  </option>
+                  {contact.form.options.caseType.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-ink" htmlFor="urgency">
+                  {contact.form.fields.urgency}
+                </label>
+                <select
+                  id="urgency"
+                  name="urgency"
+                  className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                  defaultValue=""
+                  required
+                >
+                  <option value="" disabled>
+                    {contact.form.fields.urgency}
+                  </option>
+                  {contact.form.options.urgency.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -121,9 +211,20 @@ export default function ContactoPage() {
                 rows={6}
                 required
                 placeholder={contact.form.fields.message}
-                className="w-full rounded-xl border border-border bg-subtle px-3 py-3 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-3 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
               />
             </div>
+
+            <label className="flex items-start gap-3 text-sm text-muted">
+              <input
+                type="checkbox"
+                name="privacy"
+                className="mt-1 h-4 w-4 rounded-[14px] border border-border text-ink focus:ring-ink/20"
+                required
+              />
+              {contact.form.fields.privacy}
+            </label>
+            <p className="text-xs text-muted">{contact.hero.description}</p>
 
             <div className="flex flex-wrap gap-3">
               <button className="btn-primary" type="submit" disabled={loading}>

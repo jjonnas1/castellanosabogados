@@ -31,6 +31,7 @@ export default function SiteHeader() {
           { href: "/login", label: messages.navigation.login },
         ],
       },
+      { href: "/metodologia", label: messages.navigation.methodology },
       { href: "/a-quien-servimos", label: messages.navigation.about },
       { href: "/contacto", label: messages.navigation.contact },
     ],
@@ -146,10 +147,10 @@ export default function SiteHeader() {
           >
             {messages.navigation.signIn}
           </Link>
-          <div className="hidden items-center gap-1 rounded-full border border-border bg-white/80 px-2 py-1 text-xs font-semibold text-ink shadow-soft md:flex">
+          <div className="hidden items-center gap-1 rounded-[14px] border border-border bg-white/80 px-2 py-1 text-xs font-semibold text-ink shadow-soft md:flex">
             <button
               type="button"
-              className={`rounded-full px-2 py-1 transition ${
+              className={`rounded-[14px] px-2 py-1 transition ${
                 locale === "es" ? "bg-subtle text-ink" : "text-muted hover:text-ink"
               }`}
               onClick={() => setLocale("es")}
@@ -160,7 +161,7 @@ export default function SiteHeader() {
             <span className="text-muted">|</span>
             <button
               type="button"
-              className={`rounded-full px-2 py-1 transition ${
+              className={`rounded-[14px] px-2 py-1 transition ${
                 locale === "en" ? "bg-subtle text-ink" : "text-muted hover:text-ink"
               }`}
               onClick={() => setLocale("en")}
@@ -171,15 +172,15 @@ export default function SiteHeader() {
           </div>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-ink transition hover:-translate-y-[1px] hover:shadow-soft md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-[14px] border border-border bg-white text-ink transition hover:-translate-y-[1px] hover:shadow-soft md:hidden"
             onClick={() => setOpen((prev) => !prev)}
             aria-label="Abrir menú"
           >
             <span className="sr-only">Menú</span>
             <div className="flex h-3 flex-col justify-between">
-              <span className="block h-0.5 w-5 rounded-full bg-ink" />
-              <span className="block h-0.5 w-5 rounded-full bg-ink" />
-              <span className="block h-0.5 w-5 rounded-full bg-ink" />
+              <span className="block h-0.5 w-5 rounded-[14px] bg-ink" />
+              <span className="block h-0.5 w-5 rounded-[14px] bg-ink" />
+              <span className="block h-0.5 w-5 rounded-[14px] bg-ink" />
             </div>
           </button>
         </div>
@@ -239,7 +240,7 @@ export default function SiteHeader() {
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  className={`rounded-full px-3 py-1 transition ${
+                  className={`rounded-[14px] px-3 py-1 transition ${
                     locale === "es" ? "bg-white text-ink shadow-soft" : "text-muted hover:text-ink"
                   }`}
                   onClick={() => setLocale("es")}
@@ -249,7 +250,7 @@ export default function SiteHeader() {
                 </button>
                 <button
                   type="button"
-                  className={`rounded-full px-3 py-1 transition ${
+                  className={`rounded-[14px] px-3 py-1 transition ${
                     locale === "en" ? "bg-white text-ink shadow-soft" : "text-muted hover:text-ink"
                   }`}
                   onClick={() => setLocale("en")}

@@ -52,7 +52,7 @@ export default function AboutPageContent() {
             <div className="grid gap-2 text-sm text-muted">
               {about.founder.bullets.map((bullet) => (
                 <div key={bullet} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
                   {bullet}
                 </div>
               ))}

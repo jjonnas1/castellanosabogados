@@ -47,8 +47,8 @@ module.exports = {
       borderRadius: {
         lg: "var(--radius-lg)",
         xl: "var(--radius-xl)",
-        "2xl": "26px",
-        "3xl": "32px",
+        "2xl": "var(--radius-lg)",
+        "3xl": "var(--radius-lg)",
       },
       letterSpacing: {
         tightest: "-0.02em",

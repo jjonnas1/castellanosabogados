@@ -38,11 +38,11 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/82 to-accent-700/70" aria-hidden />
         <div className="container section-shell relative space-y-5">
           <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-slate-200">
-            <Link href="/servicios" className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
+            <Link href="/servicios" className="rounded-[14px] bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
               Servicios
             </Link>
-            <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">Riesgo penal empresarial</span>
-            <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">{detail.slug}</span>
+            <span className="rounded-[14px] bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">Riesgo penal empresarial</span>
+            <span className="rounded-[14px] bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">{detail.slug}</span>
           </div>
           <h1 className="text-white max-w-3xl">{detail.headline}</h1>
           <p className="max-w-3xl text-slate-100 text-lg">{detail.summary}</p>
@@ -69,7 +69,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <ul className="mt-4 space-y-3 text-sm text-muted">
               {detail.activation.map((item) => (
                 <li key={item} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
                   {item}
                 </li>
               ))}
@@ -81,7 +81,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <ul className="mt-4 space-y-3 text-sm text-muted">
               {detail.audience.map((item) => (
                 <li key={item} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
                   {item}
                 </li>
               ))}
@@ -98,7 +98,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           <ul className="mt-5 space-y-3 text-sm text-muted">
             {detail.deliverables.map((item) => (
               <li key={item} className="flex gap-3">
-                <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
                 {item}
               </li>
             ))}

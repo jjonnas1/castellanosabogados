@@ -34,7 +34,7 @@ export default function BusinessPageContent({
         <div className="container section-shell relative space-y-6">
           <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-slate-200">
             {business.hero.items.map((item) => (
-              <span key={item} className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
+              <span key={item} className="rounded-[14px] bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
                 {item}
               </span>
             ))}
@@ -66,82 +66,44 @@ export default function BusinessPageContent({
       </section>
 
       <section className="section-shell bg-surface">
-        <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="space-y-4">
-            <p className="pill w-fit">{business.services.title}</p>
-            <h2>{business.services.intro}</h2>
-            <p className="max-w-2xl text-muted">{business.hero.description}</p>
-            <p className="max-w-2xl text-muted">{business.services.trainingDescription}</p>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {business.services.blocks.map((item) => (
-                <div key={item.title} className="card-shell bg-white px-5 py-5 text-sm font-semibold text-ink shadow-soft/30">
-                  <p className="text-ink">{item.title}</p>
-                  <p className="mt-1 text-muted text-xs leading-relaxed">{item.body}</p>
-                </div>
-              ))}
-            </div>
+        <div className="container space-y-6">
+          <div className="space-y-2 text-center">
+            <p className="pill mx-auto w-fit">{business.problems.title}</p>
+            <h2>{business.problems.title}</h2>
           </div>
-          <div className="card-shell bg-white p-8 shadow-soft/40">
-            <p className="pill w-fit">{home.serviceAreas.advisoryTitle}</p>
-            <h3 className="mt-3 text-ink">{home.businessPanel.title}</h3>
-            <p className="mt-2 text-muted text-sm leading-relaxed">{home.businessPanel.paragraphs[0]}</p>
-            <p className="mt-2 text-muted text-sm leading-relaxed">{home.businessPanel.paragraphs[1]}</p>
-            <div className="mt-4 grid gap-2 text-sm text-muted">
-              {home.businessPanel.cards.map((card) => (
-                <div key={card.title} className="flex gap-3 rounded-2xl border border-border bg-subtle px-4 py-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
-                  <div>
-                    <p className="font-semibold text-ink">{card.title}</p>
-                    <p className="text-muted">{card.body}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/agenda" className="btn-primary">
-                {business.hero.ctaPrimary}
-              </Link>
-              <Link href="/contacto" className="btn-secondary">
-                {navigation.contact}
-              </Link>
-            </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {business.problems.items.map((item) => (
+              <div key={item.title} className="card-shell bg-white p-6">
+                <h3 className="text-lg text-ink">{item.title}</h3>
+                <p className="mt-2 text-sm text-muted">{item.body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       <section className="section-shell bg-canvas">
-        <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-          <div className="space-y-4">
-            <p className="pill w-fit">{home.businessFocus.pill}</p>
-            <h2>{home.businessFocus.title}</h2>
-            <div className="space-y-3 text-muted">
-              {home.businessFocus.paragraphs.map((p) => (
-                <p key={p} className="max-w-3xl">
-                  {p}
-                </p>
-              ))}
-            </div>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {home.businessFocus.cards.map((card) => (
-                <div key={card.title} className="card-shell bg-white p-6">
-                  <h3 className="text-lg text-ink">{card.title}</h3>
-                  <p className="mt-2 text-sm text-muted">{card.body}</p>
-                </div>
-              ))}
-            </div>
+        <div className="container space-y-8">
+          <div className="space-y-2">
+            <p className="pill w-fit">{business.deliverables.title}</p>
+            <h2>{business.deliverables.title}</h2>
           </div>
-          <div className="rounded-3xl border border-border bg-white p-8 shadow-soft">
-            <p className="pill w-fit">{home.businessFocus.noteLabel}</p>
-            <h3 className="mt-3 text-ink">{home.businessFocus.noteLabel}</h3>
-            <p className="mt-3 text-sm text-muted">{home.businessFocus.noteText}</p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/agenda" className="btn-primary">
-                {business.hero.ctaPrimary}
-              </Link>
-              <Link href="/contacto" className="btn-secondary">
-                {navigation.contact}
-              </Link>
-            </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {business.deliverables.items.map((item) => (
+              <div key={item.title} className="card-shell bg-white p-6">
+                <p className="text-xs uppercase tracking-[0.18em] text-muted">{item.title}</p>
+                <p className="mt-2 text-sm text-muted">{item.body}</p>
+              </div>
+            ))}
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {business.process.steps.map((step, index) => (
+              <div key={step.title} className="space-y-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-muted">{`0${index + 1}`}</p>
+                <h3 className="text-lg text-ink">{step.title}</h3>
+                <p className="text-sm text-muted">{step.body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -175,59 +137,12 @@ export default function BusinessPageContent({
             <ul className="mt-4 space-y-3 text-sm text-slate-100">
               {home.serviceAreas.trainingItems.map((item) => (
                 <li key={item} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-white" aria-hidden />
                   {item}
                 </li>
               ))}
             </ul>
             <p className="mt-4 text-xs text-slate-200">{home.serviceAreas.noteText}</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell bg-canvas">
-        <div className="container space-y-8">
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="card-shell bg-white p-6">
-              <p className="pill w-fit">{home.motivations.title}</p>
-              <h2 className="mt-3 text-ink">{home.motivations.title}</h2>
-              <div className="mt-4 grid gap-3">
-                {home.motivations.items.map((item) => (
-                  <div key={item.title} className="rounded-2xl border border-border bg-subtle px-4 py-3">
-                    <p className="text-sm font-semibold text-ink">{item.title}</p>
-                    <p className="mt-1 text-sm text-muted">{item.body}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="card-shell bg-white p-6">
-              <p className="pill w-fit">{home.deliveries.title}</p>
-              <h2 className="mt-3 text-ink">{home.deliveries.title}</h2>
-              <div className="mt-4 grid gap-3">
-                {home.deliveries.items.map((item) => (
-                  <div key={item.title} className="rounded-2xl border border-border bg-subtle px-4 py-3">
-                    <p className="text-sm font-semibold uppercase tracking-[0.16em] text-ink/70">{item.title}</p>
-                    <p className="mt-1 text-sm text-muted">{item.body}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <p className="pill w-fit">{home.scenarios.title}</p>
-              <h2>{home.scenarios.title}</h2>
-            </div>
-            <div className="grid gap-4 md:grid-cols-3">
-              {home.scenarios.items.map((item) => (
-                <div key={item.title} className="rounded-2xl border border-border bg-white p-5 shadow-soft/30">
-                  <p className="text-sm font-semibold text-ink">{item.title}</p>
-                  <p className="mt-2 text-sm text-muted">{item.body}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -260,14 +175,43 @@ export default function BusinessPageContent({
                   <Link href={`/servicios/${service.slug}`} className="btn-secondary">
                     {home.serviceAreas.cta}
                   </Link>
-                  <Link href="/agenda" className="btn-primary">
-                    {home.serviceAreas.advisoryCta}
-                  </Link>
                 </div>
               </article>
             ))}
           </div>
         )}
+      </section>
+
+      <section className="section-shell bg-surface">
+        <div className="container space-y-6">
+          <div className="space-y-2 text-center">
+            <p className="pill mx-auto w-fit">{business.faq.title}</p>
+            <h2>{business.faq.title}</h2>
+          </div>
+          <div className="mx-auto max-w-3xl space-y-3">
+            {business.faq.items.map((item) => (
+              <details key={item.question} className="card-shell bg-white p-5">
+                <summary className="cursor-pointer text-sm font-semibold text-ink">{item.question}</summary>
+                <p className="mt-3 text-sm text-muted">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-canvas">
+        <div className="container text-center space-y-4">
+          <h2>{business.hero.ctaPrimary}</h2>
+          <p className="mx-auto max-w-2xl text-muted">{business.hero.description}</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link href="/agenda" className="btn-primary">
+              {business.hero.ctaPrimary}
+            </Link>
+            <Link href="/metodologia" className="btn-secondary">
+              {business.hero.ctaSecondary}
+            </Link>
+          </div>
+        </div>
       </section>
     </main>
   );
