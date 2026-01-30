@@ -5,9 +5,6 @@ import Link from "next/link";
 import SiteHeader from "./SiteHeader";
 import { useLanguage } from "./LanguageProvider";
 
-const personalBackground =
-  "linear-gradient(140deg, rgba(10,16,28,0.9), rgba(20,32,52,0.82)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=2200&q=80')";
-
 export default function PeoplePageContent() {
   const { messages } = useLanguage();
   const { people, navigation, common } = messages;
@@ -16,24 +13,16 @@ export default function PeoplePageContent() {
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      <header
-        className="relative overflow-hidden border-b border-border/70 text-white"
-        style={{ backgroundImage: personalBackground, backgroundSize: "cover", backgroundPosition: "center" }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/82 to-accent-700/70" aria-hidden />
-        <div className="container section-shell relative space-y-5">
-          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{navigation.people}</p>
-          <h1 className="max-w-3xl text-white">{people.hero.title}</h1>
-          <p className="max-w-3xl text-slate-100">{people.hero.subtitle}</p>
-          <p className="max-w-3xl text-slate-100">{people.hero.description}</p>
+      <header className="border-b border-border bg-surface">
+        <div className="container section-shell space-y-5">
+          <h1 className="max-w-3xl">{people.hero.title}</h1>
+          <p className="max-w-3xl text-lg text-muted">{people.hero.subtitle}</p>
+          <p className="max-w-3xl text-muted">{people.hero.description}</p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+            <Link href="/agenda" className="btn-primary">
               {people.hero.ctaPrimary}
             </Link>
-            <Link
-              href="/metodologia"
-              className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
-            >
+            <Link href="/metodologia" className="btn-secondary">
               {people.hero.ctaSecondary}
             </Link>
           </div>
@@ -90,6 +79,35 @@ export default function PeoplePageContent() {
             <Link href="/contacto" className="btn-secondary">
               {navigation.contact}
             </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-surface">
+        <div className="container grid gap-8 md:grid-cols-2">
+          <div className="space-y-3">
+            <p className="pill w-fit">{people.fit.title}</p>
+            <h2>{people.fit.forTitle}</h2>
+            <ul className="space-y-2 text-sm text-muted">
+              {people.fit.forItems.map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="space-y-3">
+            <p className="pill w-fit">{people.fit.notForTitle}</p>
+            <h2>{people.fit.notForTitle}</h2>
+            <ul className="space-y-2 text-sm text-muted">
+              {people.fit.notForItems.map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

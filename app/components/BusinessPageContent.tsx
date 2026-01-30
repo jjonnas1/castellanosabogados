@@ -6,9 +6,6 @@ import { useLanguage } from "./LanguageProvider";
 import SiteHeader from "./SiteHeader";
 import { enrichService, type ServiceArea } from "@/lib/serviceAreas";
 
-const heroBackground =
-  "linear-gradient(120deg, rgba(12,17,29,0.9), rgba(17,37,68,0.82)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
-
 export default function BusinessPageContent({
   services,
   hasError,
@@ -23,41 +20,24 @@ export default function BusinessPageContent({
   return (
     <main className="bg-canvas text-ink">
       <SiteHeader />
-      <section
-        className="relative overflow-hidden border-b border-border/70 text-white"
-        style={{ backgroundImage: heroBackground, backgroundSize: "cover", backgroundPosition: "center" }}
-      >
-        <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.12),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.14),transparent_36%)]"
-          aria-hidden
-        />
-        <div className="container section-shell relative space-y-6">
-          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-slate-200">
-            {business.hero.items.map((item) => (
-              <span key={item} className="rounded-[14px] bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
-                {item}
-              </span>
-            ))}
-          </div>
-          <div className="space-y-4">
-            <h1 className="max-w-4xl text-white">{business.hero.title}</h1>
-            <p className="max-w-3xl text-lg text-slate-100">{business.hero.subtitle}</p>
-            <p className="max-w-3xl text-slate-100">{business.hero.description}</p>
+      <section className="border-b border-border bg-surface">
+        <div className="container section-shell space-y-5">
+          <div className="space-y-3">
+            <h1 className="max-w-4xl">{business.hero.title}</h1>
+            <p className="max-w-3xl text-lg text-muted">{business.hero.subtitle}</p>
+            <p className="max-w-3xl text-muted">{business.hero.description}</p>
           </div>
           <div className="flex flex-wrap items-center gap-4">
-            <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+            <Link href="/agenda" className="btn-primary">
               {business.hero.ctaPrimary}
             </Link>
-            <Link
-              href="/como-trabajamos"
-              className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
-            >
+            <Link href="/metodologia" className="btn-secondary">
               {business.hero.ctaSecondary}
             </Link>
           </div>
-          <div className="grid gap-4 text-sm text-slate-100 sm:grid-cols-3">
+          <div className="grid gap-3 text-sm text-muted sm:grid-cols-3">
             {business.hero.items.map((item) => (
-              <div key={item} className="rounded-2xl border border-white/12 bg-white/5 px-4 py-3">
+              <div key={item} className="border-t border-border pt-3">
                 {item}
               </div>
             ))}
@@ -108,6 +88,35 @@ export default function BusinessPageContent({
         </div>
       </section>
 
+      <section className="section-shell bg-surface">
+        <div className="container grid gap-8 md:grid-cols-2">
+          <div className="space-y-3">
+            <p className="pill w-fit">{business.fit.title}</p>
+            <h2>{business.fit.forTitle}</h2>
+            <ul className="space-y-2 text-sm text-muted">
+              {business.fit.forItems.map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="space-y-3">
+            <p className="pill w-fit">{business.fit.notForTitle}</p>
+            <h2>{business.fit.notForTitle}</h2>
+            <ul className="space-y-2 text-sm text-muted">
+              {business.fit.notForItems.map((item) => (
+                <li key={item} className="flex gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
       <section className="border-y border-border bg-white">
         <div className="container section-shell grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="space-y-4">
@@ -130,19 +139,19 @@ export default function BusinessPageContent({
               </Link>
             </div>
           </div>
-          <div className="card-shell bg-ink p-8 text-white shadow-soft">
-            <p className="pill w-fit bg-white/10 text-white ring-1 ring-white/20">{home.serviceAreas.trainingTitle}</p>
-            <h3 className="mt-3 text-white">{home.serviceAreas.trainingDescription}</h3>
-            <p className="text-slate-100">{home.serviceAreas.trainingDescription}</p>
-            <ul className="mt-4 space-y-3 text-sm text-slate-100">
+          <div className="card-shell bg-accent-50 p-8 text-ink shadow-soft">
+            <p className="pill w-fit">{home.serviceAreas.trainingTitle}</p>
+            <h3 className="mt-3 text-ink">{home.serviceAreas.trainingDescription}</h3>
+            <p className="text-muted">{home.serviceAreas.trainingDescription}</p>
+            <ul className="mt-4 space-y-3 text-sm text-muted">
               {home.serviceAreas.trainingItems.map((item) => (
                 <li key={item} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-white" aria-hidden />
+                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
                   {item}
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-xs text-slate-200">{home.serviceAreas.noteText}</p>
+            <p className="mt-4 text-xs text-muted">{home.serviceAreas.noteText}</p>
           </div>
         </div>
       </section>

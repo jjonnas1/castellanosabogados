@@ -5,9 +5,6 @@ import Link from "next/link";
 import { useLanguage } from "./LanguageProvider";
 import { enrichService, type ServiceArea } from "@/lib/serviceAreas";
 
-const headerBackground =
-  "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
-
 export default function ServicesPageContent({
   services,
   hasError,
@@ -24,20 +21,16 @@ export default function ServicesPageContent({
 
   return (
     <main className="min-h-screen bg-canvas pb-16">
-      <header
-        className="relative overflow-hidden border-b border-border/70 text-white"
-        style={{ backgroundImage: headerBackground, backgroundSize: "cover", backgroundPosition: "center" }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/82 to-accent-700/70" aria-hidden />
-        <div className="container relative flex flex-col gap-3 py-14">
-          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{servicesPage.hero.title}</p>
-          <h1 className="text-white">{servicesPage.hero.description}</h1>
-          <p className="max-w-3xl text-slate-100">{servicesPage.hero.cta}</p>
+      <header className="border-b border-border bg-surface">
+        <div className="container flex flex-col gap-3 py-14">
+          <p className="pill w-fit">{servicesPage.hero.title}</p>
+          <h1>{servicesPage.hero.description}</h1>
+          <p className="max-w-3xl text-muted">{servicesPage.hero.cta}</p>
           <div className="mt-3 flex flex-wrap gap-3">
-            <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+            <Link href="/agenda" className="btn-primary">
               {home.hero.ctaPrimary}
             </Link>
-            <Link href="/" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
+            <Link href="/" className="btn-secondary">
               {common.backHome}
             </Link>
           </div>
@@ -62,29 +55,24 @@ export default function ServicesPageContent({
             ))}
           </div>
         </div>
-        <div
-          className="card-shell overflow-hidden bg-gradient-to-b from-ink to-accent-700 p-0"
-          style={{ backgroundImage: headerBackground, backgroundSize: "cover", backgroundPosition: "center" }}
-        >
-          <div className="relative h-full w-full bg-gradient-to-b from-ink/80 via-ink/78 to-accent-700/82 p-8 text-white">
-            <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{servicesPage.hero.title}</p>
-            {secondary && <h3 className="mt-3 text-white">{secondary.title}</h3>}
-            {secondary && <p className="mt-2 max-w-xl text-slate-100">{secondary.body}</p>}
-            <div className="mt-6 grid gap-3 text-sm text-slate-100">
-              {[primary, tertiary].filter(Boolean).map((item) => (
-                <div key={item!.title} className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/10">
-                  {item!.title}
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
-                {home.hero.ctaPrimary}
-              </Link>
-              <Link href="/" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
-                {common.backHome}
-              </Link>
-            </div>
+        <div className="card-shell bg-accent-50 p-8">
+          <p className="pill w-fit">{servicesPage.hero.title}</p>
+          {secondary && <h3 className="mt-3 text-ink">{secondary.title}</h3>}
+          {secondary && <p className="mt-2 max-w-xl text-muted">{secondary.body}</p>}
+          <div className="mt-6 grid gap-3 text-sm text-muted">
+            {[primary, tertiary].filter(Boolean).map((item) => (
+              <div key={item!.title} className="rounded-[14px] border border-border bg-white/70 px-4 py-3">
+                {item!.title}
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link href="/agenda" className="btn-primary">
+              {home.hero.ctaPrimary}
+            </Link>
+            <Link href="/" className="btn-secondary">
+              {common.backHome}
+            </Link>
           </div>
         </div>
       </section>
@@ -134,7 +122,7 @@ export default function ServicesPageContent({
               <ul className="space-y-2 text-sm text-muted">
                 {home.serviceAreas.advisoryItems.map((item) => (
                   <li key={item} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
+                    <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
                     {item}
                   </li>
                 ))}
@@ -150,25 +138,25 @@ export default function ServicesPageContent({
             </div>
           </div>
 
-          <div className="card-shell bg-ink p-8 text-white">
+          <div className="card-shell bg-accent-50 p-8 text-ink">
             <div className="space-y-3">
-              <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/25">{home.serviceAreas.trainingTitle}</p>
-              <h2 className="text-white">{home.serviceAreas.trainingTitle}</h2>
-              <p className="text-slate-100">{home.serviceAreas.trainingDescription}</p>
-              <ul className="space-y-2 text-sm text-slate-100">
+              <p className="pill w-fit">{home.serviceAreas.trainingTitle}</p>
+              <h2 className="text-ink">{home.serviceAreas.trainingTitle}</h2>
+              <p className="text-muted">{home.serviceAreas.trainingDescription}</p>
+              <ul className="space-y-2 text-sm text-muted">
                 {home.serviceAreas.trainingItems.map((item) => (
                   <li key={item} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-[14px] bg-white" aria-hidden />
+                    <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
                     {item}
                   </li>
                 ))}
               </ul>
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/penal-empresarial" className="btn-primary bg-white text-ink">
+              <Link href="/penal-empresarial" className="btn-primary">
                 {home.serviceAreas.trainingCta}
               </Link>
-              <Link href="/contacto" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15">
+              <Link href="/contacto" className="btn-secondary">
                 {home.serviceAreas.contactCta}
               </Link>
             </div>
@@ -179,7 +167,9 @@ export default function ServicesPageContent({
       <section className="section-shell bg-surface">
         <div className="container text-center space-y-4">
           <h2>{home.finalCta.title}</h2>
-          <p className="mx-auto max-w-2xl text-muted">{home.finalCta.description}</p>
+          {home.finalCta.description && (
+            <p className="mx-auto max-w-2xl text-muted">{home.finalCta.description}</p>
+          )}
           <div className="flex flex-wrap justify-center gap-3">
             <Link href="/agenda" className="btn-primary">
               {home.finalCta.ctaPrimary}

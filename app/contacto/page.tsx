@@ -56,11 +56,11 @@ export default function ContactoPage() {
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      <header className="border-b border-border bg-gradient-to-r from-ink via-ink/92 to-accent-700 text-white">
+      <header className="border-b border-border bg-surface">
         <div className="container section-shell space-y-4">
-          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{navigation.contact}</p>
-          <h1 className="max-w-3xl text-white">{contact.hero.title}</h1>
-          <p className="max-w-2xl text-slate-100">{contact.hero.description}</p>
+          <p className="pill w-fit">{navigation.contact}</p>
+          <h1 className="max-w-3xl">{contact.hero.title}</h1>
+          <p className="max-w-2xl text-muted">{contact.hero.description}</p>
         </div>
       </header>
 
@@ -81,7 +81,7 @@ export default function ContactoPage() {
               {messages.common.backHome}
             </Link>
             <Link href="/agenda" className="btn-primary">
-              {contact.info.items[0]}
+              {messages.home.hero.ctaPrimary}
             </Link>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function ContactoPage() {
                 name="name"
                 type="text"
                 placeholder={contact.form.fields.name}
-                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
               />
             </div>
 
@@ -112,7 +112,7 @@ export default function ContactoPage() {
                 name="company"
                 type="text"
                 placeholder={contact.form.fields.company}
-                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
               />
             </div>
 
@@ -125,7 +125,7 @@ export default function ContactoPage() {
                 name="role"
                 type="text"
                 placeholder={contact.form.fields.role}
-                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
               />
             </div>
 
@@ -139,7 +139,7 @@ export default function ContactoPage() {
                 type="email"
                 required
                 placeholder={contact.form.fields.email}
-                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
               />
             </div>
 
@@ -152,7 +152,7 @@ export default function ContactoPage() {
                 name="phone"
                 type="tel"
                 placeholder={contact.form.fields.phone}
-                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
               />
             </div>
 
@@ -164,7 +164,7 @@ export default function ContactoPage() {
                 <select
                   id="caseType"
                   name="caseType"
-                  className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                  className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
                   defaultValue=""
                   required
                 >
@@ -185,7 +185,7 @@ export default function ContactoPage() {
                 <select
                   id="urgency"
                   name="urgency"
-                  className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                  className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
                   defaultValue=""
                   required
                 >
@@ -211,7 +211,7 @@ export default function ContactoPage() {
                 rows={6}
                 required
                 placeholder={contact.form.fields.message}
-                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-3 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-3 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
               />
             </div>
 

@@ -13,24 +13,17 @@ export default function AboutPageContent() {
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      <header className="relative overflow-hidden border-b border-border/70 bg-gradient-to-br from-ink via-ink/90 to-accent text-white">
-        <div
-          className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.12),transparent_32%),radial-gradient(circle_at_72%_8%,rgba(255,255,255,0.12),transparent_36%)]"
-          aria-hidden
-        />
-        <div className="container section-shell relative space-y-5">
-          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{navigation.about}</p>
-          <h1 className="max-w-3xl text-white">{about.hero.title}</h1>
-          <p className="max-w-3xl text-lg text-slate-100">{about.hero.subtitle}</p>
-          <p className="max-w-3xl text-slate-100">{about.hero.description}</p>
+      <header className="border-b border-border bg-surface">
+        <div className="container section-shell space-y-5">
+          <p className="pill w-fit">{navigation.about}</p>
+          <h1 className="max-w-3xl">{about.hero.title}</h1>
+          <p className="max-w-3xl text-lg text-muted">{about.hero.subtitle}</p>
+          <p className="max-w-3xl text-muted">{about.hero.description}</p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
-              {navigation.signIn}
+            <Link href="/agenda" className="btn-primary">
+              {messages.home.hero.ctaPrimary}
             </Link>
-            <Link
-              href="/contacto"
-              className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
-            >
+            <Link href="/contacto" className="btn-secondary">
               {navigation.contact}
             </Link>
           </div>

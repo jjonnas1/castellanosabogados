@@ -4,15 +4,6 @@ import { notFound } from "next/navigation";
 import SiteHeader from "@/app/components/SiteHeader";
 import { getServiceDetail, serviceDetailList } from "@/lib/serviceDetails";
 
-const backgrounds: Record<string, string> = {
-  "drp-ce":
-    "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')",
-  "aec-ce":
-    "linear-gradient(140deg, rgba(12,17,29,0.92), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1450101215322-bf5cd27642fc?auto=format&fit=crop&w=2200&q=80')",
-  "icp-ce":
-    "linear-gradient(140deg, rgba(12,17,29,0.92), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=2200&q=80')",
-};
-
 export async function generateStaticParams() {
   return serviceDetailList.map((service) => ({ slug: service.slug }));
 }
@@ -25,39 +16,33 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
-  const backgroundImage = backgrounds[detail.slug] ?? backgrounds["drp-ce"];
-
   return (
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      <header
-        className="relative overflow-hidden border-b border-border/70 text-white"
-        style={{ backgroundImage, backgroundSize: "cover", backgroundPosition: "center" }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/82 to-accent-700/70" aria-hidden />
-        <div className="container section-shell relative space-y-5">
-          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-slate-200">
-            <Link href="/servicios" className="rounded-[14px] bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
+      <header className="border-b border-border bg-surface">
+        <div className="container section-shell space-y-5">
+          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted">
+            <Link href="/servicios" className="rounded-[14px] border border-border px-3 py-1 font-semibold">
               Servicios
             </Link>
-            <span className="rounded-[14px] bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">Riesgo penal empresarial</span>
-            <span className="rounded-[14px] bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">{detail.slug}</span>
+            <span className="rounded-[14px] border border-border px-3 py-1 font-semibold">Riesgo penal empresarial</span>
+            <span className="rounded-[14px] border border-border px-3 py-1 font-semibold">{detail.slug}</span>
           </div>
-          <h1 className="text-white max-w-3xl">{detail.headline}</h1>
-          <p className="max-w-3xl text-slate-100 text-lg">{detail.summary}</p>
+          <h1 className="max-w-3xl">{detail.headline}</h1>
+          <p className="max-w-3xl text-lg text-muted">{detail.summary}</p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+            <Link href="/agenda" className="btn-primary">
               Solicitar evaluación estratégica
             </Link>
-            <Link href="/servicios" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
+            <Link href="/servicios" className="btn-secondary">
               Volver a servicios
             </Link>
           </div>
-          <div className="grid gap-3 text-sm text-slate-100 md:grid-cols-3">
-            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">No asumimos litigio penal.</div>
-            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Coordinamos con juntas y comités.</div>
-            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Documentación ejecutiva y trazable.</div>
+          <div className="grid gap-3 text-sm text-muted md:grid-cols-3">
+            <div className="rounded-[14px] border border-border bg-white px-4 py-3">No asumimos litigio penal.</div>
+            <div className="rounded-[14px] border border-border bg-white px-4 py-3">Coordinamos con juntas y comités.</div>
+            <div className="rounded-[14px] border border-border bg-white px-4 py-3">Documentación ejecutiva y trazable.</div>
           </div>
         </div>
       </header>
@@ -105,7 +90,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           </ul>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link href="/agenda" className="btn-primary">
-              Programar sesión
+              Solicitar evaluación estratégica
             </Link>
             <Link href="/contacto" className="btn-secondary">
               Coordinar con junta

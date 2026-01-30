@@ -36,9 +36,18 @@ export type Dictionary = {
       titleB: string;
       subtitleB: string;
       note: string;
+      title: string;
+      subtitle: string;
+      microcopy: string;
       ctaPrimary: string;
       ctaSecondary: string;
       trustNote: string;
+    };
+    whatWeDo: string[];
+    paths: { title: string; description: string; href: string; cta: string }[];
+    methodology: {
+      line: string;
+      cta: string;
     };
     outcomes: { title: string }[];
     outcomesTitle: string;
@@ -140,6 +149,13 @@ export type Dictionary = {
     };
     problems: { title: string; items: { title: string; body: string }[] };
     deliverables: { title: string; items: { title: string; body: string }[] };
+    fit: {
+      title: string;
+      forTitle: string;
+      forItems: string[];
+      notForTitle: string;
+      notForItems: string[];
+    };
     faq: { title: string; items: { question: string; answer: string }[] };
     services: {
       title: string;
@@ -175,6 +191,13 @@ export type Dictionary = {
     expectations: {
       title: string;
       items: { title: string; body: string }[];
+    };
+    fit: {
+      title: string;
+      forTitle: string;
+      forItems: string[];
+      notForTitle: string;
+      notForItems: string[];
     };
   };
   about: {
@@ -267,15 +290,15 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
   es: {
     navigation: {
       home: "Inicio",
-      business: "Penal/Empresas",
-      people: "Penal/Personas",
+      business: "Empresas",
+      people: "Personas",
       services: "Servicios",
       methodology: "Metodología",
       contact: "Contacto",
       advisory: "Asesoría",
       register: "Registrarse",
       login: "Log in",
-      about: "Acerca de nosotros",
+      about: "Nosotros",
       signIn: "Iniciar sesión",
       peopleAdvisory: "Asesoría a personas",
       language: "Idioma",
@@ -299,9 +322,35 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         subtitleB:
           "Acompañamiento preventivo y confidencial para líderes responsables que deben justificar sus decisiones ante control interno y externo.",
         note: "Actuamos con discreción, límites claros y soporte escrito.",
+        title: "Decisiones sensibles no se toman a ciegas.",
+        subtitle: "Prevención penal estratégica para contextos donde el error no es opción.",
+        microcopy: "Confidencialidad absoluta · Criterio documentado",
         ctaPrimary: "Solicitar evaluación estratégica",
-        ctaSecondary: "Ver cómo trabajamos",
+        ctaSecondary: "Ver metodología",
         trustNote: "Tu información se maneja con confidencialidad.",
+      },
+      whatWeDo: [
+        "Prevención penal para decisiones críticas.",
+        "Soporte documental y trazabilidad.",
+        "Acompañamiento estratégico, no litigio.",
+      ],
+      paths: [
+        {
+          title: "Empresas",
+          description: "Decisiones corporativas sensibles con soporte ejecutivo.",
+          href: "/penal-empresarial",
+          cta: "Ver Empresas",
+        },
+        {
+          title: "Personas",
+          description: "Asesoría preventiva individual con límites claros.",
+          href: "/personas",
+          cta: "Ver Personas",
+        },
+      ],
+      methodology: {
+        line: "Diagnóstico · Protocolos · Activación",
+        cta: "Ver metodología",
       },
       outcomes: [
         { title: "Trazabilidad y soporte documental." },
@@ -391,11 +440,11 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         ],
       },
       finalCta: {
-        title: "Solicitar evaluación estratégica",
-        description: "Conversemos sobre el contexto, el alcance y el nivel de exposición.",
-        note: "Respuesta en 24–48 horas hábiles.",
+        title: "Hablemos antes de que la decisión esté tomada.",
+        description: "",
+        note: "Respuesta en 24–48 h hábiles · Sin compromisos.",
         ctaPrimary: "Solicitar evaluación estratégica",
-        ctaSecondary: "Ver cómo trabajamos",
+        ctaSecondary: "Ver metodología",
       },
       businessFocus: {
         pill: "Penal/Empresas",
@@ -546,8 +595,8 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
     },
     business: {
       hero: {
-        title: "Penal/Empresas: criterio preventivo para decisiones críticas",
-        subtitle: "Acompañamiento preventivo para juntas, comités y áreas jurídicas.",
+        title: "Empresas: criterio preventivo para decisiones críticas",
+        subtitle: "Acompañamiento estratégico para juntas, comités y áreas jurídicas.",
         description:
           "Definimos criterios, límites y documentación ejecutiva que respaldan decisiones sensibles ante control interno y externo.",
         items: [
@@ -556,7 +605,7 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
           "Capacitaciones para órganos directivos.",
         ],
         ctaPrimary: "Solicitar evaluación estratégica",
-        ctaSecondary: "Ver cómo trabajamos",
+        ctaSecondary: "Ver metodología",
       },
       problems: {
         title: "Problemas típicos",
@@ -576,11 +625,26 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         ],
       },
       deliverables: {
-        title: "Entregables clave",
+        title: "Entregables",
         items: [
           { title: "Minutas ejecutivas", body: "Registro claro de decisiones y criterios adoptados." },
           { title: "Protocolos", body: "Reglas de actuación y documentación por cada frente." },
           { title: "Mapas de riesgo", body: "Prioridades, responsables y controles definidos." },
+        ],
+      },
+      fit: {
+        title: "Para quién es / Para quién no es",
+        forTitle: "Es para",
+        forItems: [
+          "Juntas, comités y representantes legales con exposición sensible.",
+          "Áreas jurídicas y compliance que exigen trazabilidad documental.",
+          "Organizaciones que requieren criterio preventivo y control interno.",
+        ],
+        notForTitle: "No es para",
+        notForItems: [
+          "Litigios o representación judicial.",
+          "Promesas de resultado o soluciones improvisadas.",
+          "Procesos sin documentación ni responsables claros.",
         ],
       },
       faq: {
@@ -652,8 +716,8 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
     },
     people: {
       hero: {
-        title: "Penal/Personas con enfoque preventivo",
-        subtitle: "Línea paralela con agenda real y coordinación con defensa cuando aplica.",
+        title: "Personas con enfoque preventivo",
+        subtitle: "Línea secundaria con agenda real y coordinación cuando aplica.",
         description:
           "Asesoría responsable, sin promesas de resultado y con trazabilidad documental en cada sesión.",
         items: [
@@ -661,8 +725,8 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
           "Pago al reservar la sesión.",
           "Registro de acuerdos y límites.",
         ],
-        ctaPrimary: "Agendar asesoría",
-        ctaSecondary: "Ver proceso",
+        ctaPrimary: "Solicitar evaluación estratégica",
+        ctaSecondary: "Ver metodología",
       },
       flow: {
         title: "Proceso de acompañamiento",
@@ -683,6 +747,21 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
           { title: "Confidencialidad", body: "Manejo reservado de información y soporte documental." },
           { title: "Criterio preventivo", body: "Enfoque en decisiones responsables y límites claros." },
           { title: "Trazabilidad", body: "Registro de acuerdos, instrucciones y compromisos." },
+        ],
+      },
+      fit: {
+        title: "Para quién es / Para quién no es",
+        forTitle: "Es para",
+        forItems: [
+          "Personas que necesitan criterio preventivo antes de decidir.",
+          "Casos que requieren documentación y límites claros.",
+          "Coordinación con defensa existente cuando aplica.",
+        ],
+        notForTitle: "No es para",
+        notForItems: [
+          "Litigios o representación judicial.",
+          "Promesas de resultado o soluciones rápidas.",
+          "Casos sin disposición a documentar decisiones.",
         ],
       },
     },
@@ -876,7 +955,7 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
   en: {
     navigation: {
       home: "Home",
-      business: "Corporate Defense",
+      business: "Companies",
       people: "Individuals",
       services: "Services",
       methodology: "Methodology",
@@ -884,7 +963,7 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
       advisory: "Advisory",
       register: "Sign up",
       login: "Log in",
-      about: "About us",
+      about: "About",
       signIn: "Sign in",
       peopleAdvisory: "Advisory for individuals",
       language: "Language",
@@ -908,9 +987,35 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         subtitleB:
           "Confidential, preventive support for leaders who must justify decisions to internal and external oversight.",
         note: "We operate discreetly, with clear limits and written support.",
-        ctaPrimary: "Request strategic evaluation",
-        ctaSecondary: "See how we work",
+        title: "Sensitive decisions are not made blindly.",
+        subtitle: "Strategic criminal prevention where error is not an option.",
+        microcopy: "Absolute confidentiality · Documented judgment",
+        ctaPrimary: "Request a strategic assessment",
+        ctaSecondary: "View methodology",
         trustNote: "Your information is handled confidentially.",
+      },
+      whatWeDo: [
+        "Criminal prevention for critical decisions.",
+        "Document support and traceability.",
+        "Strategic accompaniment, not litigation.",
+      ],
+      paths: [
+        {
+          title: "Companies",
+          description: "Sensitive corporate decisions with executive support.",
+          href: "/penal-empresarial",
+          cta: "View Companies",
+        },
+        {
+          title: "Individuals",
+          description: "Preventive advice with clear limits.",
+          href: "/personas",
+          cta: "View Individuals",
+        },
+      ],
+      methodology: {
+        line: "Diagnosis · Protocols · Activation",
+        cta: "View methodology",
       },
       outcomes: [
         { title: "Traceability and documentary support." },
@@ -1000,11 +1105,11 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         ],
       },
       finalCta: {
-        title: "Request strategic evaluation",
-        description: "Let us review the context, scope, and level of exposure.",
-        note: "Response within 24–48 business hours.",
-        ctaPrimary: "Request strategic evaluation",
-        ctaSecondary: "See how we work",
+        title: "Let’s talk before the decision is made.",
+        description: "",
+        note: "Response within 24–48 business hours · No commitments.",
+        ctaPrimary: "Request a strategic assessment",
+        ctaSecondary: "View methodology",
       },
       businessFocus: {
         pill: "Corporate Defense",
@@ -1127,8 +1232,8 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
     },
     business: {
       hero: {
-        title: "Corporate Defense: preventive judgment for critical decisions",
-        subtitle: "Preventive support for boards, committees, and legal teams.",
+        title: "Companies: preventive judgment for critical decisions",
+        subtitle: "Strategic support for boards, committees, and legal teams.",
         description:
           "We define criteria, limits, and executive documentation that support sensitive decisions before internal and external oversight.",
         items: [
@@ -1136,8 +1241,8 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
           "Activatable protocols and escalation routes.",
           "Training for governing bodies.",
         ],
-        ctaPrimary: "Request strategic evaluation",
-        ctaSecondary: "See how we work",
+        ctaPrimary: "Request a strategic assessment",
+        ctaSecondary: "View methodology",
       },
       problems: {
         title: "Typical scenarios",
@@ -1157,11 +1262,26 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
         ],
       },
       deliverables: {
-        title: "Key deliverables",
+        title: "Deliverables",
         items: [
           { title: "Executive minutes", body: "Clear record of decisions and criteria adopted." },
           { title: "Protocols", body: "Rules of action and documentation for each front." },
           { title: "Risk maps", body: "Priorities, owners, and defined controls." },
+        ],
+      },
+      fit: {
+        title: "For whom / Not for whom",
+        forTitle: "It is for",
+        forItems: [
+          "Boards, committees, and legal representatives with sensitive exposure.",
+          "Legal and compliance teams requiring documentary traceability.",
+          "Organizations that need preventive judgment and internal control.",
+        ],
+        notForTitle: "Not for",
+        notForItems: [
+          "Litigation or court representation.",
+          "Outcome promises or improvised fixes.",
+          "Processes without documentation or clear owners.",
         ],
       },
       faq: {
@@ -1234,7 +1354,7 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
     people: {
       hero: {
         title: "Individuals with preventive focus",
-        subtitle: "Parallel line with real availability and defense coordination when needed.",
+        subtitle: "Secondary line with real availability and coordination when needed.",
         description:
           "Responsible advisory, no outcome promises, and documentary traceability in every session.",
         items: [
@@ -1242,8 +1362,8 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
           "Payment when booking the session.",
           "Recorded agreements and limits.",
         ],
-        ctaPrimary: "Book advisory",
-        ctaSecondary: "View process",
+        ctaPrimary: "Request a strategic assessment",
+        ctaSecondary: "View methodology",
       },
       flow: {
         title: "Advisory process",
@@ -1264,6 +1384,21 @@ export const dictionaries: Record<SupportedLocale, Dictionary> = {
           { title: "Confidentiality", body: "Reserved handling of information and documentary support." },
           { title: "Preventive judgment", body: "Focus on responsible decisions and clear limits." },
           { title: "Traceability", body: "Records of agreements, instructions, and commitments." },
+        ],
+      },
+      fit: {
+        title: "For whom / Not for whom",
+        forTitle: "It is for",
+        forItems: [
+          "Individuals who need preventive judgment before deciding.",
+          "Cases that require documentation and clear limits.",
+          "Coordination with existing defense when applicable.",
+        ],
+        notForTitle: "Not for",
+        notForItems: [
+          "Litigation or court representation.",
+          "Outcome promises or quick fixes.",
+          "Cases without willingness to document decisions.",
         ],
       },
     },
