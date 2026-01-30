@@ -92,16 +92,16 @@ export default function ServicesPageContent({
         </div>
       </section>
 
-      <section className="border-t border-border bg-surface/70">
+      <section className="border-t border-border bg-surface">
         <div className="container section-shell space-y-6">
-          <div className="space-y-2">
-            <p className="pill w-fit">{home.scenarios.title}</p>
+          <div className="space-y-2 text-center">
+            <p className="pill mx-auto w-fit">{home.scenarios.title}</p>
             <h2>{home.scenarios.title}</h2>
-            <p className="max-w-3xl text-muted">{servicesPage.hero.cta}</p>
+            <p className="mx-auto max-w-3xl text-muted">{servicesPage.hero.cta}</p>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {home.scenarios.items.map((item) => (
-              <div key={item.title} className="rounded-2xl border border-border bg-white p-5 shadow-soft/30">
+              <div key={item.title} className="rounded-2xl border border-border bg-white p-6 shadow-soft/30">
                 <p className="text-sm font-semibold text-ink">{item.title}</p>
                 <p className="mt-2 text-sm text-muted">{item.body}</p>
               </div>

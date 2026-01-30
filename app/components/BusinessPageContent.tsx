@@ -65,7 +65,7 @@ export default function BusinessPageContent({
         </div>
       </section>
 
-      <section className="section-shell bg-surface/70">
+      <section className="section-shell bg-surface">
         <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="space-y-4">
             <p className="pill w-fit">{business.services.title}</p>
@@ -74,7 +74,7 @@ export default function BusinessPageContent({
             <p className="max-w-2xl text-muted">{business.services.trainingDescription}</p>
             <div className="grid gap-4 sm:grid-cols-2">
               {business.services.blocks.map((item) => (
-                <div key={item.title} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
+                <div key={item.title} className="card-shell bg-white px-5 py-5 text-sm font-semibold text-ink shadow-soft/30">
                   <p className="text-ink">{item.title}</p>
                   <p className="mt-1 text-muted text-xs leading-relaxed">{item.body}</p>
                 </div>

@@ -100,7 +100,7 @@ export default function HomeContent({ serviceList }: { serviceList: ServiceArea[
         </div>
       </section>
 
-      <section className="section-shell bg-surface/80">
+      <section className="section-shell bg-surface">
         <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="space-y-4">
             <p className="pill w-fit">{home.businessFocus.pill}</p>
@@ -114,13 +114,13 @@ export default function HomeContent({ serviceList }: { serviceList: ServiceArea[
             </div>
             <div className="grid gap-4 sm:grid-cols-3">
               {home.businessFocus.cards.map((card) => (
-                <div key={card.title} className="card-shell bg-white">
+                <div key={card.title} className="card-shell bg-white p-6">
                   <h3 className="text-lg text-ink">{card.title}</h3>
                   <p className="mt-2 text-sm text-muted">{card.body}</p>
                 </div>
               ))}
             </div>
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-950">
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-950 shadow-soft/20">
               <p className="font-semibold uppercase tracking-wide text-[11px] text-amber-700">{home.businessFocus.noteLabel}</p>
               <p className="mt-2 max-w-3xl leading-relaxed">{home.businessFocus.noteText}</p>
             </div>
@@ -144,7 +144,7 @@ export default function HomeContent({ serviceList }: { serviceList: ServiceArea[
             </div>
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               {home.businessPanel.cards.map((card) => (
-                <div key={card.title} className="rounded-2xl border border-border bg-subtle px-4 py-3 text-sm">
+                <div key={card.title} className="rounded-2xl border border-border bg-subtle px-4 py-3 text-sm shadow-soft/20">
                   <p className="font-semibold text-ink">{card.title}</p>
                   <p className="mt-2 text-muted">{card.body}</p>
                 </div>
@@ -162,22 +162,22 @@ export default function HomeContent({ serviceList }: { serviceList: ServiceArea[
       </section>
 
       <section className="section-shell bg-canvas">
-        <div className="container space-y-5">
-          <div className="flex flex-wrap items-center gap-3 text-sm">
+        <div className="container space-y-6">
+          <div className="flex flex-wrap justify-center gap-3 text-sm">
             <span className="pill w-fit bg-ink text-white ring-white/20">{home.serviceAreas.pill}</span>
             <span className="pill w-fit bg-amber-100 text-amber-900 ring-amber-200">{home.serviceAreas.noteLabel}</span>
           </div>
-          <div className="space-y-3">
+          <div className="space-y-3 text-center">
             <h2>{home.serviceAreas.title}</h2>
-            <p className="max-w-3xl text-lg text-muted">{home.serviceAreas.description}</p>
+            <p className="mx-auto max-w-3xl text-lg text-muted">{home.serviceAreas.description}</p>
           </div>
-          <p className="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-3 text-sm text-blue-900">
+          <p className="mx-auto max-w-3xl rounded-2xl border border-blue-200 bg-blue-50 px-5 py-3 text-sm text-blue-900">
             <span className="font-semibold">{home.serviceAreas.noteLabel}: </span>
             {home.serviceAreas.noteText}
           </p>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-3">
             {localizedServices.map((service) => (
-              <article key={service.slug} className="card-shell bg-subtle">
+              <article key={service.slug} className="card-shell bg-white p-6">
                 <div className="flex items-start justify-between gap-3">
                   <p className="pill w-fit bg-ink text-white ring-ink/30">{home.serviceAreas.pill}</p>
                   <span className="rounded-full border border-green-200 bg-green-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-green-800">
@@ -203,9 +203,9 @@ export default function HomeContent({ serviceList }: { serviceList: ServiceArea[
         </div>
       </section>
 
-      <section className="section-shell bg-surface/80">
-        <div className="container grid gap-6 lg:grid-cols-2 lg:items-stretch">
-          <div className="card-shell bg-white p-7">
+      <section className="section-shell bg-surface">
+        <div className="container grid gap-8 lg:grid-cols-2 lg:items-stretch">
+          <div className="card-shell bg-white p-8">
             <div className="space-y-3">
               <p className="pill w-fit">{home.serviceAreas.advisoryTitle}</p>
               <h2 className="text-ink">{home.serviceAreas.advisoryTitle}</h2>
@@ -229,7 +229,7 @@ export default function HomeContent({ serviceList }: { serviceList: ServiceArea[
             </div>
           </div>
 
-          <div className="card-shell bg-ink p-7 text-white">
+          <div className="card-shell bg-ink p-8 text-white">
             <div className="space-y-3">
               <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/25">{home.serviceAreas.trainingTitle}</p>
               <h2 className="text-white">{home.serviceAreas.trainingTitle}</h2>

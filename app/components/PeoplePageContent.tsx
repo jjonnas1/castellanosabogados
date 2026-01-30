@@ -85,7 +85,7 @@ export default function PeoplePageContent() {
         </div>
       </section>
 
-      <section className="border-t border-border bg-surface/70">
+      <section className="border-t border-border bg-surface">
         <div className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
           <div className="space-y-4">
             <p className="pill w-fit">{home.methodology.pill}</p>
