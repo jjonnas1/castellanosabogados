@@ -7,12 +7,18 @@
     "build": "next build",
     "start": "next start"
   },
+ ```json
   "dependencies": {
+    "@supabase/auth-helpers-nextjs": "^0.8.7",
     "@supabase/supabase-js": "2.45.3",
     "next": "^15.5.9",
     "react": "19.0.1",
     "react-dom": "19.0.1",
-    "resend": "3.4.0"
+    "resend": "3.4.0",
+    "zod": "^3.22.4"
+  },
+```
+
   },
   "devDependencies": {
     "@types/node": "22.10.2",
