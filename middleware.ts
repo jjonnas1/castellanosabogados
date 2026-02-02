@@ -1,3 +1,28 @@
-// Middleware neutro por ahora (lo dejamos sin lógica de bloqueo server-side)
-// La protección principal la hace el cliente; si luego quieres reforzar, aquí lo activamos.
-export default function middleware() { /* noop */ }
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+
+  if (
+    req.nextUrl.pathname.startsWith('/panel') ||
+    req.nextUrl.pathname.startsWith('/admin') ||
+    req.nextUrl.pathname.startsWith('/cliente/panel')
+  ) {
+    if (!session) {
+      return NextResponse.redirect(new URL('/login', req.url))
+    }
+  }
+
+  return res
+}
+
+export const config = {
+  matcher: ['/panel/:path*', '/admin/:path*', '/cliente/panel/:path*'],
+}
