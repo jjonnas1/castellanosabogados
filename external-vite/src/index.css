@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Lato:wght@300;400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Premium Palette Variables */
+    --background: 40 20% 99%; /* Stone 50 equivalent */
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 222.2 47.4% 11.2%; /* Deep Blue Slate 900 */
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 40 13% 96%; /* Stone 100 */
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 38 92% 50%; /* Amber/Gold */
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+ 
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-editorial-stone-50 text-foreground font-lato leading-relaxed tracking-normal;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair tracking-wide text-primary;
+  }
+}
+
+@layer utilities {
+  .font-playfair {
+    font-family: 'Playfair Display', serif;
+  }
+  .font-lato {
+    font-family: 'Lato', sans-serif;
+  }
+  .text-gold {
+    @apply text-editorial-gold-600;
+  }
+  .bg-gold {
+    @apply bg-editorial-gold-600;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fafaf9; /* Stone 50 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #57534e; /* Stone 600 */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #292524; /* Stone 800 */
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
