@@ -1,27 +1,72 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
 import SiteHeader from "@/app/components/SiteHeader";
+import { Alert, Badge, Button, Input, Progress, Textarea } from "@/components/ui";
+
+type FieldErrors = {
+  name?: string;
+  email?: string;
+  message?: string;
+};
+
+const validateName = (value: string) => {
+  if (!value.trim()) return "El nombre es obligatorio.";
+  if (value.trim().length < 2) return "El nombre debe tener al menos 2 caracteres.";
+  if (value.trim().length > 100) return "El nombre no puede superar 100 caracteres.";
+  return "";
+};
+
+const validateEmail = (value: string) => {
+  if (!value.trim()) return "El correo es obligatorio.";
+  const isValid = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+  return isValid ? "" : "Ingresa un correo válido.";
+};
+
+const validateMessage = (value: string) => {
+  if (!value.trim()) return "El mensaje es obligatorio.";
+  if (value.trim().length < 10) return "El mensaje debe tener al menos 10 caracteres.";
+  if (value.trim().length > 1000) return "El mensaje no puede superar 1000 caracteres.";
+  return "";
+};
 
 export default function ContactoPage() {
   const [loading, setLoading] = useState(false);
   const [ok, setOk] = useState<null | boolean>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<FieldErrors>({});
+
+  useEffect(() => {
+    setErrors({
+      name: validateName(name),
+      email: validateEmail(email),
+      message: validateMessage(message),
+    });
+  }, [name, email, message]);
+
+  const hasErrors = useMemo(
+    () => Boolean(errors.name || errors.email || errors.message),
+    [errors]
+  );
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (hasErrors) {
+      setErr("Revisa los campos marcados antes de enviar.");
+      setOk(false);
+      return;
+    }
+
     setLoading(true);
     setOk(null);
     setErr(null);
 
-    const fd = new FormData(e.currentTarget);
-    const payload = {
-      name: String(fd.get("name") || ""),
-      email: String(fd.get("email") || ""),
-      message: String(fd.get("message") || ""),
-    };
+    const payload = { name, email, message };
 
     try {
       const res = await fetch("/api/contact", {
@@ -30,8 +75,14 @@ export default function ContactoPage() {
         body: JSON.stringify(payload),
       });
       const json = await res.json();
-      if (json.ok) setOk(true);
-      else {
+      if (json.ok) {
+        setOk(true);
+        setErr(null);
+        setName("");
+        setEmail("");
+        setMessage("");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
         setOk(false);
         setErr(json.error || "No pudimos enviar tu mensaje.");
       }
@@ -47,20 +98,27 @@ export default function ContactoPage() {
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      <header className="border-b border-border bg-gradient-to-r from-ink via-ink/92 to-accent-700 text-white">
-        <div className="container section-shell space-y-4">
-          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Contacto</p>
+      <header className="border-b border-border bg-gradient-to-r from-ink via-ink/92 to-accent-700 text-white animate-gradient">
+        <div className="container section-shell space-y-4 animate-fade-in-up">
+          <Badge variant="info">Contacto</Badge>
           <h1 className="max-w-3xl text-white">Coordinemos una evaluación prioritaria</h1>
           <p className="max-w-2xl text-slate-100">
             Déjanos los datos mínimos para asignar un responsable y definir el primer control. No utilizamos esta línea para promoción,
-            solo para coordinación ejecutiva.
+            solo para coordinación ejecutiva. ✨
           </p>
+          <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-slate-200">
+            {["Confidencialidad", "Respuesta rápida", "Seguimiento ejecutivo"].map((item) => (
+              <span key={item} className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       </header>
 
       <section className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-        <div className="space-y-4">
-          <p className="pill w-fit">Prioridad</p>
+        <div className="space-y-4 animate-fade-in-up">
+          <Badge variant="neutral">Prioridad</Badge>
           <h2>Datos mínimos para actuar</h2>
           <p className="max-w-2xl text-muted">
             Si requieres defensa litigiosa, lo articulamos con aliados manteniendo trazabilidad. Este formulario es para coordinar la
@@ -82,71 +140,76 @@ export default function ContactoPage() {
               Agendar evaluación
             </Link>
           </div>
+          <div className="rounded-2xl border border-border bg-white p-4 shadow-soft/30">
+            <div className="flex items-center justify-between text-sm text-muted">
+              <span>Progreso de envío</span>
+              <span>{ok ? "100%" : "60%"}</span>
+            </div>
+            <Progress value={ok ? 100 : 60} />
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="card-shell bg-white p-6 shadow-soft/40">
-          <p className="pill w-fit">Formulario</p>
+        <form onSubmit={handleSubmit} className="card-shell bg-white p-6 shadow-soft/40 animate-fade-in-up">
+          <Badge variant="info">Formulario</Badge>
           <h3 className="mt-2 text-ink">Mensaje confidencial</h3>
           <div className="mt-4 space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-ink" htmlFor="name">
-                Nombre
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Tu nombre"
-                className="w-full rounded-xl border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
-              />
-            </div>
+            <Input
+              id="name"
+              name="name"
+              label="Nombre"
+              required
+              placeholder="Tu nombre"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              error={errors.name}
+              icon="👤"
+            />
 
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-ink" htmlFor="email">
-                Correo
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                placeholder="tucorreo@ejemplo.com"
-                className="w-full rounded-xl border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
-              />
-            </div>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              label="Correo"
+              required
+              placeholder="tucorreo@ejemplo.com"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              error={errors.email}
+              icon="✉️"
+            />
 
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-ink" htmlFor="message">
-                Mensaje
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={6}
-                required
-                placeholder="Cuéntanos brevemente tu caso"
-                className="w-full rounded-xl border border-border bg-subtle px-3 py-3 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
-              />
-            </div>
+            <Textarea
+              id="message"
+              name="message"
+              label="Mensaje"
+              required
+              placeholder="Cuéntanos brevemente tu caso"
+              rows={6}
+              value={message}
+              onChange={(event) => setMessage(event.target.value)}
+              error={errors.message}
+              maxLength={1000}
+              showCount
+            />
 
             <div className="flex flex-wrap gap-3">
-              <button className="btn-primary" type="submit" disabled={loading}>
+              <Button type="submit" loading={loading} disabled={loading || hasErrors}>
                 {loading ? "Enviando…" : "Enviar"}
-              </button>
+              </Button>
               <a href="/" className="btn-secondary">
                 Volver al inicio
               </a>
             </div>
 
             {ok && (
-              <div className="rounded-xl border border-green-500/40 bg-green-50 px-4 py-3 text-sm font-semibold text-ink">
-                ✅ ¡Gracias! Recibimos tu mensaje y te escribiremos pronto.
-              </div>
+              <Alert variant="success" title="Mensaje enviado">
+                ¡Gracias! Recibimos tu mensaje y te escribiremos pronto.
+              </Alert>
             )}
-            {ok === false && (
-              <div className="rounded-xl border border-red-500/30 bg-red-50 px-4 py-3 text-sm font-semibold text-ink">
-                ❌ {err}
-              </div>
+            {ok === false && err && (
+              <Alert variant="error" title="No pudimos enviar">
+                {err}
+              </Alert>
             )}
           </div>
         </form>

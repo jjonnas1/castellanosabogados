@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import SiteHeader from "./components/SiteHeader";
+import ServiceCarousel from "./components/ServiceCarousel";
 import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
 
 const heroBackground =
@@ -13,16 +15,115 @@ const counselSession =
 const personalAdvisory =
 "linear-gradient(140deg, rgba(10,16,28,0.88), rgba(20,32,52,0.78)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=2200&q=80')";
 
+function ServiceSkeleton() {
+  return (
+    <div className="grid gap-5 lg:grid-cols-3 animate-fade-in">
+      {Array.from({ length: 3 }).map((_, idx) => (
+        <div key={idx} className="card-shell h-full animate-pulse bg-white p-6">
+          <div className="h-3 w-24 rounded-full bg-subtle" />
+          <div className="mt-4 h-6 w-3/4 rounded-full bg-subtle" />
+          <div className="mt-3 h-4 w-full rounded-full bg-subtle" />
+          <div className="mt-6 h-9 w-32 rounded-full bg-subtle" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+async function ServicesGrid() {
+  const { data: services, error } = await fetchServiceAreas();
+  const serviceList = services.map(enrichService);
+
+  if (error) {
+    return (
+      <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+        No pudimos conectar con Supabase. La lista de servicios puede no estar completa.
+      </div>
+    );
+  }
+
+  if (serviceList.length === 0) {
+    return (
+      <div className="mt-6 card-shell bg-white px-6 py-10 text-center text-muted">
+        <p className="text-lg font-semibold text-ink">Servicios no disponibles por el momento</p>
+        <p className="mt-2">Vuelve pronto o contáctanos para agendar una revisión prioritaria.</p>
+        <Link href="/contacto" className="mt-4 inline-block btn-primary">
+          Contacto directo
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid gap-5 lg:grid-cols-3">
+      {serviceList.map((service) => {
+        const isEntrada = service.slug === "drp-ce";
+        return (
+          <article
+            key={service.slug}
+            className={`card-shell group flex h-full flex-col justify-between p-6 transition duration-300 ease-out hover:-translate-y-1 hover:shadow-hover ${
+              isEntrada
+                ? "lg:col-span-2 bg-gradient-to-br from-ink to-accent-700 text-white ring-1 ring-white/10"
+                : "bg-white"
+            }`}
+          >
+            <div className="space-y-3">
+              <p
+                className={`text-[11px] font-semibold uppercase tracking-[0.14em] ${
+                  isEntrada ? "text-white/80" : "text-accent-700"
+                }`}
+              >
+                {service.slug}
+              </p>
+              <h3 className={isEntrada ? "text-white" : "text-ink"}>{service.title}</h3>
+              <p className={`text-sm ${isEntrada ? "text-slate-100" : "text-muted"}`}>{service.description}</p>
+            </div>
+
+            <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
+              <Link
+                href="/agenda"
+                className={`inline-flex items-center rounded-full px-4 py-2 font-semibold transition duration-200 ${
+                  isEntrada
+                    ? "bg-white text-ink shadow-hover hover:-translate-y-[1px] hover:bg-slate-100"
+                    : "bg-ink text-white hover:-translate-y-[1px] hover:bg-accent-700"
+                }`}
+              >
+                {isEntrada ? "Ingresar evaluación" : "Solicitar"} 🚀
+              </Link>
+              <Link
+                href="/contacto"
+                className={`font-semibold transition ${
+                  isEntrada ? "text-white/90 hover:text-white" : "text-accent-700 hover:text-ink"
+                }`}
+              >
+                {isEntrada ? "Coordinar con junta" : "Consultar alcance"}
+              </Link>
+              <Link
+                href={`/servicios/${service.slug}`}
+                className={`font-semibold transition ${
+                  isEntrada ? "text-white/80 hover:text-white" : "text-muted hover:text-ink"
+                }`}
+              >
+                Ver detalle
+              </Link>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  );
+}
+
 export default async function Home() {
-const { data: services, error } = await fetchServiceAreas();
-const serviceList = services.map(enrichService);
+  const { data: services } = await fetchServiceAreas();
+  const serviceList = services.map(enrichService);
 
 return (
   <main className="bg-canvas text-ink">
     <SiteHeader />
     <section
       id="riesgo-empresarial"
-      className="relative overflow-hidden border-b border-border/60 text-white"
+      className="relative overflow-hidden border-b border-border/60 text-white animate-gradient"
       style={{
         backgroundImage: heroBackground,
         backgroundSize: "cover",
@@ -33,9 +134,11 @@ return (
       className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.12),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.14),transparent_36%)]"
       aria-hidden
     />
+    <div className="absolute -left-24 top-16 h-56 w-56 rounded-full bg-white/10 blur-3xl" aria-hidden />
+    <div className="absolute -right-24 bottom-0 h-64 w-64 rounded-full bg-accent-500/20 blur-3xl" aria-hidden />
     <div className="container section-shell relative grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
       <div className="space-y-7">
-        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-200">
+        <div className="flex flex-wrap items-center gap-3 text-sm text-slate-200 animate-fade-in-up">
           <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ring-1 ring-white/25">
             Estrategia penal en contratación estatal
           </span>
@@ -44,9 +147,9 @@ return (
           </span>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-4 animate-fade-in-up delay-100">
           <h1 className="text-white max-w-3xl">
-            Control penal para decisiones sensibles y juntas que no admiten improvisación
+            Control penal para decisiones sensibles y juntas que no admiten improvisación ⚖️
           </h1>
           <p className="max-w-2xl text-lg text-slate-100">
             Proveemos acompañamiento ejecutivo para líderes que requieren criterio inmediato,
@@ -54,9 +157,9 @@ return (
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4 animate-fade-in-up delay-200">
           <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
-            Solicitar evaluación estratégica
+            Solicitar evaluación estratégica ✨
           </Link>
           <Link
             href="/como-trabajamos"
@@ -66,7 +169,7 @@ return (
           </Link>
         </div>
 
-        <div className="grid gap-4 text-sm text-slate-100 sm:grid-cols-3">
+        <div className="grid gap-4 text-sm text-slate-100 sm:grid-cols-3 animate-fade-in-up delay-300">
           {[
             { label: "Ámbito", value: "Contratación estatal, gobierno corporativo, órganos de control." },
             { label: "Enfoque", value: "Prevención penal, controles operativos, reacción táctica." },
@@ -80,7 +183,7 @@ return (
         </div>
       </div>
 
-      <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-8 shadow-soft ring-1 ring-white/15">
+      <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-8 shadow-soft ring-1 ring-white/15 animate-fade-in-left delay-200">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div>
             <p className="text-[11px] uppercase tracking-[0.16em] text-slate-300">Modelo</p>
@@ -89,6 +192,14 @@ return (
           <span className="rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-white ring-1 ring-white/20">
             Confidencial
           </span>
+        </div>
+        <div className="mt-6">
+          <ServiceCarousel
+            items={serviceList.slice(0, 4).map((service) => ({
+              title: service.title,
+              description: service.description,
+            }))}
+          />
         </div>
         <div className="mt-6 space-y-4 text-sm text-slate-100">
           {[
@@ -115,7 +226,7 @@ return (
 
   <section className="section-shell bg-surface/80">
     <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-      <div className="space-y-4">
+      <div className="space-y-4 animate-fade-in-up">
         <p className="pill w-fit">Riesgo penal empresarial</p>
         <h2>Penal para empresas: contratación estatal y gobierno corporativo</h2>
         <p className="max-w-2xl">
@@ -214,78 +325,9 @@ return (
         </Link>
       </div>
 
-      {error && (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          No pudimos conectar con Supabase. La lista de servicios puede no estar completa.
-        </div>
-      )}
-
-      {serviceList.length === 0 ? (
-        <div className="mt-6 card-shell bg-white px-6 py-10 text-center text-muted">
-          <p className="text-lg font-semibold text-ink">Servicios no disponibles por el momento</p>
-          <p className="mt-2">Vuelve pronto o contáctanos para agendar una revisión prioritaria.</p>
-          <Link href="/contacto" className="mt-4 inline-block btn-primary">
-            Contacto directo
-          </Link>
-        </div>
-      ) : (
-        <div className="grid gap-5 lg:grid-cols-3">
-          {serviceList.map((service) => {
-            const isEntrada = service.slug === "drp-ce";
-            return (
-              <article
-                key={service.slug}
-                className={`card-shell group flex h-full flex-col justify-between p-6 transition ${
-                  isEntrada
-                    ? "lg:col-span-2 bg-gradient-to-br from-ink to-accent-700 text-white ring-1 ring-white/10"
-                    : "bg-white"
-                }`}
-              >
-                <div className="space-y-3">
-                  <p
-                    className={`text-[11px] font-semibold uppercase tracking-[0.14em] ${
-                      isEntrada ? "text-white/80" : "text-accent-700"
-                    }`}
-                  >
-                    {service.slug}
-                  </p>
-                  <h3 className={isEntrada ? "text-white" : "text-ink"}>{service.title}</h3>
-                  <p className={`text-sm ${isEntrada ? "text-slate-100" : "text-muted"}`}>{service.description}</p>
-                </div>
-
-                <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-                  <Link
-                    href="/agenda"
-                    className={`inline-flex items-center rounded-full px-4 py-2 font-semibold transition duration-200 ${
-                      isEntrada
-                        ? "bg-white text-ink shadow-hover hover:-translate-y-[1px] hover:bg-slate-100"
-                        : "bg-ink text-white hover:-translate-y-[1px] hover:bg-accent-700"
-                    }`}
-                  >
-                    {isEntrada ? "Ingresar evaluación" : "Solicitar"}
-                  </Link>
-                  <Link
-                    href="/contacto"
-                    className={`font-semibold transition ${
-                      isEntrada ? "text-white/90 hover:text-white" : "text-accent-700 hover:text-ink"
-                    }`}
-                  >
-                    {isEntrada ? "Coordinar con junta" : "Consultar alcance"}
-                  </Link>
-                  <Link
-                    href={`/servicios/${service.slug}`}
-                    className={`font-semibold transition ${
-                      isEntrada ? "text-white/80 hover:text-white" : "text-muted hover:text-ink"
-                    }`}
-                  >
-                    Ver detalle
-                  </Link>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      )}
+      <Suspense fallback={<ServiceSkeleton />}>
+        <ServicesGrid />
+      </Suspense>
     </div>
   </section>
 
