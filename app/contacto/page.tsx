@@ -4,11 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 
 import SiteHeader from "@/app/components/SiteHeader";
+import { useLanguage } from "../components/LanguageProvider";
 
 export default function ContactoPage() {
   const [loading, setLoading] = useState(false);
   const [ok, setOk] = useState<null | boolean>(null);
   const [err, setErr] = useState<string | null>(null);
+  const { messages } = useLanguage();
+  const { contact, navigation } = messages;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -19,8 +22,14 @@ export default function ContactoPage() {
     const fd = new FormData(e.currentTarget);
     const payload = {
       name: String(fd.get("name") || ""),
+      company: String(fd.get("company") || ""),
+      role: String(fd.get("role") || ""),
       email: String(fd.get("email") || ""),
+      phone: String(fd.get("phone") || ""),
+      caseType: String(fd.get("caseType") || ""),
+      urgency: String(fd.get("urgency") || ""),
       message: String(fd.get("message") || ""),
+      privacy: Boolean(fd.get("privacy")),
     };
 
     try {
@@ -47,94 +56,182 @@ export default function ContactoPage() {
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      <header className="border-b border-border bg-gradient-to-r from-ink via-ink/92 to-accent-700 text-white">
+      <header className="border-b border-border bg-surface">
         <div className="container section-shell space-y-4">
-          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Contacto</p>
-          <h1 className="max-w-3xl text-white">Coordinemos una evaluación prioritaria</h1>
-          <p className="max-w-2xl text-slate-100">
-            Déjanos los datos mínimos para asignar un responsable y definir el primer control. No utilizamos esta línea para promoción,
-            solo para coordinación ejecutiva.
-          </p>
+          <p className="pill w-fit">{navigation.contact}</p>
+          <h1 className="max-w-3xl">{contact.hero.title}</h1>
+          <p className="max-w-2xl text-muted">{contact.hero.description}</p>
         </div>
       </header>
 
-      <section className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-        <div className="space-y-4">
-          <p className="pill w-fit">Prioridad</p>
-          <h2>Datos mínimos para actuar</h2>
-          <p className="max-w-2xl text-muted">
-            Si requieres defensa litigiosa, lo articulamos con aliados manteniendo trazabilidad. Este formulario es para coordinar la
-            revisión estratégica inicial.
-          </p>
+      <section className="container section-shell grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
+        <div className="space-y-5">
+          <p className="pill w-fit">{contact.form.title}</p>
+          <h2>{contact.form.description}</h2>
           <ul className="space-y-2 text-sm text-muted">
-            {["Sin spam ni campañas.", "Respuesta ejecutiva.", "Puedes volver al inicio o agenda en cualquier momento."].map((item) => (
+            {contact.info.items.map((item) => (
               <li key={item} className="flex gap-3">
-                <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                <span className="mt-1 h-2 w-2 rounded-[14px] bg-ink" aria-hidden />
                 {item}
               </li>
             ))}
           </ul>
           <div className="flex flex-wrap gap-3">
             <Link href="/" className="btn-secondary">
-              Volver al inicio
+              {messages.common.backHome}
             </Link>
             <Link href="/agenda" className="btn-primary">
-              Agendar evaluación
+              {messages.home.hero.ctaPrimary}
             </Link>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="card-shell bg-white p-6 shadow-soft/40">
-          <p className="pill w-fit">Formulario</p>
-          <h3 className="mt-2 text-ink">Mensaje confidencial</h3>
-          <div className="mt-4 space-y-4">
+        <form onSubmit={handleSubmit} className="card-shell bg-white p-6 shadow-soft/40 space-y-4">
+          <p className="pill w-fit">{contact.form.title}</p>
+          <h3 className="mt-2 text-ink">{contact.form.description}</h3>
+          <div className="space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-semibold text-ink" htmlFor="name">
-                Nombre
+                {contact.form.fields.name}
               </label>
               <input
                 id="name"
                 name="name"
                 type="text"
-                placeholder="Tu nombre"
-                className="w-full rounded-xl border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                placeholder={contact.form.fields.name}
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-ink" htmlFor="company">
+                {contact.form.fields.company}
+              </label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                placeholder={contact.form.fields.company}
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-ink" htmlFor="role">
+                {contact.form.fields.role}
+              </label>
+              <input
+                id="role"
+                name="role"
+                type="text"
+                placeholder={contact.form.fields.role}
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
               />
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-semibold text-ink" htmlFor="email">
-                Correo
+                {contact.form.fields.email}
               </label>
               <input
                 id="email"
                 name="email"
                 type="email"
                 required
-                placeholder="tucorreo@ejemplo.com"
-                className="w-full rounded-xl border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                placeholder={contact.form.fields.email}
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
               />
             </div>
 
             <div className="space-y-2">
+              <label className="text-sm font-semibold text-ink" htmlFor="phone">
+                {contact.form.fields.phone}
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                placeholder={contact.form.fields.phone}
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
+              />
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-ink" htmlFor="caseType">
+                  {contact.form.fields.caseType}
+                </label>
+                <select
+                  id="caseType"
+                  name="caseType"
+                  className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
+                  defaultValue=""
+                  required
+                >
+                  <option value="" disabled>
+                    {contact.form.fields.caseType}
+                  </option>
+                  {contact.form.options.caseType.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-ink" htmlFor="urgency">
+                  {contact.form.fields.urgency}
+                </label>
+                <select
+                  id="urgency"
+                  name="urgency"
+                  className="w-full rounded-[14px] border border-border bg-subtle px-3 py-2 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
+                  defaultValue=""
+                  required
+                >
+                  <option value="" disabled>
+                    {contact.form.fields.urgency}
+                  </option>
+                  {contact.form.options.urgency.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="space-y-2">
               <label className="text-sm font-semibold text-ink" htmlFor="message">
-                Mensaje
+                {contact.form.fields.message}
               </label>
               <textarea
                 id="message"
                 name="message"
                 rows={6}
                 required
-                placeholder="Cuéntanos brevemente tu caso"
-                className="w-full rounded-xl border border-border bg-subtle px-3 py-3 text-sm text-ink outline-none transition focus:border-ink focus:bg-white focus:ring-2 focus:ring-ink/10"
+                placeholder={contact.form.fields.message}
+                className="w-full rounded-[14px] border border-border bg-subtle px-3 py-3 text-sm text-ink outline-none transition focus:border-accent-500 focus:bg-white focus:ring-2 focus:ring-accent-500/20"
               />
             </div>
 
+            <label className="flex items-start gap-3 text-sm text-muted">
+              <input
+                type="checkbox"
+                name="privacy"
+                className="mt-1 h-4 w-4 rounded-[14px] border border-border text-ink focus:ring-ink/20"
+                required
+              />
+              {contact.form.fields.privacy}
+            </label>
+            <p className="text-xs text-muted">{contact.hero.description}</p>
+
             <div className="flex flex-wrap gap-3">
               <button className="btn-primary" type="submit" disabled={loading}>
-                {loading ? "Enviando…" : "Enviar"}
+                {loading ? messages.common.loading : contact.form.fields.submit}
               </button>
               <a href="/" className="btn-secondary">
-                Volver al inicio
+                {messages.common.backHome}
               </a>
             </div>
 

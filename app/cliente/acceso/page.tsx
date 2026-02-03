@@ -29,7 +29,7 @@ export default function AccessPage() {
           <p className="mt-2 text-slate-700">Inicia sesión para agendar y gestionar tus sesiones.</p>
 
           <button
-            className="mt-6 inline-flex w-full justify-center rounded-full bg-brand-700 px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-brand-800"
+            className="mt-6 inline-flex w-full justify-center rounded-[14px] bg-brand-700 px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-brand-800"
             onClick={signInWithGoogle}
           >
             Continuar con Google
