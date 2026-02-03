@@ -474,11 +474,12 @@ return (
         </div>
       </div>
 
-      <form className="card-shell bg-white/90 p-8 text-ink backdrop-blur">
+      <form className="card-shell bg-white/90 p-8 text-ink backdrop-blur" action="/api/contact" method="post">
         <div className="grid gap-4">
           <label className="text-sm font-semibold text-ink">
             Nombre y rol
             <input
+              name="name"
               type="text"
               placeholder="Ej. Representante legal, miembro de junta"
               className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
@@ -488,7 +489,9 @@ return (
           <label className="text-sm font-semibold text-ink">
             Correo corporativo
             <input
+              name="email"
               type="email"
+              required
               placeholder="nombre@empresa.com"
               className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
             />
@@ -496,7 +499,10 @@ return (
 
           <label className="text-sm font-semibold text-ink">
             Motivo prioritario
-            <select className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50">
+            <select
+              name="reason"
+              className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+            >
               <option>Evaluación inicial / DRP-CE</option>
               <option>Escalamiento estratégico / AEC-CE</option>
               <option>Incidente crítico / ICP-CE</option>
@@ -507,13 +513,14 @@ return (
           <label className="text-sm font-semibold text-ink">
             Contexto breve (opcional)
             <textarea
+              name="message"
               rows={4}
               placeholder="3-4 líneas para entender la urgencia"
               className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
             />
           </label>
 
-          <button type="button" className="btn-primary justify-center">
+          <button type="submit" className="btn-primary justify-center">
             Enviar para revisión
           </button>
 

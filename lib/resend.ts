@@ -2,11 +2,7 @@
 import { Resend } from 'resend';
 
 const key = process.env.RESEND_API_KEY;
-if (!key) {
-  throw new Error('Falta la variable de entorno RESEND_API_KEY en Vercel.');
-}
-
-export const resend = new Resend(key);
+const resend = key ? new Resend(key) : null;
 
 /**
  * Envía el correo del formulario de contacto.
@@ -18,6 +14,10 @@ export async function sendContactEmail(params: {
   email: string;
   message: string;
 }) {
+  if (!resend) {
+    throw new Error("Falta la variable de entorno RESEND_API_KEY en Vercel.");
+  }
+
   const { name = 'Sin nombre', email, message } = params;
 
   return await resend.emails.send({
