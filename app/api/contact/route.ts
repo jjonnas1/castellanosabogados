@@ -1,3 +1,4 @@
+// app/api/contact/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { sendContactEmail } from "@/lib/resend";
 
@@ -9,7 +10,7 @@ export async function POST(req: NextRequest) {
     let email = "";
     let message = "";
 
-    // contexto extra (para que el correo te llegue con el área consultada)
+    // Contexto adicional (para que “llegue con el área”)
     let area = "";
     let source = "";
     let subject = "";
@@ -40,10 +41,7 @@ export async function POST(req: NextRequest) {
       subject = String(data.get("subject") ?? "");
       intent = String(data.get("intent") ?? "");
 
-      // arma el message base como antes (motivo + contexto)
-      message = [reason ? `Motivo: ${reason}` : "", context]
-        .filter(Boolean)
-        .join("\n");
+      message = [reason ? `Motivo: ${reason}` : "", context].filter(Boolean).join("\n");
     }
 
     if (!email || !message) {
@@ -53,8 +51,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const resolvedArea = area?.trim() || "Contacto general";
-    const resolvedSource = source?.trim() || "Sitio web";
+    const resolvedArea = area || "Contacto general";
+    const resolvedSource = source || "Sitio web";
 
     const messageWithContext = [
       message,
@@ -67,10 +65,10 @@ export async function POST(req: NextRequest) {
       .join("\n");
 
     await sendContactEmail({
-      name,
+      name: name || "Sin nombre",
       email,
       message: messageWithContext,
-      subject: subject?.trim() || `Solicitud de contacto – ${resolvedArea}`,
+      subject: subject || `Solicitud de contacto – ${resolvedArea}`,
     });
 
     return NextResponse.json({ ok: true });
