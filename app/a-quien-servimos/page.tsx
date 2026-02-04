@@ -1,15 +1,16 @@
 import Link from "next/link";
 
 import SiteHeader from "@/app/components/SiteHeader";
+import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 
 const roles = [
   {
     title: "Representantes legales",
-    detail: "Decisiones sensibles con exposición penal inmediata. Definimos límites, protocolos y documentación lista para junta.",
+    detail: "Decisiones sensibles con exposición penal inmediata. Definimos alcance definido, protocolos y documentación lista para junta.",
   },
   {
     title: "Juntas y comités",
-    detail: "Sesiones ejecutivas para priorizar riesgos, coordinar responsables y dejar trazabilidad frente a órganos de control.",
+    detail: "Sesiones de análisis para priorizar riesgos, coordinar responsables y dejar trazabilidad frente a órganos de control.",
   },
   {
     title: "Órganos de control interno",
@@ -36,12 +37,28 @@ export default function AQuienServimosPage() {
             No trabajamos como firma litigante; somos acompañamiento estratégico y documental.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+            <a
+              href={buildMailtoUrl({
+                area: "A quién servimos",
+                source: "/a-quien-servimos",
+                subject: "Solicitud de evaluación – A quién servimos",
+                message: "Hola, deseo solicitar una evaluación estratégica.",
+              })}
+              className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
+            >
               Solicitar evaluación
-            </Link>
-            <Link href="/contacto" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
+            </a>
+            <a
+              href={buildMailtoUrl({
+                area: "A quién servimos",
+                source: "/a-quien-servimos",
+                subject: "Solicitud de coordinación con junta – A quién servimos",
+                message: "Hola, necesito coordinar una sesión con junta o comité.",
+              })}
+              className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+            >
               Coordinar con junta
-            </Link>
+            </a>
           </div>
         </div>
       </header>
@@ -87,9 +104,16 @@ export default function AQuienServimosPage() {
             <h3 className="mt-3 text-ink">Coordina con el responsable adecuado</h3>
             <p className="mt-2 text-sm text-muted">Asignamos responsables, definimos soportes y dejamos rastro documental en la primera sesión.</p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/agenda" className="btn-primary">
+              <a
+                href={buildWhatsAppUrl({
+                  area: "A quién servimos",
+                  source: "/a-quien-servimos",
+                  message: "Hola, quisiera programar una sesión.",
+                })}
+                className="btn-primary"
+              >
                 Programar sesión
-              </Link>
+              </a>
               <Link href="/servicios" className="btn-secondary">
                 Ver servicios
               </Link>

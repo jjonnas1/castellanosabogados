@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import SiteHeader from "@/app/components/SiteHeader";
+import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 import { getServiceDetail, serviceDetailList } from "@/lib/serviceDetails";
 
 const backgrounds: Record<string, string> = {
@@ -47,9 +48,17 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           <h1 className="text-white max-w-3xl">{detail.headline}</h1>
           <p className="max-w-3xl text-slate-100 text-lg">{detail.summary}</p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+            <a
+              href={buildMailtoUrl({
+                area: detail.title,
+                source: `/servicios/${detail.slug}`,
+                subject: `Solicitud de evaluación – ${detail.title}`,
+                message: "Hola, deseo solicitar una evaluación estratégica.",
+              })}
+              className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
+            >
               Solicitar evaluación estratégica
-            </Link>
+            </a>
             <Link href="/servicios" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
               Volver a servicios
             </Link>
@@ -57,7 +66,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           <div className="grid gap-3 text-sm text-slate-100 md:grid-cols-3">
             <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">No asumimos litigio penal.</div>
             <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Coordinamos con juntas y comités.</div>
-            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Documentación ejecutiva y trazable.</div>
+            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Documentación especializada y trazable.</div>
           </div>
         </div>
       </header>
@@ -93,7 +102,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           <p className="pill w-fit">Entregables</p>
           <h2 className="mt-3 text-ink">Lo que entregamos</h2>
           <p className="mt-2 text-muted">
-            Trabajamos con documentación ejecutiva, protocolos activables y coordinación con los responsables clave. No intervenimos en litigio penal, pero articulamos aliados cuando es necesario.
+            Trabajamos con documentación especializada, protocolos activables y coordinación con los responsables clave. No intervenimos en litigio penal, pero articulamos aliados cuando es necesario.
           </p>
           <ul className="mt-5 space-y-3 text-sm text-muted">
             {detail.deliverables.map((item) => (
@@ -104,12 +113,27 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             ))}
           </ul>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/agenda" className="btn-primary">
+            <a
+              href={buildWhatsAppUrl({
+                area: detail.title,
+                source: `/servicios/${detail.slug}`,
+                message: "Hola, quisiera programar una sesión.",
+              })}
+              className="btn-primary"
+            >
               Programar sesión
-            </Link>
-            <Link href="/contacto" className="btn-secondary">
+            </a>
+            <a
+              href={buildMailtoUrl({
+                area: detail.title,
+                source: `/servicios/${detail.slug}`,
+                subject: `Solicitud de coordinación con junta – ${detail.title}`,
+                message: "Hola, necesito coordinar una sesión con junta o comité.",
+              })}
+              className="btn-secondary"
+            >
               Coordinar con junta
-            </Link>
+            </a>
           </div>
           <p className="mt-4 text-xs text-muted">Si requieres litigio, te conectamos con aliados especializados manteniendo la trazabilidad.</p>
         </div>

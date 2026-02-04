@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import SiteHeader from "@/app/components/SiteHeader";
+import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
 
 const heroBackground =
@@ -30,20 +31,29 @@ export default async function PenalEmpresarialPage() {
           <div className="space-y-4">
             <h1 className="max-w-4xl text-white">Control penal para decisiones corporativas en contratación estatal</h1>
             <p className="max-w-3xl text-lg text-slate-100">
-              Acompañamiento ejecutivo, documentación lista para junta y activación táctica cuando el riesgo penal se cruza con decisiones
+              Acompañamiento estratégico, documentación lista para junta y respuesta estratégica cuando el riesgo penal se cruza con decisiones
               urgentes. Nos alineamos con comités, órganos de control y cumplimiento interno.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4">
-            <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+            <a
+              href={buildMailtoUrl({
+                area: "Penal empresarial",
+                source: "/penal-empresarial",
+                subject: "Solicitud de evaluación – Penal empresarial",
+                message: "Hola, deseo solicitar una evaluación estratégica.",
+              })}
+              className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
+            >
               Solicitar evaluación estratégica
-            </Link>
+            </a>
             <Link href="/como-trabajamos" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
               Ver metodología
             </Link>
           </div>
           <div className="grid gap-4 text-sm text-slate-100 sm:grid-cols-3">
-            {["Alerta temprana y priorización", "Documentación ejecutiva y trazable", "Activación con responsables y comités"].map((item) => (
+            {["Alerta temprana y priorización", "Documentación especializada y trazable", "Respuesta estratégica con responsables y comités"].map(
+              (item) => (
               <div key={item} className="rounded-2xl border border-white/12 bg-white/5 px-4 py-3">
                 {item}
               </div>
@@ -58,11 +68,11 @@ export default async function PenalEmpresarialPage() {
             <p className="pill w-fit">Qué hacemos</p>
             <h2>Intervenciones que evitan improvisación</h2>
             <p className="max-w-2xl text-muted">
-              Definimos ritmo, responsables, soportes y límites antes, durante y después de cada decisión sensible. No asumimos litigio, sí
-              aseguramos criterio, trazabilidad y protocolos accionables.
+              Definimos ritmo, responsables, soportes y alcance definido antes, durante y después de cada decisión sensible. No asumimos litigio, sí
+              aseguramos análisis especializado, trazabilidad y protocolos accionables.
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
-              {["Diseño de rutas ejecutivas", "Mapeo de riesgo penal", "Protocolos activables", "Coordinación con control interno"].map(
+              {["Diseño de rutas de prevención", "Mapeo de riesgo penal", "Protocolos activables", "Coordinación con control interno"].map(
                 (item) => (
                   <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
                     {item}
@@ -75,7 +85,7 @@ export default async function PenalEmpresarialPage() {
             <p className="pill w-fit">Modelo</p>
             <h3 className="mt-3 text-ink">Documento de acompañamiento estratégico</h3>
             <p className="mt-2 text-muted text-sm">
-              Un solo documento vivo que alinea comités, define límites y activa protocolos. Incluye minutas, escenarios, mensajes clave y
+              Un solo documento vivo que alinea comités, define alcance definido y activa protocolos. Incluye minutas, escenarios, mensajes clave y
               responsables. Mantiene un rastro claro para auditoría y órganos de control.
             </p>
             <div className="mt-5 grid gap-3 text-xs uppercase tracking-[0.16em] text-muted sm:grid-cols-3">
@@ -131,11 +141,11 @@ export default async function PenalEmpresarialPage() {
             <p className="pill w-fit">Cómo actuamos</p>
             <h2>Metodología breve y trazable</h2>
             <p className="max-w-2xl text-muted">
-              Etapas cortas con entregables visibles para juntas y órganos de control. Cada fase puede activarse de forma independiente y
-              mantiene registro ejecutivo.
+              Etapas cortas con documentos especializados para juntas y órganos de control. Cada fase puede activarse de forma independiente y
+              mantiene registro especializado.
             </p>
             <div className="grid gap-4 md:grid-cols-2">
-              {[{ title: "Evaluación", body: "Contexto, hipótesis de riesgo y responsables." }, { title: "Mapa de riesgo", body: "Matrices, dependencias y rutas de mitigación." }, { title: "Acompañamiento", body: "Sesiones ejecutivas con documentos listos." }, { title: "Activación", body: "Protocolos, mensajes y coordinación táctica." }].map(
+              {[{ title: "Evaluación", body: "Contexto, hipótesis de riesgo y responsables." }, { title: "Mapa de riesgo", body: "Matrices, dependencias y rutas de mitigación." }, { title: "Acompañamiento", body: "Sesiones de análisis con documentos listos." }, { title: "Respuesta estratégica", body: "Protocolos, mensajes y coordinación especializada." }].map(
                 (item) => (
                   <div key={item.title} className="rounded-2xl border border-border bg-white px-4 py-4 shadow-soft/30">
                     <h3 className="text-ink">{item.title}</h3>
@@ -157,12 +167,27 @@ export default async function PenalEmpresarialPage() {
               ))}
             </ul>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/agenda" className="btn-primary">
-                Programar evaluación
-              </Link>
-              <Link href="/contacto" className="btn-secondary">
+              <a
+                href={buildWhatsAppUrl({
+                  area: "Penal empresarial",
+                  source: "/penal-empresarial",
+                  message: "Hola, quisiera agendar una evaluación.",
+                })}
+                className="btn-primary"
+              >
+                Agendar evaluación
+              </a>
+              <a
+                href={buildMailtoUrl({
+                  area: "Penal empresarial",
+                  source: "/penal-empresarial",
+                  subject: "Solicitud de coordinación con junta – Penal empresarial",
+                  message: "Hola, necesito coordinar una sesión con junta o comité.",
+                })}
+                className="btn-secondary"
+              >
                 Coordinar con junta
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -176,9 +201,17 @@ export default async function PenalEmpresarialPage() {
             Definimos el primer control en 48-72 horas y articulamos los pasos siguientes con tus responsables clave.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/agenda" className="btn-primary">
+            <a
+              href={buildMailtoUrl({
+                area: "Penal empresarial",
+                source: "/penal-empresarial",
+                subject: "Solicitud de evaluación – Penal empresarial",
+                message: "Hola, deseo solicitar una evaluación estratégica.",
+              })}
+              className="btn-primary"
+            >
               Solicitar evaluación
-            </Link>
+            </a>
             <Link href="/servicios" className="btn-secondary">
               Explorar servicios
             </Link>
