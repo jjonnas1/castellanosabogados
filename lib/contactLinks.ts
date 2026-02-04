@@ -10,7 +10,7 @@ export type ContactConfig = {
 export const contactConfig: ContactConfig = {
   email: CONTACT_EMAIL,
   whatsapp: WHATSAPP_NUMBER,
-  whatsappDisplay: "+57 314 830 9306",
+  whatsappDisplay: "314 830 9306",
 };
 
 type ContactContext = {
