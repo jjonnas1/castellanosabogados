@@ -1,5 +1,17 @@
 const CONTACT_EMAIL = "jonatancastellanosabogado@gmail.com";
-const WHATSAPP_URL = "https://wa.me/573148309306";
+const WHATSAPP_NUMBER = "573148309306";
+
+export type ContactConfig = {
+  email: string;
+  whatsapp: string;
+  whatsappDisplay: string;
+};
+
+export const contactConfig: ContactConfig = {
+  email: CONTACT_EMAIL,
+  whatsapp: WHATSAPP_NUMBER,
+  whatsappDisplay: "+57 314 830 9306",
+};
 
 type ContactContext = {
   area: string;
@@ -14,7 +26,7 @@ export function buildWhatsAppUrl({ area, source, message }: ContactContext) {
     `Origen: ${source}`,
   ].join("\n");
 
-  return `${WHATSAPP_URL}?text=${encodeURIComponent(text)}`;
+  return `https://wa.me/${contactConfig.whatsapp}?text=${encodeURIComponent(text)}`;
 }
 
 type MailtoParams = ContactContext & {
@@ -31,8 +43,3 @@ export function buildMailtoUrl({ area, source, subject, message }: MailtoParams)
 
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
-
-export const contactConfig = {
-  email: CONTACT_EMAIL,
-  whatsapp: WHATSAPP_URL,
-};
