@@ -22,8 +22,6 @@ export async function sendContactEmail(params: {
   const { name = "Sin nombre", email, message, subject } = params;
 
   return await resend.emails.send({
-    // Cuando verifiques tu dominio en Resend, usa algo como:
-    // from: "Castellanos Abogados <notificaciones@tudominio.com>"
     from: "Castellanos Abogados <onboarding@resend.dev>",
     to: ["jonatancastellanosabogado@gmail.com"],
     subject: subject ?? `Nuevo contacto: ${name}`,
