@@ -6,8 +6,8 @@ const resend = key ? new Resend(key) : null;
 
 /**
  * Envía el correo del formulario de contacto.
- * - Cambia `to` al correo donde quieres recibir los mensajes.
- * - Cambia `from` a tu dominio verificado en Resend cuando lo tengas.
+ * - `to`: correo donde recibes los mensajes.
+ * - `from`: cámbialo cuando verifiques tu dominio en Resend.
  */
 export async function sendContactEmail(params: {
   name?: string;
