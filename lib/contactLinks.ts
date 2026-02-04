@@ -1,5 +1,5 @@
 const CONTACT_EMAIL = "jonatancastellanosabogado@gmail.com";
-const WHATSAPP_NUMBER = "573148309306";
+const WHATSAPP_NUMBER = "3148309306";
 
 export type ContactConfig = {
   email: string;

@@ -1,5 +1,5 @@
 export type ServiceDetail = {
-  slug: "drp-ce" | "aec-ce" | "icp-ce";
+  slug: "penal-personas" | "ejecucion-penas" | "responsabilidad-penal-pj" | "capacitaciones-penal-pj";
   title: string;
   headline: string;
   summary: string;
@@ -9,69 +9,76 @@ export type ServiceDetail = {
 };
 
 export const serviceDetails: Record<ServiceDetail["slug"], ServiceDetail> = {
-  "drp-ce": {
-    slug: "drp-ce",
-    title: "DRP-CE",
-    headline: "Diagnóstico y ruta penal en contratación estatal",
+  "penal-personas": {
+    slug: "penal-personas",
+    title: "Penal Personas",
+    headline: "Asesoría penal estratégica para personas naturales",
     summary:
-      "Entrada prioritaria para juntas y representantes que necesitan delimitar riesgo penal, actores involucrados y reglas inmediatas de actuación.",
+      "Evaluamos el contexto, delimitamos el alcance y definimos una ruta documental clara para decisiones personales sensibles.",
     activation: [
-      "Decisiones críticas en contratación estatal o convenios interadministrativos.",
-      "Alertas de órganos de control o auditorías internas con posibles implicaciones penales.",
-      "Cambios de gobierno corporativo que exigen verificación de trazabilidad y soportes.",
+      "Consultas personales que requieren criterio penal preventivo.",
+      "Necesidad de preparar documentación y mensajes antes de acciones formales.",
+      "Orientación estratégica previa a decisiones de alto impacto personal.",
     ],
-    audience: [
-      "Representantes legales y miembros de junta.",
-      "Comités de contratación y control interno.",
-      "Direcciones jurídicas que requieren documentación especializada inmediata.",
-    ],
+    audience: ["Personas naturales", "Familias que requieren orientación penal", "Equipos de apoyo personal"],
     deliverables: [
-      "Mapa de riesgo penal y dependencias sensibles.",
-      "Reglas inmediatas de actuación y protocolos base.",
-      "Minutas y soportes listos para auditoría y órganos de control.",
+      "Diagnóstico inicial con escenarios y riesgos.",
+      "Ruta de actuación con mensajes clave y soportes.",
+      "Documentación especializada para coordinación con aliados.",
     ],
   },
-  "aec-ce": {
-    slug: "aec-ce",
-    title: "AEC-CE",
-    headline: "Acompañamiento estratégico continuo",
+  "ejecucion-penas": {
+    slug: "ejecucion-penas",
+    title: "Ejecución de Penas",
+    headline: "Seguimiento técnico en ejecución de penas",
     summary:
-      "Seguimiento estratégico para decisiones periódicas y proyectos de contratación estatal con riesgo penal recurrente.",
+      "Acompañamiento estratégico para revisar beneficios, tiempos y actuaciones necesarias en la fase de ejecución de penas.",
     activation: [
-      "Hitos contractuales o sesiones de junta que requieren criterio penal permanente.",
-      "Implementación de controles y ajustes derivados del DRP-CE.",
-      "Coordinación entre cumplimiento, auditoría y órganos de control externos.",
+      "Revisión de oportunidades y decisiones en ejecución de penas.",
+      "Necesidad de claridad documental y cronograma de actuaciones.",
+      "Coordinación con aliados litigiosos cuando se requiera actuación judicial.",
     ],
-    audience: [
-      "Juntas directivas y comités de contratación.",
-      "Direcciones de cumplimiento, auditoría y riesgos.",
-      "Áreas jurídicas que necesitan trazabilidad continua.",
-    ],
+    audience: ["Personas y familias con decisiones en ejecución de penas", "Equipos de soporte y acompañamiento"],
     deliverables: [
-      "Reportes especializados y minutas de seguimiento.",
-      "Protocolos ajustados y validaciones periódicas.",
-      "Sesiones de análisis con responsables clave y aliados externos.",
+      "Mapa de decisiones y cronograma de actuaciones.",
+      "Documentos de soporte y lineamientos técnicos.",
+      "Coordinación con aliados especializados cuando aplica.",
     ],
   },
-  "icp-ce": {
-    slug: "icp-ce",
-    title: "ICP-CE",
-    headline: "Incidentes críticos y respuesta estratégica",
+  "responsabilidad-penal-pj": {
+    slug: "responsabilidad-penal-pj",
+    title: "Responsabilidad Penal para Personas Jurídicas",
+    headline: "Prevención penal corporativa para organizaciones",
     summary:
-      "Respuesta contenida y documentada ante incidentes con exposición penal y reputacional, coordinando a los responsables clave.",
+      "Estrategia integral para órganos directivos que buscan control preventivo, trazabilidad y decisiones sostenibles.",
     activation: [
-      "Alertas de entes de control, filtraciones o incidentes mediáticos.",
-      "Necesidad de contención y documentación inmediata de decisiones y acciones.",
-      "Coordinación con aliados técnicos, comunicaciones y cumplimiento en crisis.",
+      "Decisiones corporativas sensibles con exposición penal.",
+      "Requerimientos de órganos de control o auditoría interna.",
+      "Necesidad de fortalecer documentación y gobernanza.",
     ],
-    audience: [
-      "Alta dirección y representantes legales.",
-      "Comités de crisis y comunicaciones.",
-      "Equipos de cumplimiento y auditoría."],
+    audience: ["Juntas directivas", "Comités de cumplimiento y auditoría", "Direcciones jurídicas"],
     deliverables: [
-      "Protocolo de incidentes y reglas de comunicación.",
-      "Bitácora especializada y soportes para trazabilidad.",
-      "Recomendaciones de coordinación con aliados externos y entes de control.",
+      "Mapa de riesgos y protocolos de prevención.",
+      "Sesiones de análisis con responsables clave.",
+      "Reportes especializados y documentación trazable.",
+    ],
+  },
+  "capacitaciones-penal-pj": {
+    slug: "capacitaciones-penal-pj",
+    title: "Capacitaciones en Penal para Personas Jurídicas",
+    headline: "Formación estratégica para equipos corporativos",
+    summary:
+      "Entrenamiento técnico para equipos internos sobre prevención penal, trazabilidad y protocolos de actuación.",
+    activation: [
+      "Capacitación a juntas, comités o equipos operativos.",
+      "Necesidad de alinear criterios penales en decisiones corporativas.",
+      "Planes de actualización para órganos de control interno.",
+    ],
+    audience: ["Juntas directivas y comités", "Equipos de cumplimiento", "Áreas jurídicas y de riesgos"],
+    deliverables: [
+      "Sesiones formativas con casos y escenarios reales.",
+      "Materiales de soporte y guías de actuación.",
+      "Protocolos base para decisiones sensibles.",
     ],
   },
 };

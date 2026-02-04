@@ -2,19 +2,40 @@ import Link from "next/link";
 
 import SiteHeader from "@/app/components/SiteHeader";
 import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
-import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
-import { getServiceDetail } from "@/lib/serviceDetails";
 
 const headerBackground =
   "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
 
-export default async function ServiciosPage() {
-  const { data, error } = await fetchServiceAreas();
-  const services = (data ?? []).map(enrichService).map((service) => ({
-    ...service,
-    detail: getServiceDetail(service.slug),
-  }));
+const serviceLines = [
+  {
+    title: "Penal Personas",
+    slug: "penal-personas",
+    summary:
+      "Asesoría penal estratégica para personas naturales con alcance definido y control documental.",
+    audience: ["Personas naturales", "Familias", "Equipos de apoyo personal"],
+  },
+  {
+    title: "Ejecución de penas",
+    slug: "ejecucion-penas",
+    summary: "Seguimiento técnico para decisiones críticas en la etapa de ejecución de penas.",
+    audience: ["Personas y familias", "Equipos jurídicos aliados", "Equipos de soporte"],
+  },
+  {
+    title: "Responsabilidad Penal para Personas Jurídicas",
+    slug: "responsabilidad-penal-pj",
+    summary:
+      "Prioridad estratégica: control preventivo, trazabilidad y gobernanza penal corporativa.",
+    audience: ["Juntas directivas", "Comités de cumplimiento", "Direcciones jurídicas"],
+  },
+  {
+    title: "Capacitaciones en Penal para Personas Jurídicas",
+    slug: "capacitaciones-penal-pj",
+    summary: "Formación técnica para equipos internos con foco preventivo y protocolos claros.",
+    audience: ["Juntas y comités", "Equipos de cumplimiento", "Áreas de riesgos"],
+  },
+];
 
+export default function ServiciosPage() {
   return (
     <main className="bg-canvas text-ink">
       <SiteHeader />
@@ -34,24 +55,24 @@ export default async function ServiciosPage() {
         <div className="container section-shell relative space-y-6">
           <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-slate-200">
             <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
-              Riesgo penal empresarial
+              Servicios estratégicos
             </span>
           </div>
           <div className="space-y-4">
-            <h1 className="max-w-4xl text-white">Servicios estratégicos en contratación estatal</h1>
+            <h1 className="max-w-4xl text-white">Cuatro líneas estratégicas de asesoría penal</h1>
             <p className="max-w-3xl text-lg text-slate-100">
-              Priorizamos el trabajo con juntas, comités y representantes legales. Mostramos únicamente las áreas habilitadas desde
-              Supabase; si la conexión falla, verás un aviso y podrás coordinar directamente.
+              Integramos prevención, control y trazabilidad con enfoque técnico y estratégico en cada línea de servicio.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-4">
             <a
-              href={buildMailtoUrl({
-                area: "Servicios de prevención penal",
+              href={buildWhatsAppUrl({
+                area: "Servicios estratégicos",
                 source: "/servicios",
-                subject: "Solicitud de evaluación – Servicios de prevención penal",
-                message: "Hola, deseo solicitar una evaluación estratégica.",
+                message: "Hola, quisiera solicitar una evaluación estratégica.",
               })}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
             >
               Solicitar evaluación estratégica
@@ -63,216 +84,75 @@ export default async function ServiciosPage() {
         </div>
       </header>
 
-      <section className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-        <div className="space-y-4">
-          <p className="pill w-fit">Identidad de la firma</p>
-          <h2>Asesoría estratégica en contratación estatal</h2>
-          <p className="max-w-2xl text-muted">
-            Proporcionamos análisis especializado, control preventivo y serenidad estratégica en cada fase de decisiones críticas y procesos
-            contractuales.
-          </p>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              "Estrategia penal en contratación estatal",
-              "Prevención, control y respuesta estratégica",
-              "Documentación especializada y trazabilidad",
-              "Coordinación con juntas y comités",
-            ].map((item) => (
-              <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div
-          className="card-shell overflow-hidden bg-gradient-to-b from-ink to-accent-700 p-0"
-          style={{
-            backgroundImage: headerBackground,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div className="relative h-full w-full bg-gradient-to-b from-ink/80 via-ink/78 to-accent-700/82 p-8 text-white">
-            <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Definición</p>
-            <h3 className="mt-3 text-white">Delimitación del alcance</h3>
-            <p className="mt-2 max-w-xl text-slate-100">
-              Nos enfocamos en asesoramiento estratégico y prevención. No asumimos representación litigiosa ni operativa; las decisiones y su
-              implementación recaen en el cliente.
+      <section className="container section-shell">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="pill w-fit">Servicios principales</p>
+            <h2 className="mt-3">Ejes estratégicos del despacho</h2>
+            <p className="mt-2 max-w-2xl text-muted">
+              Cada línea incluye un enfoque claro, documentación especializada y coordinación con responsables clave.
             </p>
-            <div className="mt-6 grid gap-3 text-sm text-slate-100">
-              <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/10">No intervenimos en litigios penales.</div>
-              <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/10">No asumimos responsabilidad decisional.</div>
-              <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/10">No ejecutamos operativamente.</div>
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href={buildMailtoUrl({
-                  area: "Servicios de prevención penal",
-                  source: "/servicios",
-                  subject: "Solicitud de evaluación – Servicios de prevención penal",
-                  message: "Hola, deseo solicitar una evaluación estratégica.",
-                })}
-                className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
-              >
-                Solicitar evaluación estratégica
-              </a>
-              <Link href="/" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
-                Volver al inicio
-              </Link>
-            </div>
           </div>
+          <a
+            href={buildMailtoUrl({
+              area: "Servicios estratégicos",
+              source: "/servicios",
+              subject: "Solicitud de evaluación – Servicios estratégicos",
+              message: "Hola, deseo solicitar una evaluación estratégica.",
+            })}
+            className="btn-secondary"
+          >
+            Contacto por correo
+          </a>
         </div>
-      </section>
 
-      <section className="container section-shell space-y-8">
-        {error && (
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            No pudimos recuperar los servicios desde Supabase. Puedes agendar y te asignamos el área correcta.
-          </div>
-        )}
-
-        {services.length === 0 ? (
-          <div className="card-shell bg-white px-6 py-10 text-center text-muted">
-            <p className="text-lg font-semibold text-ink">Servicios no disponibles por el momento</p>
-            <p className="mt-2">Agenda directamente para revisar tu necesidad y te asignaremos el área correcta.</p>
-            <a
-              href={buildWhatsAppUrl({
-                area: "Servicios de prevención penal",
-                source: "/servicios",
-                message: "Hola, quisiera agendar una sesión.",
-              })}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-block btn-primary"
-            >
-              Abrir agenda
-            </a>
-          </div>
-        ) : (
-          <div className="grid gap-6 md:grid-cols-3">
-            {services.map((service) => (
-              <article key={service.slug} className="card-shell flex h-full flex-col justify-between bg-white p-6">
-                <div className="space-y-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-700">{service.slug}</p>
-                  <h3 className="text-lg font-heading font-semibold text-ink">{service.title}</h3>
-                  <p className="text-sm text-muted leading-relaxed">{service.description}</p>
-
-                  {service.detail && (
-                    <div className="space-y-3 text-sm text-muted">
-                      <div>
-                        <p className="font-semibold text-ink">Cuándo se activa</p>
-                        <ul className="mt-1 list-disc space-y-1 pl-4">
-                          {service.detail.activation.slice(0, 2).map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div>
-                        <p className="font-semibold text-ink">Entregables</p>
-                        <ul className="mt-1 list-disc space-y-1 pl-4">
-                          {service.detail.deliverables.slice(0, 2).map((item) => (
-                            <li key={item}>{item}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted">
-                  <a
-                    href={buildMailtoUrl({
-                      area: service.title,
-                      source: "/servicios",
-                      subject: `Solicitud de evaluación – ${service.title}`,
-                      message: "Hola, deseo solicitar una evaluación estratégica.",
-                    })}
-                    className="inline-flex items-center rounded-full bg-ink px-4 py-2 font-semibold text-white shadow-soft transition hover:-translate-y-[1px] hover:bg-accent-700"
-                  >
-                    Solicitar
-                  </a>
-                  {service.slug ? (
-                    <Link href={`/servicios/${service.slug}`} className="font-semibold text-accent-700 transition hover:text-ink">
-                      Ver detalle
-                    </Link>
-                  ) : (
-                    <a
-                      href={buildWhatsAppUrl({
-                        area: service.title,
-                        source: "/servicios",
-                        message: "Hola, quisiera solicitar una evaluación estratégica.",
-                      })}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-accent-700 transition hover:text-ink"
-                    >
-                      Solicitar por WhatsApp
-                    </a>
-                  )}
-                  <a
-                    href={buildMailtoUrl({
-                      area: service.title,
-                      source: "/servicios",
-                      subject: `Solicitud de coordinación con junta – ${service.title}`,
-                      message: "Hola, necesito coordinar una sesión con junta o comité.",
-                    })}
-                    className="font-semibold text-muted transition hover:text-ink"
-                  >
-                    Coordinar alcance
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
-
-      <section className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-        <div className="space-y-4">
-          <p className="pill w-fit">Asesoría a personas (secundaria)</p>
-          <h2>Atención penal para personas naturales</h2>
-          <p className="max-w-2xl text-muted">
-            Gestionamos una línea independiente y discreta para casos personales. No interfiere con los servicios corporativos ni sustituye
-            representación litigiosa.
-          </p>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              "Evaluación breve y confidencial",
-              "Guía de actuación inmediata",
-              "Documentos base de soporte",
-              "Derivación a aliados para litigio",
-            ].map((item) => (
-              <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
-                {item}
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          {serviceLines.map((service) => (
+            <article key={service.slug} className="card-shell flex h-full flex-col justify-between bg-white p-6">
+              <div className="space-y-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-700">{service.slug}</p>
+                <h3 className="text-lg font-heading font-semibold text-ink">{service.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{service.summary}</p>
+                <ul className="mt-4 grid gap-2 text-sm text-muted">
+                  {service.audience.map((item) => (
+                    <li key={item} className="flex gap-3">
+                      <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/personas" className="btn-secondary">
-              Ver línea personal
-            </Link>
-            <a
-              href={buildMailtoUrl({
-                area: "Asesoría a personas",
-                source: "/servicios",
-                subject: "Solicitud de contacto – Asesoría a personas",
-                message: "Hola, necesito coordinar orientación en la línea personal.",
-              })}
-              className="btn-primary"
-            >
-              Contacto directo
-            </a>
-          </div>
-        </div>
 
-        <div className="card-shell bg-ink p-8 text-white">
-          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Línea separada</p>
-          <h3 className="mt-3 text-white">Claridad de alcance</h3>
-          <p className="text-slate-100">
-            La línea personal está pensada para orientar y documentar. Si el caso requiere defensa judicial, articulamos aliados externos
-            manteniendo el control documental y la coordinación con el cliente.
-          </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted">
+                <Link href={`/servicios/${service.slug}`} className="font-semibold text-accent-700 transition hover:text-ink">
+                  Ver detalle
+                </Link>
+                <a
+                  href={buildWhatsAppUrl({
+                    area: service.title,
+                    source: "/servicios",
+                    message: "Hola, quisiera solicitar una evaluación estratégica.",
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-muted transition hover:text-ink"
+                >
+                  Solicitar por WhatsApp
+                </a>
+                <a
+                  href={buildMailtoUrl({
+                    area: service.title,
+                    source: "/servicios",
+                    subject: `Solicitud de evaluación – ${service.title}`,
+                    message: "Hola, deseo solicitar una evaluación estratégica.",
+                  })}
+                  className="font-semibold text-muted transition hover:text-ink"
+                >
+                  Solicitar por correo
+                </a>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </main>

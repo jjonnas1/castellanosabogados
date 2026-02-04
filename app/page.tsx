@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { Suspense } from "react";
 
 import SiteHeader from "./components/SiteHeader";
 import { buildMailtoUrl, buildWhatsAppUrl, contactConfig } from "@/lib/contactLinks";
-import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
 
 const heroBackground =
   "linear-gradient(120deg, rgba(12,17,29,0.88), rgba(17,37,68,0.82)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
@@ -12,123 +10,34 @@ const skylineBackground =
 const executiveDesk =
   "linear-gradient(180deg, rgba(13,21,40,0.9), rgba(13,21,40,0.8)), url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2100&q=80')";
 
-function ServiceSkeleton() {
-  return (
-    <div className="grid gap-5 lg:grid-cols-3 animate-fade-in">
-      {Array.from({ length: 3 }).map((_, idx) => (
-        <div key={idx} className="card-shell h-full animate-pulse bg-white p-6">
-          <div className="h-3 w-24 rounded-full bg-subtle" />
-          <div className="mt-4 h-6 w-3/4 rounded-full bg-subtle" />
-          <div className="mt-3 h-4 w-full rounded-full bg-subtle" />
-          <div className="mt-6 h-9 w-32 rounded-full bg-subtle" />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-async function ServicesGrid() {
-  const { data: services, error } = await fetchServiceAreas();
-  const serviceList = services.map(enrichService);
-
-  if (error) {
-    return (
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-        No pudimos conectar con Supabase. La lista de servicios puede no estar completa.
-      </div>
-    );
-  }
-
-  if (serviceList.length === 0) {
-    return (
-      <div className="mt-6 card-shell bg-white px-6 py-10 text-center text-muted">
-        <p className="text-lg font-semibold text-ink">Servicios no disponibles por el momento</p>
-        <p className="mt-2">Vuelve pronto o contáctanos para coordinar una revisión prioritaria.</p>
-        <Link href="/contacto" className="mt-4 inline-block btn-primary">
-          Contacto directo
-        </Link>
-      </div>
-    );
-  }
-
-  return (
-    <div className="grid gap-5 lg:grid-cols-3">
-      {serviceList.map((service) => (
-        <article
-          key={service.slug}
-          className="card-shell group flex h-full flex-col justify-between bg-white p-6 transition duration-300 ease-out hover:-translate-y-1 hover:shadow-hover"
-        >
-          <div className="space-y-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-700">{service.slug}</p>
-            <h3 className="text-ink">{service.title}</h3>
-            <p className="text-sm text-muted">{service.description}</p>
-          </div>
-
-          <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-            {service.slug ? (
-              <Link href={`/servicios/${service.slug}`} className="btn-primary">
-                Ver detalle
-              </Link>
-            ) : (
-              <a
-                href={buildWhatsAppUrl({
-                  area: service.title,
-                  source: "/",
-                  message: "Hola, quisiera solicitar una evaluación estratégica.",
-                })}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
-                Solicitar por WhatsApp
-              </a>
-            )}
-            <a
-              href={buildMailtoUrl({
-                area: service.title,
-                source: "/",
-                subject: `Solicitud de evaluación – ${service.title}`,
-                message: "Hola, deseo solicitar una evaluación estratégica.",
-              })}
-              className="btn-secondary"
-            >
-              Solicitar
-            </a>
-          </div>
-        </article>
-      ))}
-    </div>
-  );
-}
-
 const serviceLines = [
   {
-    title: "Corporativo · Contratación estatal",
+    title: "Penal Personas",
     description:
-      "Gestión de riesgo penal corporativo para juntas directivas y comités, con control preventivo y documentación especializada.",
-    detailHref: "/penal-empresarial",
-    area: "Corporativo",
-  },
-  {
-    title: "Personas",
-    description:
-      "Orientación estratégica para personas naturales, con evaluación clara del caso y acompañamiento documental sin litigio directo.",
-    detailHref: "/asesoria-personas",
-    area: "Personas",
+      "Asesoría penal estratégica para personas naturales con alcance definido y control documental.",
+    detailHref: "/servicios/penal-personas",
+    area: "Penal Personas",
   },
   {
     title: "Ejecución de penas",
     description:
-      "Acompañamiento técnico en etapa de ejecución, revisión de requisitos, beneficios y coordinación con el equipo jurídico.",
-    detailHref: "/servicios",
+      "Seguimiento técnico para decisiones críticas en la etapa de ejecución de penas.",
+    detailHref: "/servicios/ejecucion-penas",
     area: "Ejecución de penas",
   },
   {
-    title: "Formación empresarial",
+    title: "Responsabilidad Penal para Personas Jurídicas",
     description:
-      "Programas de prevención y responsabilidad penal corporativa para equipos internos, comités y áreas de cumplimiento.",
-    detailHref: "/servicios",
-    area: "Formación",
+      "Prioridad estratégica: control preventivo, trazabilidad y gobernanza penal corporativa.",
+    detailHref: "/servicios/responsabilidad-penal-pj",
+    area: "Responsabilidad penal PJ",
+  },
+  {
+    title: "Capacitaciones en Penal para Personas Jurídicas",
+    description:
+      "Formación técnica para juntas, comités y equipos internos con foco preventivo.",
+    detailHref: "/servicios/capacitaciones-penal-pj",
+    area: "Capacitaciones penal PJ",
   },
 ];
 
@@ -159,7 +68,7 @@ export default async function Home() {
               Asesoría penal estratégica para empresas y personas, con enfoque en control y trazabilidad.
             </h1>
             <p className="max-w-3xl text-lg text-slate-100">
-              Contratación estatal y corporativo · Personas · Ejecución de penas · Formación empresarial.
+              Penal Personas · Ejecución de penas · Responsabilidad penal PJ · Capacitaciones penal PJ.
             </p>
           </div>
 
@@ -204,15 +113,16 @@ export default async function Home() {
                     Ver detalle
                   </Link>
                   <a
-                    href={buildMailtoUrl({
+                    href={buildWhatsAppUrl({
                       area: line.area,
                       source: "/",
-                      subject: `Solicitud de contacto – ${line.area}`,
-                      message: "Hola, quisiera solicitar información sobre esta línea.",
+                      message: "Hola, quisiera solicitar una evaluación estratégica.",
                     })}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="btn-primary"
                   >
-                    Solicitar
+                    Solicitar evaluación
                   </a>
                 </div>
               </article>
@@ -221,21 +131,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <section id="servicios" className="section-shell bg-panel/60">
-        <div className="container space-y-6">
-          <div className="space-y-2">
-            <p className="pill w-fit">Servicios destacados</p>
-            <h2>Servicios y áreas disponibles</h2>
-            <p className="max-w-2xl text-muted">
-              Estas son las áreas activas en este momento. Puedes explorar el detalle o solicitar una evaluación específica.
-            </p>
-          </div>
-
-          <Suspense fallback={<ServiceSkeleton />}>
-            <ServicesGrid />
-          </Suspense>
-        </div>
-      </section>
 
       <section id="como-trabajamos" className="section-shell bg-white">
         <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
@@ -260,6 +155,8 @@ export default async function Home() {
                 source: "/",
                 message: "Hola, quisiera programar una sesión para conocer la metodología.",
               })}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-primary"
             >
               Programar sesión

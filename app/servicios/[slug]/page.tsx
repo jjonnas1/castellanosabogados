@@ -6,12 +6,14 @@ import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 import { getServiceDetail, serviceDetailList } from "@/lib/serviceDetails";
 
 const backgrounds: Record<string, string> = {
-  "drp-ce":
+  "penal-personas":
     "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')",
-  "aec-ce":
+  "ejecucion-penas":
     "linear-gradient(140deg, rgba(12,17,29,0.92), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1450101215322-bf5cd27642fc?auto=format&fit=crop&w=2200&q=80')",
-  "icp-ce":
+  "responsabilidad-penal-pj":
     "linear-gradient(140deg, rgba(12,17,29,0.92), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=2200&q=80')",
+  "capacitaciones-penal-pj":
+    "linear-gradient(140deg, rgba(12,17,29,0.92), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=2200&q=80')",
 };
 
 export async function generateStaticParams() {
@@ -26,7 +28,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     notFound();
   }
 
-  const backgroundImage = backgrounds[detail.slug] ?? backgrounds["drp-ce"];
+  const backgroundImage = backgrounds[detail.slug] ?? backgrounds["penal-personas"];
 
   return (
     <main className="bg-canvas text-ink">
@@ -42,7 +44,9 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <Link href="/servicios" className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
               Servicios
             </Link>
-            <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">Riesgo penal empresarial</span>
+            <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
+              Servicios estratégicos
+            </span>
             <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">{detail.slug}</span>
           </div>
           <h1 className="text-white max-w-3xl">{detail.headline}</h1>
