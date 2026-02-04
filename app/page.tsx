@@ -65,9 +65,24 @@ async function ServicesGrid() {
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-            <Link href={`/servicios/${service.slug}`} className="btn-primary">
-              Ver detalle
-            </Link>
+            {service.slug ? (
+              <Link href={`/servicios/${service.slug}`} className="btn-primary">
+                Ver detalle
+              </Link>
+            ) : (
+              <a
+                href={buildWhatsAppUrl({
+                  area: service.title,
+                  source: "/",
+                  message: "Hola, quisiera solicitar una evaluación estratégica.",
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+              >
+                Solicitar por WhatsApp
+              </a>
+            )}
             <a
               href={buildMailtoUrl({
                 area: service.title,

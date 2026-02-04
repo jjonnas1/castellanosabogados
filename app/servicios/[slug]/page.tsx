@@ -119,6 +119,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                 source: `/servicios/${detail.slug}`,
                 message: "Hola, quisiera programar una sesión.",
               })}
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-primary"
             >
               Programar sesión

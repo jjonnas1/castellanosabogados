@@ -22,9 +22,21 @@ const serviceCopy: Record<string, { title: string; description: string }> = {
   },
 };
 
+function normalizeSlug(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-");
+}
+
 export function enrichService(area: ServiceArea) {
-  const copy = serviceCopy[area.slug] ?? { title: area.name, description: "Servicio disponible bajo consulta." };
-  return { ...area, ...copy };
+  const normalizedSlug = normalizeSlug(area.slug || area.name);
+  const copy = serviceCopy[normalizedSlug] ?? { title: area.name, description: "Servicio disponible bajo consulta." };
+  return { ...area, slug: normalizedSlug, ...copy };
 }
 
 export async function fetchServiceAreas() {

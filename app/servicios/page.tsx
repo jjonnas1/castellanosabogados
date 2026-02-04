@@ -142,6 +142,8 @@ export default async function ServiciosPage() {
                 source: "/servicios",
                 message: "Hola, quisiera agendar una sesión.",
               })}
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-4 inline-block btn-primary"
             >
               Abrir agenda
@@ -190,9 +192,24 @@ export default async function ServiciosPage() {
                   >
                     Solicitar
                   </a>
-                  <Link href={`/servicios/${service.slug}`} className="font-semibold text-accent-700 transition hover:text-ink">
-                    Ver detalle
-                  </Link>
+                  {service.slug ? (
+                    <Link href={`/servicios/${service.slug}`} className="font-semibold text-accent-700 transition hover:text-ink">
+                      Ver detalle
+                    </Link>
+                  ) : (
+                    <a
+                      href={buildWhatsAppUrl({
+                        area: service.title,
+                        source: "/servicios",
+                        message: "Hola, quisiera solicitar una evaluación estratégica.",
+                      })}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-accent-700 transition hover:text-ink"
+                    >
+                      Solicitar por WhatsApp
+                    </a>
+                  )}
                   <a
                     href={buildMailtoUrl({
                       area: service.title,

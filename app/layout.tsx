@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import WhatsAppFloatingButton from "@/app/components/WhatsAppFloatingButton";
 
 export const metadata: Metadata = {
   title: "Castellanos Abogados",
@@ -16,6 +17,7 @@ export default function RootLayout({
     <html lang="es" className="theme-a">
       <body className="min-h-screen bg-canvas text-ink antialiased">
         {children}
+        <WhatsAppFloatingButton />
       </body>
     </html>
   );
