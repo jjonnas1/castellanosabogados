@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import { sendContactEmail } from "@/lib/resend";
 
 export async function POST(req: NextRequest) {
   try {
     const contentType = req.headers.get("content-type") ?? "";
+
     let name = "";
     let email = "";
     let message = "";
+
+    // contexto extra (para que el correo te llegue con el área consultada)
     let area = "";
     let source = "";
     let subject = "";
@@ -15,30 +17,45 @@ export async function POST(req: NextRequest) {
 
     if (contentType.includes("application/json")) {
       const payload = await req.json();
+
       name = String(payload?.name ?? "");
       email = String(payload?.email ?? "");
       message = String(payload?.message ?? "");
+
       area = String(payload?.area ?? "");
       source = String(payload?.source ?? "");
       subject = String(payload?.subject ?? "");
       intent = String(payload?.intent ?? "");
     } else {
       const data = await req.formData();
+
       name = String(data.get("name") ?? "");
       email = String(data.get("email") ?? "");
+
       const reason = String(data.get("reason") ?? "");
       const context = String(data.get("message") ?? "");
+
       area = String(data.get("area") ?? "");
       source = String(data.get("source") ?? "");
       subject = String(data.get("subject") ?? "");
       intent = String(data.get("intent") ?? "");
+
+      // arma el message base como antes (motivo + contexto)
       message = [reason ? `Motivo: ${reason}` : "", context]
         .filter(Boolean)
         .join("\n");
     }
 
-    const resolvedArea = area || "Contacto general";
-    const resolvedSource = source || "Sitio web";
+    if (!email || !message) {
+      return NextResponse.json(
+        { ok: false, error: "Faltan datos para enviar el mensaje." },
+        { status: 400 }
+      );
+    }
+
+    const resolvedArea = area?.trim() || "Contacto general";
+    const resolvedSource = source?.trim() || "Sitio web";
+
     const messageWithContext = [
       message,
       "",
@@ -49,19 +66,13 @@ export async function POST(req: NextRequest) {
       .filter(Boolean)
       .join("\n");
 
-    if (!email || !message) {
-      return NextResponse.json(
-        { ok: false, error: "Faltan datos para enviar el mensaje." },
-        { status: 400 }
-      );
-    }
-
     await sendContactEmail({
       name,
       email,
       message: messageWithContext,
-      subject: subject || `Solicitud de contacto – ${resolvedArea}`,
+      subject: subject?.trim() || `Solicitud de contacto – ${resolvedArea}`,
     });
+
     return NextResponse.json({ ok: true });
   } catch (e: any) {
     return NextResponse.json(

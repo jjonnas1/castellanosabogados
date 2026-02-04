@@ -23,7 +23,7 @@ const validateName = (value: string) => {
 
 const validateEmail = (value: string) => {
   if (!value.trim()) return "El correo es obligatorio.";
-  const isValid = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+  const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   return isValid ? "" : "Ingresa un correo válido.";
 };
 
@@ -35,27 +35,28 @@ const validateMessage = (value: string) => {
 };
 
 export default function ContactoPage() {
-  const [loading, setLoading] = useState(false);
-  const [ok, setOk] = useState<null | boolean>(null);
-  const [err, setErr] = useState<string | null>(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [errors, setErrors] = useState<FieldErrors>({});
   const searchParams = useSearchParams();
+
+  // Contexto (para que el correo llegue con el área que consultan)
   const area = searchParams.get("area") ?? "Contacto prioritario";
   const intent = searchParams.get("intent") ?? "";
   const source = searchParams.get("source") ?? "/contacto";
 
   const subject = useMemo(() => {
-    if (intent === "ingreso-evaluacion") {
-      return `Ingreso a evaluación – ${area}`;
-    }
-    if (intent === "coordinar-junta") {
-      return `Solicitud de coordinación con junta – ${area}`;
-    }
+    if (intent === "ingreso-evaluacion") return `Ingreso a evaluación – ${area}`;
+    if (intent === "coordinar-junta") return `Solicitud de coordinación con junta – ${area}`;
     return `Solicitud de contacto – ${area}`;
   }, [area, intent]);
+
+  const [loading, setLoading] = useState(false);
+  const [ok, setOk] = useState<null | boolean>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const [errors, setErrors] = useState<FieldErrors>({});
 
   useEffect(() => {
     setErrors({
@@ -72,6 +73,7 @@ export default function ContactoPage() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     if (hasErrors) {
       setErr("Revisa los campos marcados antes de enviar.");
       setOk(false);
@@ -82,7 +84,15 @@ export default function ContactoPage() {
     setOk(null);
     setErr(null);
 
-    const payload = { name, email, message, area, source, intent, subject };
+    const payload = {
+      name,
+      email,
+      message,
+      area,
+      source,
+      intent,
+      subject,
+    };
 
     try {
       const res = await fetch("/api/contact", {
@@ -90,7 +100,9 @@ export default function ContactoPage() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
+
       const json = await res.json();
+
       if (json.ok) {
         setOk(true);
         setErr(null);
@@ -119,11 +131,12 @@ export default function ContactoPage() {
           <Badge variant="info">Contacto</Badge>
           <h1 className="max-w-3xl text-white">Coordinemos una evaluación prioritaria</h1>
           <p className="max-w-2xl text-slate-100">
-            Déjanos los datos mínimos para asignar un responsable y definir el primer control. No utilizamos esta línea para promoción,
-            solo para coordinación estratégica. ✨
+            Déjanos los datos mínimos para asignar un responsable y definir el primer control. No utilizamos esta línea
+            para promoción, solo para coordinación ejecutiva. ✨
           </p>
+
           <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-slate-200">
-            {["Confidencialidad", "Respuesta rápida", "Seguimiento estratégico"].map((item) => (
+            {["Confidencialidad", "Respuesta rápida", "Seguimiento ejecutivo"].map((item) => (
               <span key={item} className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
                 {item}
               </span>
@@ -137,21 +150,26 @@ export default function ContactoPage() {
           <Badge variant="neutral">Prioridad</Badge>
           <h2>Datos mínimos para actuar</h2>
           <p className="max-w-2xl text-muted">
-            Si requieres defensa litigiosa, lo articulamos con aliados manteniendo trazabilidad. Este formulario es para coordinar la
-            revisión estratégica inicial.
+            Si requieres defensa litigiosa, lo articulamos con aliados manteniendo trazabilidad. Este formulario es para
+            coordinar la revisión estratégica inicial.
           </p>
+
           <ul className="space-y-2 text-sm text-muted">
-            {["Sin spam ni campañas.", "Respuesta prioritaria.", "Puedes volver al inicio o agenda en cualquier momento."].map((item) => (
-              <li key={item} className="flex gap-3">
-                <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
-                {item}
-              </li>
-            ))}
+            {["Sin spam ni campañas.", "Respuesta prioritaria.", "Puedes volver al inicio o agendar en cualquier momento."].map(
+              (item) => (
+                <li key={item} className="flex gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                  {item}
+                </li>
+              )
+            )}
           </ul>
+
           <div className="flex flex-wrap gap-3">
             <Link href="/" className="btn-secondary">
               Volver al inicio
             </Link>
+
             <a
               href={buildWhatsAppUrl({
                 area,
@@ -163,6 +181,7 @@ export default function ContactoPage() {
               Agendar evaluación
             </a>
           </div>
+
           <div className="rounded-2xl border border-border bg-white p-4 shadow-soft/30">
             <div className="flex items-center justify-between text-sm text-muted">
               <span>Progreso de envío</span>
@@ -175,6 +194,7 @@ export default function ContactoPage() {
         <form onSubmit={handleSubmit} className="card-shell bg-white p-6 shadow-soft/40 animate-fade-in-up">
           <Badge variant="info">Formulario</Badge>
           <h3 className="mt-2 text-ink">Mensaje confidencial</h3>
+
           <div className="mt-4 space-y-4">
             <Input
               id="name"
@@ -219,6 +239,7 @@ export default function ContactoPage() {
               <Button type="submit" loading={loading} disabled={loading || hasErrors}>
                 {loading ? "Enviando…" : "Enviar"}
               </Button>
+
               <a href="/" className="btn-secondary">
                 Volver al inicio
               </a>
@@ -229,6 +250,7 @@ export default function ContactoPage() {
                 ¡Gracias! Recibimos tu mensaje y te escribiremos pronto.
               </Alert>
             )}
+
             {ok === false && err && (
               <Alert variant="error" title="No pudimos enviar">
                 {err}
