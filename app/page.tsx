@@ -1,3 +1,4 @@
+// app/page.tsx
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -171,7 +172,8 @@ export default async function Home() {
                 Asesoría penal estratégica con control, trazabilidad y claridad de alcance ⚖️
               </h1>
               <p className="max-w-2xl text-lg text-slate-100">
-                Acompañamos decisiones sensibles, evaluamos escenarios y ordenamos documentación. Selecciona tu línea de servicio y coordinamos el primer punto de control.
+                Acompañamos decisiones sensibles, evaluamos escenarios y ordenamos documentación. Selecciona tu línea de
+                servicio y coordinamos el primer punto de control.
               </p>
             </div>
 
@@ -203,7 +205,8 @@ export default async function Home() {
               <p className="text-[11px] uppercase tracking-[0.16em] text-slate-200">Primer control</p>
               <h3 className="text-white">Evaluación clara, entregables y trazabilidad</h3>
               <p className="text-slate-100 text-sm">
-                Definimos alcance, responsables y próximos pasos. Si el caso requiere litigio, se articula con aliados manteniendo control documental.
+                Definimos alcance, responsables y próximos pasos. Si el caso requiere litigio, se articula con aliados
+                manteniendo control documental.
               </p>
               <div className="mt-5 grid gap-3 text-sm text-slate-100">
                 {["Diagnóstico", "Documentos base", "Ruta de acción"].map((item) => (
@@ -225,7 +228,8 @@ export default async function Home() {
             <p className="pill w-fit">Líneas de servicio</p>
             <h2>Cuatro líneas de asesoría penal</h2>
             <p className="max-w-2xl text-muted">
-              En el inicio solo ves un resumen. El detalle completo está en <span className="font-semibold text-ink">Servicios</span>.
+              En el inicio solo ves un resumen. El detalle completo está en{" "}
+              <span className="font-semibold text-ink">Servicios</span>.
             </p>
           </div>
 
@@ -248,6 +252,7 @@ export default async function Home() {
                       source: "/",
                       subject: `Solicitud de contacto – ${line.area}`,
                       message: "Hola, quisiera solicitar orientación sobre esta línea.",
+                      intent: line.intent,
                     })}
                     className="btn-primary"
                   >
@@ -348,9 +353,7 @@ export default async function Home() {
           <div className="space-y-4">
             <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Contacto</p>
             <h2 className="text-white">Primer punto de control</h2>
-            <p className="text-slate-100">
-              Comparte el contexto esencial y coordinamos la disponibilidad más cercana.
-            </p>
+            <p className="text-slate-100">Comparte el contexto esencial y coordinamos la disponibilidad más cercana.</p>
 
             <div className="space-y-2 text-sm text-slate-100">
               <p>
@@ -367,6 +370,7 @@ export default async function Home() {
                   {contactConfig.email}
                 </a>
               </p>
+
               <p>
                 <strong className="text-white">WhatsApp:</strong>{" "}
                 <a
@@ -440,9 +444,7 @@ export default async function Home() {
                 Enviar para revisión
               </button>
 
-              <p className="text-xs text-muted">
-                Para urgencias, usa el correo directo o WhatsApp.
-              </p>
+              <p className="text-xs text-muted">Para urgencias, usa el correo directo o WhatsApp.</p>
             </div>
           </form>
         </div>
