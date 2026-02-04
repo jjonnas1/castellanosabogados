@@ -1,7 +1,7 @@
 // lib/contactLinks.ts
 export const contactConfig = {
   email: "jonatancastellanosabogado@gmail.com",
-  whatsapp: "573148309306", // formato internacional SIN + (Colombia)
+  whatsapp: "573148309306", // SIN "+" para wa.me
   whatsappDisplay: "+57 314 830 9306",
 } as const;
 
@@ -15,14 +15,14 @@ type BuildMailtoArgs = {
 
 export function buildMailtoUrl(args: BuildMailtoArgs) {
   const subject = args.subject ?? `Solicitud de contacto – ${args.area}`;
-  const parts: string[] = [];
 
-  if (args.message) parts.push(args.message);
-  parts.push(`Área/servicio: ${args.area}`);
-  if (args.source) parts.push(`Origen: ${args.source}`);
-  if (args.intent) parts.push(`Intento: ${args.intent}`);
+  const bodyParts: string[] = [];
+  if (args.message) bodyParts.push(args.message);
+  bodyParts.push(`Área/servicio: ${args.area}`);
+  if (args.source) bodyParts.push(`Origen: ${args.source}`);
+  if (args.intent) bodyParts.push(`Intento: ${args.intent}`);
 
-  const body = parts.filter(Boolean).join("\n");
+  const body = bodyParts.filter(Boolean).join("\n");
 
   const params = new URLSearchParams();
   params.set("subject", subject);
@@ -39,15 +39,14 @@ type BuildWhatsAppArgs = {
 };
 
 export function buildWhatsAppUrl(args: BuildWhatsAppArgs) {
-  const parts: string[] = [];
-  if (args.message) parts.push(args.message);
-  parts.push(`Área/servicio: ${args.area}`);
-  if (args.source) parts.push(`Origen: ${args.source}`);
-  if (args.intent) parts.push(`Intento: ${args.intent}`);
+  const bodyParts: string[] = [];
+  if (args.message) bodyParts.push(args.message);
+  bodyParts.push(`Área/servicio: ${args.area}`);
+  if (args.source) bodyParts.push(`Origen: ${args.source}`);
+  if (args.intent) bodyParts.push(`Intento: ${args.intent}`);
 
-  const text = parts.filter(Boolean).join("\n");
+  const text = bodyParts.filter(Boolean).join("\n");
   const encoded = encodeURIComponent(text);
 
-  // wa.me requiere número sin + y sin espacios
   return `https://wa.me/${contactConfig.whatsapp}?text=${encoded}`;
 }
