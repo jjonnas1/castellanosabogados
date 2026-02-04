@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import SiteHeader from "@/app/components/SiteHeader";
+import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 
 const personalBackground =
   "linear-gradient(140deg, rgba(10,16,28,0.9), rgba(20,32,52,0.82)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=2200&q=80')";
@@ -23,12 +24,28 @@ export default function AsesoriaPersonasPage() {
             corporativo de la firma.
           </p>
           <div className="flex flex-wrap gap-3">
-            <Link href="/agenda" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
+            <a
+              href={buildMailtoUrl({
+                area: "Asesoría a personas",
+                source: "/asesoria-personas",
+                subject: "Solicitud de contacto – Asesoría a personas",
+                message: "Hola, quisiera solicitar orientación personal.",
+              })}
+              className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
+            >
               Solicitar orientación
-            </Link>
-            <Link href="/contacto" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
+            </a>
+            <a
+              href={buildMailtoUrl({
+                area: "Asesoría a personas",
+                source: "/asesoria-personas",
+                subject: "Solicitud de contacto – Asesoría a personas",
+                message: "Hola, necesito coordinar orientación en la línea personal.",
+              })}
+              className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+            >
               Contacto directo
-            </Link>
+            </a>
           </div>
         </div>
       </header>
@@ -61,7 +78,16 @@ export default function AsesoriaPersonasPage() {
           </ul>
           <p className="mt-4 text-xs text-muted">No asumimos representación litigiosa. Nuestro rol es estratégico y documental.</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/agenda" className="btn-primary">Agendar revisión</Link>
+            <a
+              href={buildWhatsAppUrl({
+                area: "Asesoría a personas",
+                source: "/asesoria-personas",
+                message: "Hola, quisiera agendar una revisión.",
+              })}
+              className="btn-primary"
+            >
+              Agendar revisión
+            </a>
             <Link href="/" className="btn-secondary">Volver al inicio</Link>
           </div>
         </div>

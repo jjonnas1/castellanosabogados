@@ -23,7 +23,7 @@ export const serviceDetails: Record<ServiceDetail["slug"], ServiceDetail> = {
     audience: [
       "Representantes legales y miembros de junta.",
       "Comités de contratación y control interno.",
-      "Direcciones jurídicas que requieren documentación ejecutiva inmediata.",
+      "Direcciones jurídicas que requieren documentación especializada inmediata.",
     ],
     deliverables: [
       "Mapa de riesgo penal y dependencias sensibles.",
@@ -36,7 +36,7 @@ export const serviceDetails: Record<ServiceDetail["slug"], ServiceDetail> = {
     title: "AEC-CE",
     headline: "Acompañamiento estratégico continuo",
     summary:
-      "Seguimiento ejecutivo para decisiones periódicas y proyectos de contratación estatal con riesgo penal recurrente.",
+      "Seguimiento estratégico para decisiones periódicas y proyectos de contratación estatal con riesgo penal recurrente.",
     activation: [
       "Hitos contractuales o sesiones de junta que requieren criterio penal permanente.",
       "Implementación de controles y ajustes derivados del DRP-CE.",
@@ -48,15 +48,15 @@ export const serviceDetails: Record<ServiceDetail["slug"], ServiceDetail> = {
       "Áreas jurídicas que necesitan trazabilidad continua.",
     ],
     deliverables: [
-      "Reportes ejecutivos y minutas de seguimiento.",
+      "Reportes especializados y minutas de seguimiento.",
       "Protocolos ajustados y validaciones periódicas.",
-      "Sesiones tácticas con responsables clave y aliados externos.",
+      "Sesiones de análisis con responsables clave y aliados externos.",
     ],
   },
   "icp-ce": {
     slug: "icp-ce",
     title: "ICP-CE",
-    headline: "Incidentes críticos y activación táctica",
+    headline: "Incidentes críticos y respuesta estratégica",
     summary:
       "Respuesta contenida y documentada ante incidentes con exposición penal y reputacional, coordinando a los responsables clave.",
     activation: [
@@ -70,7 +70,7 @@ export const serviceDetails: Record<ServiceDetail["slug"], ServiceDetail> = {
       "Equipos de cumplimiento y auditoría."],
     deliverables: [
       "Protocolo de incidentes y reglas de comunicación.",
-      "Bitácora ejecutiva y soportes para trazabilidad.",
+      "Bitácora especializada y soportes para trazabilidad.",
       "Recomendaciones de coordinación con aliados externos y entes de control.",
     ],
   },

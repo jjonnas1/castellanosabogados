@@ -52,12 +52,16 @@ export default function AgendaPage() {
   const send = async () => {
     setLoading(true); setMsg('');
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({
-          name: 'Solicitud de agenda',
+          name: "Solicitud de agenda",
           email,
+          area,
+          source: "/agenda",
+          intent: "ingreso-evaluacion",
+          subject: `Ingreso a evaluación – ${area}`,
           message: `Nueva solicitud:
 - Área: ${area}
 - Horario preferido: ${slot}
@@ -67,10 +71,10 @@ export default function AgendaPage() {
       });
       const data = await res.json();
       if (!res.ok || !data?.ok) throw new Error(data?.error || 'No se pudo enviar');
-      setMsg('✅ Recibimos tu solicitud. Te escribiremos al correo.');
-      setNote('');
+      setMsg("✅ Recibimos tu solicitud. Te escribiremos al correo.");
+      setNote("");
     } catch (e:any) {
-      setMsg('❌ ' + (e?.message ?? 'Error enviando la solicitud'));
+      setMsg("❌ " + (e?.message ?? "Error enviando la solicitud"));
     } finally {
       setLoading(false);
     }
