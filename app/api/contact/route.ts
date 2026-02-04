@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     let email = "";
     let message = "";
 
-    // Contexto adicional (para que “llegue con el área”)
+    // Contexto adicional (para que llegue con área/source/intent)
     let area = "";
     let source = "";
     let subject = "";
