@@ -65,7 +65,7 @@ export default async function Home() {
           <div className="space-y-4 animate-fade-in-up">
             <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Castellanos Abogados</p>
             <h1 className="text-white max-w-4xl">
-              Asesoría penal estratégica para empresas y personas, con enfoque en control y trazabilidad.
+              Asesoría estratégica para empresas y personas, con enfoque en control y trazabilidad.
             </h1>
             <p className="max-w-3xl text-lg text-slate-100">
               Penal Personas · Ejecución de penas · Responsabilidad penal PJ · Capacitaciones penal PJ.
