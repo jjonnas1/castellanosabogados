@@ -112,7 +112,7 @@ const serviceLines = [
   {
     title: "Personas",
     description:
-      "Orientación penal estratégica para personas naturales: evaluación clara del caso, guías de actuación y soporte documental.",
+      "Orientación estratégica para personas naturales: evaluación clara del caso, guías de actuación y soporte documental.",
     href: "/asesoria-personas",
     area: "Personas",
     intent: "linea-personas",
