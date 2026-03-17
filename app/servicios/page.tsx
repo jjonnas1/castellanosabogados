@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import SiteHeader from "@/app/components/SiteHeader";
 import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
-import { getServiceDetail } from "@/lib/serviceDetails";
+import { getServiceDetail, serviceDetailList } from "@/lib/serviceDetails";
 
 const headerBackground =
   "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
@@ -11,12 +11,21 @@ const headerBackground =
 export default async function ServiciosPage() {
   const { data, error } = await fetchServiceAreas();
 
-  const services = (Array.isArray(data) ? data : [])
-    .map(enrichService)
-    .map((service) => ({
-      ...service,
-      detail: getServiceDetail(service.slug),
-    }));
+  const dynamicServices = (Array.isArray(data) ? data : []).map(enrichService);
+  const fallbackServices = serviceDetailList.map((detail) => ({
+    slug: detail.slug,
+    name: detail.title,
+    title: detail.title,
+    description: detail.summary,
+  }));
+
+  const merged = new Map<string, any>();
+  [...fallbackServices, ...dynamicServices].forEach((service) => merged.set(service.slug, service));
+
+  const services = Array.from(merged.values()).map((service) => ({
+    ...service,
+    detail: getServiceDetail(service.slug),
+  }));
 
   return (
     <main className="bg-canvas text-ink">
@@ -88,7 +97,7 @@ export default async function ServiciosPage() {
                       <div>
                         <p className="font-semibold text-ink">Cuándo se activa</p>
                         <ul className="mt-1 list-disc space-y-1 pl-4">
-                          {service.detail.activation.slice(0, 2).map((item) => (
+                          {service.detail.activation.slice(0, 2).map((item: string) => (
                             <li key={item}>{item}</li>
                           ))}
                         </ul>
@@ -96,7 +105,7 @@ export default async function ServiciosPage() {
                       <div>
                         <p className="font-semibold text-ink">Entregables</p>
                         <ul className="mt-1 list-disc space-y-1 pl-4">
-                          {service.detail.deliverables.slice(0, 2).map((item) => (
+                          {service.detail.deliverables.slice(0, 2).map((item: string) => (
                             <li key={item}>{item}</li>
                           ))}
                         </ul>

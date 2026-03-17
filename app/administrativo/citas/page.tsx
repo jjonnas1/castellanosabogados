@@ -213,7 +213,7 @@ export default function AdminCitasPage() {
         </div>
 
         <div style={{ marginTop: 8 }}>
-          <Link href="/administrativo/areas" className="btn btn--ghost">Configurar áreas</Link>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><Link href="/administrativo/areas" className="btn btn--ghost">Configurar áreas</Link><Link href="/administrativo/clientes" className="btn btn--ghost">Clientes y actualizaciones</Link></div>
         </div>
       </div>
     </main>

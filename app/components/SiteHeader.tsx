@@ -14,8 +14,14 @@ const NAV_ITEMS = [
     label: "Servicios",
     href: "/servicios",
     children: [
-      { label: "Riesgo penal empresarial", href: "/penal-empresarial" },
-      { label: "Asesoría a personas", href: "/asesoria-personas" },
+      { label: "Penal Personas", href: "/servicios/penal-personas" },
+      { label: "Ejecución de Penas", href: "/servicios/ejecucion-penas" },
+      { label: "Responsabilidad Penal PJ", href: "/servicios/responsabilidad-penal-pj" },
+      { label: "Capacitaciones Penal PJ", href: "/servicios/capacitaciones-penal-pj" },
+      { label: "Civil", href: "/servicios/civil" },
+      { label: "Familia", href: "/servicios/familia" },
+      { label: "Laboral", href: "/servicios/laboral" },
+      { label: "Administrativo", href: "/servicios/administrativo" },
     ],
   },
   { label: "Cómo trabajamos", href: "/como-trabajamos" },
@@ -44,9 +50,7 @@ export default function SiteHeader() {
 
   const isServicesActive = () => {
     if (!pathname) return false;
-    return ["/servicios", "/penal-empresarial", "/asesoria-personas"].some((p) =>
-      pathname.startsWith(p)
-    );
+    return pathname.startsWith("/servicios") || pathname.startsWith("/penal-empresarial") || pathname.startsWith("/asesoria-personas");
   };
 
   useEffect(() => {

@@ -102,36 +102,60 @@ async function ServicesGrid() {
 ========================= */
 const serviceLines = [
   {
-    title: "Corporativo · Contratación estatal",
-    description:
-      "Gestión de riesgo penal corporativo para juntas y comités, con control preventivo, trazabilidad y documentación especializada.",
-    href: "/penal-empresarial",
-    area: "Corporativo",
-    intent: "linea-corporativo",
+    title: "Penal Personas",
+    description: "Estrategia penal para personas naturales con acompañamiento técnico en cada etapa.",
+    href: "/servicios/penal-personas",
+    area: "Penal Personas",
+    intent: "linea-penal-personas",
   },
   {
-    title: "Personas",
-    description:
-      "Orientación estratégica para personas naturales: evaluación clara del caso, guías de actuación y soporte documental.",
-    href: "/asesoria-personas",
-    area: "Personas",
-    intent: "linea-personas",
+    title: "Ejecución de Penas",
+    description: "Gestión de beneficios, redenciones y seguimiento de términos en ejecución.",
+    href: "/servicios/ejecucion-penas",
+    area: "Ejecución de Penas",
+    intent: "linea-ejecucion-penas",
   },
   {
-    title: "Ejecución de penas",
-    description:
-      "Acompañamiento técnico en etapa de ejecución: beneficios, requisitos, peticiones y estrategia documental ante el juzgado.",
-    href: "/servicios?categoria=ejecucion",
-    area: "Ejecución de penas",
-    intent: "linea-ejecucion",
+    title: "Responsabilidad Penal PJ",
+    description: "Prevención y defensa penal empresarial para personas jurídicas y juntas.",
+    href: "/servicios/responsabilidad-penal-pj",
+    area: "Responsabilidad Penal PJ",
+    intent: "linea-rppj",
   },
   {
-    title: "Formación a empresas",
-    description:
-      "Capacitación en responsabilidad penal y prevención: sesiones y programas para equipos, cumplimiento y órganos directivos.",
-    href: "/servicios?categoria=formacion",
-    area: "Formación empresarial",
-    intent: "linea-formacion",
+    title: "Capacitaciones Penal PJ",
+    description: "Programas de formación en prevención y trazabilidad penal corporativa.",
+    href: "/servicios/capacitaciones-penal-pj",
+    area: "Capacitaciones Penal PJ",
+    intent: "linea-capacitaciones",
+  },
+  {
+    title: "Civil",
+    description: "Conflictos patrimoniales, obligaciones y estrategia civil con enfoque probatorio.",
+    href: "/servicios/civil",
+    area: "Civil",
+    intent: "linea-civil",
+  },
+  {
+    title: "Familia",
+    description: "Asuntos de custodia, alimentos, divorcio y medidas de protección familiar.",
+    href: "/servicios/familia",
+    area: "Familia",
+    intent: "linea-familia",
+  },
+  {
+    title: "Laboral",
+    description: "Defensa y prevención en controversias laborales para empresas y trabajadores.",
+    href: "/servicios/laboral",
+    area: "Laboral",
+    intent: "linea-laboral",
+  },
+  {
+    title: "Administrativo",
+    description: "Actuaciones y recursos ante entidades públicas y jurisdicción contenciosa.",
+    href: "/servicios/administrativo",
+    area: "Administrativo",
+    intent: "linea-administrativo",
   },
 ];
 
@@ -233,7 +257,7 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4">
             {serviceLines.map((line) => (
               <article key={line.title} className="card-shell flex h-full flex-col justify-between bg-white p-6">
                 <div className="space-y-3">
