@@ -3,8 +3,11 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase-browser';
 
+const ADMIN_EMAIL =
+  process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? 'jonatancastellanosabogado@gmail.com';
+
 export default function AdminLoginPage() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(ADMIN_EMAIL);
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -14,6 +17,12 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError(null);
 
+    if (email.trim().toLowerCase() !== ADMIN_EMAIL.toLowerCase()) {
+      setError('Este acceso está restringido al correo administrador configurado.');
+      setLoading(false);
+      return;
+    }
+
     const { error: loginError } = await supabase.auth.signInWithPassword({ email, password });
     if (loginError) {
       setError(loginError.message);
@@ -22,7 +31,11 @@ export default function AdminLoginPage() {
     }
 
     const { data: me } = await supabase.auth.getUser();
-    const { data: profile } = await supabase.from('user_profiles').select('role').eq('id', me.user?.id).maybeSingle();
+    const { data: profile } = await supabase
+      .from('user_profiles')
+      .select('role')
+      .eq('id', me.user?.id)
+      .maybeSingle();
 
     if (profile?.role !== 'admin') {
       await supabase.auth.signOut();
@@ -42,10 +55,28 @@ export default function AdminLoginPage() {
         <p className="mt-1 text-sm text-slate-600">Acceso interno para administrar agenda y asignación de citas.</p>
 
         <form onSubmit={onSubmit} className="mt-4 space-y-3">
-          <input className="w-full rounded-lg border p-2" type="email" placeholder="Correo" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          <input className="w-full rounded-lg border p-2" type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          <button className="w-full rounded-lg bg-slate-900 px-3 py-2 text-white" disabled={loading}>{loading ? 'Validando…' : 'Entrar'}</button>
+          <input
+            className="w-full rounded-lg border p-2"
+            type="email"
+            placeholder="Correo"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            className="w-full rounded-lg border p-2"
+            type="password"
+            placeholder="Contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button className="w-full rounded-lg bg-slate-900 px-3 py-2 text-white" disabled={loading}>
+            {loading ? 'Validando…' : 'Entrar'}
+          </button>
         </form>
+
+        <p className="mt-3 text-xs text-slate-500">Correo administrador esperado: {ADMIN_EMAIL}</p>
 
         {error && <p className="mt-3 rounded-lg bg-red-50 p-2 text-sm text-red-700">{error}</p>}
       </div>
