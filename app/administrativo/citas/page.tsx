@@ -1,13 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase-browser';
 
-
 type Area = { slug: string; name: string };
 type Profile = { id: string; email: string; role: 'client'|'lawyer'|'admin'; full_name: string|null };
-
 type Appointment = {
   id: string;
   created_at: string;
@@ -27,33 +25,54 @@ const STATUSES = ['pending','confirmed','in_call','completed','cancelled'] as co
 
 export default function AdminCitasPage() {
   const [me, setMe] = useState<Profile | null>(null);
+  const [authResolved, setAuthResolved] = useState(false);
   const [areas, setAreas] = useState<Area[]>([]);
   const [lawyers, setLawyers] = useState<Profile[]>([]);
-
   const [items, setItems] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // filtros
   const [qStatus, setQStatus] = useState<string>('all');
   const [qArea, setQArea] = useState<string>('all');
   const [qLawyer, setQLawyer] = useState<string>('all');
 
-  // load current user profile
   useEffect(() => {
     (async () => {
       const { data: s } = await supabase.auth.getSession();
-      const email = s.session?.user?.email;
-      if (!email) { setMe(null); return; }
-      const { data } = await supabase
+      const user = s.session?.user;
+      if (!user?.email) {
+        setMe(null);
+        setAuthResolved(true);
+        return;
+      }
+
+      const byUserProfiles = await supabase
         .from('user_profiles')
         .select('id,email,role,full_name')
-        .eq('email', email)
+        .eq('email', user.email)
         .maybeSingle();
-      setMe(data as Profile);
+
+      if (!byUserProfiles.error && byUserProfiles.data) {
+        setMe(byUserProfiles.data as Profile);
+        setAuthResolved(true);
+        return;
+      }
+
+      const byProfiles = await supabase
+        .from('profiles')
+        .select('id,email,role,full_name')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (!byProfiles.error && byProfiles.data) {
+        setMe(byProfiles.data as Profile);
+      } else {
+        setMe(null);
+      }
+
+      setAuthResolved(true);
     })();
   }, []);
 
-  // load areas + lawyers
   useEffect(() => {
     (async () => {
       const [a, l] = await Promise.all([
@@ -65,7 +84,6 @@ export default function AdminCitasPage() {
     })();
   }, []);
 
-  // load appointments (admin ve todo gracias a RLS)
   async function load() {
     setLoading(true);
 
@@ -103,7 +121,14 @@ export default function AdminCitasPage() {
     setLoading(false);
   }
 
-  useEffect(() => { load(); /* eslint-disable-next-line */ }, [qStatus,qArea,qLawyer]);
+  useEffect(() => {
+    if (!authResolved || me?.role !== 'admin') {
+      setLoading(false);
+      return;
+    }
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authResolved, me?.role, qStatus, qArea, qLawyer]);
 
   async function assignLawyer(id: string, lawyer_id: string|null) {
     await supabase.from('appointments').update({ lawyer_id, status: lawyer_id ? 'confirmed' : 'pending' }).eq('id', id);
@@ -118,11 +143,17 @@ export default function AdminCitasPage() {
     load();
   }
 
-  if (!me) return <div className="wrap">Cargando…</div>;
-  if (me.role !== 'admin') {
+  if (!authResolved) return <main className="main section"><div className="wrap">Cargando…</div></main>;
+
+  if (!me || me.role !== 'admin') {
     return (
       <main className="main section">
-        <div className="wrap"><h1>403</h1><p>No tienes permisos de administrador.</p></div>
+        <div className="wrap">
+          <h1>403</h1>
+          <p>No tienes permisos de administrador.</p>
+          <p style={{ marginTop: 8 }}>Si ya iniciaste sesión con Google pero no entras, falta asignar rol <strong>admin</strong> en <code>user_profiles</code> o <code>profiles</code>.</p>
+          <a href="/admin/login" className="btn btn--ghost" style={{ marginTop: 12 }}>Volver al login admin</a>
+        </div>
       </main>
     );
   }
@@ -132,7 +163,6 @@ export default function AdminCitasPage() {
       <div className="wrap">
         <h1 className="h1">Panel de citas (Administrador)</h1>
 
-        {/* Filtros */}
         <div className="panel" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, maxWidth: 980 }}>
           <label>
             Estado
@@ -159,7 +189,6 @@ export default function AdminCitasPage() {
           </label>
         </div>
 
-        {/* Tabla */}
         <div className="panel" style={{ marginTop: 12, overflowX: 'auto' }}>
           {loading ? <p>Cargando…</p> : (
             <table className="table">
@@ -213,7 +242,10 @@ export default function AdminCitasPage() {
         </div>
 
         <div style={{ marginTop: 8 }}>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><Link href="/administrativo/areas" className="btn btn--ghost">Configurar áreas</Link><Link href="/administrativo/clientes" className="btn btn--ghost">Clientes y actualizaciones</Link></div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <Link href="/administrativo/areas" className="btn btn--ghost">Configurar áreas</Link>
+            <Link href="/administrativo/clientes" className="btn btn--ghost">Clientes y actualizaciones</Link>
+          </div>
         </div>
       </div>
     </main>
