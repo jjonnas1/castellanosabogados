@@ -117,6 +117,9 @@ export default function SiteHeader() {
     window.location.href = "/";
   };
 
+  const panelHref = role === "admin" ? "/administrativo/citas" : role === "lawyer" ? "/panel" : "/cliente/panel";
+
+
   const mailtoEvaluacionDesktop = buildMailtoUrl({
     area: "Contacto general",
     source: "Header",
@@ -231,40 +234,28 @@ export default function SiteHeader() {
           </a>
 
           <div className="hidden items-center gap-2 sm:flex">
-            {!loggedIn ? (
-              <>
-                <Link
-                  href="/admin/login"
-                  className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted transition hover:border-ink hover:text-ink"
-                >
-                  Admin
-                </Link>
+            <Link
+              href="/administrativo/citas"
+              className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted transition hover:border-ink hover:text-ink"
+            >
+              Administrativo
+            </Link>
 
-                <Link
-                  href="/cliente/acceso"
-                  className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
-                >
-                  Iniciar sesión
-                </Link>
-              </>
+            {!loggedIn ? (
+              <Link
+                href="/cliente/acceso"
+                className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
+              >
+                Iniciar sesión
+              </Link>
             ) : (
               <>
-                {role === "admin" ? (
-                  <Link
-                    href="/administrativo/citas"
-                    className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white"
-                  >
-                    Administrativo
-                  </Link>
-                ) : (
-                  <Link
-                    href={role === "lawyer" ? "/panel" : "/cliente/panel"}
-                    className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
-                  >
-                    Mi panel
-                  </Link>
-                )}
-
+                <Link
+                  href={panelHref}
+                  className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
+                >
+                  {role === "admin" ? "Mi agenda admin" : "Mi panel"}
+                </Link>
                 <button
                   type="button"
                   onClick={logout}
@@ -395,32 +386,30 @@ export default function SiteHeader() {
               Solicitar evaluación
             </a>
 
-            {!loggedIn ? (
-              <>
-                <Link
-                  href="/admin/login"
-                  className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
-                  onClick={() => setOpen(false)}
-                >
-                  Acceso administrador
-                </Link>
+            <Link
+              href="/administrativo/citas"
+              className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
+              onClick={() => setOpen(false)}
+            >
+              Acceso administrativo
+            </Link>
 
-                <Link
-                  href="/cliente/acceso"
-                  className="btn-secondary w-full justify-center"
-                  onClick={() => setOpen(false)}
-                >
-                  Iniciar sesión
-                </Link>
-              </>
+            {!loggedIn ? (
+              <Link
+                href="/cliente/acceso"
+                className="btn-secondary w-full justify-center"
+                onClick={() => setOpen(false)}
+              >
+                Iniciar sesión
+              </Link>
             ) : (
               <>
                 <Link
-                  href={role === "admin" ? "/administrativo/citas" : role === "lawyer" ? "/panel" : "/cliente/panel"}
+                  href={panelHref}
                   className="btn-secondary w-full justify-center"
                   onClick={() => setOpen(false)}
                 >
-                  {role === "admin" ? "Ir a administrativo" : "Ir a mi panel"}
+                  {role === "admin" ? "Mi agenda admin" : "Ir a mi panel"}
                 </Link>
 
                 <button
