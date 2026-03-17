@@ -30,20 +30,8 @@ export default function AdminLoginPage() {
       return;
     }
 
-    const { data: me } = await supabase.auth.getUser();
-    const { data: profile } = await supabase
-      .from('user_profiles')
-      .select('role')
-      .eq('id', me.user?.id)
-      .maybeSingle();
-
-    if (profile?.role !== 'admin') {
-      await supabase.auth.signOut();
-      setError('Este acceso es solo para administradores.');
-      setLoading(false);
-      return;
-    }
-
+    // Si el correo coincide, permitimos entrar al panel administrativo.
+    // El control real de datos queda en RLS de Supabase.
     window.location.href = '/administrativo/citas';
   }
 
