@@ -4,6 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { buildMailtoUrl } from "@/lib/contactLinks";
+import { supabase } from "@/lib/supabase-browser";
+
+type HeaderRole = "client" | "lawyer" | "admin" | null;
 
 const NAV_ITEMS = [
   { label: "Inicio", href: "/" },
@@ -28,6 +31,8 @@ export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [role, setRole] = useState<HeaderRole>(null);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const servicesRef = useRef<HTMLDivElement>(null);
 
@@ -67,6 +72,50 @@ export default function SiteHeader() {
       document.removeEventListener("keydown", handleEscape);
     };
   }, []);
+
+  useEffect(() => {
+    const loadAuthState = async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData.session?.user;
+
+      if (!user) {
+        setLoggedIn(false);
+        setRole(null);
+        return;
+      }
+
+      setLoggedIn(true);
+
+      const email = user.email;
+      if (!email) {
+        setRole(null);
+        return;
+      }
+
+      const { data } = await supabase
+        .from("user_profiles")
+        .select("role")
+        .eq("email", email)
+        .maybeSingle();
+
+      setRole((data?.role as HeaderRole) ?? null);
+    };
+
+    loadAuthState();
+
+    const { data: authSub } = supabase.auth.onAuthStateChange(() => {
+      loadAuthState();
+    });
+
+    return () => {
+      authSub.subscription.unsubscribe();
+    };
+  }, []);
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  };
 
   const mailtoEvaluacionDesktop = buildMailtoUrl({
     area: "Contacto general",
@@ -182,27 +231,67 @@ export default function SiteHeader() {
           </a>
 
           <div className="hidden items-center gap-2 sm:flex">
-            <Link
-              href="/admin/login"
-              className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted transition hover:border-ink hover:text-ink"
-            >
-              Admin
-            </Link>
+            {!loggedIn ? (
+              <>
+                <Link
+                  href="/admin/login"
+                  className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted transition hover:border-ink hover:text-ink"
+                >
+                  Admin
+                </Link>
 
-            <Link
-              href="/cliente/acceso"
-              className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
-            >
-              Iniciar sesión
-            </Link>
+                <Link
+                  href="/cliente/acceso"
+                  className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
+                >
+                  Iniciar sesión
+                </Link>
+              </>
+            ) : (
+              <>
+                {role === "admin" ? (
+                  <Link
+                    href="/administrativo/citas"
+                    className="rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white"
+                  >
+                    Administrativo
+                  </Link>
+                ) : (
+                  <Link
+                    href={role === "lawyer" ? "/panel" : "/cliente/panel"}
+                    className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
+                  >
+                    Mi panel
+                  </Link>
+                )}
+
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="rounded-full border border-border bg-white px-3 py-2 text-sm font-semibold text-muted transition hover:border-ink hover:text-ink"
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            )}
           </div>
 
-          <Link
-            href="/cliente/acceso"
-            className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700 sm:hidden"
-          >
-            Ingresar
-          </Link>
+          {!loggedIn ? (
+            <Link
+              href="/cliente/acceso"
+              className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700 sm:hidden"
+            >
+              Ingresar
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={logout}
+              className="rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-muted transition hover:border-ink hover:text-ink sm:hidden"
+            >
+              Salir
+            </button>
+          )}
 
           {/* Mobile toggle */}
           <button
@@ -306,21 +395,46 @@ export default function SiteHeader() {
               Solicitar evaluación
             </a>
 
-            <Link
-              href="/admin/login"
-              className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
-              onClick={() => setOpen(false)}
-            >
-              Acceso administrador
-            </Link>
+            {!loggedIn ? (
+              <>
+                <Link
+                  href="/admin/login"
+                  className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
+                  onClick={() => setOpen(false)}
+                >
+                  Acceso administrador
+                </Link>
 
-            <Link
-              href="/cliente/acceso"
-              className="btn-secondary w-full justify-center"
-              onClick={() => setOpen(false)}
-            >
-              Iniciar sesión
-            </Link>
+                <Link
+                  href="/cliente/acceso"
+                  className="btn-secondary w-full justify-center"
+                  onClick={() => setOpen(false)}
+                >
+                  Iniciar sesión
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href={role === "admin" ? "/administrativo/citas" : role === "lawyer" ? "/panel" : "/cliente/panel"}
+                  className="btn-secondary w-full justify-center"
+                  onClick={() => setOpen(false)}
+                >
+                  {role === "admin" ? "Ir a administrativo" : "Ir a mi panel"}
+                </Link>
+
+                <button
+                  type="button"
+                  className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
+                  onClick={async () => {
+                    setOpen(false);
+                    await logout();
+                  }}
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
