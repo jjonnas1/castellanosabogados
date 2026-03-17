@@ -181,11 +181,27 @@ export default function SiteHeader() {
             Solicitar evaluación
           </a>
 
+          <div className="hidden items-center gap-2 sm:flex">
+            <Link
+              href="/admin/login"
+              className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted transition hover:border-ink hover:text-ink"
+            >
+              Admin
+            </Link>
+
+            <Link
+              href="/cliente/acceso"
+              className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
+            >
+              Iniciar sesión
+            </Link>
+          </div>
+
           <Link
             href="/cliente/acceso"
-            className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
+            className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700 sm:hidden"
           >
-            Iniciar sesión
+            Ingresar
           </Link>
 
           {/* Mobile toggle */}
@@ -289,6 +305,14 @@ export default function SiteHeader() {
             >
               Solicitar evaluación
             </a>
+
+            <Link
+              href="/admin/login"
+              className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
+              onClick={() => setOpen(false)}
+            >
+              Acceso administrador
+            </Link>
 
             <Link
               href="/cliente/acceso"
