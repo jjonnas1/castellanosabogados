@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
       <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
         <p className="text-xs uppercase tracking-[0.2em] text-slate-500">CastellanosAbogados</p>
         <h1 className="text-2xl font-semibold text-slate-900">Login administrador</h1>
-        <p className="mt-1 text-sm text-slate-600">Acceso interno para administrar agenda y asignación de citas.</p>
+        <p className="mt-1 text-sm text-slate-600">Acceso interno para administrar agenda y asignación de citas con Google (sin contraseña local).</p>
 
         <div className="mt-4 space-y-3">
           <button
@@ -50,7 +50,7 @@ export default function AdminLoginPage() {
             className="w-full rounded-lg bg-slate-900 px-3 py-2 text-white"
             disabled={loading}
           >
-            {loading ? 'Redirigiendo…' : 'Ingresar con Google'}
+            {loading ? 'Redirigiendo…' : 'Continuar con Google'}
           </button>
 
           <p className="text-xs text-slate-500">
