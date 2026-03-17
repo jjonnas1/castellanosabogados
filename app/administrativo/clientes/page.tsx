@@ -4,8 +4,6 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase-browser';
 
-type Profile = { id: string; email: string; role: 'client' | 'lawyer' | 'admin'; full_name: string | null };
-
 type ClientProfile = {
   id: string;
   auth_user_id: string | null;
@@ -31,7 +29,8 @@ const initialClient = { full_name: '', email: '', phone: '', case_reference: '',
 const initialUpdate = { client_profile_id: '', title: '', update_text: '', status: 'en curso', visible_to_client: true };
 
 export default function AdminClientesPage() {
-  const [me, setMe] = useState<Profile | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [authResolved, setAuthResolved] = useState(false);
   const [clients, setClients] = useState<ClientProfile[]>([]);
   const [updates, setUpdates] = useState<ClientUpdate[]>([]);
   const [clientForm, setClientForm] = useState(initialClient);
@@ -42,11 +41,15 @@ export default function AdminClientesPage() {
   useEffect(() => {
     (async () => {
       const { data: s } = await supabase.auth.getSession();
-      const email = s.session?.user?.email;
-      if (!email) return setLoading(false);
-      const { data } = await supabase.from('user_profiles').select('id,email,role,full_name').eq('email', email).maybeSingle();
-      setMe((data as Profile) ?? null);
-      setLoading(false);
+      const token = s.session?.access_token;
+      if (!token) {
+        setIsAdmin(false);
+        setAuthResolved(true);
+        return;
+      }
+      const res = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
+      setIsAdmin(res.ok);
+      setAuthResolved(true);
     })();
   }, []);
 
@@ -60,8 +63,8 @@ export default function AdminClientesPage() {
   }
 
   useEffect(() => {
-    if (me?.role === 'admin') loadData();
-  }, [me]);
+    if (isAdmin) loadData();
+  }, [isAdmin]);
 
   const updatesByClient = useMemo(() => {
     const map = new Map<string, ClientUpdate[]>();
@@ -168,8 +171,8 @@ export default function AdminClientesPage() {
     URL.revokeObjectURL(url);
   }
 
-  if (loading) return <main className="section"><div className="wrap">Cargando…</div></main>;
-  if (!me || me.role !== 'admin') {
+  if (!authResolved || loading) return <main className="section"><div className="wrap">Cargando…</div></main>;
+  if (!isAdmin) {
     return (
       <main className="section"><div className="wrap"><h1>403</h1><p>Acceso solo para administradores.</p></div></main>
     );

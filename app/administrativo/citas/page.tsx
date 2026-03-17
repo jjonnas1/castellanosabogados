@@ -24,7 +24,7 @@ type Appointment = {
 const STATUSES = ['pending','confirmed','in_call','completed','cancelled'] as const;
 
 export default function AdminCitasPage() {
-  const [me, setMe] = useState<Profile | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [authResolved, setAuthResolved] = useState(false);
   const [areas, setAreas] = useState<Area[]>([]);
   const [lawyers, setLawyers] = useState<Profile[]>([]);
@@ -38,42 +38,21 @@ export default function AdminCitasPage() {
   useEffect(() => {
     (async () => {
       const { data: s } = await supabase.auth.getSession();
-      const user = s.session?.user;
-      if (!user?.email) {
-        setMe(null);
+      const token = s.session?.access_token;
+      if (!token) {
+        setIsAdmin(false);
         setAuthResolved(true);
         return;
       }
 
-      const byUserProfiles = await supabase
-        .from('user_profiles')
-        .select('id,email,role,full_name')
-        .eq('email', user.email)
-        .maybeSingle();
-
-      if (!byUserProfiles.error && byUserProfiles.data) {
-        setMe(byUserProfiles.data as Profile);
-        setAuthResolved(true);
-        return;
-      }
-
-      const byProfiles = await supabase
-        .from('profiles')
-        .select('id,email,role,full_name')
-        .eq('id', user.id)
-        .maybeSingle();
-
-      if (!byProfiles.error && byProfiles.data) {
-        setMe(byProfiles.data as Profile);
-      } else {
-        setMe(null);
-      }
-
+      const res = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
+      setIsAdmin(res.ok);
       setAuthResolved(true);
     })();
   }, []);
 
   useEffect(() => {
+    if (!isAdmin) return;
     (async () => {
       const [a, l] = await Promise.all([
         supabase.from('service_areas').select('slug,name').order('sort',{ascending:true}),
@@ -82,7 +61,7 @@ export default function AdminCitasPage() {
       if (!a.error && a.data) setAreas(a.data as Area[]);
       if (!l.error && l.data) setLawyers(l.data as Profile[]);
     })();
-  }, []);
+  }, [isAdmin]);
 
   async function load() {
     setLoading(true);
@@ -122,13 +101,13 @@ export default function AdminCitasPage() {
   }
 
   useEffect(() => {
-    if (!authResolved || me?.role !== 'admin') {
+    if (!authResolved || !isAdmin) {
       setLoading(false);
       return;
     }
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authResolved, me?.role, qStatus, qArea, qLawyer]);
+  }, [authResolved, isAdmin, qStatus, qArea, qLawyer]);
 
   async function assignLawyer(id: string, lawyer_id: string|null) {
     await supabase.from('appointments').update({ lawyer_id, status: lawyer_id ? 'confirmed' : 'pending' }).eq('id', id);
@@ -145,13 +124,13 @@ export default function AdminCitasPage() {
 
   if (!authResolved) return <main className="main section"><div className="wrap">Cargando…</div></main>;
 
-  if (!me || me.role !== 'admin') {
+  if (!isAdmin) {
     return (
       <main className="main section">
         <div className="wrap">
           <h1>403</h1>
           <p>No tienes permisos de administrador.</p>
-          <p style={{ marginTop: 8 }}>Si ya iniciaste sesión con Google pero no entras, falta asignar rol <strong>admin</strong> en <code>user_profiles</code> o <code>profiles</code>.</p>
+          <p style={{ marginTop: 8 }}>Si ya iniciaste sesión con Google pero no entras, configura rol admin en tu perfil o define <code>ADMIN_OWNER_EMAIL</code> en el entorno del servidor.</p>
           <a href="/admin/login" className="btn btn--ghost" style={{ marginTop: 12 }}>Volver al login admin</a>
         </div>
       </main>

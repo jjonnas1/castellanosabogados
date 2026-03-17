@@ -22,13 +22,32 @@ export async function requireAdmin(authHeader: string | null) {
   const { data: userData, error: userError } = await supabaseServer.auth.getUser(token);
   if (userError || !userData.user) return { ok: false as const, error: 'Sesión inválida' };
 
-  const { data: profile, error: profileError } = await supabaseServer
+  const ownerEmail = (process.env.ADMIN_OWNER_EMAIL ?? '').trim().toLowerCase();
+  const userEmail = (userData.user.email ?? '').toLowerCase();
+
+  if (ownerEmail && userEmail === ownerEmail) {
+    return { ok: true as const, user: userData.user, profile: { role: 'admin', email: userEmail } };
+  }
+
+  const profileByUserProfiles = await supabaseServer
     .from('user_profiles')
     .select('role,email')
     .eq('id', userData.user.id)
     .maybeSingle();
 
-  if (profileError || profile?.role !== 'admin') return { ok: false as const, error: 'Permisos insuficientes' };
+  if (!profileByUserProfiles.error && profileByUserProfiles.data?.role === 'admin') {
+    return { ok: true as const, user: userData.user, profile: profileByUserProfiles.data };
+  }
 
-  return { ok: true as const, user: userData.user, profile };
+  const profileByProfiles = await supabaseServer
+    .from('profiles')
+    .select('role,email')
+    .eq('id', userData.user.id)
+    .maybeSingle();
+
+  if (!profileByProfiles.error && profileByProfiles.data?.role === 'admin') {
+    return { ok: true as const, user: userData.user, profile: profileByProfiles.data };
+  }
+
+  return { ok: false as const, error: 'Permisos insuficientes' };
 }
