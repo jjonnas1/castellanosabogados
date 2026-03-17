@@ -8,7 +8,6 @@ import { supabase } from '@/lib/supabase-browser';
 type Area = { slug: string; name: string };
 type Profile = { id: string; email: string; role: 'client'|'lawyer'|'admin'; full_name: string|null };
 
-const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL ?? 'jonatancastellanosabogado@gmail.com').toLowerCase();
 type Appointment = {
   id: string;
   created_at: string;
@@ -28,7 +27,6 @@ const STATUSES = ['pending','confirmed','in_call','completed','cancelled'] as co
 
 export default function AdminCitasPage() {
   const [me, setMe] = useState<Profile | null>(null);
-  const [sessionEmail, setSessionEmail] = useState<string>('');
   const [areas, setAreas] = useState<Area[]>([]);
   const [lawyers, setLawyers] = useState<Profile[]>([]);
 
@@ -46,7 +44,6 @@ export default function AdminCitasPage() {
       const { data: s } = await supabase.auth.getSession();
       const email = s.session?.user?.email;
       if (!email) { setMe(null); return; }
-      setSessionEmail(email.toLowerCase());
       const { data } = await supabase
         .from('user_profiles')
         .select('id,email,role,full_name')
@@ -121,10 +118,8 @@ export default function AdminCitasPage() {
     load();
   }
 
-  const canAccessAdmin = sessionEmail === ADMIN_EMAIL || me?.role === 'admin';
-
-  if (!sessionEmail) return <div className="wrap">Cargando…</div>;
-  if (!canAccessAdmin) {
+  if (!me) return <div className="wrap">Cargando…</div>;
+  if (me.role !== 'admin') {
     return (
       <main className="main section">
         <div className="wrap"><h1>403</h1><p>No tienes permisos de administrador.</p></div>
