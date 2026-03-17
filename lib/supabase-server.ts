@@ -13,6 +13,35 @@ export function getSupabaseServer() {
   });
 }
 
+async function hasAnyAdmin(supabaseServer: any) {
+  const [up, p] = await Promise.all([
+    supabaseServer.from('user_profiles').select('id', { count: 'exact', head: true }).eq('role', 'admin'),
+    supabaseServer.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'admin'),
+  ]);
+
+  const upCount = up.count ?? 0;
+  const pCount = p.count ?? 0;
+  return upCount + pCount > 0;
+}
+
+async function bootstrapFirstAdmin(
+  supabaseServer: any,
+  user: { id: string; email?: string | null },
+) {
+  const alreadyHasAdmin = await hasAnyAdmin(supabaseServer);
+  if (alreadyHasAdmin) return false;
+
+  const email = user.email ?? '';
+  await supabaseServer.from('user_profiles').upsert({
+    id: user.id,
+    email,
+    role: 'admin',
+    full_name: null,
+  });
+
+  return true;
+}
+
 export async function requireAdmin(authHeader: string | null) {
   if (!authHeader?.startsWith('Bearer ')) return { ok: false as const, error: 'No autorizado' };
 
@@ -47,6 +76,19 @@ export async function requireAdmin(authHeader: string | null) {
 
   if (!profileByProfiles.error && profileByProfiles.data?.role === 'admin') {
     return { ok: true as const, user: userData.user, profile: profileByProfiles.data };
+  }
+
+  const bootstrapped = await bootstrapFirstAdmin(supabaseServer, {
+    id: userData.user.id,
+    email: userData.user.email,
+  });
+
+  if (bootstrapped) {
+    return {
+      ok: true as const,
+      user: userData.user,
+      profile: { role: 'admin', email: userData.user.email ?? '' },
+    };
   }
 
   return { ok: false as const, error: 'Permisos insuficientes' };
