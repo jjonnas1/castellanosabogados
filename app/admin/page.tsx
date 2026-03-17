@@ -1,35 +1,15 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase-browser';
-import { Session } from '@supabase/supabase-js';
+
+import { useEffect } from 'react';
 
 export default function AdminPage() {
-  const [session, setSession] = useState<Session|null>(null);
-  const [role, setRole] = useState<string>('');
-
   useEffect(() => {
-    supabase.auth.getSession().then(({data})=>setSession(data.session));
-    const { data: sub } = supabase.auth.onAuthStateChange((_e,s)=>setSession(s));
-    return () => sub.subscription.unsubscribe();
+    window.location.href = '/admin/login';
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      if (!session?.user?.id) return;
-      const { data } = await supabase.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
-      setRole(data?.role ?? '');
-    })();
-  }, [session]);
-
-  if (!session) { if (typeof window !== 'undefined') window.location.href='/cliente/acceso'; return null; }
-  if (role !== 'admin') return <main className="main section"><div className="wrap"><h1 className="h1">Admin</h1><p>No autorizado.</p></div></main>;
-
   return (
-    <main className="main section">
-      <div className="wrap">
-        <h1 className="h1">Admin</h1>
-        <p className="muted">Aquí administraremos áreas y citas (pendiente construir UI completa).</p>
-      </div>
+    <main className="min-h-screen bg-slate-100 p-6 text-slate-700">
+      Redirigiendo al acceso de administrador…
     </main>
   );
 }

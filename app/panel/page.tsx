@@ -28,6 +28,7 @@ type LegalCase = {
   user_id: string;
   fecha: string;
   cliente: string;
+  client_email: string | null;
   marce: string | null;
   patio: string | null;
   radicados: string[];
@@ -74,6 +75,7 @@ const initialTaskForm = {
 const initialCaseForm = {
   fecha: new Date().toISOString().slice(0, 10),
   cliente: '',
+  client_email: '',
   marce: '',
   patio: '',
   radicados: '',
@@ -297,6 +299,7 @@ export default function PrivatePanelPage() {
       patio: caseForm.patio || null,
       proxima_actuacion: caseForm.proxima_actuacion || null,
       comentarios: caseForm.comentarios || null,
+      client_email: caseForm.client_email || null,
       radicados: splitCsv(caseForm.radicados),
       beneficios: splitCsv(caseForm.beneficios),
     };
@@ -319,6 +322,7 @@ export default function PrivatePanelPage() {
     setCaseForm({
       fecha: legalCase.fecha,
       cliente: legalCase.cliente,
+      client_email: legalCase.client_email ?? '',
       marce: legalCase.marce ?? '',
       patio: legalCase.patio ?? '',
       radicados: legalCase.radicados.join(', '),
@@ -512,6 +516,7 @@ export default function PrivatePanelPage() {
               <form onSubmit={upsertCase} className="space-y-2 text-sm">
                 <input className="w-full rounded-lg border p-2" type="date" value={caseForm.fecha} onChange={(e) => setCaseForm({ ...caseForm, fecha: e.target.value })} required />
                 <input className="w-full rounded-lg border p-2" placeholder="Cliente" value={caseForm.cliente} onChange={(e) => setCaseForm({ ...caseForm, cliente: e.target.value })} required />
+                <input className="w-full rounded-lg border p-2" type="email" placeholder="Correo del cliente (para acceso al progreso)" value={caseForm.client_email} onChange={(e) => setCaseForm({ ...caseForm, client_email: e.target.value })} />
                 <div className="grid grid-cols-2 gap-2">
                   <input className="rounded-lg border p-2" placeholder="MARCE" value={caseForm.marce} onChange={(e) => setCaseForm({ ...caseForm, marce: e.target.value })} />
                   <input className="rounded-lg border p-2" placeholder="Patio" value={caseForm.patio} onChange={(e) => setCaseForm({ ...caseForm, patio: e.target.value })} />
@@ -555,6 +560,7 @@ export default function PrivatePanelPage() {
                         <div>
                           <p className="font-semibold text-slate-900">{item.cliente}</p>
                           <p className="text-xs text-slate-500">{item.proceso} · {item.estado}</p>
+                          <p className="text-xs text-slate-500">Cliente acceso: {item.client_email || 'No definido'}</p>
                           <p className="text-xs text-slate-500">MARCE: {item.marce || '—'} · Patio: {item.patio || '—'}</p>
                           <p className="text-xs text-slate-500">Radicados: {item.radicados.join(', ') || '—'}</p>
                         </div>
