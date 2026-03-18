@@ -106,7 +106,6 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     if (!token) {
       setIsAdmin(false);
       setReady(true);
-      router.push('/admin/login');
       return;
     }
 
@@ -118,8 +117,6 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
 
     setIsAdmin(me.ok);
     setReady(true);
-
-    if (!me.ok) router.push('/admin/login');
   };
 
   const loadAll = async () => {
