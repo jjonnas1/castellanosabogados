@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
+import AdminFloatingAccess from "@/app/components/AdminFloatingAccess";
 import { buildMailtoUrl } from "@/lib/contactLinks";
 import { getProfileRoleByUserId, type AppRole } from "@/lib/profile-role";
 import { supabase } from "@/lib/supabase-browser";
@@ -228,13 +229,6 @@ export default function SiteHeader() {
           </a>
 
           <div className="hidden items-center gap-2 sm:flex">
-            <Link
-              href="/admin/login"
-              className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted transition hover:border-ink hover:text-ink"
-            >
-              Administrativo
-            </Link>
-
             {!loggedIn ? (
               <Link
                 href="/cliente/login"
@@ -380,14 +374,6 @@ export default function SiteHeader() {
               Solicitar evaluación
             </a>
 
-            <Link
-              href="/admin/login"
-              className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
-              onClick={() => setOpen(false)}
-            >
-              Acceso administrativo
-            </Link>
-
             {!loggedIn ? (
               <Link
                 href="/cliente/login"
@@ -421,6 +407,7 @@ export default function SiteHeader() {
           </div>
         </div>
       )}
+      <AdminFloatingAccess />
     </header>
   );
 }
