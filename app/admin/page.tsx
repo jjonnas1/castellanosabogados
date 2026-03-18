@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase-browser';
+import { getProfileRoleByUserId, type AppRole } from '@/lib/profile-role';
 import SiteHeader from '@/app/components/SiteHeader';
 import AdminWorkspace from '@/app/components/AdminWorkspace';
 
 export default function AdminRootPage() {
   const router = useRouter();
   const [session, setSession] = useState<Session | null>(null);
-  const [role, setRole] = useState<string | null>(null);
+  const [role, setRole] = useState<AppRole>(null);
   const [loadingSession, setLoadingSession] = useState(true);
   const [loadingRole, setLoadingRole] = useState(true);
 
@@ -45,15 +46,9 @@ export default function AdminRootPage() {
       }
 
       setLoadingRole(true);
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', session.user.id)
-        .maybeSingle();
+      const resolvedRole = await getProfileRoleByUserId(session.user.id);
 
       if (!mounted) return;
-
-      const resolvedRole = (profile?.role as string | undefined) ?? null;
       setRole(resolvedRole);
       setLoadingRole(false);
     }

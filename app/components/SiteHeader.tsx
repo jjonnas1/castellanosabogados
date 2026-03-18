@@ -4,9 +4,10 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { buildMailtoUrl } from "@/lib/contactLinks";
+import { getProfileRoleByUserId, type AppRole } from "@/lib/profile-role";
 import { supabase } from "@/lib/supabase-browser";
 
-type HeaderRole = "client" | "admin" | null;
+type HeaderRole = AppRole;
 
 const NAV_ITEMS = [
   { label: "Inicio", href: "/" },
@@ -90,31 +91,8 @@ export default function SiteHeader() {
       }
 
       setLoggedIn(true);
-
-      const { data: byId } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", user.id)
-        .maybeSingle();
-
-      if (byId?.role) {
-        setRole(byId.role as HeaderRole);
-        return;
-      }
-
-      const email = user.email;
-      if (!email) {
-        setRole(null);
-        return;
-      }
-
-      const { data: byEmail } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("email", email)
-        .maybeSingle();
-
-      setRole((byEmail?.role as HeaderRole) ?? null);
+      const nextRole = await getProfileRoleByUserId(user.id);
+      setRole(nextRole);
     };
 
     loadAuthState();

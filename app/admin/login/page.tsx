@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { getProfileRoleByUserId } from '@/lib/profile-role';
 import { supabase } from '@/lib/supabase-browser';
 
 async function resolveAdminRole(userId: string) {
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', userId).maybeSingle();
-  return profile?.role === 'admin';
+  const role = await getProfileRoleByUserId(userId);
+  return role === 'admin';
 }
 
 export default function AdminLoginPage() {
