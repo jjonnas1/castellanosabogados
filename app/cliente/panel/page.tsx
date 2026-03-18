@@ -13,6 +13,15 @@ type ClientProfile = {
   can_access_portal: boolean;
 };
 
+type ClientAppointment = {
+  id: string;
+  title: string;
+  description: string | null;
+  start_at: string;
+  end_at: string;
+  status: string;
+};
+
 type ClientUpdate = {
   id: string;
   title: string;
@@ -27,6 +36,7 @@ export default function ClientPanel() {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<ClientProfile | null>(null);
   const [updates, setUpdates] = useState<ClientUpdate[]>([]);
+  const [appointments, setAppointments] = useState<ClientAppointment[]>([]);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
@@ -62,6 +72,19 @@ export default function ClientPanel() {
         .order('created_at', { ascending: false });
 
       setUpdates((updatesData ?? []) as ClientUpdate[]);
+
+      if (profileData?.id) {
+        const { data: appointmentsData } = await supabase
+          .from('appointments')
+          .select('id,title,description,start_at,end_at,status')
+          .eq('client_profile_id', profileData.id)
+          .order('start_at', { ascending: true });
+
+        setAppointments((appointmentsData ?? []) as ClientAppointment[]);
+      } else {
+        setAppointments([]);
+      }
+
       setLoading(false);
     })();
   }, [session]);
@@ -96,6 +119,23 @@ export default function ClientPanel() {
               <Stat title="Cliente" value={profile.full_name} />
               <Stat title="Referencia" value={profile.case_reference || 'Sin referencia'} />
               <Stat title="Estado portal" value={profile.can_access_portal ? 'Habilitado' : 'Restringido'} />
+            </section>
+
+
+            <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <h2 className="mb-3 text-lg font-semibold text-slate-900">Mis citas</h2>
+              <div className="space-y-2">
+                {appointments.map((appointment) => (
+                  <article key={appointment.id} className="rounded-lg border border-slate-200 p-3">
+                    <p className="font-semibold text-slate-900">{appointment.title}</p>
+                    <p className="text-sm text-slate-700">{appointment.description || 'Sin descripción'}</p>
+                    <p className="text-xs text-slate-500">
+                      {new Date(appointment.start_at).toLocaleString('es-CO')} → {new Date(appointment.end_at).toLocaleString('es-CO')} · {appointment.status}
+                    </p>
+                  </article>
+                ))}
+                {appointments.length === 0 && <p className="text-sm text-slate-500">No tienes citas asignadas por ahora.</p>}
+              </div>
             </section>
 
             <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">

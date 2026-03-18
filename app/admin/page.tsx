@@ -1,15 +1,11 @@
-'use client';
-
-import { useEffect } from 'react';
+import SiteHeader from '@/app/components/SiteHeader';
+import AdminWorkspace from '@/app/components/AdminWorkspace';
 
 export default function AdminPage() {
-  useEffect(() => {
-    window.location.href = '/admin/login';
-  }, []);
-
   return (
-    <main className="min-h-screen bg-slate-100 p-6 text-slate-700">
-      Redirigiendo al acceso de administrador…
+    <main className="bg-canvas text-ink min-h-screen">
+      <SiteHeader />
+      <AdminWorkspace />
     </main>
   );
 }

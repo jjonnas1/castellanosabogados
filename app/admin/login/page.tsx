@@ -92,7 +92,7 @@ export default function AdminLoginPage() {
         const isAdmin = await resolveClientAdmin();
 
         if (isAdmin) {
-          window.location.href = '/admin/dashboard';
+          window.location.href = '/admin';
           return;
         }
       } catch {
@@ -120,7 +120,7 @@ export default function AdminLoginPage() {
       options: {
         redirectTo:
           typeof window !== 'undefined'
-            ? `${window.location.origin}/admin/dashboard`
+            ? `${window.location.origin}/admin`
             : undefined,
       },
     });

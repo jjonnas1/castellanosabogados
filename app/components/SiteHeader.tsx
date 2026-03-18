@@ -132,7 +132,7 @@ export default function SiteHeader() {
     window.location.href = "/";
   };
 
-  const panelHref = role === "admin" ? "/admin/dashboard" : role === "lawyer" ? "/panel" : "/cliente/panel";
+  const panelHref = role === "admin" ? "/admin" : role === "lawyer" ? "/panel" : "/cliente/panel";
 
 
   const mailtoEvaluacionDesktop = buildMailtoUrl({
@@ -250,7 +250,7 @@ export default function SiteHeader() {
 
           <div className="hidden items-center gap-2 sm:flex">
             <Link
-              href="/admin/dashboard"
+              href="/admin"
               className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted transition hover:border-ink hover:text-ink"
             >
               Administrativo
@@ -402,7 +402,7 @@ export default function SiteHeader() {
             </a>
 
             <Link
-              href="/admin/dashboard"
+              href="/admin"
               className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
               onClick={() => setOpen(false)}
             >

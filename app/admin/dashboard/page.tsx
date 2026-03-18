@@ -1,11 +1,5 @@
-import SiteHeader from '@/app/components/SiteHeader';
-import AdminCitasPanel from '@/app/components/AdminCitasPanel';
+import { redirect } from 'next/navigation';
 
-export default function AdminDashboardPage() {
-  return (
-    <main className="bg-canvas text-ink min-h-screen">
-      <SiteHeader />
-      <AdminCitasPanel />
-    </main>
-  );
+export default function AdminDashboardRedirect() {
+  redirect('/admin');
 }
