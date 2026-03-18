@@ -85,7 +85,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     setIsAdmin(me.ok);
     setReady(true);
 
-    if (!me.ok) router.push('/');
+    if (!me.ok) router.push('/admin/login');
   };
 
   const loadAll = async () => {

@@ -28,11 +28,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'Este usuario no está en la lista de owner/admin' }, { status: 403 });
   }
 
-  const { error: upsertError } = await supabaseServer.from('user_profiles').upsert({
+  const { error: upsertError } = await supabaseServer.from('profiles').upsert({
     id: userData.user.id,
     email: userEmail,
     role: 'admin',
-    full_name: userData.user.user_metadata?.full_name ?? null,
   });
 
   if (upsertError) {

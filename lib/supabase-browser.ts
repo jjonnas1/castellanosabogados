@@ -1,2 +1,7 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-export const supabase = createClientComponentClient();
+
+type SupabaseBrowserClient = ReturnType<typeof createClientComponentClient>;
+export const supabase: SupabaseBrowserClient =
+  typeof window === 'undefined'
+    ? ({} as SupabaseBrowserClient)
+    : createClientComponentClient();

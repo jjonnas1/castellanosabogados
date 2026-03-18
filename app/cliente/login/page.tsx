@@ -6,10 +6,7 @@ import { supabase } from '@/lib/supabase-browser';
 
 async function resolveRole(userId: string) {
   const { data: profile } = await supabase.from('profiles').select('role').eq('id', userId).maybeSingle();
-  if (profile?.role) return profile.role as string;
-
-  const { data: userProfile } = await supabase.from('user_profiles').select('role').eq('id', userId).maybeSingle();
-  return (userProfile?.role as string | undefined) ?? null;
+  return (profile?.role as string | undefined) ?? null;
 }
 
 export default function ClienteLoginPage() {
@@ -57,26 +54,6 @@ export default function ClienteLoginPage() {
     setLoading(false);
   }
 
-  async function handleGoogle() {
-    setLoading(true);
-    setError(null);
-
-    const { error: oauthError } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-
-    if (oauthError) {
-      setError(oauthError.message);
-      setLoading(false);
-      return;
-    }
-
-    setLoading(false);
-  }
-
   return (
     <main className="section">
       <div className="wrap" style={{ maxWidth: 460 }}>
@@ -98,9 +75,6 @@ export default function ClienteLoginPage() {
             {loading ? 'Ingresando…' : 'Ingresar'}
           </button>
 
-          <button type="button" className="btn btn--ghost" onClick={handleGoogle} disabled={loading}>
-            Ingresar con Google
-          </button>
         </form>
 
         {error && <div style={{ marginTop: 10, color: '#b91c1c' }}>{error}</div>}

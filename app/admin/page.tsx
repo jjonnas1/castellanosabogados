@@ -37,7 +37,7 @@ export default function AdminRootPage() {
         .eq('id', userId)
         .maybeSingle();
 
-      const resolvedRole = profile?.role ?? null;
+      const resolvedRole = (profile?.role as string | undefined) ?? null;
       setRole(resolvedRole);
 
       if (resolvedRole !== 'admin') {

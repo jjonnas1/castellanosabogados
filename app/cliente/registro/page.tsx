@@ -40,18 +40,6 @@ export default function ClienteRegistroPage() {
     setLoading(false);
   }
 
-  async function handleGoogle() {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    if (error) setStatus(error.message);
-    setLoading(false);
-  }
-
   return (
     <main className="section">
       <div className="wrap" style={{ maxWidth: 420 }}>
@@ -73,9 +61,6 @@ export default function ClienteRegistroPage() {
             {loading ? 'Creando…' : 'Registrarme'}
           </button>
 
-          <button type="button" className="btn btn--ghost" onClick={handleGoogle} disabled={loading}>
-            Registrarme con Google
-          </button>
         </form>
 
         {status && <div style={{ marginTop: 10, color: '#555' }}>{status}</div>}

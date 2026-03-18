@@ -92,7 +92,7 @@ export default function SiteHeader() {
       setLoggedIn(true);
 
       const { data: byId } = await supabase
-        .from("user_profiles")
+        .from("profiles")
         .select("role")
         .eq("id", user.id)
         .maybeSingle();
@@ -109,7 +109,7 @@ export default function SiteHeader() {
       }
 
       const { data: byEmail } = await supabase
-        .from("user_profiles")
+        .from("profiles")
         .select("role")
         .eq("email", email)
         .maybeSingle();

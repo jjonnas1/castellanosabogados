@@ -21,14 +21,8 @@ export function getSupabaseServer() {
 }
 
 async function hasAnyAdmin(supabaseServer: any) {
-  const [up, p] = await Promise.all([
-    supabaseServer.from('user_profiles').select('id', { count: 'exact', head: true }).eq('role', 'admin'),
-    supabaseServer.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'admin'),
-  ]);
-
-  const upCount = up.count ?? 0;
-  const pCount = p.count ?? 0;
-  return upCount + pCount > 0;
+  const p = await supabaseServer.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'admin');
+  return (p.count ?? 0) > 0;
 }
 
 async function bootstrapFirstAdmin(
@@ -41,11 +35,10 @@ async function bootstrapFirstAdmin(
   if (alreadyHasAdmin) return false;
 
   const email = user.email ?? '';
-  await supabaseServer.from('user_profiles').upsert({
+  await supabaseServer.from('profiles').upsert({
     id: user.id,
     email,
     role: 'admin',
-    full_name: null,
   });
 
   return true;
@@ -67,28 +60,6 @@ export async function requireAdmin(authHeader: string | null) {
 
   if (userEmail && ownerEmails.includes(userEmail)) {
     return { ok: true as const, user: userData.user, profile: { role: 'admin', email: userEmail } };
-  }
-
-  const profileByUserProfiles = await supabaseServer
-    .from('user_profiles')
-    .select('role,email')
-    .eq('id', userData.user.id)
-    .maybeSingle();
-
-  if (!profileByUserProfiles.error && profileByUserProfiles.data?.role === 'admin') {
-    return { ok: true as const, user: userData.user, profile: profileByUserProfiles.data };
-  }
-
-  if (userEmail) {
-    const profileByEmail = await supabaseServer
-      .from('user_profiles')
-      .select('role,email')
-      .eq('email', userEmail)
-      .maybeSingle();
-
-    if (!profileByEmail.error && profileByEmail.data?.role === 'admin') {
-      return { ok: true as const, user: userData.user, profile: profileByEmail.data };
-    }
   }
 
   if (userEmail) {
