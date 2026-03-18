@@ -90,19 +90,30 @@ export default function SiteHeader() {
 
       setLoggedIn(true);
 
+      const { data: byId } = await supabase
+        .from("user_profiles")
+        .select("role")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (byId?.role) {
+        setRole(byId.role as HeaderRole);
+        return;
+      }
+
       const email = user.email;
       if (!email) {
         setRole(null);
         return;
       }
 
-      const { data } = await supabase
+      const { data: byEmail } = await supabase
         .from("user_profiles")
         .select("role")
         .eq("email", email)
         .maybeSingle();
 
-      setRole((data?.role as HeaderRole) ?? null);
+      setRole((byEmail?.role as HeaderRole) ?? null);
     };
 
     loadAuthState();

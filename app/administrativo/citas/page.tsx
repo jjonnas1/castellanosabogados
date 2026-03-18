@@ -36,9 +36,10 @@ export default function AdminCitasPage() {
   const [qLawyer, setQLawyer] = useState<string>('all');
 
   useEffect(() => {
-    (async () => {
+    const resolveAdmin = async () => {
       const { data: s } = await supabase.auth.getSession();
       const token = s.session?.access_token;
+
       if (!token) {
         setIsAdmin(false);
         setAuthResolved(true);
@@ -48,7 +49,17 @@ export default function AdminCitasPage() {
       const res = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
       setIsAdmin(res.ok);
       setAuthResolved(true);
-    })();
+    };
+
+    resolveAdmin();
+
+    const { data: authSub } = supabase.auth.onAuthStateChange(() => {
+      resolveAdmin();
+    });
+
+    return () => {
+      authSub.subscription.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {

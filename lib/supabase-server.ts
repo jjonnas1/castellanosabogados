@@ -68,6 +68,18 @@ export async function requireAdmin(authHeader: string | null) {
     return { ok: true as const, user: userData.user, profile: profileByUserProfiles.data };
   }
 
+  if (userEmail) {
+    const profileByEmail = await supabaseServer
+      .from('user_profiles')
+      .select('role,email')
+      .eq('email', userEmail)
+      .maybeSingle();
+
+    if (!profileByEmail.error && profileByEmail.data?.role === 'admin') {
+      return { ok: true as const, user: userData.user, profile: profileByEmail.data };
+    }
+  }
+
   const profileByProfiles = await supabaseServer
     .from('profiles')
     .select('role,email')

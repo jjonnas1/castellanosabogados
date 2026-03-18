@@ -5,15 +5,39 @@ import { supabase } from '@/lib/supabase-browser';
 
 export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    (async () => {
+    const checkAdmin = async () => {
       const { data: sessionData } = await supabase.auth.getSession();
-      if (sessionData.session?.user) {
-        window.location.href = '/administrativo/citas';
+      const token = sessionData.session?.access_token;
+
+      if (!token) {
+        setChecking(false);
+        return;
       }
-    })();
+
+      const res = await fetch('/api/admin/me', {
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      if (res.ok) {
+        window.location.href = '/administrativo/citas';
+        return;
+      }
+
+      setChecking(false);
+      setError('Tu usuario inició sesión, pero no tiene rol admin.');
+    };
+
+    checkAdmin();
+
+    const { data: authSub } = supabase.auth.onAuthStateChange(() => {
+      checkAdmin();
+    });
+
+    return () => authSub.subscription.unsubscribe();
   }, []);
 
   async function loginWithGoogle() {
@@ -48,9 +72,9 @@ export default function AdminLoginPage() {
             type="button"
             onClick={loginWithGoogle}
             className="w-full rounded-lg bg-slate-900 px-3 py-2 text-white"
-            disabled={loading}
+            disabled={loading || checking}
           >
-            {loading ? 'Redirigiendo…' : 'Continuar con Google'}
+            {checking ? 'Verificando sesión…' : loading ? 'Redirigiendo…' : 'Continuar con Google'}
           </button>
 
           <p className="text-xs text-slate-500">
