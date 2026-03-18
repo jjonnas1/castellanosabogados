@@ -6,7 +6,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { buildMailtoUrl } from "@/lib/contactLinks";
 import { supabase } from "@/lib/supabase-browser";
 
-type HeaderRole = "client" | "lawyer" | "admin" | null;
+type HeaderRole = "client" | "admin" | null;
 
 const NAV_ITEMS = [
   { label: "Inicio", href: "/" },
@@ -133,7 +133,7 @@ export default function SiteHeader() {
     router.push("/login");
   };
 
-  const panelHref = role === "admin" ? "/admin/resumen" : "/portal/inicio";
+  const panelHref = role === "admin" ? "/admin" : "/cliente";
 
 
   const mailtoEvaluacionDesktop = buildMailtoUrl({
@@ -259,7 +259,7 @@ export default function SiteHeader() {
 
             {!loggedIn ? (
               <Link
-                href="/login"
+                href="/cliente/login"
                 className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
               >
                 Iniciar sesión
@@ -285,7 +285,7 @@ export default function SiteHeader() {
 
           {!loggedIn ? (
             <Link
-              href="/login"
+              href="/cliente/login"
               className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700 sm:hidden"
             >
               Ingresar
@@ -412,7 +412,7 @@ export default function SiteHeader() {
 
             {!loggedIn ? (
               <Link
-                href="/login"
+                href="/cliente/login"
                 className="btn-secondary w-full justify-center"
                 onClick={() => setOpen(false)}
               >

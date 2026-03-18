@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   if (!email) return NextResponse.json({ ok: false, error: 'Email requerido' }, { status: 400 });
 
   const { data, error } = await getSupabaseServer().auth.admin.inviteUserByEmail(email, {
-    redirectTo: `${req.nextUrl.origin}/cliente/panel`,
+    redirectTo: `${req.nextUrl.origin}/cliente`,
   });
 
   if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });

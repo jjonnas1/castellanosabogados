@@ -29,7 +29,7 @@ export default function AdminLoginPage() {
 
       const isAdmin = await resolveAdminRole(user.id);
       if (isAdmin) {
-        router.push('/admin/resumen');
+        router.push('/admin');
         return;
       }
 

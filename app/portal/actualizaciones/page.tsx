@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase-browser';
 
 type Update = { id: string; title: string; update_text?: string; body?: string; status: string; created_at: string };
 
-export default function PortalActualizacionesPage() {
+export default function ClienteActualizacionesPage() {
   const router = useRouter();
   const [items, setItems] = useState<Update[]>([]);
 
@@ -14,7 +14,7 @@ export default function PortalActualizacionesPage() {
     (async () => {
       const { data: s } = await supabase.auth.getSession();
       if (!s.session) {
-        router.push('/login');
+        router.push('/cliente/login');
         return;
       }
 

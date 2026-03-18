@@ -6,10 +6,11 @@ import type { NextRequest } from 'next/server'
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)
   const code = requestUrl.searchParams.get('code')
+  const intent = requestUrl.searchParams.get('intent')
 
   if (!code) {
     return NextResponse.redirect(
-      new URL('/login?error=missing_code', requestUrl.origin)
+      new URL('/cliente/login?error=missing_code', requestUrl.origin)
     )
   }
 
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest) {
 
   if (exchangeError) {
     return NextResponse.redirect(
-      new URL('/login?error=exchange_failed', requestUrl.origin)
+      new URL('/cliente/login?error=exchange_failed', requestUrl.origin)
     )
   }
 
@@ -30,7 +31,7 @@ export async function GET(request: NextRequest) {
 
   if (!session) {
     return NextResponse.redirect(
-      new URL('/login?error=no_session', requestUrl.origin)
+      new URL('/cliente/login?error=no_session', requestUrl.origin)
     )
   }
 
@@ -52,17 +53,21 @@ export async function GET(request: NextRequest) {
     .eq('id', session.user.id)
     .single()
 
+  if (intent === 'admin' && profile?.role !== 'admin') {
+    return NextResponse.redirect(new URL('/admin/login?error=admin_required', requestUrl.origin))
+  }
+
   // Route based on role
   if (profile?.role === 'admin') {
     return NextResponse.redirect(new URL('/admin', requestUrl.origin))
   }
 
   if (profile?.role === 'client') {
-    return NextResponse.redirect(new URL('/portal', requestUrl.origin))
+    return NextResponse.redirect(new URL('/cliente', requestUrl.origin))
   }
 
   // Role not assigned yet
   return NextResponse.redirect(
-    new URL('/login?error=no_role', requestUrl.origin)
+    new URL('/cliente/login?error=no_role', requestUrl.origin)
   )
 }

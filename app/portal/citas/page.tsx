@@ -14,7 +14,7 @@ type Appointment = {
   status: string;
 };
 
-export default function PortalCitasPage() {
+export default function ClienteCitasPage() {
   const router = useRouter();
   const [items, setItems] = useState<Appointment[]>([]);
 
@@ -22,7 +22,7 @@ export default function PortalCitasPage() {
     (async () => {
       const { data: s } = await supabase.auth.getSession();
       if (!s.session) {
-        router.push('/login');
+        router.push('/cliente/login');
         return;
       }
 
