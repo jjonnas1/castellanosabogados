@@ -251,7 +251,7 @@ export default function SiteHeader() {
 
           <div className="hidden items-center gap-2 sm:flex">
             <Link
-              href="/admin/resumen"
+              href="/admin/login"
               className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted transition hover:border-ink hover:text-ink"
             >
               Administrativo
@@ -259,7 +259,7 @@ export default function SiteHeader() {
 
             {!loggedIn ? (
               <Link
-                href="/cliente/login"
+                href="/login"
                 className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
               >
                 Iniciar sesión
@@ -285,7 +285,7 @@ export default function SiteHeader() {
 
           {!loggedIn ? (
             <Link
-              href="/cliente/login"
+              href="/login"
               className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700 sm:hidden"
             >
               Ingresar
@@ -403,7 +403,7 @@ export default function SiteHeader() {
             </a>
 
             <Link
-              href="/admin/resumen"
+              href="/admin/login"
               className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
               onClick={() => setOpen(false)}
             >
@@ -412,7 +412,7 @@ export default function SiteHeader() {
 
             {!loggedIn ? (
               <Link
-                href="/cliente/login"
+                href="/login"
                 className="btn-secondary w-full justify-center"
                 onClick={() => setOpen(false)}
               >
