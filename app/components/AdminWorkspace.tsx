@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
 
 type Section = 'resumen' | 'clientes' | 'agenda' | 'actualizaciones' | 'exportar' | 'all';
@@ -47,9 +46,7 @@ const emptyUpdate = { client_profile_id: '', title: '', update_text: '', status:
 const emptyAppointment = { title: '', description: '', start_at: '', end_at: '', status: 'programada', client_profile_id: '' };
 
 export default function AdminWorkspace({ section = 'all', clientId }: { section?: Section; clientId?: string }) {
-  const router = useRouter();
   const [ready, setReady] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [adminId, setAdminId] = useState<string | null>(null);
   const [adminToken, setAdminToken] = useState<string | null>(null);
   const [status, setStatus] = useState('');
@@ -102,20 +99,6 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     const token = s.session?.access_token;
     setAdminId(s.session?.user?.id ?? null);
     setAdminToken(token ?? null);
-
-    if (!token) {
-      setIsAdmin(false);
-      setReady(true);
-      return;
-    }
-
-    let me = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
-    if (!me.ok) {
-      await fetch('/api/admin/ensure-role', { method: 'POST', headers: { authorization: `Bearer ${token}` } });
-      me = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
-    }
-
-    setIsAdmin(me.ok);
     setReady(true);
   };
 
@@ -137,8 +120,8 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   }, []);
 
   useEffect(() => {
-    if (isAdmin && adminToken) loadAll();
-  }, [isAdmin, adminToken]);
+    if (adminToken) loadAll();
+  }, [adminToken]);
 
   const clientMap = useMemo(() => new Map(clients.map((c) => [c.id, c])), [clients]);
   const clientUpdates = useMemo(() => (clientId ? updates.filter((u) => u.client_profile_id === clientId) : updates), [updates, clientId]);
@@ -286,7 +269,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const toInputDate = (value: string) => (value ? new Date(value).toISOString().slice(0, 16) : '');
 
   if (!ready) return <section className="container section-shell"><div className="card-shell bg-white p-6">Validando sesión admin…</div></section>;
-  if (!isAdmin) return <section className="container section-shell"><div className="card-shell bg-white p-6 text-center">No autorizado</div></section>;
+  if (!adminToken) return <section className="container section-shell"><div className="card-shell bg-white p-6 text-center">No hay sesión admin activa.</div></section>;
 
   return (
     <section className="container section-shell space-y-6">
