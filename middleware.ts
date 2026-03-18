@@ -14,7 +14,10 @@ export async function middleware(request: NextRequest) {
   const isClientPublic = pathname === '/cliente/login' || pathname === '/cliente/registro' || pathname === '/cliente/acceso';
 
   if (!session) {
-    if (isAdminPath || (isClientPath && !isClientPublic)) {
+    if (isAdminPath) {
+      return NextResponse.redirect(new URL('/admin/login', request.url));
+    }
+    if (isClientPath && !isClientPublic) {
       return NextResponse.redirect(new URL('/cliente/login', request.url));
     }
     return response;

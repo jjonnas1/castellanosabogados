@@ -22,7 +22,7 @@ export default function AdminRootPage() {
 
   useEffect(() => {
     if (session === null) {
-      router.push('/cliente/acceso');
+      router.push('/admin/login');
     }
   }, [session, router]);
 

@@ -36,7 +36,7 @@ create trigger profiles_set_updated_at
 before update on public.profiles
 for each row execute function public.set_updated_at();
 
--- Replace old admin resolver that referenced non-existent user_profiles.
+-- Replace old admin resolver to use profiles as the source of truth.
 create or replace function public.is_admin_user()
 returns boolean
 language sql

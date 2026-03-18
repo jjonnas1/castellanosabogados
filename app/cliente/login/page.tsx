@@ -26,7 +26,8 @@ export default function ClienteLoginPage() {
 
     const role = await resolveRole(user.id);
     if (role === 'admin') {
-      router.push('/admin');
+      await supabase.auth.signOut();
+      router.push('/admin/login');
       return;
     }
 
