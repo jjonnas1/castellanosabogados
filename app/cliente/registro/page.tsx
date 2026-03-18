@@ -42,7 +42,12 @@ export default function ClienteRegistroPage() {
 
   async function handleGoogle() {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
     if (error) setStatus(error.message);
     setLoading(false);
   }
