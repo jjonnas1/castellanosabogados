@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
 
@@ -16,6 +16,27 @@ export default function ClienteLoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    (async () => {
+      const { data: s } = await supabase.auth.getSession();
+      const user = s.session?.user;
+      if (!user) return;
+
+      const role = await resolveRole(user.id);
+      if (role === 'client') {
+        router.push('/cliente');
+        return;
+      }
+
+      if (role === 'admin') {
+        setError('Esta cuenta es administrativa. Usa /admin/login para continuar.');
+        return;
+      }
+
+      setError('Tu cuenta no tiene acceso configurado.');
+    })();
+  }, [router]);
+
   async function routeByRole() {
     const { data: s } = await supabase.auth.getSession();
     const user = s.session?.user;
@@ -26,8 +47,7 @@ export default function ClienteLoginPage() {
 
     const role = await resolveRole(user.id);
     if (role === 'admin') {
-      await supabase.auth.signOut();
-      router.push('/admin/login');
+      setError('Esta cuenta es administrativa. Usa /admin/login para continuar.');
       return;
     }
 

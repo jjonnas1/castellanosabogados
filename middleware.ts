@@ -10,11 +10,13 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
   const isAdminPath = pathname.startsWith('/admin');
+  const isAdminPublic = pathname === '/admin/login';
   const isClientPath = pathname.startsWith('/cliente') || pathname.startsWith('/portal') || pathname.startsWith('/panel');
   const isClientPublic = pathname === '/cliente/login' || pathname === '/cliente/registro' || pathname === '/cliente/acceso';
+  const isAdminProtected = isAdminPath && !isAdminPublic;
 
   if (!session) {
-    if (isAdminPath) {
+    if (isAdminProtected) {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
     if (isClientPath && !isClientPublic) {
@@ -23,7 +25,7 @@ export async function middleware(request: NextRequest) {
     return response;
   }
 
-  if (isAdminPath) {
+  if (isAdminProtected) {
     const { data: profile } = await supabase.from('profiles').select('role').eq('id', session.user.id).single();
 
     if (profile?.role !== 'admin') {
