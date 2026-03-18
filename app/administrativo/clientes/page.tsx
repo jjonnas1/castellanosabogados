@@ -47,7 +47,11 @@ export default function AdminClientesPage() {
         setAuthResolved(true);
         return;
       }
-      const res = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
+      let res = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
+      if (!res.ok) {
+        await fetch('/api/admin/ensure-role', { method: 'POST', headers: { authorization: `Bearer ${token}` } });
+        res = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
+      }
       setIsAdmin(res.ok);
       setAuthResolved(true);
     };

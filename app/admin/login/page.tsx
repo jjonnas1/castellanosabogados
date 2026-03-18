@@ -31,6 +31,16 @@ async function resolveClientAdmin(): Promise<boolean> {
         headers: { authorization: `Bearer ${token}` },
       });
       if (res.ok) return true;
+
+      await fetch('/api/admin/ensure-role', {
+        method: 'POST',
+        headers: { authorization: `Bearer ${token}` },
+      });
+
+      const afterEnsure = await fetch('/api/admin/me', {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      if (afterEnsure.ok) return true;
     } catch {
       // fallback to client profile query
     }
