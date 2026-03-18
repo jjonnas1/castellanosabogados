@@ -1,78 +1,66 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { createSupabaseAdminClient, requireAdmin } from '@/lib/supabase-server';
 
-function getAdminSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!url || !serviceRoleKey) {
-    throw new Error('Faltan NEXT_PUBLIC_SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY');
-  }
-
-  return createClient(url, serviceRoleKey, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
-}
+type CreateClientBody = {
+  full_name?: string;
+  email?: string;
+  phone?: string;
+  case_reference?: string;
+  can_access_portal?: boolean;
+};
 
 export async function POST(req: NextRequest) {
-  const authHeader = req.headers.get('authorization');
-  if (!authHeader?.startsWith('Bearer ')) {
-    return NextResponse.json({ ok: false, error: 'No autorizado' }, { status: 401 });
-  }
-
-  const token = authHeader.slice('Bearer '.length);
-
-  let supabase;
   try {
-    supabase = getAdminSupabase();
-  } catch (error) {
-    return NextResponse.json({ ok: false, error: (error as Error).message }, { status: 500 });
+    const adminCheck = await requireAdmin();
+
+    if (!adminCheck.ok) {
+      return NextResponse.json(
+        { ok: false, error: adminCheck.error },
+        { status: adminCheck.status }
+      );
+    }
+
+    const body = (await req.json()) as CreateClientBody;
+
+    const full_name = String(body.full_name ?? '').trim();
+    const email = String(body.email ?? '').trim().toLowerCase();
+    const phone = String(body.phone ?? '').trim();
+    const case_reference = String(body.case_reference ?? '').trim();
+    const can_access_portal = Boolean(body.can_access_portal ?? false);
+
+    if (!full_name || !email) {
+      return NextResponse.json(
+        { ok: false, error: 'Nombre y correo son obligatorios' },
+        { status: 400 }
+      );
+    }
+
+    const supabaseAdmin = createSupabaseAdminClient();
+
+    const { data, error } = await supabaseAdmin
+      .from('client_profiles')
+      .insert({
+        full_name,
+        email,
+        phone: phone || null,
+        case_reference: case_reference || null,
+        can_access_portal,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json(
+        { ok: false, error: error.message },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json({ ok: true, data }, { status: 201 });
+  } catch (error: any) {
+    return NextResponse.json(
+      { ok: false, error: error?.message || 'Error interno del servidor' },
+      { status: 500 }
+    );
   }
-
-  const { data: userData, error: userError } = await supabase.auth.getUser(token);
-  if (userError || !userData.user?.id) {
-    return NextResponse.json({ ok: false, error: 'Sesión inválida' }, { status: 401 });
-  }
-
-  const { data: profile, error: profileError } = await supabase
-    .from('profiles')
-    .select('role')
-    .eq('id', userData.user.id)
-    .maybeSingle();
-
-  if (profileError || profile?.role !== 'admin') {
-    return NextResponse.json({ ok: false, error: 'Permisos insuficientes' }, { status: 403 });
-  }
-
-  const body = (await req.json().catch(() => null)) as {
-    full_name?: string;
-    email?: string;
-    phone?: string | null;
-    case_reference?: string | null;
-    can_access_portal?: boolean;
-  } | null;
-
-  if (!body?.full_name || !body?.email) {
-    return NextResponse.json({ ok: false, error: 'Nombre y correo son requeridos' }, { status: 400 });
-  }
-
-  const payload = {
-    full_name: body.full_name,
-    email: body.email.toLowerCase(),
-    phone: body.phone ?? null,
-    case_reference: body.case_reference ?? null,
-    can_access_portal: body.can_access_portal ?? true,
-  };
-
-  const { data, error } = await supabase
-    .from('client_profiles')
-    .insert(payload)
-    .select('*')
-    .maybeSingle();
-
-  if (error) {
-    return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json({ ok: true, client: data });
 }
