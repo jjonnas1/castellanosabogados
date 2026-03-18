@@ -39,7 +39,7 @@ export default function AdminClientesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
+    const resolveAdmin = async () => {
       const { data: s } = await supabase.auth.getSession();
       const token = s.session?.access_token;
       if (!token) {
@@ -50,7 +50,15 @@ export default function AdminClientesPage() {
       const res = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
       setIsAdmin(res.ok);
       setAuthResolved(true);
-    })();
+    };
+
+    resolveAdmin();
+
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      resolveAdmin();
+    });
+
+    return () => sub.subscription.unsubscribe();
   }, []);
 
   async function loadData() {

@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSupabaseServer } from '@/lib/supabase-server';
+import { getSupabaseServer, hasServiceRole } from '@/lib/supabase-server';
 
 export async function POST(req: NextRequest) {
+  if (!hasServiceRole()) return NextResponse.json({ ok: false, error: 'Falta SUPABASE_SERVICE_ROLE_KEY en el servidor' }, { status: 500 });
+
   const authHeader = req.headers.get('authorization');
   if (!authHeader?.startsWith('Bearer ')) return NextResponse.json({ ok: false, error: 'No autorizado' }, { status: 401 });
 

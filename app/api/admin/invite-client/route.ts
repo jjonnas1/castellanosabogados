@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSupabaseServer, requireAdmin } from '@/lib/supabase-server';
+import { getSupabaseServer, hasServiceRole, requireAdmin } from '@/lib/supabase-server';
 
 export async function POST(req: NextRequest) {
   const admin = await requireAdmin(req.headers.get('authorization'));
   if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: 401 });
+
+  if (!hasServiceRole()) return NextResponse.json({ ok: false, error: 'Falta SUPABASE_SERVICE_ROLE_KEY en el servidor' }, { status: 500 });
 
   const body = await req.json();
   const email = (body?.email ?? '').trim().toLowerCase();

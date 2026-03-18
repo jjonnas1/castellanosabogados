@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import ExcelJS from 'exceljs';
-import { getSupabaseServer, requireAdmin } from '@/lib/supabase-server';
+import { getSupabaseServer, hasServiceRole, requireAdmin } from '@/lib/supabase-server';
 
 export async function GET(req: NextRequest) {
   const admin = await requireAdmin(req.headers.get('authorization'));
   if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: 401 });
+
+  if (!hasServiceRole()) return NextResponse.json({ ok: false, error: 'Falta SUPABASE_SERVICE_ROLE_KEY en el servidor' }, { status: 500 });
 
   const [clientsRes, updatesRes] = await Promise.all([
     getSupabaseServer()

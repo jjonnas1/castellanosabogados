@@ -1,14 +1,21 @@
 import { createClient } from '@supabase/supabase-js';
 
+export function hasServiceRole() {
+  return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
+
 export function getSupabaseServer() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  if (!url || !serviceRole) {
-    throw new Error('Supabase server env is missing (NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY).');
+  const key = serviceRole || anonKey;
+
+  if (!url || !key) {
+    throw new Error('Supabase env is missing (NEXT_PUBLIC_SUPABASE_URL and a server key).');
   }
 
-  return createClient(url, serviceRole, {
+  return createClient(url, key, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
 }
@@ -28,6 +35,8 @@ async function bootstrapFirstAdmin(
   supabaseServer: any,
   user: { id: string; email?: string | null },
 ) {
+  if (!hasServiceRole()) return false;
+
   const alreadyHasAdmin = await hasAnyAdmin(supabaseServer);
   if (alreadyHasAdmin) return false;
 
@@ -81,7 +90,6 @@ export async function requireAdmin(authHeader: string | null) {
       return { ok: true as const, user: userData.user, profile: profileByEmail.data };
     }
   }
-
 
   if (userEmail) {
     const profileByProfilesEmail = await supabaseServer
