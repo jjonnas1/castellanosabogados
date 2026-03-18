@@ -1,115 +1,91 @@
 import { NextRequest, NextResponse } from 'next/server';
-import ExcelJS from 'exceljs';
+import * as XLSX from 'xlsx';
 import { getSupabaseServer, hasServiceRole, requireAdmin } from '@/lib/supabase-server';
 
 export async function GET(req: NextRequest) {
   const admin = await requireAdmin(req.headers.get('authorization'));
   if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: 401 });
 
-  if (!hasServiceRole()) return NextResponse.json({ ok: false, error: 'Falta SUPABASE_SERVICE_ROLE_KEY en el servidor' }, { status: 500 });
+  if (!hasServiceRole()) {
+    return NextResponse.json({ ok: false, error: 'Falta SUPABASE_SERVICE_ROLE_KEY en el servidor' }, { status: 500 });
+  }
 
-  const [clientsRes, updatesRes, appointmentsRes] = await Promise.all([
+  const [clientsRes, appointmentsRes, updatesRes] = await Promise.all([
     getSupabaseServer()
       .from('client_profiles')
       .select('id,full_name,email,phone,case_reference,can_access_portal,created_at')
       .order('created_at', { ascending: false }),
     getSupabaseServer()
-      .from('client_case_updates')
-      .select('id,client_profile_id,title,update_text,status,visible_to_client,created_at')
-      .order('created_at', { ascending: false }),
-    getSupabaseServer()
       .from('appointments')
       .select('id,client_profile_id,title,description,start_at,end_at,status,created_at')
       .order('start_at', { ascending: true }),
+    getSupabaseServer()
+      .from('client_case_updates')
+      .select('id,client_profile_id,title,update_text,status,visible_to_client,created_at')
+      .order('created_at', { ascending: false }),
   ]);
 
-  if (clientsRes.error || updatesRes.error || appointmentsRes.error) {
+  if (clientsRes.error || appointmentsRes.error || updatesRes.error) {
     return NextResponse.json(
-      { ok: false, error: clientsRes.error?.message ?? updatesRes.error?.message ?? appointmentsRes.error?.message ?? 'Error exportando respaldo' },
+      {
+        ok: false,
+        error:
+          clientsRes.error?.message ??
+          appointmentsRes.error?.message ??
+          updatesRes.error?.message ??
+          'Error exportando respaldo',
+      },
       { status: 500 },
     );
   }
 
   const clients = clientsRes.data ?? [];
-  const updates = updatesRes.data ?? [];
   const appointments = appointmentsRes.data ?? [];
+  const updates = updatesRes.data ?? [];
   const clientMap = new Map(clients.map((client) => [client.id, client.full_name]));
 
-  const workbook = new ExcelJS.Workbook();
+  const wb = XLSX.utils.book_new();
 
-  const clientsSheet = workbook.addWorksheet('Clientes');
-  clientsSheet.columns = [
-    { header: 'Nombre', key: 'full_name', width: 28 },
-    { header: 'Email', key: 'email', width: 34 },
-    { header: 'Teléfono', key: 'phone', width: 20 },
-    { header: 'Referencia del caso', key: 'case_reference', width: 30 },
-    { header: 'Estado de acceso', key: 'can_access_portal', width: 18 },
-    { header: 'Fecha de creación', key: 'created_at', width: 24 },
-  ];
+  const clientsRows = clients.map((client) => ({
+    Nombre: client.full_name,
+    Email: client.email,
+    Teléfono: client.phone ?? '',
+    'Referencia caso': client.case_reference ?? '',
+    'Acceso portal': client.can_access_portal ? 'Habilitado' : 'Bloqueado',
+    'Creado en': client.created_at,
+  }));
 
-  clients.forEach((client) => {
-    clientsSheet.addRow({
-      full_name: client.full_name,
-      email: client.email,
-      phone: client.phone ?? '',
-      case_reference: client.case_reference ?? '',
-      can_access_portal: client.can_access_portal ? 'Habilitado' : 'Bloqueado',
-      created_at: client.created_at,
-    });
-  });
+  const appointmentsRows = appointments.map((appointment) => ({
+    Cliente: appointment.client_profile_id ? clientMap.get(appointment.client_profile_id) ?? 'Sin cliente' : 'Sin cliente',
+    Título: appointment.title,
+    Descripción: appointment.description ?? '',
+    Inicio: appointment.start_at,
+    Fin: appointment.end_at,
+    Estado: appointment.status,
+    'Creado en': appointment.created_at,
+  }));
 
-  const updatesSheet = workbook.addWorksheet('Actualizaciones');
-  updatesSheet.columns = [
-    { header: 'Cliente', key: 'client', width: 28 },
-    { header: 'Título', key: 'title', width: 30 },
-    { header: 'Texto', key: 'update_text', width: 60 },
-    { header: 'Estado', key: 'status', width: 16 },
-    { header: 'Fecha', key: 'created_at', width: 24 },
-    { header: 'Visible al cliente', key: 'visible_to_client', width: 18 },
-  ];
+  const updatesRows = updates.map((update) => ({
+    Cliente: clientMap.get(update.client_profile_id) ?? 'Sin cliente',
+    Título: update.title,
+    Texto: update.update_text,
+    Estado: update.status,
+    'Visible cliente': update.visible_to_client ? 'Sí' : 'No',
+    'Creado en': update.created_at,
+  }));
 
-  updates.forEach((update) => {
-    updatesSheet.addRow({
-      client: clientMap.get(update.client_profile_id) ?? 'Sin cliente',
-      title: update.title,
-      update_text: update.update_text,
-      status: update.status,
-      created_at: update.created_at,
-      visible_to_client: update.visible_to_client ? 'Sí' : 'No',
-    });
-  });
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(clientsRows), 'Clientes');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(appointmentsRows), 'Citas');
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(updatesRows), 'Actualizaciones');
 
-
-  const appointmentsSheet = workbook.addWorksheet('Citas');
-  appointmentsSheet.columns = [
-    { header: 'Cliente', key: 'client', width: 28 },
-    { header: 'Título', key: 'title', width: 30 },
-    { header: 'Descripción', key: 'description', width: 50 },
-    { header: 'Inicio', key: 'start_at', width: 24 },
-    { header: 'Fin', key: 'end_at', width: 24 },
-    { header: 'Estado', key: 'status', width: 16 },
-    { header: 'Creada', key: 'created_at', width: 24 },
-  ];
-
-  appointments.forEach((appointment) => {
-    appointmentsSheet.addRow({
-      client: appointment.client_profile_id ? clientMap.get(appointment.client_profile_id) ?? 'Sin cliente' : 'Sin cliente',
-      title: appointment.title,
-      description: appointment.description ?? '',
-      start_at: appointment.start_at,
-      end_at: appointment.end_at,
-      status: appointment.status,
-      created_at: appointment.created_at,
-    });
-  });
-
-  const buffer = await workbook.xlsx.writeBuffer();
+  const buffer = XLSX.write(wb, { type: 'buffer', bookType: 'xlsx' });
+  const filename = `castellanos-backup-${new Date().toISOString().slice(0, 10)}.xlsx`;
 
   return new NextResponse(buffer, {
     status: 200,
     headers: {
       'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'Content-Disposition': `attachment; filename="respaldo-castellanos-${new Date().toISOString().slice(0, 10)}.xlsx"`,
+      'Content-Disposition': `attachment; filename="${filename}"`,
       'Cache-Control': 'no-store',
     },
   });

@@ -190,7 +190,8 @@ p {
 }
 
 .card-shell:hover {
-@apply shadow-hover -translate-y-[2px];
+@apply shadow-hover;
+transform: translateY(-2px);
 }
 
 .pill {
@@ -206,14 +207,11 @@ p {
 }
 
 .frosted {
-@apply border border-white/20 bg-white/8 backdrop-blur;
+@apply border border-white/20 bg-white/[0.08] backdrop-blur;
 }
 
 .subtle-ring {
 box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.14), 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
-.card-shell:hover {
-transform: translateY(-4px);
-}
 }

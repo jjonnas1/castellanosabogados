@@ -1,11 +1,5 @@
-import SiteHeader from '@/app/components/SiteHeader';
-import AdminWorkspace from '@/app/components/AdminWorkspace';
+import { redirect } from 'next/navigation';
 
-export default function AdminPage() {
-  return (
-    <main className="bg-canvas text-ink min-h-screen">
-      <SiteHeader />
-      <AdminWorkspace />
-    </main>
-  );
+export default function AdminRootPage() {
+  redirect('/admin/resumen');
 }

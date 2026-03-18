@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase-browser';
 import type { Session } from '@supabase/supabase-js';
 
 export default function ClienteRegistroPage() {
@@ -10,6 +11,7 @@ export default function ClienteRegistroPage() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session ?? null));
@@ -18,8 +20,8 @@ export default function ClienteRegistroPage() {
   }, []);
 
   useEffect(() => {
-    if (session) window.location.href = '/cliente/panel';
-  }, [session]);
+    if (session) router.push('/portal/inicio');
+  }, [session, router]);
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();

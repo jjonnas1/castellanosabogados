@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { buildMailtoUrl } from "@/lib/contactLinks";
 import { supabase } from "@/lib/supabase-browser";
@@ -31,6 +31,7 @@ const NAV_ITEMS = [
 
 export default function SiteHeader() {
   const pathname = usePathname();
+  const router = useRouter();
   const servicesMenuId = useId();
   const mobileServicesId = useId();
 
@@ -129,10 +130,10 @@ export default function SiteHeader() {
 
   const logout = async () => {
     await supabase.auth.signOut();
-    window.location.href = "/";
+    router.push("/login");
   };
 
-  const panelHref = role === "admin" ? "/admin" : "/cliente/panel";
+  const panelHref = role === "admin" ? "/admin/resumen" : "/portal/inicio";
 
 
   const mailtoEvaluacionDesktop = buildMailtoUrl({
@@ -250,7 +251,7 @@ export default function SiteHeader() {
 
           <div className="hidden items-center gap-2 sm:flex">
             <Link
-              href="/admin"
+              href="/admin/resumen"
               className="rounded-full border border-border bg-white px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted transition hover:border-ink hover:text-ink"
             >
               Administrativo
@@ -402,7 +403,7 @@ export default function SiteHeader() {
             </a>
 
             <Link
-              href="/admin"
+              href="/admin/resumen"
               className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
               onClick={() => setOpen(false)}
             >

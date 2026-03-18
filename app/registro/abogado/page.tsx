@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase-browser';
 
-
 export default function RegistroAbogadoPage() {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -23,7 +22,9 @@ export default function RegistroAbogadoPage() {
 
       if (data.user?.id) {
         await supabase.from('profiles').upsert({
-          id: data.user.id, email, full_name: nombre, role: 'lawyer'
+          id: data.user.id,
+          email,
+          full_name: nombre,
         });
 
         await supabase.from('lawyers').insert({
@@ -32,12 +33,13 @@ export default function RegistroAbogadoPage() {
           bio: null,
           specialties: ['penal'],
           verified: false,
-          base_rate_cop: 70000
+          base_rate_cop: 70000,
         });
       }
       setStatus('Registro enviado. Revisa tu correo para confirmar la cuenta.');
-    } catch (e: any) {
-      setStatus(e?.message || 'No pudimos registrar.');
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'No pudimos registrar.';
+      setStatus(message);
     } finally {
       setLoading(false);
     }
@@ -50,10 +52,10 @@ export default function RegistroAbogadoPage() {
         <p className="muted">Crea tu cuenta para ofrecer asesorías.</p>
 
         <form onSubmit={handleRegister} className="panel" style={{ display: 'grid', gap: 12 }}>
-          <label>Nombre completo<input value={nombre} onChange={e => setNombre(e.target.value)} required /></label>
-          <label>Tarjeta profesional<input value={tp} onChange={e => setTp(e.target.value)} /></label>
-          <label>Correo<input type="email" value={email} onChange={e => setEmail(e.target.value)} required /></label>
-          <label>Contraseña<input type="password" value={pass} onChange={e => setPass(e.target.value)} required /></label>
+          <label>Nombre completo<input value={nombre} onChange={(e) => setNombre(e.target.value)} required /></label>
+          <label>Tarjeta profesional<input value={tp} onChange={(e) => setTp(e.target.value)} /></label>
+          <label>Correo<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
+          <label>Contraseña<input type="password" value={pass} onChange={(e) => setPass(e.target.value)} required /></label>
           <button className="btn btn--primary" type="submit" disabled={loading}>{loading ? 'Creando…' : 'Registrarme'}</button>
         </form>
         {status && <div className="panel" style={{ marginTop: 10 }}>{status}</div>}

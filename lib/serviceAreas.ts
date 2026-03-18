@@ -1,4 +1,4 @@
-import { supabase, supabaseConfigured } from '@/lib/supabaseClient';
+import { supabase, supabaseConfigured } from '@/lib/supabase-browser';
 
 export type ServiceArea = {
   slug: string;
