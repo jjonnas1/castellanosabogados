@@ -53,8 +53,8 @@ stable
 as $$
   select exists (
     select 1
-    from public.user_profiles up
-    where up.id = auth.uid() and up.role = 'admin'
+    from public.profiles p
+    where p.id = auth.uid() and p.role = 'admin'
   );
 $$;
 

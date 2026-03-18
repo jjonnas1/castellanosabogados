@@ -63,6 +63,40 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const [appointmentForm, setAppointmentForm] = useState(emptyAppointment);
   const [editingAppointmentId, setEditingAppointmentId] = useState<string | null>(null);
 
+  const adminAuthHeaders = useMemo(
+    () => (adminToken ? { authorization: `Bearer ${adminToken}` } : null),
+    [adminToken],
+  );
+
+  async function workspaceRequest<T>(method: 'GET' | 'POST' | 'PATCH' | 'DELETE', body?: Record<string, unknown>) {
+    if (!adminAuthHeaders) {
+      throw new Error('No hay sesión admin activa.');
+    }
+
+    const response = await fetch('/api/admin/workspace', {
+      method,
+      headers: {
+        'content-type': 'application/json',
+        ...adminAuthHeaders,
+      },
+      body: body ? JSON.stringify(body) : undefined,
+    });
+
+    const payload = (await response.json().catch(() => ({}))) as {
+      ok?: boolean;
+      error?: string;
+      clients?: ClientProfile[];
+      updates?: ClientUpdate[];
+      appointments?: Appointment[];
+    };
+
+    if (!response.ok || payload.ok === false) {
+      throw new Error(payload.error ?? 'Error en la API de administración');
+    }
+
+    return payload as T;
+  }
+
   const resolveAdmin = async () => {
     const { data: s } = await supabase.auth.getSession();
     const token = s.session?.access_token;
@@ -89,18 +123,13 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   };
 
   const loadAll = async () => {
-    const [c, u, a] = await Promise.all([
-      supabase.from('client_profiles').select('*').order('created_at', { ascending: false }),
-      supabase.from('client_case_updates').select('*').order('created_at', { ascending: false }),
-      supabase.from('appointments').select('*').order('start_at', { ascending: true }),
-    ]);
-
-    if (!c.error) setClients((c.data ?? []) as ClientProfile[]);
-    if (!u.error) setUpdates((u.data ?? []) as ClientUpdate[]);
-    if (!a.error) setAppointments((a.data ?? []) as Appointment[]);
-
-    if (c.error || u.error || a.error) {
-      setStatus(`Error cargando datos: ${c.error?.message ?? u.error?.message ?? a.error?.message ?? 'desconocido'}`);
+    try {
+      const data = await workspaceRequest<{ clients: ClientProfile[]; updates: ClientUpdate[]; appointments: Appointment[] }>('GET');
+      setClients(data.clients ?? []);
+      setUpdates(data.updates ?? []);
+      setAppointments(data.appointments ?? []);
+    } catch (error) {
+      setStatus(`Error cargando datos: ${(error as Error).message}`);
     }
   };
 
@@ -111,8 +140,8 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   }, []);
 
   useEffect(() => {
-    if (isAdmin) loadAll();
-  }, [isAdmin]);
+    if (isAdmin && adminToken) loadAll();
+  }, [isAdmin, adminToken]);
 
   const clientMap = useMemo(() => new Map(clients.map((c) => [c.id, c])), [clients]);
   const clientUpdates = useMemo(() => (clientId ? updates.filter((u) => u.client_profile_id === clientId) : updates), [updates, clientId]);
@@ -130,12 +159,15 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       can_access_portal: clientForm.can_access_portal,
     };
 
-    const query = editingClientId
-      ? supabase.from('client_profiles').update(payload).eq('id', editingClientId)
-      : supabase.from('client_profiles').insert(payload);
-
-    const { error } = await query;
-    if (error) return setStatus(`Error guardando cliente: ${error.message}`);
+    try {
+      if (editingClientId) {
+        await workspaceRequest('PATCH', { entity: 'clients', id: editingClientId, payload });
+      } else {
+        await workspaceRequest('POST', { entity: 'clients', payload });
+      }
+    } catch (error) {
+      return setStatus(`Error guardando cliente: ${(error as Error).message}`);
+    }
 
     setStatus('Cliente guardado correctamente.');
     setClientForm(emptyClient);
@@ -157,12 +189,15 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       created_by_admin_id: adminId,
     };
 
-    const query = editingAppointmentId
-      ? supabase.from('appointments').update(payload).eq('id', editingAppointmentId)
-      : supabase.from('appointments').insert(payload);
-
-    const { error } = await query;
-    if (error) return setStatus(`Error guardando cita: ${error.message}`);
+    try {
+      if (editingAppointmentId) {
+        await workspaceRequest('PATCH', { entity: 'appointments', id: editingAppointmentId, payload });
+      } else {
+        await workspaceRequest('POST', { entity: 'appointments', payload });
+      }
+    } catch (error) {
+      return setStatus(`Error guardando cita: ${(error as Error).message}`);
+    }
 
     setStatus('Cita guardada correctamente.');
     setAppointmentForm(emptyAppointment);
@@ -171,8 +206,11 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   }
 
   async function deleteAppointment(id: string) {
-    const { error } = await supabase.from('appointments').delete().eq('id', id);
-    if (error) return setStatus(`Error eliminando cita: ${error.message}`);
+    try {
+      await workspaceRequest('DELETE', { entity: 'appointments', id });
+    } catch (error) {
+      return setStatus(`Error eliminando cita: ${(error as Error).message}`);
+    }
     setStatus('Cita eliminada.');
     loadAll();
   }
@@ -190,12 +228,15 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       created_by_admin_id: adminId,
     };
 
-    const query = editingUpdateId
-      ? supabase.from('client_case_updates').update(payload).eq('id', editingUpdateId)
-      : supabase.from('client_case_updates').insert(payload);
-
-    const { error } = await query;
-    if (error) return setStatus(`Error guardando actualización: ${error.message}`);
+    try {
+      if (editingUpdateId) {
+        await workspaceRequest('PATCH', { entity: 'updates', id: editingUpdateId, payload });
+      } else {
+        await workspaceRequest('POST', { entity: 'updates', payload });
+      }
+    } catch (error) {
+      return setStatus(`Error guardando actualización: ${(error as Error).message}`);
+    }
 
     setStatus('Actualización guardada correctamente.');
     setUpdateForm(emptyUpdate);
@@ -204,8 +245,11 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   }
 
   async function deleteUpdate(id: string) {
-    const { error } = await supabase.from('client_case_updates').delete().eq('id', id);
-    if (error) return setStatus(`Error eliminando actualización: ${error.message}`);
+    try {
+      await workspaceRequest('DELETE', { entity: 'updates', id });
+    } catch (error) {
+      return setStatus(`Error eliminando actualización: ${(error as Error).message}`);
+    }
     setStatus('Actualización eliminada.');
     loadAll();
   }
@@ -272,7 +316,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             <button className="btn-primary w-fit" type="submit">{editingClientId ? 'Actualizar cliente' : 'Crear cliente'}</button>
           </form>
           <div className="mt-4 space-y-2 max-h-80 overflow-auto">
-            {clients.map((c)=>(<div key={c.id} className="rounded-lg border p-2 text-sm"><p className="font-semibold">{c.full_name}</p><p className="text-muted">{c.email}</p><p className="text-muted">Citas: {appointments.filter((a)=>a.client_profile_id===c.id).length}</p><div className="mt-2 flex gap-2"><button className="btn-secondary" onClick={()=>{setEditingClientId(c.id);setClientForm({full_name:c.full_name,email:c.email,phone:c.phone||'',case_reference:c.case_reference||'',can_access_portal:c.can_access_portal});}}>Editar</button><button className="btn-secondary" onClick={async ()=>{await supabase.from('client_profiles').update({can_access_portal:!c.can_access_portal}).eq('id', c.id);loadAll();}}>{c.can_access_portal ? 'Deshabilitar portal' : 'Habilitar portal'}</button><Link href={`/admin/clientes/${c.id}`} className="btn-secondary">Detalle</Link></div></div>))}
+            {clients.map((c)=>(<div key={c.id} className="rounded-lg border p-2 text-sm"><p className="font-semibold">{c.full_name}</p><p className="text-muted">{c.email}</p><p className="text-muted">Citas: {appointments.filter((a)=>a.client_profile_id===c.id).length}</p><div className="mt-2 flex gap-2"><button className="btn-secondary" onClick={()=>{setEditingClientId(c.id);setClientForm({full_name:c.full_name,email:c.email,phone:c.phone||'',case_reference:c.case_reference||'',can_access_portal:c.can_access_portal});}}>Editar</button><button className="btn-secondary" onClick={async ()=>{try{await workspaceRequest('PATCH',{entity:'clients',id:c.id,payload:{can_access_portal:!c.can_access_portal}});await loadAll();}catch(error){setStatus(`Error actualizando cliente: ${(error as Error).message}`);}}}>{c.can_access_portal ? 'Deshabilitar portal' : 'Habilitar portal'}</button><Link href={`/admin/clientes/${c.id}`} className="btn-secondary">Detalle</Link></div></div>))}
           </div>
         </article>
       )}
@@ -302,7 +346,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             <label className="text-sm"><input type="checkbox" checked={updateForm.visible_to_client} onChange={(e)=>setUpdateForm({...updateForm,visible_to_client:e.target.checked})} /> Visible al cliente</label>
             <button className="btn-primary w-fit" type="submit">{editingUpdateId ? 'Actualizar actualización' : 'Crear actualización'}</button>
           </form>
-          <div className="mt-4 space-y-2 max-h-80 overflow-auto">{clientUpdates.map((u)=><div key={u.id} className="rounded-lg border p-2 text-sm"><p className="font-semibold">{u.title}</p><p className="text-muted">{clientMap.get(u.client_profile_id)?.full_name || 'Cliente no encontrado'} · {u.status}</p><p>{u.update_text}</p><div className="mt-2 flex gap-2"><button className="btn-secondary" onClick={()=>{setEditingUpdateId(u.id);setUpdateForm({client_profile_id:u.client_profile_id,title:u.title,update_text:u.update_text,status:u.status,visible_to_client:u.visible_to_client});}}>Editar</button><button className="btn-secondary" onClick={()=>deleteUpdate(u.id)}>Eliminar</button><button className="btn-secondary" onClick={async ()=>{await supabase.from('client_case_updates').update({visible_to_client:!u.visible_to_client}).eq('id',u.id);loadAll();}}>{u.visible_to_client ? 'Ocultar' : 'Hacer visible'}</button></div></div>)}</div>
+          <div className="mt-4 space-y-2 max-h-80 overflow-auto">{clientUpdates.map((u)=><div key={u.id} className="rounded-lg border p-2 text-sm"><p className="font-semibold">{u.title}</p><p className="text-muted">{clientMap.get(u.client_profile_id)?.full_name || 'Cliente no encontrado'} · {u.status}</p><p>{u.update_text}</p><div className="mt-2 flex gap-2"><button className="btn-secondary" onClick={()=>{setEditingUpdateId(u.id);setUpdateForm({client_profile_id:u.client_profile_id,title:u.title,update_text:u.update_text,status:u.status,visible_to_client:u.visible_to_client});}}>Editar</button><button className="btn-secondary" onClick={()=>deleteUpdate(u.id)}>Eliminar</button><button className="btn-secondary" onClick={async ()=>{try{await workspaceRequest('PATCH',{entity:'updates',id:u.id,payload:{visible_to_client:!u.visible_to_client}});await loadAll();}catch(error){setStatus(`Error actualizando actualización: ${(error as Error).message}`);}}}>{u.visible_to_client ? 'Ocultar' : 'Hacer visible'}</button></div></div>)}</div>
         </article>
       )}
 
