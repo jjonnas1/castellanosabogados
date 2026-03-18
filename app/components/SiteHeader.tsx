@@ -132,7 +132,7 @@ export default function SiteHeader() {
     window.location.href = "/";
   };
 
-  const panelHref = role === "admin" ? "/admin" : role === "lawyer" ? "/panel" : "/cliente/panel";
+  const panelHref = role === "admin" ? "/admin" : "/cliente/panel";
 
 
   const mailtoEvaluacionDesktop = buildMailtoUrl({
@@ -258,7 +258,7 @@ export default function SiteHeader() {
 
             {!loggedIn ? (
               <Link
-                href="/cliente/acceso"
+                href="/cliente/login"
                 className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
               >
                 Iniciar sesión
@@ -284,7 +284,7 @@ export default function SiteHeader() {
 
           {!loggedIn ? (
             <Link
-              href="/cliente/acceso"
+              href="/cliente/login"
               className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700 sm:hidden"
             >
               Ingresar
@@ -411,7 +411,7 @@ export default function SiteHeader() {
 
             {!loggedIn ? (
               <Link
-                href="/cliente/acceso"
+                href="/cliente/login"
                 className="btn-secondary w-full justify-center"
                 onClick={() => setOpen(false)}
               >

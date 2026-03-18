@@ -92,7 +92,7 @@ export default function ClientPanel() {
   const lastUpdate = useMemo(() => updates[0], [updates]);
 
   if (!session) {
-    if (typeof window !== 'undefined') window.location.href = '/cliente/acceso';
+    if (typeof window !== 'undefined') window.location.href = '/cliente/login';
     return null;
   }
 

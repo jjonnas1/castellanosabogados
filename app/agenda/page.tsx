@@ -41,7 +41,7 @@ export default function AgendaPage() {
         <div className="wrap" style={{maxWidth:520}}>
           <h1 className="h1">Agenda tu asesoría</h1>
           <p className="muted">Primero inicia sesión o regístrate para continuar.</p>
-          <a className="btn btn--primary" href="/cliente/acceso">Iniciar sesión / Registrarme</a>
+          <a className="btn btn--primary" href="/cliente/login">Iniciar sesión / Registrarme</a>
         </div>
       </main>
     );
