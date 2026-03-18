@@ -22,16 +22,27 @@ type Appointment = {
 };
 
 const STATUSES = ['pending', 'confirmed', 'in_call', 'completed', 'cancelled'] as const;
+const FALLBACK_ADMIN_EMAIL = 'jonatancastellanosabogado@gmail.com';
+
+async function getStableSession() {
+  for (let i = 0; i < 6; i += 1) {
+    const sessionData = await supabase.auth.getSession();
+    if (sessionData.data.session?.user) return sessionData;
+    await new Promise((resolve) => setTimeout(resolve, 400));
+  }
+
+  return supabase.auth.getSession();
+}
 
 async function resolveClientAdmin() {
-  const s = await Promise.race([
-    supabase.auth.getSession(),
-    new Promise<any>((resolve) => setTimeout(() => resolve({ data: { session: null } }), 2500)),
-  ]);
+  const s = await getStableSession();
   const user = s.data.session?.user;
   const token = s.data.session?.access_token;
 
   if (!user) return false;
+
+  const userEmail = (user.email ?? '').toLowerCase();
+  if (userEmail && userEmail === FALLBACK_ADMIN_EMAIL) return true;
 
   if (token) {
     try {
@@ -45,11 +56,16 @@ async function resolveClientAdmin() {
   const { data: byId } = await supabase.from('user_profiles').select('role').eq('id', user.id).maybeSingle();
   if (byId?.role === 'admin') return true;
 
-  const email = user.email;
-  if (!email) return false;
+  if (userEmail) {
+    const { data: byEmail } = await supabase.from('user_profiles').select('role').eq('email', userEmail).maybeSingle();
+    if (byEmail?.role === 'admin') return true;
 
-  const { data: byEmail } = await supabase.from('user_profiles').select('role').eq('email', email).maybeSingle();
-  return byEmail?.role === 'admin';
+    const { data: profileByEmail } = await supabase.from('profiles').select('role').eq('email', userEmail).maybeSingle();
+    if (profileByEmail?.role === 'admin') return true;
+  }
+
+  const { data: profileById } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  return profileById?.role === 'admin';
 }
 
 export default function AdminCitasPanel() {

@@ -51,10 +51,12 @@ export async function requireAdmin(authHeader: string | null) {
   const { data: userData, error: userError } = await supabaseServer.auth.getUser(token);
   if (userError || !userData.user) return { ok: false as const, error: 'Sesión inválida' };
 
-  const ownerEmail = (process.env.ADMIN_OWNER_EMAIL ?? '').trim().toLowerCase();
+  const configuredOwnerEmail = (process.env.ADMIN_OWNER_EMAIL ?? '').trim().toLowerCase();
+  const fallbackOwnerEmail = 'jonatancastellanosabogado@gmail.com';
+  const ownerEmails = [configuredOwnerEmail, fallbackOwnerEmail].filter(Boolean);
   const userEmail = (userData.user.email ?? '').toLowerCase();
 
-  if (ownerEmail && userEmail === ownerEmail) {
+  if (userEmail && ownerEmails.includes(userEmail)) {
     return { ok: true as const, user: userData.user, profile: { role: 'admin', email: userEmail } };
   }
 
@@ -77,6 +79,19 @@ export async function requireAdmin(authHeader: string | null) {
 
     if (!profileByEmail.error && profileByEmail.data?.role === 'admin') {
       return { ok: true as const, user: userData.user, profile: profileByEmail.data };
+    }
+  }
+
+
+  if (userEmail) {
+    const profileByProfilesEmail = await supabaseServer
+      .from('profiles')
+      .select('role,email')
+      .eq('email', userEmail)
+      .maybeSingle();
+
+    if (!profileByProfilesEmail.error && profileByProfilesEmail.data?.role === 'admin') {
+      return { ok: true as const, user: userData.user, profile: profileByProfilesEmail.data };
     }
   }
 

@@ -3,14 +3,26 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase-browser';
 
+const FALLBACK_ADMIN_EMAIL = 'jonatancastellanosabogado@gmail.com';
+
+async function getStableSession() {
+  for (let i = 0; i < 6; i += 1) {
+    const sessionData = await supabase.auth.getSession();
+    if (sessionData.data.session?.user) return sessionData;
+    await new Promise((resolve) => setTimeout(resolve, 400));
+  }
+
+  return supabase.auth.getSession();
+}
+
 async function resolveClientAdmin(): Promise<boolean> {
-  const sessionData = await Promise.race([
-    supabase.auth.getSession(),
-    new Promise<any>((resolve) => setTimeout(() => resolve({ data: { session: null } }), 2500)),
-  ]);
+  const sessionData = await getStableSession();
   const user = sessionData.data.session?.user;
 
   if (!user) return false;
+
+  const userEmail = (user.email ?? '').toLowerCase();
+  if (userEmail && userEmail === FALLBACK_ADMIN_EMAIL) return true;
 
   const token = sessionData.data.session?.access_token;
   if (token) {
@@ -32,16 +44,31 @@ async function resolveClientAdmin(): Promise<boolean> {
 
   if (byId?.role === 'admin') return true;
 
-  const email = user.email;
-  if (!email) return false;
+  if (userEmail) {
+    const { data: byEmail } = await supabase
+      .from('user_profiles')
+      .select('role')
+      .eq('email', userEmail)
+      .maybeSingle();
 
-  const { data: byEmail } = await supabase
-    .from('user_profiles')
+    if (byEmail?.role === 'admin') return true;
+
+    const { data: profileByEmail } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('email', userEmail)
+      .maybeSingle();
+
+    if (profileByEmail?.role === 'admin') return true;
+  }
+
+  const { data: profileById } = await supabase
+    .from('profiles')
     .select('role')
-    .eq('email', email)
+    .eq('id', user.id)
     .maybeSingle();
 
-  return byEmail?.role === 'admin';
+  return profileById?.role === 'admin';
 }
 
 export default function AdminLoginPage() {
