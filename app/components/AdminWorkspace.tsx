@@ -163,7 +163,20 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       if (editingClientId) {
         await workspaceRequest('PATCH', { entity: 'clients', id: editingClientId, payload });
       } else {
-        await workspaceRequest('POST', { entity: 'clients', payload });
+        if (!adminToken) return setStatus('No hay sesión admin activa.');
+        const createRes = await fetch('/api/admin/clients', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            authorization: `Bearer ${adminToken}`,
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const createData = (await createRes.json().catch(() => ({} as { error?: string }))) as { ok?: boolean; error?: string };
+        if (!createRes.ok || createData.ok === false) {
+          throw new Error(createData.error ?? 'Error creando cliente');
+        }
       }
     } catch (error) {
       return setStatus(`Error guardando cliente: ${(error as Error).message}`);
