@@ -48,6 +48,7 @@ const emptyAppointment = { title: '', description: '', start_at: '', end_at: '',
 export default function AdminWorkspace({ section = 'all', clientId }: { section?: Section; clientId?: string }) {
   const [ready, setReady] = useState(false);
   const [adminId, setAdminId] = useState<string | null>(null);
+  const [adminToken, setAdminToken] = useState<string | null>(null);
   const [status, setStatus] = useState('');
   const [clients, setClients] = useState<ClientProfile[]>([]);
   const [updates, setUpdates] = useState<ClientUpdate[]>([]);
@@ -60,13 +61,16 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const [editingAppointmentId, setEditingAppointmentId] = useState<string | null>(null);
 
   async function workspaceRequest<T>(method: 'GET' | 'POST' | 'PATCH' | 'DELETE', body?: Record<string, unknown>) {
-    if (!adminId) {
+    if (!adminId || !adminToken) {
       throw new Error('No hay sesión admin activa.');
     }
 
     const response = await fetch('/api/admin/workspace', {
       method,
-      headers: { 'content-type': 'application/json' },
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${adminToken}`,
+      },
       body: body ? JSON.stringify(body) : undefined,
     });
 
@@ -88,6 +92,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const resolveAdmin = async () => {
     const { data: s } = await supabase.auth.getSession();
     setAdminId(s.session?.user?.id ?? null);
+    setAdminToken(s.session?.access_token ?? null);
     setReady(true);
   };
 
@@ -109,8 +114,8 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   }, []);
 
   useEffect(() => {
-    if (adminId) loadAll();
-  }, [adminId]);
+    if (adminId && adminToken) loadAll();
+  }, [adminId, adminToken]);
 
   const clientMap = useMemo(() => new Map(clients.map((c) => [c.id, c])), [clients]);
   const clientUpdates = useMemo(() => (clientId ? updates.filter((u) => u.client_profile_id === clientId) : updates), [updates, clientId]);
@@ -132,9 +137,13 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       if (editingClientId) {
         await workspaceRequest('PATCH', { entity: 'clients', id: editingClientId, payload });
       } else {
+        if (!adminToken) return setStatus('No hay sesión admin activa.');
         const createRes = await fetch('/api/admin/clients', {
           method: 'POST',
-          headers: { 'content-type': 'application/json' },
+          headers: {
+            'content-type': 'application/json',
+            authorization: `Bearer ${adminToken}`,
+          },
           body: JSON.stringify(payload),
         });
 
@@ -233,8 +242,10 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   }
 
   async function exportBackup() {
-    if (!adminId) return setStatus('No hay sesión admin para exportar.');
-    const res = await fetch('/api/admin/export');
+    if (!adminId || !adminToken) return setStatus('No hay sesión admin para exportar.');
+    const res = await fetch('/api/admin/export', {
+      headers: { authorization: `Bearer ${adminToken}` },
+    });
     if (!res.ok) {
       const data = await res.json().catch(() => ({} as { error?: string }));
       return setStatus(`Error exportando: ${data.error ?? 'desconocido'}`);
@@ -254,7 +265,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const toInputDate = (value: string) => (value ? new Date(value).toISOString().slice(0, 16) : '');
 
   if (!ready) return <section className="container section-shell"><div className="card-shell bg-white p-6">Validando sesión admin…</div></section>;
-  if (!adminId) return <section className="container section-shell"><div className="card-shell bg-white p-6 text-center">No hay sesión admin activa.</div></section>;
+  if (!adminId || !adminToken) return <section className="container section-shell"><div className="card-shell bg-white p-6 text-center">No hay sesión admin activa.</div></section>;
 
   return (
     <section className="container section-shell space-y-6">
