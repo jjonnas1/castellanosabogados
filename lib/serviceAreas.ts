@@ -1,4 +1,4 @@
-import { supabase, supabaseConfigured } from '@/lib/supabase-browser';
+import { createClient } from '@supabase/supabase-js';
 
 export type ServiceArea = {
   slug: string;
@@ -42,6 +42,20 @@ const serviceCopy: Record<string, { title: string; description: string }> = {
   },
 };
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
+
+export const supabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+
+function getSupabaseServerAnonClient() {
+  return createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+}
+
 export function enrichService(area: ServiceArea) {
   const copy = serviceCopy[area.slug] ?? { title: area.name, description: 'Servicio disponible bajo consulta.' };
   return { ...area, ...copy };
@@ -52,6 +66,7 @@ export async function fetchServiceAreas() {
     return { data: [] as ServiceArea[], error: new Error('Supabase env no configurado') };
   }
 
+  const supabase = getSupabaseServerAnonClient();
   const { data, error } = await supabase
     .from('service_areas')
     .select('slug, name, enabled, sort')
