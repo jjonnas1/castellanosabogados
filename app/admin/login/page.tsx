@@ -18,17 +18,21 @@ export default function AdminLoginPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let mounted = true;
+
     const checkAdmin = async () => {
       const { data: s } = await supabase.auth.getSession();
       const user = s.session?.user;
       if (!user) {
+        if (!mounted) return;
         setChecking(false);
         return;
       }
 
       const isAdmin = await resolveAdminRole(user.id);
+      if (!mounted) return;
       if (isAdmin) {
-        router.push('/admin');
+        router.replace('/admin');
         return;
       }
 
@@ -37,8 +41,9 @@ export default function AdminLoginPage() {
     };
 
     checkAdmin();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => checkAdmin());
-    return () => sub.subscription.unsubscribe();
+    return () => {
+      mounted = false;
+    };
   }, [router]);
 
   async function handleLogin(e: React.FormEvent) {
@@ -69,7 +74,7 @@ export default function AdminLoginPage() {
       return;
     }
 
-    router.push('/admin');
+    router.replace('/admin');
     setLoading(false);
   }
 
