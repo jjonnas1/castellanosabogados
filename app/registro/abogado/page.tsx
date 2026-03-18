@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
 
 export default function RegistroAbogadoPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [nombre, setNombre] = useState('');
@@ -17,17 +19,35 @@ export default function RegistroAbogadoPage() {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signUp({ email, password: pass });
-      if (error) throw error;
+      const { data, error: authError } = await supabase.auth.signUp({
+        email,
+        password: pass,
+        options: {
+          emailRedirectTo: `${location.origin}/cliente/dashboard`,
+        },
+      });
+
+      if (authError) {
+        setStatus(`authError: ${authError.message}`);
+        return;
+      }
 
       if (data.user?.id) {
-        await supabase.from('profiles').upsert({
-          id: data.user.id,
-          email,
-          full_name: nombre,
-        });
+        const { error: profileError } = await supabase.from('profiles').upsert(
+          {
+            id: data.user.id,
+            email,
+            full_name: nombre,
+          },
+          { onConflict: 'id' },
+        );
 
-        await supabase.from('lawyers').insert({
+        if (profileError) {
+          setStatus(`profileError: ${profileError.message}`);
+          return;
+        }
+
+        const { error: lawyerError } = await supabase.from('lawyers').insert({
           user_id: data.user.id,
           bar_number: tp,
           bio: null,
@@ -35,10 +55,21 @@ export default function RegistroAbogadoPage() {
           verified: false,
           base_rate_cop: 70000,
         });
+
+        if (lawyerError) {
+          setStatus(`lawyerError: ${lawyerError.message}`);
+          return;
+        }
       }
-      setStatus('Registro enviado. Revisa tu correo para confirmar la cuenta.');
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'No pudimos registrar.';
+
+      if (data.session) {
+        router.push('/cliente/dashboard');
+        return;
+      }
+
+      setStatus('✅ Registro exitoso. Revisa tu correo para confirmar tu cuenta.');
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Error inesperado';
       setStatus(message);
     } finally {
       setLoading(false);
