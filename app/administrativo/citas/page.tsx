@@ -23,6 +23,45 @@ type Appointment = {
 
 const STATUSES = ['pending','confirmed','in_call','completed','cancelled'] as const;
 
+async function resolveClientAdmin() {
+  const s = await Promise.race([
+    supabase.auth.getSession(),
+    new Promise<any>((resolve) => setTimeout(() => resolve({ data: { session: null } }), 2500)),
+  ]);
+  const user = s.data.session?.user;
+  const token = s.data.session?.access_token;
+
+  if (!user) return false;
+
+  if (token) {
+    try {
+      const res = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
+      if (res.ok) return true;
+    } catch {
+      // fallback to client-side profile query
+    }
+  }
+
+  const { data: byId } = await supabase
+    .from('user_profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (byId?.role === 'admin') return true;
+
+  const email = user.email;
+  if (!email) return false;
+
+  const { data: byEmail } = await supabase
+    .from('user_profiles')
+    .select('role')
+    .eq('email', email)
+    .maybeSingle();
+
+  return byEmail?.role === 'admin';
+}
+
 export default function AdminCitasPage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [authResolved, setAuthResolved] = useState(false);
@@ -37,18 +76,14 @@ export default function AdminCitasPage() {
 
   useEffect(() => {
     const resolveAdmin = async () => {
-      const { data: s } = await supabase.auth.getSession();
-      const token = s.session?.access_token;
-
-      if (!token) {
+      try {
+        const ok = await resolveClientAdmin();
+        setIsAdmin(ok);
+      } catch {
         setIsAdmin(false);
+      } finally {
         setAuthResolved(true);
-        return;
       }
-
-      const res = await fetch('/api/admin/me', { headers: { authorization: `Bearer ${token}` } });
-      setIsAdmin(res.ok);
-      setAuthResolved(true);
     };
 
     resolveAdmin();

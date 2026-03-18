@@ -3,6 +3,47 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase-browser';
 
+async function resolveClientAdmin(): Promise<boolean> {
+  const sessionData = await Promise.race([
+    supabase.auth.getSession(),
+    new Promise<any>((resolve) => setTimeout(() => resolve({ data: { session: null } }), 2500)),
+  ]);
+  const user = sessionData.data.session?.user;
+
+  if (!user) return false;
+
+  const token = sessionData.data.session?.access_token;
+  if (token) {
+    try {
+      const res = await fetch('/api/admin/me', {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      if (res.ok) return true;
+    } catch {
+      // fallback to client profile query
+    }
+  }
+
+  const { data: byId } = await supabase
+    .from('user_profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (byId?.role === 'admin') return true;
+
+  const email = user.email;
+  if (!email) return false;
+
+  const { data: byEmail } = await supabase
+    .from('user_profiles')
+    .select('role')
+    .eq('email', email)
+    .maybeSingle();
+
+  return byEmail?.role === 'admin';
+}
+
 export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
   const [checking, setChecking] = useState(true);
@@ -10,25 +51,18 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     const checkAdmin = async () => {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const token = sessionData.session?.access_token;
+      try {
+        const isAdmin = await resolveClientAdmin();
 
-      if (!token) {
-        setChecking(false);
-        return;
-      }
-
-      const res = await fetch('/api/admin/me', {
-        headers: { authorization: `Bearer ${token}` },
-      });
-
-      if (res.ok) {
-        window.location.href = '/administrativo/citas';
-        return;
+        if (isAdmin) {
+          window.location.href = '/administrativo/citas';
+          return;
+        }
+      } catch {
+        setError('No pudimos validar tu sesión en este momento. Intenta nuevamente.');
       }
 
       setChecking(false);
-      setError('Tu usuario inició sesión, pero no tiene rol admin.');
     };
 
     checkAdmin();
