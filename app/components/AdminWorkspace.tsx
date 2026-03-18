@@ -38,19 +38,14 @@ type Appointment = {
 
 const emptyClient = { full_name: '', email: '', phone: '', case_reference: '', can_access_portal: true };
 const emptyUpdate = { client_profile_id: '', title: '', update_text: '', status: 'en curso', visible_to_client: true };
-const emptyAppointment = {
-  title: '',
-  description: '',
-  start_at: '',
-  end_at: '',
-  status: 'programada',
-  client_profile_id: '',
-};
+const emptyAppointment = { title: '', description: '', start_at: '', end_at: '', status: 'programada', client_profile_id: '' };
 
 export default function AdminWorkspace() {
   const [authReady, setAuthReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [hasSession, setHasSession] = useState(false);
   const [adminId, setAdminId] = useState<string | null>(null);
+  const [adminToken, setAdminToken] = useState<string | null>(null);
   const [status, setStatus] = useState('');
 
   const [clients, setClients] = useState<ClientProfile[]>([]);
@@ -59,18 +54,19 @@ export default function AdminWorkspace() {
 
   const [clientForm, setClientForm] = useState(emptyClient);
   const [editingClientId, setEditingClientId] = useState<string | null>(null);
-
   const [updateForm, setUpdateForm] = useState(emptyUpdate);
   const [editingUpdateId, setEditingUpdateId] = useState<string | null>(null);
-
   const [appointmentForm, setAppointmentForm] = useState(emptyAppointment);
   const [editingAppointmentId, setEditingAppointmentId] = useState<string | null>(null);
 
-  async function resolveAdmin() {
+  const resolveAdmin = async () => {
     const { data: s } = await supabase.auth.getSession();
     const token = s.session?.access_token;
     const uid = s.session?.user?.id ?? null;
+
+    setHasSession(Boolean(token));
     setAdminId(uid);
+    setAdminToken(token ?? null);
 
     if (!token) {
       setIsAdmin(false);
@@ -86,9 +82,9 @@ export default function AdminWorkspace() {
 
     setIsAdmin(me.ok);
     setAuthReady(true);
-  }
+  };
 
-  async function loadAll() {
+  const loadAll = async () => {
     const [c, u, a] = await Promise.all([
       supabase.from('client_profiles').select('*').order('created_at', { ascending: false }),
       supabase.from('client_case_updates').select('*').order('created_at', { ascending: false }),
@@ -102,27 +98,29 @@ export default function AdminWorkspace() {
     if (c.error || u.error || a.error) {
       setStatus(`Error cargando datos: ${c.error?.message ?? u.error?.message ?? a.error?.message ?? 'desconocido'}`);
     }
-  }
+  };
 
   useEffect(() => {
     resolveAdmin();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => {
-      resolveAdmin();
-    });
+    const { data: sub } = supabase.auth.onAuthStateChange(() => resolveAdmin());
     return () => sub.subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (!isAdmin) return;
-    loadAll();
+    if (!authReady || !hasSession || isAdmin) return;
+    window.location.href = '/admin/login';
+  }, [authReady, hasSession, isAdmin]);
+
+  useEffect(() => {
+    if (isAdmin) loadAll();
   }, [isAdmin]);
 
+  const nextAppointments = useMemo(() => appointments.filter((a) => new Date(a.start_at).getTime() >= Date.now()).slice(0, 5), [appointments]);
+  const lastUpdates = useMemo(() => updates.slice(0, 5), [updates]);
   const totalVisibleUpdates = useMemo(() => updates.filter((u) => u.visible_to_client).length, [updates]);
 
-  async function saveClient(e: React.FormEvent) {
+  const saveClient = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('');
-
     const payload = {
       full_name: clientForm.full_name,
       email: clientForm.email.toLowerCase(),
@@ -142,11 +140,10 @@ export default function AdminWorkspace() {
     setClientForm(emptyClient);
     setEditingClientId(null);
     loadAll();
-  }
+  };
 
-  async function saveUpdate(e: React.FormEvent) {
+  const saveUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('');
     if (!adminId) return setStatus('No hay sesión admin activa.');
 
     const payload = {
@@ -169,11 +166,17 @@ export default function AdminWorkspace() {
     setUpdateForm(emptyUpdate);
     setEditingUpdateId(null);
     loadAll();
-  }
+  };
 
-  async function saveAppointment(e: React.FormEvent) {
+  const deleteUpdate = async (id: string) => {
+    const { error } = await supabase.from('client_case_updates').delete().eq('id', id);
+    if (error) return setStatus(`Error eliminando actualización: ${error.message}`);
+    setStatus('Actualización eliminada.');
+    loadAll();
+  };
+
+  const saveAppointment = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('');
     if (!adminId) return setStatus('No hay sesión admin activa.');
 
     const payload = {
@@ -197,40 +200,52 @@ export default function AdminWorkspace() {
     setAppointmentForm(emptyAppointment);
     setEditingAppointmentId(null);
     loadAll();
-  }
+  };
 
-  async function deleteAppointment(id: string) {
+  const deleteAppointment = async (id: string) => {
     const { error } = await supabase.from('appointments').delete().eq('id', id);
     if (error) return setStatus(`Error eliminando cita: ${error.message}`);
     setStatus('Cita eliminada.');
     loadAll();
-  }
+  };
 
-  function toInputDate(value: string) {
-    if (!value) return '';
-    return new Date(value).toISOString().slice(0, 16);
-  }
+  const exportBackup = async () => {
+    if (!adminToken) return setStatus('No hay sesión admin para exportar.');
 
-  if (!authReady) {
-    return <section className="container section-shell"><div className="card-shell bg-white p-6">Validando sesión admin…</div></section>;
-  }
+    const res = await fetch('/api/admin/export', {
+      headers: { authorization: `Bearer ${adminToken}` },
+    });
 
-  if (!isAdmin) {
-    return (
-      <section className="container section-shell">
-        <div className="card-shell bg-white p-6 text-center">
-          <h1 className="text-2xl font-semibold text-ink">403</h1>
-          <p className="mt-2 text-muted">No tienes permisos admin. Inicia sesión en /admin/login con correo owner/admin.</p>
-        </div>
-      </section>
-    );
-  }
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      return setStatus(`Error exportando: ${data?.error ?? 'desconocido'}`);
+    }
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `respaldo-castellanos-${new Date().toISOString().slice(0, 10)}.xlsx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  };
+
+  const toInputDate = (value: string) => (value ? new Date(value).toISOString().slice(0, 16) : '');
+
+  if (!authReady) return <section className="container section-shell"><div className="card-shell bg-white p-6">Validando sesión admin…</div></section>;
+  if (!hasSession) return null;
+  if (!isAdmin) return <section className="container section-shell"><div className="card-shell bg-white p-6 text-center"><h1 className="text-2xl font-semibold text-ink">403</h1><p className="mt-2 text-muted">No tienes permisos admin.</p></div></section>;
 
   return (
     <section className="container section-shell space-y-6">
       <header className="card-shell bg-white p-6">
         <p className="pill w-fit">Dashboard Admin</p>
         <h1 className="mt-3 text-2xl font-semibold text-ink">Panel administrativo funcional</h1>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button className="btn-secondary" onClick={exportBackup}>Descargar respaldo (Excel)</button>
+        </div>
         {status && <p className="mt-2 text-sm text-muted">{status}</p>}
       </header>
 
@@ -238,6 +253,23 @@ export default function AdminWorkspace() {
         <article className="card-shell bg-white p-4"><p className="text-xs text-muted uppercase">Clientes</p><p className="mt-1 text-2xl font-semibold">{clients.length}</p></article>
         <article className="card-shell bg-white p-4"><p className="text-xs text-muted uppercase">Citas/Agenda</p><p className="mt-1 text-2xl font-semibold">{appointments.length}</p></article>
         <article className="card-shell bg-white p-4"><p className="text-xs text-muted uppercase">Actualizaciones visibles</p><p className="mt-1 text-2xl font-semibold">{totalVisibleUpdates}</p></article>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-2">
+        <article className="card-shell bg-white p-5">
+          <h2 className="text-lg font-semibold">Próximas citas</h2>
+          <div className="mt-3 space-y-2 text-sm">
+            {nextAppointments.map((a) => <p key={a.id}>{new Date(a.start_at).toLocaleString('es-CO')} · {a.title}</p>)}
+            {nextAppointments.length === 0 && <p className="text-muted">Sin próximas citas.</p>}
+          </div>
+        </article>
+        <article className="card-shell bg-white p-5">
+          <h2 className="text-lg font-semibold">Últimas actualizaciones</h2>
+          <div className="mt-3 space-y-2 text-sm">
+            {lastUpdates.map((u) => <p key={u.id}>{u.title} · {u.status}</p>)}
+            {lastUpdates.length === 0 && <p className="text-muted">Sin actualizaciones.</p>}
+          </div>
+        </article>
       </section>
 
       <section className="grid gap-6 lg:grid-cols-2">
@@ -259,7 +291,6 @@ export default function AdminWorkspace() {
             </div>
             <button className="btn-primary w-fit" type="submit">{editingAppointmentId ? 'Actualizar cita' : 'Crear cita'}</button>
           </form>
-
           <div className="mt-4 space-y-2 max-h-72 overflow-auto">
             {appointments.map((a)=> (
               <div key={a.id} className="rounded-lg border p-2 text-sm">
@@ -285,7 +316,6 @@ export default function AdminWorkspace() {
             <label className="text-sm"><input type="checkbox" checked={clientForm.can_access_portal} onChange={(e)=>setClientForm({...clientForm,can_access_portal:e.target.checked})} /> Habilitar portal</label>
             <button className="btn-primary w-fit" type="submit">{editingClientId ? 'Actualizar cliente' : 'Crear cliente'}</button>
           </form>
-
           <div className="mt-4 space-y-2 max-h-72 overflow-auto">
             {clients.map((c)=> (
               <div key={c.id} className="rounded-lg border p-2 text-sm">
@@ -323,6 +353,7 @@ export default function AdminWorkspace() {
               <p>{u.update_text}</p>
               <div className="mt-2 flex gap-2">
                 <button className="btn-secondary" onClick={()=>{setEditingUpdateId(u.id);setUpdateForm({client_profile_id:u.client_profile_id,title:u.title,update_text:u.update_text,status:u.status,visible_to_client:u.visible_to_client});}}>Editar</button>
+                <button className="btn-secondary" onClick={()=>deleteUpdate(u.id)}>Eliminar</button>
               </div>
             </div>
           ))}

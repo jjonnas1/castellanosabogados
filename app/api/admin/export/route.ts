@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
 
   if (!hasServiceRole()) return NextResponse.json({ ok: false, error: 'Falta SUPABASE_SERVICE_ROLE_KEY en el servidor' }, { status: 500 });
 
-  const [clientsRes, updatesRes] = await Promise.all([
+  const [clientsRes, updatesRes, appointmentsRes] = await Promise.all([
     getSupabaseServer()
       .from('client_profiles')
       .select('id,full_name,email,phone,case_reference,can_access_portal,created_at')
@@ -17,17 +17,22 @@ export async function GET(req: NextRequest) {
       .from('client_case_updates')
       .select('id,client_profile_id,title,update_text,status,visible_to_client,created_at')
       .order('created_at', { ascending: false }),
+    getSupabaseServer()
+      .from('appointments')
+      .select('id,client_profile_id,title,description,start_at,end_at,status,created_at')
+      .order('start_at', { ascending: true }),
   ]);
 
-  if (clientsRes.error || updatesRes.error) {
+  if (clientsRes.error || updatesRes.error || appointmentsRes.error) {
     return NextResponse.json(
-      { ok: false, error: clientsRes.error?.message ?? updatesRes.error?.message ?? 'Error exportando respaldo' },
+      { ok: false, error: clientsRes.error?.message ?? updatesRes.error?.message ?? appointmentsRes.error?.message ?? 'Error exportando respaldo' },
       { status: 500 },
     );
   }
 
   const clients = clientsRes.data ?? [];
   const updates = updatesRes.data ?? [];
+  const appointments = appointmentsRes.data ?? [];
   const clientMap = new Map(clients.map((client) => [client.id, client.full_name]));
 
   const workbook = new ExcelJS.Workbook();
@@ -71,6 +76,30 @@ export async function GET(req: NextRequest) {
       status: update.status,
       created_at: update.created_at,
       visible_to_client: update.visible_to_client ? 'Sí' : 'No',
+    });
+  });
+
+
+  const appointmentsSheet = workbook.addWorksheet('Citas');
+  appointmentsSheet.columns = [
+    { header: 'Cliente', key: 'client', width: 28 },
+    { header: 'Título', key: 'title', width: 30 },
+    { header: 'Descripción', key: 'description', width: 50 },
+    { header: 'Inicio', key: 'start_at', width: 24 },
+    { header: 'Fin', key: 'end_at', width: 24 },
+    { header: 'Estado', key: 'status', width: 16 },
+    { header: 'Creada', key: 'created_at', width: 24 },
+  ];
+
+  appointments.forEach((appointment) => {
+    appointmentsSheet.addRow({
+      client: appointment.client_profile_id ? clientMap.get(appointment.client_profile_id) ?? 'Sin cliente' : 'Sin cliente',
+      title: appointment.title,
+      description: appointment.description ?? '',
+      start_at: appointment.start_at,
+      end_at: appointment.end_at,
+      status: appointment.status,
+      created_at: appointment.created_at,
     });
   });
 
