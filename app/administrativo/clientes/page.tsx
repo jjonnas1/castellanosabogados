@@ -189,7 +189,7 @@ export default function AdminClientesPage() {
             </div>
             <div className="flex gap-2">
               <button onClick={downloadBackup} className="rounded-lg bg-slate-900 px-3 py-2 text-sm text-white">Descargar respaldo</button>
-              <Link href="/administrativo/citas" className="rounded-lg border border-slate-300 px-3 py-2 text-sm">Agenda administrativa</Link>
+              <Link href="/admin/dashboard" className="rounded-lg border border-slate-300 px-3 py-2 text-sm">Agenda administrativa</Link>
             </div>
           </div>
           {status && <p className="mt-3 rounded-lg bg-slate-50 p-2 text-sm text-slate-700">{status}</p>}
