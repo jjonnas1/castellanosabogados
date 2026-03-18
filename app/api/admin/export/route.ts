@@ -11,15 +11,15 @@ export async function GET(req: NextRequest) {
   }
 
   const [clientsRes, appointmentsRes, updatesRes] = await Promise.all([
-    getSupabaseServer()
+    getSupabaseServer({ serviceRole: true })
       .from('client_profiles')
       .select('id,full_name,email,phone,case_reference,can_access_portal,created_at')
       .order('created_at', { ascending: false }),
-    getSupabaseServer()
+    getSupabaseServer({ serviceRole: true })
       .from('appointments')
       .select('id,client_profile_id,title,description,start_at,end_at,status,created_at')
       .order('start_at', { ascending: true }),
-    getSupabaseServer()
+    getSupabaseServer({ serviceRole: true })
       .from('client_case_updates')
       .select('id,client_profile_id,title,update_text,status,visible_to_client,created_at')
       .order('created_at', { ascending: false }),

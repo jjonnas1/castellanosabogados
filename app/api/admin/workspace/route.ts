@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   const admin = await requireAdmin(req.headers.get('authorization'));
   if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: 403 });
 
-  const supabaseServer = getSupabaseServer();
+  const supabaseServer = getSupabaseServer({ serviceRole: true });
 
   const [clients, updates, appointments] = await Promise.all([
     supabaseServer.from('client_profiles').select('*').order('created_at', { ascending: false }),
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
   const body = (await req.json().catch(() => null)) as { entity?: Entity; payload?: Record<string, unknown> } | null;
   if (!body?.entity || !body.payload) return badRequest('Solicitud inválida');
 
-  const supabaseServer = getSupabaseServer();
+  const supabaseServer = getSupabaseServer({ serviceRole: true });
   const table = entityTable(body.entity);
   const { data, error } = await supabaseServer.from(table).insert(body.payload).select('*').maybeSingle();
   if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
@@ -58,7 +58,7 @@ export async function PATCH(req: NextRequest) {
   const body = (await req.json().catch(() => null)) as { entity?: Entity; id?: string; payload?: Record<string, unknown> } | null;
   if (!body?.entity || !body?.id || !body.payload) return badRequest('Solicitud inválida');
 
-  const supabaseServer = getSupabaseServer();
+  const supabaseServer = getSupabaseServer({ serviceRole: true });
   const table = entityTable(body.entity);
   const { data, error } = await supabaseServer.from(table).update(body.payload).eq('id', body.id).select('*').maybeSingle();
   if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
@@ -73,7 +73,7 @@ export async function DELETE(req: NextRequest) {
   const body = (await req.json().catch(() => null)) as { entity?: Entity; id?: string } | null;
   if (!body?.entity || !body?.id) return badRequest('Solicitud inválida');
 
-  const supabaseServer = getSupabaseServer();
+  const supabaseServer = getSupabaseServer({ serviceRole: true });
   const table = entityTable(body.entity);
   const { error } = await supabaseServer.from(table).delete().eq('id', body.id);
   if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });

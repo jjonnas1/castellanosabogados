@@ -4,14 +4,18 @@ export function hasServiceRole() {
   return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
 }
 
-export function getSupabaseServer() {
+export function getSupabaseServer(options?: { serviceRole?: boolean }) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRole = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const requiresServiceRole = options?.serviceRole ?? false;
 
-  const key = serviceRole || anonKey;
+  const key = requiresServiceRole ? serviceRole : serviceRole || anonKey;
 
   if (!url || !key) {
+    if (requiresServiceRole) {
+      throw new Error('SUPABASE_SERVICE_ROLE_KEY es obligatorio para operaciones admin.');
+    }
     throw new Error('Supabase env is missing (NEXT_PUBLIC_SUPABASE_URL and a server key).');
   }
 
@@ -46,9 +50,12 @@ async function bootstrapFirstAdmin(
 
 export async function requireAdmin(authHeader: string | null) {
   if (!authHeader?.startsWith('Bearer ')) return { ok: false as const, error: 'No autorizado' };
+  if (!hasServiceRole()) {
+    return { ok: false as const, error: 'Falta SUPABASE_SERVICE_ROLE_KEY en el servidor' };
+  }
 
   const token = authHeader.slice('Bearer '.length);
-  const supabaseServer = getSupabaseServer();
+  const supabaseServer = getSupabaseServer({ serviceRole: true });
 
   const { data: userData, error: userError } = await supabaseServer.auth.getUser(token);
   if (userError || !userData.user) return { ok: false as const, error: 'Sesión inválida' };

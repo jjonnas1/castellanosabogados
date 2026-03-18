@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   }
 
   const token = authHeader.slice('Bearer '.length);
-  const supabaseServer = getSupabaseServer();
+  const supabaseServer = getSupabaseServer({ serviceRole: true });
 
   const { data: userData, error: userError } = await supabaseServer.auth.getUser(token);
   if (userError || !userData.user?.id) {

@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
   const email = (body?.email ?? '').trim().toLowerCase();
   if (!email) return NextResponse.json({ ok: false, error: 'Email requerido' }, { status: 400 });
 
-  const { data, error } = await getSupabaseServer().auth.admin.inviteUserByEmail(email, {
+  const { data, error } = await getSupabaseServer({ serviceRole: true }).auth.admin.inviteUserByEmail(email, {
     redirectTo: `${req.nextUrl.origin}/cliente`,
   });
 

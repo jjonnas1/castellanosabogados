@@ -8,12 +8,12 @@ export async function POST(req: NextRequest) {
   if (!authHeader?.startsWith('Bearer ')) return NextResponse.json({ ok: false, error: 'No autorizado' }, { status: 401 });
 
   const token = authHeader.slice('Bearer '.length);
-  const { data: userData, error: userError } = await getSupabaseServer().auth.getUser(token);
+  const { data: userData, error: userError } = await getSupabaseServer({ serviceRole: true }).auth.getUser(token);
   if (userError || !userData.user?.email) return NextResponse.json({ ok: false, error: 'Sesión inválida' }, { status: 401 });
 
   const email = userData.user.email.toLowerCase();
 
-  const { data: profile, error: profileError } = await getSupabaseServer()
+  const { data: profile, error: profileError } = await getSupabaseServer({ serviceRole: true })
     .from('client_profiles')
     .select('id,auth_user_id,can_access_portal')
     .eq('email', email)
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   if (profileError || !profile) return NextResponse.json({ ok: true, linked: false });
 
   if (!profile.auth_user_id) {
-    const { error: updateError } = await getSupabaseServer()
+    const { error: updateError } = await getSupabaseServer({ serviceRole: true })
       .from('client_profiles')
       .update({ auth_user_id: userData.user.id })
       .eq('id', profile.id);
