@@ -1,0 +1,16 @@
+{
+  "name": "Castellanos Abogados",
+  "short_name": "Castellanos",
+  "description": "Panel privado y gestión jurídica de Castellanos Abogados",
+  "start_url": "/panel",
+  "display": "standalone",
+  "background_color": "#f4f6fb",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

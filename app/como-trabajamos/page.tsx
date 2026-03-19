@@ -8,20 +8,20 @@ const background =
 
 const steps = [
   {
-    title: "Evaluación estratégica",
-    detail: "Contexto, hipótesis de riesgo penal y responsables. Identificamos el nivel de exposición y el ritmo de intervención.",
+    title: "Evaluación del caso",
+    detail: "Revisión inicial del problema, contexto y documentos para identificar el camino jurídico adecuado.",
   },
   {
-    title: "Mapa de riesgo",
-    detail: "Matrices, dependencias y rutas de mitigación. Documentación lista para junta y órganos de control.",
+    title: "Análisis jurídico",
+    detail: "Estudio técnico del caso según el área (civil, penal, laboral, familia o administrativo).",
   },
   {
-    title: "Acompañamiento",
-    detail: "Sesiones cortas, instrucciones concretas y documentos especializados. Coordinamos con compliance y auditoría.",
+    title: "Estrategia",
+    detail: "Definición de la actuación: asesoría, trámite, escrito, defensa o acompañamiento.",
   },
   {
-    title: "Respuesta estratégica",
-    detail: "Protocolos, mensajes clave y coordinación con aliados para contención y respuesta documentada.",
+    title: "Actuación y seguimiento",
+    detail: "Ejecución del plan con control directo, comunicación clara y seguimiento del caso.",
   },
 ];
 
@@ -37,10 +37,10 @@ export default function ComoTrabajamosPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/82 to-accent-700/70" aria-hidden />
         <div className="container section-shell relative space-y-5">
           <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Metodología</p>
-          <h1 className="max-w-3xl text-white">Metodología estructurada para decisiones que no admiten improvisación</h1>
+          <h1 className="max-w-3xl text-white">Metodología clara para decisiones jurídicas bien tomadas</h1>
           <p className="max-w-3xl text-lg text-slate-100">
-            Etapas cortas y trazables, con documentos especializados y responsables definidos. Cada fase puede activarse de forma independiente
-            según la presión del caso.
+            Cada asunto se aborda con análisis jurídico, estrategia y seguimiento directo. No importa el área: civil, penal, familia, laboral o
+            administrativo, el enfoque es claro, ordenado y trazable desde el inicio.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -64,9 +64,10 @@ export default function ComoTrabajamosPage() {
       <section className="container section-shell space-y-8">
         <div className="space-y-3">
           <p className="pill w-fit">Ruta</p>
-          <h2>Pasos trazables</h2>
+          <h2>Cómo se trabaja cada caso</h2>
           <p className="max-w-3xl text-muted">
-            Cada etapa deja trazabilidad especializada y define alcance definido: no litigio, sí control, coordinación y documentación sólida.
+            Cada asunto sigue una metodología estructurada que permite entender el problema, definir la estrategia y actuar con claridad jurídica en
+            cada etapa.
           </p>
         </div>
         <div className="grid gap-4 md:grid-cols-2">
@@ -87,13 +88,12 @@ export default function ComoTrabajamosPage() {
         <div className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="space-y-3">
             <p className="pill w-fit">Alcance</p>
-            <h2>Sin litigio, con coordinación total</h2>
+            <h2>Acompañamiento jurídico claro y directo</h2>
             <p className="max-w-2xl text-muted">
-              Nos integramos a tus equipos de cumplimiento y auditoría para mantener la trazabilidad. Si requieres defensa judicial, articulamos
-              aliados manteniendo el control documental.
+              El servicio es personal y directo. Cada caso se maneja con criterio jurídico, organización y comunicación constante con el cliente.
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
-              {["Sesiones cortas con responsables", "Documentación lista para junta", "Protocolos activables", "Coordinación con órganos de control"].map(
+              {["Atención directa del abogado", "Documentación clara y organizada", "Estrategia definida desde el inicio", "Seguimiento continuo del caso"].map(
                 (item) => (
                   <div key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-ink shadow-soft/30">
                     {item}
@@ -123,12 +123,12 @@ export default function ComoTrabajamosPage() {
                 href={buildMailtoUrl({
                   area: "Metodología estructurada",
                   source: "/como-trabajamos",
-                  subject: "Solicitud de coordinación con junta – Metodología estructurada",
-                  message: "Hola, necesito coordinar una sesión con junta o comité.",
+                  subject: "Solicitud de orientación – Metodología estructurada",
+                  message: "Hola, necesito coordinar una sesión de orientación jurídica.",
                 })}
                 className="btn-secondary"
               >
-                Coordinar con junta
+                Solicitar orientación
               </a>
             </div>
           </div>

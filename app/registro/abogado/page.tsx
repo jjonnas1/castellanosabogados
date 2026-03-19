@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
 
-
 export default function RegistroAbogadoPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [nombre, setNombre] = useState('');
@@ -18,26 +19,58 @@ export default function RegistroAbogadoPage() {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signUp({ email, password: pass });
-      if (error) throw error;
+      const { data, error: authError } = await supabase.auth.signUp({
+        email,
+        password: pass,
+        options: {
+          emailRedirectTo: `${location.origin}/cliente/dashboard`,
+        },
+      });
+
+      if (authError) {
+        setStatus(`authError: ${authError.message}`);
+        return;
+      }
 
       if (data.user?.id) {
-        await supabase.from('profiles').upsert({
-          id: data.user.id, email, full_name: nombre, role: 'lawyer'
-        });
+        const { error: profileError } = await supabase.from('profiles').upsert(
+          {
+            id: data.user.id,
+            email,
+            full_name: nombre,
+          },
+          { onConflict: 'id' },
+        );
 
-        await supabase.from('lawyers').insert({
+        if (profileError) {
+          setStatus(`profileError: ${profileError.message}`);
+          return;
+        }
+
+        const { error: lawyerError } = await supabase.from('lawyers').insert({
           user_id: data.user.id,
           bar_number: tp,
           bio: null,
           specialties: ['penal'],
           verified: false,
-          base_rate_cop: 70000
+          base_rate_cop: 70000,
         });
+
+        if (lawyerError) {
+          setStatus(`lawyerError: ${lawyerError.message}`);
+          return;
+        }
       }
-      setStatus('Registro enviado. Revisa tu correo para confirmar la cuenta.');
-    } catch (e: any) {
-      setStatus(e?.message || 'No pudimos registrar.');
+
+      if (data.session) {
+        router.push('/cliente/dashboard');
+        return;
+      }
+
+      setStatus('✅ Registro exitoso. Revisa tu correo para confirmar tu cuenta.');
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : 'Error inesperado';
+      setStatus(message);
     } finally {
       setLoading(false);
     }
@@ -50,10 +83,10 @@ export default function RegistroAbogadoPage() {
         <p className="muted">Crea tu cuenta para ofrecer asesorías.</p>
 
         <form onSubmit={handleRegister} className="panel" style={{ display: 'grid', gap: 12 }}>
-          <label>Nombre completo<input value={nombre} onChange={e => setNombre(e.target.value)} required /></label>
-          <label>Tarjeta profesional<input value={tp} onChange={e => setTp(e.target.value)} /></label>
-          <label>Correo<input type="email" value={email} onChange={e => setEmail(e.target.value)} required /></label>
-          <label>Contraseña<input type="password" value={pass} onChange={e => setPass(e.target.value)} required /></label>
+          <label>Nombre completo<input value={nombre} onChange={(e) => setNombre(e.target.value)} required /></label>
+          <label>Tarjeta profesional<input value={tp} onChange={(e) => setTp(e.target.value)} /></label>
+          <label>Correo<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required /></label>
+          <label>Contraseña<input type="password" value={pass} onChange={(e) => setPass(e.target.value)} required /></label>
           <button className="btn btn--primary" type="submit" disabled={loading}>{loading ? 'Creando…' : 'Registrarme'}</button>
         </form>
         {status && <div className="panel" style={{ marginTop: 10 }}>{status}</div>}

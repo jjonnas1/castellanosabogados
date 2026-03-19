@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
-import type { Session } from '@supabase/supabase-js';
+import type { AuthChangeEvent, Session } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabase-browser';
 
 export default function ClienteRegistroPage() {
   const [email, setEmail] = useState('');
@@ -10,16 +11,17 @@ export default function ClienteRegistroPage() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session ?? null));
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
+    supabase.auth.getSession().then(({ data }: { data: { session: Session | null } }) => setSession(data.session ?? null));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e: AuthChangeEvent, s: Session | null) => setSession(s));
     return () => sub.subscription.unsubscribe();
   }, []);
 
   useEffect(() => {
-    if (session) window.location.href = '/cliente/panel';
-  }, [session]);
+    if (session) router.push('/cliente');
+  }, [session, router]);
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
@@ -35,13 +37,6 @@ export default function ClienteRegistroPage() {
     if (error) setStatus(error.message);
     else setStatus('✅ Revisa tu correo y confirma tu cuenta para continuar.');
 
-    setLoading(false);
-  }
-
-  async function handleGoogle() {
-    setLoading(true);
-    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google' });
-    if (error) setStatus(error.message);
     setLoading(false);
   }
 
@@ -66,9 +61,6 @@ export default function ClienteRegistroPage() {
             {loading ? 'Creando…' : 'Registrarme'}
           </button>
 
-          <button type="button" className="btn btn--ghost" onClick={handleGoogle} disabled={loading}>
-            Registrarme con Google
-          </button>
         </form>
 
         {status && <div style={{ marginTop: 10, color: '#555' }}>{status}</div>}

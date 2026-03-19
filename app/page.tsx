@@ -1,10 +1,8 @@
 // app/page.tsx
 import Link from "next/link";
-import { Suspense } from "react";
 
 import SiteHeader from "./components/SiteHeader";
 import { buildMailtoUrl, buildWhatsAppUrl, contactConfig } from "@/lib/contactLinks";
-import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
 
 /* =========================
    BACKGROUNDS
@@ -17,121 +15,64 @@ const skylineBackground =
   "linear-gradient(180deg, rgba(15,23,42,0.9), rgba(17,37,68,0.75)), url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2000&q=80')";
 
 /* =========================
-   SKELETON
-========================= */
-function ServiceSkeleton() {
-  return (
-    <div className="grid gap-5 lg:grid-cols-3 animate-pulse">
-      {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="card-shell bg-white p-6">
-          <div className="h-3 w-24 rounded-full bg-subtle" />
-          <div className="mt-4 h-6 w-3/4 rounded-full bg-subtle" />
-          <div className="mt-3 h-4 w-full rounded-full bg-subtle" />
-          <div className="mt-6 h-9 w-32 rounded-full bg-subtle" />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-/* =========================
-   SERVICES GRID (SUPABASE)
-========================= */
-async function ServicesGrid() {
-  const { data: services, error } = await fetchServiceAreas();
-  const serviceList = (Array.isArray(services) ? services : []).map(enrichService);
-
-  if (error) {
-    return (
-      <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-        No pudimos conectar con Supabase. La lista de servicios puede no estar completa.
-      </div>
-    );
-  }
-
-  if (serviceList.length === 0) {
-    return (
-      <div className="mt-6 card-shell bg-white px-6 py-10 text-center text-muted">
-        <p className="text-lg font-semibold text-ink">Servicios no disponibles por el momento</p>
-        <p className="mt-2">Vuelve pronto o contáctanos para coordinar una revisión prioritaria.</p>
-        <Link href="/contacto" className="mt-4 inline-block btn-primary">
-          Contacto directo
-        </Link>
-      </div>
-    );
-  }
-
-  return (
-    <div className="grid gap-5 lg:grid-cols-3">
-      {serviceList.map((service) => (
-        <article
-          key={service.slug}
-          className="card-shell group flex h-full flex-col justify-between bg-white p-6 transition duration-300 ease-out hover:-translate-y-1 hover:shadow-hover"
-        >
-          <div className="space-y-3">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-accent-700">{service.slug}</p>
-            <h3 className="text-ink">{service.title}</h3>
-            <p className="text-sm text-muted">{service.description}</p>
-          </div>
-
-          <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-            <Link href={`/servicios/${service.slug}`} className="btn-secondary">
-              Ver detalle
-            </Link>
-
-            <a
-              href={buildMailtoUrl({
-                area: service.title,
-                source: "/",
-                subject: `Solicitud de evaluación – ${service.title}`,
-                message: "Hola, deseo solicitar una evaluación estratégica para esta área.",
-              })}
-              className="btn-primary"
-            >
-              Solicitar
-            </a>
-          </div>
-        </article>
-      ))}
-    </div>
-  );
-}
-
-/* =========================
    HOME (EQUITATIVO)
 ========================= */
 const serviceLines = [
   {
-    title: "Corporativo · Contratación estatal",
-    description:
-      "Gestión de riesgo penal corporativo para juntas y comités, con control preventivo, trazabilidad y documentación especializada.",
-    href: "/penal-empresarial",
-    area: "Corporativo",
-    intent: "linea-corporativo",
+    title: "Penal Personas",
+    description: "Estrategia penal para personas naturales con acompañamiento técnico en cada etapa.",
+    href: "/servicios/penal-personas",
+    area: "Penal Personas",
+    intent: "linea-penal-personas",
   },
   {
-    title: "Personas",
-    description:
-      "Orientación estratégica para personas naturales: evaluación clara del caso, guías de actuación y soporte documental.",
-    href: "/asesoria-personas",
-    area: "Personas",
-    intent: "linea-personas",
+    title: "Ejecución de Penas",
+    description: "Gestión de beneficios, redenciones y seguimiento de términos en ejecución.",
+    href: "/servicios/ejecucion-penas",
+    area: "Ejecución de Penas",
+    intent: "linea-ejecucion-penas",
   },
   {
-    title: "Ejecución de penas",
-    description:
-      "Acompañamiento técnico en etapa de ejecución: beneficios, requisitos, peticiones y estrategia documental ante el juzgado.",
-    href: "/servicios?categoria=ejecucion",
-    area: "Ejecución de penas",
-    intent: "linea-ejecucion",
+    title: "Responsabilidad Penal PJ",
+    description: "Prevención y defensa penal empresarial para personas jurídicas y juntas.",
+    href: "/servicios/responsabilidad-penal-pj",
+    area: "Responsabilidad Penal PJ",
+    intent: "linea-rppj",
   },
   {
-    title: "Formación a empresas",
-    description:
-      "Capacitación en responsabilidad penal y prevención: sesiones y programas para equipos, cumplimiento y órganos directivos.",
-    href: "/servicios?categoria=formacion",
-    area: "Formación empresarial",
-    intent: "linea-formacion",
+    title: "Capacitaciones Penal PJ",
+    description: "Programas de formación en prevención y trazabilidad penal corporativa.",
+    href: "/servicios/capacitaciones-penal-pj",
+    area: "Capacitaciones Penal PJ",
+    intent: "linea-capacitaciones",
+  },
+  {
+    title: "Civil",
+    description: "Conflictos patrimoniales, obligaciones y estrategia civil con enfoque probatorio.",
+    href: "/servicios/civil",
+    area: "Civil",
+    intent: "linea-civil",
+  },
+  {
+    title: "Familia",
+    description: "Asuntos de custodia, alimentos, divorcio y medidas de protección familiar.",
+    href: "/servicios/familia",
+    area: "Familia",
+    intent: "linea-familia",
+  },
+  {
+    title: "Laboral",
+    description: "Defensa y prevención en controversias laborales para empresas y trabajadores.",
+    href: "/servicios/laboral",
+    area: "Laboral",
+    intent: "linea-laboral",
+  },
+  {
+    title: "Administrativo",
+    description: "Actuaciones y recursos ante entidades públicas y jurisdicción contenciosa.",
+    href: "/servicios/administrativo",
+    area: "Administrativo",
+    intent: "linea-administrativo",
   },
 ];
 
@@ -140,7 +81,7 @@ export default async function Home() {
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      {/* HERO (neutral y transversal) */}
+      {/* HERO (transversal) */}
       <section
         className="relative overflow-hidden border-b border-border/60 text-white animate-gradient"
         style={{
@@ -169,11 +110,11 @@ export default async function Home() {
 
             <div className="space-y-4 animate-fade-in-up delay-100">
               <h1 className="text-white max-w-3xl">
-                Asesoría penal estratégica con control, trazabilidad y claridad de alcance ⚖️
+                Asesoría jurídica estratégica para personas y empresas
               </h1>
               <p className="max-w-2xl text-lg text-slate-100">
-                Acompañamos decisiones sensibles, evaluamos escenarios y ordenamos documentación. Selecciona tu línea de
-                servicio y coordinamos el primer punto de control.
+                Integramos análisis técnico, prevención de riesgos y acompañamiento integral en múltiples áreas de práctica.
+                Selecciona el servicio que necesitas y coordinamos una primera sesión de orientación.
               </p>
             </div>
 
@@ -195,21 +136,21 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Panel de apoyo (metodología / límites) */}
+          {/* Panel de apoyo (presentación del despacho) */}
           <div
             className="card-shell relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-8 shadow-soft ring-1 ring-white/15 animate-fade-in-left delay-200"
             style={{ backgroundImage: executiveDesk, backgroundSize: "cover", backgroundPosition: "center" }}
           >
             <div className="absolute inset-0 bg-gradient-to-b from-ink/78 via-ink/82 to-accent-700/70" aria-hidden />
             <div className="relative space-y-4 text-white">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-slate-200">Primer control</p>
-              <h3 className="text-white">Evaluación clara, entregables y trazabilidad</h3>
+              <p className="text-[11px] uppercase tracking-[0.16em] text-slate-200">Firma jurídica</p>
+              <h3 className="text-white">Acompañamiento integral con criterio técnico y humano</h3>
               <p className="text-slate-100 text-sm">
-                Definimos alcance, responsables y próximos pasos. Si el caso requiere litigio, se articula con aliados
-                manteniendo control documental.
+                Atendemos asuntos de personas y empresas con enfoque preventivo, estratégico y de ejecución. Cada proceso
+                se organiza con alcance, responsables y seguimiento claro.
               </p>
               <div className="mt-5 grid gap-3 text-sm text-slate-100">
-                {["Diagnóstico", "Documentos base", "Ruta de acción"].map((item) => (
+                {["Diagnóstico inicial", "Plan de actuación", "Seguimiento continuo"].map((item) => (
                   <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
                     <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
                     {item}
@@ -221,15 +162,15 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 4 LÍNEAS (equidad y visibilidad) */}
+      {/* ÁREAS PRINCIPALES */}
       <section className="section-shell bg-surface/80">
         <div className="container space-y-6">
           <div className="space-y-2 animate-fade-in-up">
-            <p className="pill w-fit">Líneas de servicio</p>
-            <h2>Cuatro líneas de asesoría penal</h2>
+            <p className="pill w-fit">Áreas de práctica</p>
+            <h2>Servicios jurídicos con cobertura integral</h2>
             <p className="max-w-2xl text-muted">
-              En el inicio solo ves un resumen. El detalle completo está en{" "}
-              <span className="font-semibold text-ink">Servicios</span>.
+              Desde esta vista puedes ir directo a cada especialidad. Conservamos una oferta equilibrada para personas y
+              empresas en todas las áreas activas del despacho.
             </p>
           </div>
 
@@ -262,29 +203,12 @@ export default async function Home() {
               </article>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* SERVICIOS (Supabase) - como “áreas disponibles”, no solo corporativo */}
-      <section id="servicios" className="section-shell bg-panel/60">
-        <div className="container space-y-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div className="space-y-2">
-              <p className="pill w-fit">Servicios</p>
-              <h2>Áreas y servicios disponibles</h2>
-              <p className="max-w-2xl text-muted">
-                Aquí se listan las áreas activas en este momento. Explora el detalle o solicita una evaluación específica.
-              </p>
-            </div>
-
+          <div className="flex justify-start">
             <Link href="/servicios" className="btn-primary">
-              Ver todo en Servicios
+              Ver servicios
             </Link>
           </div>
-
-          <Suspense fallback={<ServiceSkeleton />}>
-            <ServicesGrid />
-          </Suspense>
         </div>
       </section>
 
@@ -455,7 +379,7 @@ export default async function Home() {
         <div className="container flex flex-col gap-3 text-sm text-muted md:flex-row md:items-center md:justify-between">
           <div>
             <p className="font-heading text-base font-semibold text-ink">Castellanos Abogados</p>
-            <p>Firma · Asesoría penal estratégica</p>
+            <p>Firma · Asesoría jurídica estratégica integral</p>
           </div>
           <div className="text-right text-muted">
             <p className="font-heading font-semibold text-ink">Criterio • Control • Tranquilidad</p>

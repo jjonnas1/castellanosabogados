@@ -1,18 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { buildMailtoUrl } from "@/lib/contactLinks";
+import { getProfileRoleByUserId, type AppRole } from "@/lib/profile-role";
+import { supabase } from "@/lib/supabase-browser";
+
+type HeaderRole = AppRole;
 
 const NAV_ITEMS = [
   { label: "Inicio", href: "/" },
+  { label: "Nosotros", href: "/nosotros" },
   {
     label: "Servicios",
     href: "/servicios",
     children: [
-      { label: "Riesgo penal empresarial", href: "/penal-empresarial" },
-      { label: "Asesoría a personas", href: "/asesoria-personas" },
+      { label: "Penal Personas", href: "/servicios/penal-personas" },
+      { label: "Ejecución de Penas", href: "/servicios/ejecucion-penas" },
+      { label: "Responsabilidad Penal PJ", href: "/servicios/responsabilidad-penal-pj" },
+      { label: "Capacitaciones Penal PJ", href: "/servicios/capacitaciones-penal-pj" },
+      { label: "Civil", href: "/servicios/civil" },
+      { label: "Familia", href: "/servicios/familia" },
+      { label: "Laboral", href: "/servicios/laboral" },
+      { label: "Administrativo", href: "/servicios/administrativo" },
     ],
   },
   { label: "Cómo trabajamos", href: "/como-trabajamos" },
@@ -22,12 +33,15 @@ const NAV_ITEMS = [
 
 export default function SiteHeader() {
   const pathname = usePathname();
+  const router = useRouter();
   const servicesMenuId = useId();
   const mobileServicesId = useId();
 
   const [open, setOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [role, setRole] = useState<HeaderRole>(null);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const servicesRef = useRef<HTMLDivElement>(null);
 
@@ -39,9 +53,7 @@ export default function SiteHeader() {
 
   const isServicesActive = () => {
     if (!pathname) return false;
-    return ["/servicios", "/penal-empresarial", "/asesoria-personas"].some((p) =>
-      pathname.startsWith(p)
-    );
+    return pathname.startsWith("/servicios") || pathname.startsWith("/penal-empresarial") || pathname.startsWith("/asesoria-personas");
   };
 
   useEffect(() => {
@@ -68,6 +80,41 @@ export default function SiteHeader() {
     };
   }, []);
 
+  useEffect(() => {
+    const loadAuthState = async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData.session?.user;
+
+      if (!user) {
+        setLoggedIn(false);
+        setRole(null);
+        return;
+      }
+
+      setLoggedIn(true);
+      const nextRole = await getProfileRoleByUserId(user.id);
+      setRole(nextRole);
+    };
+
+    loadAuthState();
+
+    const { data: authSub } = supabase.auth.onAuthStateChange(() => {
+      loadAuthState();
+    });
+
+    return () => {
+      authSub.subscription.unsubscribe();
+    };
+  }, []);
+
+  const logout = async () => {
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
+
+  const panelHref = role === "admin" ? "/admin" : "/cliente";
+
+
   const mailtoEvaluacionDesktop = buildMailtoUrl({
     area: "Contacto general",
     source: "Header",
@@ -85,13 +132,13 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-white/90 backdrop-blur">
       <div className="container flex items-center justify-between gap-6 py-4">
-        <div className="flex items-center gap-10">
+        <div className="flex flex-1 items-center gap-8 md:justify-center">
           <Link href="/" className="text-base font-semibold text-ink">
             Castellanos Abogados
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
+          <nav className="hidden items-center gap-6 text-sm font-medium text-muted md:flex">
             {NAV_ITEMS.map((item) => {
               if (item.children) {
                 return (
@@ -181,12 +228,49 @@ export default function SiteHeader() {
             Solicitar evaluación
           </a>
 
-          <Link
-            href="/cliente/acceso"
-            className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
-          >
-            Iniciar sesión
-          </Link>
+          <div className="hidden items-center gap-2 sm:flex">
+            {!loggedIn ? (
+              <Link
+                href="/cliente/login"
+                className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
+              >
+                Iniciar sesión
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href={panelHref}
+                  className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700"
+                >
+                  {role === "admin" ? "Mi agenda admin" : "Mi panel"}
+                </Link>
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="rounded-full border border-border bg-white px-3 py-2 text-sm font-semibold text-muted transition hover:border-ink hover:text-ink"
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            )}
+          </div>
+
+          {!loggedIn ? (
+            <Link
+              href="/cliente/login"
+              className="btn-secondary border-transparent bg-white/70 px-4 py-2 text-sm font-semibold hover:border-accent-700 sm:hidden"
+            >
+              Ingresar
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={logout}
+              className="rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-muted transition hover:border-ink hover:text-ink sm:hidden"
+            >
+              Salir
+            </button>
+          )}
 
           {/* Mobile toggle */}
           <button
@@ -290,13 +374,36 @@ export default function SiteHeader() {
               Solicitar evaluación
             </a>
 
-            <Link
-              href="/cliente/acceso"
-              className="btn-secondary w-full justify-center"
-              onClick={() => setOpen(false)}
-            >
-              Iniciar sesión
-            </Link>
+            {!loggedIn ? (
+              <Link
+                href="/cliente/login"
+                className="btn-secondary w-full justify-center"
+                onClick={() => setOpen(false)}
+              >
+                Iniciar sesión
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href={panelHref}
+                  className="btn-secondary w-full justify-center"
+                  onClick={() => setOpen(false)}
+                >
+                  {role === "admin" ? "Mi agenda admin" : "Ir a mi panel"}
+                </Link>
+
+                <button
+                  type="button"
+                  className="rounded-xl border border-border px-3 py-2 text-center text-sm font-semibold text-ink transition hover:bg-subtle"
+                  onClick={async () => {
+                    setOpen(false);
+                    await logout();
+                  }}
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}

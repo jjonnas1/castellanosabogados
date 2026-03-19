@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
-import SiteHeader from "@/app/components/SiteHeader";
-import { Alert, Badge, Button, Input, Progress, Textarea } from "@/components/ui";
-import { buildWhatsAppUrl } from "@/lib/contactLinks";
+import SiteHeader from '@/app/components/SiteHeader';
+import { Alert, Badge, Button, Input, Progress, Textarea } from '@/components/ui';
+import { buildWhatsAppUrl } from '@/lib/contactLinks';
 
 type FieldErrors = {
   name?: string;
@@ -15,36 +15,43 @@ type FieldErrors = {
 };
 
 const validateName = (value: string) => {
-  if (!value.trim()) return "El nombre es obligatorio.";
-  if (value.trim().length < 2) return "El nombre debe tener al menos 2 caracteres.";
-  if (value.trim().length > 100) return "El nombre no puede superar 100 caracteres.";
-  return "";
+  if (!value.trim()) return 'El nombre es obligatorio.';
+  if (value.trim().length < 2) return 'El nombre debe tener al menos 2 caracteres.';
+  if (value.trim().length > 100) return 'El nombre no puede superar 100 caracteres.';
+  return '';
 };
 
 const validateEmail = (value: string) => {
-  if (!value.trim()) return "El correo es obligatorio.";
+  if (!value.trim()) return 'El correo es obligatorio.';
   const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-  return isValid ? "" : "Ingresa un correo válido.";
+  return isValid ? '' : 'Ingresa un correo válido.';
 };
 
 const validateMessage = (value: string) => {
-  if (!value.trim()) return "El mensaje es obligatorio.";
-  if (value.trim().length < 10) return "El mensaje debe tener al menos 10 caracteres.";
-  if (value.trim().length > 1000) return "El mensaje no puede superar 1000 caracteres.";
-  return "";
+  if (!value.trim()) return 'El mensaje es obligatorio.';
+  if (value.trim().length < 10) return 'El mensaje debe tener al menos 10 caracteres.';
+  if (value.trim().length > 1000) return 'El mensaje no puede superar 1000 caracteres.';
+  return '';
 };
 
 export default function ContactoPage() {
+  return (
+    <Suspense fallback={<main className="container section-shell">Cargando formulario…</main>}>
+      <ContactoContent />
+    </Suspense>
+  );
+}
+
+function ContactoContent() {
   const searchParams = useSearchParams();
 
-  // Contexto (para que el correo llegue con el área que consultan)
-  const area = searchParams.get("area") ?? "Contacto prioritario";
-  const intent = searchParams.get("intent") ?? "";
-  const source = searchParams.get("source") ?? "/contacto";
+  const area = searchParams.get('area') ?? 'Contacto prioritario';
+  const intent = searchParams.get('intent') ?? '';
+  const source = searchParams.get('source') ?? '/contacto';
 
   const subject = useMemo(() => {
-    if (intent === "ingreso-evaluacion") return `Ingreso a evaluación – ${area}`;
-    if (intent === "coordinar-junta") return `Solicitud de coordinación con junta – ${area}`;
+    if (intent === 'ingreso-evaluacion') return `Ingreso a evaluación – ${area}`;
+    if (intent === 'coordinar-junta') return `Solicitud de coordinación con junta – ${area}`;
     return `Solicitud de contacto – ${area}`;
   }, [area, intent]);
 
@@ -52,9 +59,9 @@ export default function ContactoPage() {
   const [ok, setOk] = useState<null | boolean>(null);
   const [err, setErr] = useState<string | null>(null);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
   const [errors, setErrors] = useState<FieldErrors>({});
 
@@ -66,16 +73,13 @@ export default function ContactoPage() {
     });
   }, [name, email, message]);
 
-  const hasErrors = useMemo(
-    () => Boolean(errors.name || errors.email || errors.message),
-    [errors]
-  );
+  const hasErrors = useMemo(() => Boolean(errors.name || errors.email || errors.message), [errors]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (hasErrors) {
-      setErr("Revisa los campos marcados antes de enviar.");
+      setErr('Revisa los campos marcados antes de enviar.');
       setOk(false);
       return;
     }
@@ -95,9 +99,9 @@ export default function ContactoPage() {
     };
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
@@ -106,17 +110,17 @@ export default function ContactoPage() {
       if (json.ok) {
         setOk(true);
         setErr(null);
-        setName("");
-        setEmail("");
-        setMessage("");
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        setName('');
+        setEmail('');
+        setMessage('');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         setOk(false);
-        setErr(json.error || "No pudimos enviar tu mensaje.");
+        setErr(json.error || 'No pudimos enviar tu mensaje.');
       }
-    } catch (e: any) {
+    } catch (error: any) {
       setOk(false);
-      setErr(e?.message || "Error de red.");
+      setErr(error?.message || 'Error de red.');
     } finally {
       setLoading(false);
     }
@@ -136,7 +140,7 @@ export default function ContactoPage() {
           </p>
 
           <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-slate-200">
-            {["Confidencialidad", "Respuesta rápida", "Seguimiento ejecutivo"].map((item) => (
+            {['Confidencialidad', 'Respuesta rápida', 'Seguimiento ejecutivo'].map((item) => (
               <span key={item} className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
                 {item}
               </span>
@@ -155,7 +159,7 @@ export default function ContactoPage() {
           </p>
 
           <ul className="space-y-2 text-sm text-muted">
-            {["Sin spam ni campañas.", "Respuesta prioritaria.", "Puedes volver al inicio o agendar en cualquier momento."].map(
+            {['Sin spam ni campañas.', 'Respuesta prioritaria.', 'Puedes volver al inicio o agendar en cualquier momento.'].map(
               (item) => (
                 <li key={item} className="flex gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
@@ -173,8 +177,8 @@ export default function ContactoPage() {
             <a
               href={buildWhatsAppUrl({
                 area,
-                source: "/contacto",
-                message: "Hola, quisiera agendar una evaluación.",
+                source: '/contacto',
+                message: 'Hola, quisiera agendar una evaluación.',
               })}
               className="btn-primary"
             >
@@ -185,7 +189,7 @@ export default function ContactoPage() {
           <div className="rounded-2xl border border-border bg-white p-4 shadow-soft/30">
             <div className="flex items-center justify-between text-sm text-muted">
               <span>Progreso de envío</span>
-              <span>{ok ? "100%" : "60%"}</span>
+              <span>{ok ? '100%' : '60%'}</span>
             </div>
             <Progress value={ok ? 100 : 60} />
           </div>
@@ -237,7 +241,7 @@ export default function ContactoPage() {
 
             <div className="flex flex-wrap gap-3">
               <Button type="submit" loading={loading} disabled={loading || hasErrors}>
-                {loading ? "Enviando…" : "Enviar"}
+                {loading ? 'Enviando…' : 'Enviar'}
               </Button>
 
               <a href="/" className="btn-secondary">
