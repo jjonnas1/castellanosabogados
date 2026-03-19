@@ -37,12 +37,9 @@ export default function NosotrosPage() {
 
           <div className="rounded-2xl border border-border bg-white p-4 shadow-soft/30">
             <img
-              src="/images/jonatan-castellanos.jpg"
+              src="/logo.png"
               alt="Jonatan Castellanos"
               className="h-full w-full rounded-[12px] object-cover"
-              onError={(event) => {
-                event.currentTarget.src = "/logo.png";
-              }}
             />
           </div>
         </div>
