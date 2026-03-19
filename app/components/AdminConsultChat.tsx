@@ -67,7 +67,7 @@ function resolveAdminAnswer(input: string): Omit<ChatMessage, "from"> {
       text: "Puedes comunicarte directamente por WhatsApp para agendar tu consulta.",
       action: {
         label: "Ir a WhatsApp",
-        href: "https://wa.me/526892960072?text=Hola,%20quisiera%20agendar%20una%20consulta%20jur%C3%ADdica.",
+        href: "https://wa.me/57318309306?text=Hola,%20quisiera%20agendar%20una%20consulta%20jur%C3%ADdica.",
       },
     };
   }
