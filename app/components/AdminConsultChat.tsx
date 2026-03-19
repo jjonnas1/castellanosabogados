@@ -2,7 +2,11 @@
 
 import { useMemo, useState } from "react";
 
-type ChatMessage = { from: "bot" | "user"; text: string };
+type ChatMessage = {
+  from: "bot" | "user";
+  text: string;
+  action?: { label: string; href: string };
+};
 
 const WELCOME =
   "Hola. Puedo ayudarte con información sobre consultas, modalidad de atención y pasos para agendar.";
@@ -18,7 +22,7 @@ const OPTIONS = [
   "Contacto",
 ];
 
-function resolveAdminAnswer(input: string) {
+function resolveAdminAnswer(input: string): Omit<ChatMessage, "from"> {
   const text = input.toLowerCase();
 
   const legalKeywords = [
@@ -34,29 +38,43 @@ function resolveAdminAnswer(input: string) {
     "denuncia",
   ];
 
-  if (legalKeywords.some((word) => text.includes(word))) return LEGAL_FALLBACK;
+  if (legalKeywords.some((word) => text.includes(word))) return { text: LEGAL_FALLBACK };
 
   if (text.includes("modalidad") || text.includes("virtual") || text.includes("presencial")) {
-    return "La atención se realiza principalmente de forma virtual, mediante llamada o videollamada previamente agendada. Si el caso lo requiere, puede coordinarse una reunión presencial directamente con el abogado.";
+    return {
+      text: "La atención se realiza principalmente de forma virtual, mediante llamada o videollamada previamente agendada. Si el caso lo requiere, puede coordinarse una reunión presencial directamente con el abogado.",
+    };
   }
 
   if (text.includes("agendar") || text.includes("agenda") || text.includes("consulta")) {
-    return "Puedes agendar tu consulta escribiendo por WhatsApp o dejando tus datos de contacto para ser atendido.";
+    return { text: "Puedes agendar tu consulta escribiendo por WhatsApp o dejando tus datos de contacto para ser atendido." };
   }
 
   if (text.includes("área") || text.includes("areas") || text.includes("servicio")) {
-    return "El despacho atiende asuntos en penal, ejecución de penas, civil, familia, laboral, administrativo y responsabilidad penal para personas jurídicas.";
+    return {
+      text: "El despacho atiende asuntos en penal, ejecución de penas, civil, familia, laboral, administrativo y responsabilidad penal para personas jurídicas.",
+    };
   }
 
   if (text.includes("documento")) {
-    return "Los documentos dependen del caso. Puedes agendar una consulta o enviar primero una descripción breve del asunto para indicarte qué información inicial presentar.";
+    return {
+      text: "Los documentos dependen del caso. Puedes agendar una consulta o enviar primero una descripción breve del asunto para indicarte qué información inicial presentar.",
+    };
   }
 
   if (text.includes("contacto") || text.includes("whatsapp") || text.includes("correo")) {
-    return "Puedes contactarnos por WhatsApp o dejarnos tus datos de contacto para programar tu consulta.";
+    return {
+      text: "Puedes comunicarte directamente por WhatsApp para agendar tu consulta.",
+      action: {
+        label: "Ir a WhatsApp",
+        href: "https://wa.me/526892960072?text=Hola,%20quisiera%20agendar%20una%20consulta%20jur%C3%ADdica.",
+      },
+    };
   }
 
-  return "Puedo ayudarte con información sobre el proceso de consulta y agendamiento. Para una orientación jurídica específica, es necesario agendar una revisión profesional.";
+  return {
+    text: "Puedo ayudarte con información sobre el proceso de consulta y agendamiento. Para una orientación jurídica específica, es necesario agendar una revisión profesional.",
+  };
 }
 
 export default function AdminConsultChat() {
@@ -71,12 +89,12 @@ export default function AdminConsultChat() {
     if (!userText) return;
 
     const answer = resolveAdminAnswer(userText);
-    setMessages((prev) => [...prev, { from: "user", text: userText }, { from: "bot", text: answer }]);
+    setMessages((prev) => [...prev, { from: "user", text: userText }, { from: "bot", ...answer }]);
     setInput("");
   };
 
   return (
-    <div className="fixed bottom-36 right-4 z-[65] sm:right-6">
+    <div className="fixed bottom-44 right-4 z-[65] sm:right-6">
       {open && (
         <div className="mb-2 w-[280px] rounded-2xl border border-border bg-white shadow-soft">
           <div className="border-b border-border px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted">
@@ -93,6 +111,16 @@ export default function AdminConsultChat() {
                   }`}
                 >
                   {msg.text}
+                  {msg.from === "bot" && msg.action && (
+                    <a
+                      href={msg.action.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-2 inline-flex rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white hover:bg-emerald-700"
+                    >
+                      {msg.action.label}
+                    </a>
+                  )}
                 </div>
               ))}
           </div>
