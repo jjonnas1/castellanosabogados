@@ -37,6 +37,12 @@ const ORDERED_NAV_ITEMS = NAV_SEQUENCE.map((href) => NAV_ITEMS.find((item) => it
   (item): item is (typeof NAV_ITEMS)[number] => Boolean(item),
 );
 
+type NavItem = (typeof NAV_ITEMS)[number];
+
+type NavItemWithChildren = Extract<NavItem, { children: readonly unknown[] }>;
+
+const hasChildren = (item: NavItem): item is NavItemWithChildren => "children" in item;
+
 export default function SiteHeader() {
   const pathname = usePathname();
   const router = useRouter();
@@ -146,7 +152,7 @@ export default function SiteHeader() {
           {/* Desktop nav */}
           <nav className="hidden items-center gap-6 text-sm font-medium text-muted md:flex">
             {ORDERED_NAV_ITEMS.map((item) => {
-              if (item.children) {
+              if (hasChildren(item)) {
                 return (
                   <div key={item.label} className="relative" ref={servicesRef}>
                     <button
@@ -304,7 +310,7 @@ export default function SiteHeader() {
         <div className="border-t border-border/70 bg-white/95 backdrop-blur md:hidden">
           <div className="container flex flex-col gap-3 py-4 text-sm font-medium text-muted">
             {ORDERED_NAV_ITEMS.filter((item) => item.href).map((item) => {
-              if (item.children) {
+              if (hasChildren(item)) {
                 return (
                   <div key={item.href}>
                     <button
@@ -335,7 +341,7 @@ export default function SiteHeader() {
 
                     {mobileServicesOpen && (
                       <div id={mobileServicesId} className="ml-2 flex flex-col gap-2">
-                        {ORDERED_NAV_ITEMS.find((i) => i.children)?.children?.map((child) => (
+                        {ORDERED_NAV_ITEMS.find(hasChildren)?.children.map((child) => (
                           <Link
                             key={child.href}
                             href={child.href}
