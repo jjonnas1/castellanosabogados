@@ -23,14 +23,7 @@ export default function NosotrosPage() {
       </section>
 
       <section className="section-shell bg-surface/70">
-        <div className="container grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-          <div className="rounded-2xl border border-border bg-white p-5 shadow-soft/30">
-            <div className="aspect-[4/5] w-full rounded-xl border border-dashed border-border bg-subtle/70" />
-            <p className="mt-3 text-center text-xs uppercase tracking-[0.12em] text-muted">
-              Espacio reservado para foto profesional
-            </p>
-          </div>
-
+        <div className="container grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
           <article className="card-shell bg-white p-8">
             <p className="pill w-fit">Perfil profesional</p>
             <h2 className="mt-3">Jonatan Castellanos</h2>
@@ -55,6 +48,14 @@ export default function NosotrosPage() {
               </p>
             </div>
           </article>
+
+          <div className="rounded-2xl border border-border bg-white p-5 shadow-soft/30">
+            <img
+              src="/images/jonatan-castellanos.jpg"
+              alt="Jonatan Castellanos"
+              className="aspect-[4/5] w-full rounded-xl object-cover object-center"
+            />
+          </div>
         </div>
       </section>
 
@@ -76,30 +77,30 @@ export default function NosotrosPage() {
           <article className="space-y-3">
             <p className="pill w-fit">Formación y enfoque</p>
             <h2>Formación jurídica y visión interdisciplinaria</h2>
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {[
-                "Formación en derecho",
-                "Formación en lenguas modernas",
-                "Experiencia docente",
-                "Experiencia en el ámbito judicial",
-                "Comunicación clara con el cliente",
-                "Atención directa sin intermediarios",
-                "Enfoque estratégico para personas y empresas",
-              ].map((item) => (
-                <div key={item} className="rounded-2xl border border-border bg-surface px-4 py-3 text-sm font-semibold text-ink">
-                  {item}
-                </div>
-              ))}
-            </div>
+            <p className="max-w-4xl text-muted">
+              La práctica profesional se fundamenta en una formación jurídica sólida, complementada por una visión
+              interdisciplinaria que permite abordar cada caso con mayor profundidad y claridad.
+            </p>
+            <p className="max-w-4xl text-muted">
+              La formación en derecho se integra con el estudio de las lenguas modernas, lo que fortalece la capacidad de
+              análisis, interpretación y comunicación en distintos contextos. A ello se suma la experiencia en docencia y el
+              ejercicio como funcionario judicial, lo que permite comprender el funcionamiento real del sistema jurídico más
+              allá de la teoría.
+            </p>
+            <p className="max-w-4xl text-muted">
+              Este enfoque permite ofrecer una asesoría jurídica que no solo se limita al conocimiento técnico, sino que se
+              orienta a la comprensión integral de cada situación, con una comunicación clara y una estrategia adecuada para
+              cada cliente.
+            </p>
           </article>
 
           <article className="space-y-3">
             <p className="pill w-fit">Principios</p>
             <h2>Principios que orientan el servicio</h2>
             <p className="max-w-4xl text-muted">
-              El servicio jurídico se desarrolla bajo principios claros: respeto por cada cliente, honestidad en el análisis
-              de las posibilidades reales del caso y construcción de confianza a través de una comunicación directa y
-              transparente.
+              El ejercicio jurídico se desarrolla bajo principios claros: respeto por cada cliente, honestidad en el análisis
+              de las posibilidades reales del caso y construcción de confianza a través de una comunicación directa,
+              transparente y sin intermediarios.
             </p>
           </article>
 
