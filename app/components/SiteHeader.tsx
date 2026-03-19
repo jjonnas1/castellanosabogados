@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import AdminFloatingAccess from "@/app/components/AdminFloatingAccess";
 import { buildMailtoUrl } from "@/lib/contactLinks";
 import { getProfileRoleByUserId, type AppRole } from "@/lib/profile-role";
 import { supabase } from "@/lib/supabase-browser";
@@ -407,7 +406,6 @@ export default function SiteHeader() {
           </div>
         </div>
       )}
-      <AdminFloatingAccess />
     </header>
   );
 }
