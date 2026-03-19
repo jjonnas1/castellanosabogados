@@ -36,11 +36,13 @@ export default function NosotrosPage() {
           </article>
 
           <div className="rounded-2xl border border-border bg-white p-4 shadow-soft/30">
-            <img
-              src="/logo.png"
-              alt="Jonatan Castellanos"
-              className="h-full w-full rounded-[12px] object-cover"
-            />
+            <div className="relative w-full h-full rounded-2xl overflow-hidden">
+              <img
+                src="/IMG_4096.JPG"
+                alt="Jonatan Castellanos"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
