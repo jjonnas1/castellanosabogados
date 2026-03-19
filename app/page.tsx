@@ -110,7 +110,7 @@ export default async function Home() {
 
             <div className="space-y-4 animate-fade-in-up delay-100">
               <h1 className="text-white max-w-3xl">
-                Asesoría jurídica estratégica para personas y empresas
+                Asesoría jurídica estratégica para personas naturales y jurídicas
               </h1>
               <p className="max-w-2xl text-lg text-slate-100">
                 Integramos análisis técnico, prevención de riesgos y acompañamiento integral en múltiples áreas de práctica.

@@ -26,10 +26,22 @@ const NAV_ITEMS = [
       { label: "Administrativo", href: "/servicios/administrativo" },
     ],
   },
-  { label: "Cómo trabajamos", href: "/como-trabajamos" },
-  { label: "A quién servimos", href: "/a-quien-servimos" },
+  { label: "Metodología", href: "/como-trabajamos" },
+  { label: "Clientes", href: "/a-quien-servimos" },
   { label: "Contacto", href: "/contacto" },
-];
+] as const;
+
+const NAV_SEQUENCE = ["/", "/servicios", "/como-trabajamos", "/nosotros", "/a-quien-servimos", "/contacto"] as const;
+
+const ORDERED_NAV_ITEMS = NAV_SEQUENCE.map((href) => NAV_ITEMS.find((item) => item.href === href)).filter(
+  (item): item is (typeof NAV_ITEMS)[number] => Boolean(item),
+);
+
+type NavItem = (typeof NAV_ITEMS)[number];
+
+type NavItemWithChildren = Extract<NavItem, { children: readonly unknown[] }>;
+
+const hasChildren = (item: NavItem): item is NavItemWithChildren => "children" in item;
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -139,8 +151,8 @@ export default function SiteHeader() {
 
           {/* Desktop nav */}
           <nav className="hidden items-center gap-6 text-sm font-medium text-muted md:flex">
-            {NAV_ITEMS.map((item) => {
-              if (item.children) {
+            {ORDERED_NAV_ITEMS.map((item) => {
+              if (hasChildren(item)) {
                 return (
                   <div key={item.label} className="relative" ref={servicesRef}>
                     <button
@@ -297,74 +309,72 @@ export default function SiteHeader() {
       {open && (
         <div className="border-t border-border/70 bg-white/95 backdrop-blur md:hidden">
           <div className="container flex flex-col gap-3 py-4 text-sm font-medium text-muted">
-            <Link
-              href="/"
-              className={`rounded-xl px-3 py-2 transition hover:bg-subtle hover:text-ink ${
-                isActive("/") ? "bg-subtle text-ink" : ""
-              }`}
-              onClick={() => setOpen(false)}
-            >
-              Inicio
-            </Link>
+            {ORDERED_NAV_ITEMS.filter((item) => item.href).map((item) => {
+              if (hasChildren(item)) {
+                return (
+                  <div key={item.href}>
+                    <button
+                      type="button"
+                      className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left transition hover:bg-subtle hover:text-ink"
+                      onClick={() => setMobileServicesOpen((v) => !v)}
+                      aria-expanded={mobileServicesOpen}
+                      aria-controls={mobileServicesId}
+                    >
+                      <span className={mobileServicesOpen || isServicesActive() ? "text-ink" : ""}>
+                        {item.label}
+                      </span>
+                      <svg
+                        className={`h-3 w-3 transition ${mobileServicesOpen ? "rotate-180 text-ink" : ""}`}
+                        viewBox="0 0 12 8"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M1 1.5 6 6.5 11 1.5"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </button>
 
-            <button
-              type="button"
-              className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left transition hover:bg-subtle hover:text-ink"
-              onClick={() => setMobileServicesOpen((v) => !v)}
-              aria-expanded={mobileServicesOpen}
-              aria-controls={mobileServicesId}
-            >
-              <span className={mobileServicesOpen || isServicesActive() ? "text-ink" : ""}>
-                Servicios
-              </span>
-              <svg
-                className={`h-3 w-3 transition ${mobileServicesOpen ? "rotate-180 text-ink" : ""}`}
-                viewBox="0 0 12 8"
-                aria-hidden="true"
-              >
-                <path
-                  d="M1 1.5 6 6.5 11 1.5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
+                    {mobileServicesOpen && (
+                      <div id={mobileServicesId} className="ml-2 flex flex-col gap-2">
+                        {ORDERED_NAV_ITEMS.find(hasChildren)?.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className={`rounded-xl px-3 py-2 text-sm transition hover:bg-subtle hover:text-ink ${
+                              isActive(child.href) ? "bg-subtle text-ink" : ""
+                            }`}
+                            onClick={() => {
+                              setOpen(false);
+                              setMobileServicesOpen(false);
+                            }}
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
 
-            {mobileServicesOpen && (
-              <div id={mobileServicesId} className="ml-2 flex flex-col gap-2">
-                {NAV_ITEMS.find((i) => i.children)?.children?.map((child) => (
-                  <Link
-                    key={child.href}
-                    href={child.href}
-                    className={`rounded-xl px-3 py-2 text-sm transition hover:bg-subtle hover:text-ink ${
-                      isActive(child.href) ? "bg-subtle text-ink" : ""
-                    }`}
-                    onClick={() => {
-                      setOpen(false);
-                      setMobileServicesOpen(false);
-                    }}
-                  >
-                    {child.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-
-            {NAV_ITEMS.filter((i) => !i.children && i.href !== "/").map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`rounded-xl px-3 py-2 transition hover:bg-subtle hover:text-ink ${
-                  isActive(item.href) ? "bg-subtle text-ink" : ""
-                }`}
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`rounded-xl px-3 py-2 transition hover:bg-subtle hover:text-ink ${
+                    isActive(item.href) ? "bg-subtle text-ink" : ""
+                  }`}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
 
             <a
               href={mailtoEvaluacionMobile}
