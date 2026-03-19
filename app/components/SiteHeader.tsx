@@ -11,6 +11,7 @@ type HeaderRole = AppRole;
 
 const NAV_ITEMS = [
   { label: "Inicio", href: "/" },
+  { label: "Nosotros", href: "/nosotros" },
   {
     label: "Servicios",
     href: "/servicios",
@@ -131,13 +132,13 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-white/90 backdrop-blur">
       <div className="container flex items-center justify-between gap-6 py-4">
-        <div className="flex flex-1 items-center gap-10 md:justify-center">
+        <div className="flex flex-1 items-center gap-8 md:justify-center">
           <Link href="/" className="text-base font-semibold text-ink">
             Castellanos Abogados
           </Link>
 
           {/* Desktop nav */}
-          <nav className="hidden items-center gap-7 text-sm font-medium text-muted md:flex">
+          <nav className="hidden items-center gap-6 text-sm font-medium text-muted md:flex">
             {NAV_ITEMS.map((item) => {
               if (item.children) {
                 return (
