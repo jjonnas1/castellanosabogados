@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import AdminConsultChat from '@/app/components/AdminConsultChat';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
 export const metadata: Metadata = {
-  title: 'Castellanos Abogados',
+  title: 'Castellanos Abogado',
   description:
     'Acompañamiento estratégico y preventivo del riesgo penal asociado a decisiones sensibles en contratación estatal.',
   manifest: '/manifest.webmanifest',
