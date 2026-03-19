@@ -94,7 +94,7 @@ export default function AdminConsultChat() {
   };
 
   return (
-    <div className="fixed bottom-44 right-4 z-[65] sm:right-6">
+    <div className="fixed bottom-24 right-4 z-[65] sm:right-6">
       {open && (
         <div className="mb-2 w-[280px] rounded-2xl border border-border bg-white shadow-soft">
           <div className="border-b border-border px-3 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-muted">
