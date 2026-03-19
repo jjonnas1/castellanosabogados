@@ -131,7 +131,7 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-white/90 backdrop-blur">
       <div className="container flex items-center justify-between gap-6 py-4">
-        <div className="flex items-center gap-10">
+        <div className="flex flex-1 items-center gap-10 md:justify-center">
           <Link href="/" className="text-base font-semibold text-ink">
             Castellanos Abogados
           </Link>
