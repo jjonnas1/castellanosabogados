@@ -110,7 +110,7 @@ export default async function Home() {
 
             <div className="space-y-4 animate-fade-in-up delay-100">
               <h1 className="text-white max-w-3xl">
-                Asesoría jurídica estratégica para personas y empresas
+                Asesoría jurídica estratégica para personas naturales y jurídicas
               </h1>
               <p className="max-w-2xl text-lg text-slate-100">
                 Integramos análisis técnico, prevención de riesgos y acompañamiento integral en múltiples áreas de práctica.
@@ -146,8 +146,8 @@ export default async function Home() {
               <p className="text-[11px] uppercase tracking-[0.16em] text-slate-200">Firma jurídica</p>
               <h3 className="text-white">Acompañamiento integral con criterio técnico y humano</h3>
               <p className="text-slate-100 text-sm">
-                Atendemos asuntos de personas y empresas con enfoque preventivo, estratégico y de ejecución. Cada proceso
-                se organiza con alcance, responsables y seguimiento claro.
+                Atendemos asuntos de personas naturales y jurídicas con enfoque preventivo, estratégico y de ejecución.
+                Cada proceso se organiza con alcance, responsables y seguimiento claro.
               </p>
               <div className="mt-5 grid gap-3 text-sm text-slate-100">
                 {["Diagnóstico inicial", "Plan de actuación", "Seguimiento continuo"].map((item) => (
@@ -169,8 +169,8 @@ export default async function Home() {
             <p className="pill w-fit">Áreas de práctica</p>
             <h2>Servicios jurídicos con cobertura integral</h2>
             <p className="max-w-2xl text-muted">
-              Desde esta vista puedes ir directo a cada especialidad. Conservamos una oferta equilibrada para personas y
-              empresas en todas las áreas activas del despacho.
+              Desde esta vista puedes ir directo a cada especialidad. Conservamos una oferta equilibrada para personas
+              naturales y jurídicas en todas las áreas activas del despacho.
             </p>
           </div>
 
@@ -216,7 +216,7 @@ export default async function Home() {
       <section id="como-trabajamos" className="section-shell bg-white">
         <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="space-y-4">
-            <p className="pill w-fit">Cómo trabajamos</p>
+            <p className="pill w-fit">Metodología</p>
             <h2>Metodología clara y coordinación precisa</h2>
             <p className="max-w-2xl text-muted">
               Definimos alcance, responsables y documentación para que cada decisión o actuación quede trazada con rigor.
