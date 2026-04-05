@@ -11,6 +11,7 @@ type HeaderRole = AppRole;
 
 const NAV_ITEMS = [
   { label: "Inicio", href: "/" },
+  { label: "Nosotros", href: "/nosotros" },
   {
     label: "Servicios",
     href: "/servicios",
@@ -25,9 +26,8 @@ const NAV_ITEMS = [
       { label: "Administrativo", href: "/servicios/administrativo" },
     ],
   },
-  { label: "Metodología", href: "/como-trabajamos" },
-  { label: "Nosotros", href: "/nosotros" },
-  { label: "Clientes", href: "/clientes" },
+  { label: "Cómo trabajamos", href: "/como-trabajamos" },
+  { label: "A quién servimos", href: "/a-quien-servimos" },
   { label: "Contacto", href: "/contacto" },
 ];
 
