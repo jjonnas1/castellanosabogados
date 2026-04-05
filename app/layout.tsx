@@ -1,8 +1,10 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
+import { GoogleTagManager } from '@next/third-parties/google';
 import AdminConsultChat from '@/app/components/AdminConsultChat';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
+
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
   title: 'Castellanos Abogados',
   description:
@@ -31,19 +33,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="theme-a">
       <body className="min-h-screen bg-canvas text-ink antialiased">
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-18056733453"
-          strategy="afterInteractive"
-        />
-        <Script id="google-ads-base-tag" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            window.gtag = gtag;
-            gtag('js', new Date());
-            gtag('config', 'AW-18056733453');
-          `}
-        </Script>
+        {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
         {children}
         <AdminConsultChat />
         <AdminFloatingAccess />
