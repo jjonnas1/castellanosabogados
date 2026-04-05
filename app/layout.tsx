@@ -1,5 +1,6 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import AdminConsultChat from '@/app/components/AdminConsultChat';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
 export const metadata: Metadata = {
@@ -30,6 +31,19 @@ export default function RootLayout({
   return (
     <html lang="es" className="theme-a">
       <body className="min-h-screen bg-canvas text-ink antialiased">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18056733453"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-base-tag" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', 'AW-18056733453');
+          `}
+        </Script>
         {children}
         <AdminConsultChat />
         <AdminFloatingAccess />
