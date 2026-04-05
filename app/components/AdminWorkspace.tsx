@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase-browser';
 
-type Section = 'resumen' | 'clientes' | 'agenda' | 'actualizaciones' | 'exportar' | 'all';
+type Section = 'resumen' | 'clientes' | 'agenda' | 'actualizaciones' | 'documentos' | 'exportar' | 'all';
 
 type ClientProfile = {
   id: string;
@@ -41,6 +41,18 @@ type Appointment = {
   created_at: string;
 };
 
+type ClientDocument = {
+  id: string;
+  client_profile_id: string;
+  file_name: string;
+  storage_path: string;
+  mime_type: string | null;
+  file_size: number | null;
+  uploaded_by_admin_id: string | null;
+  visible_to_client: boolean;
+  created_at: string;
+};
+
 const emptyClient = { full_name: '', email: '', phone: '', case_reference: '', can_access_portal: true };
 const emptyUpdate = { client_profile_id: '', title: '', update_text: '', status: 'en curso', visible_to_client: true };
 const emptyAppointment = { title: '', description: '', start_at: '', end_at: '', status: 'programada', client_profile_id: '' };
@@ -59,6 +71,9 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const [editingUpdateId, setEditingUpdateId] = useState<string | null>(null);
   const [appointmentForm, setAppointmentForm] = useState(emptyAppointment);
   const [editingAppointmentId, setEditingAppointmentId] = useState<string | null>(null);
+  const [documents, setDocuments] = useState<ClientDocument[]>([]);
+  const [selectedClientIdForDocuments, setSelectedClientIdForDocuments] = useState('');
+  const [searchClients, setSearchClients] = useState('');
 
   async function workspaceRequest<T>(method: 'GET' | 'POST' | 'PATCH' | 'DELETE', body?: Record<string, unknown>) {
     if (!adminId || !adminToken) {
@@ -117,11 +132,26 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     if (adminId && adminToken) loadAll();
   }, [adminId, adminToken]);
 
+  useEffect(() => {
+    if (selectedClientIdForDocuments) {
+      loadDocuments(selectedClientIdForDocuments);
+    } else {
+      setDocuments([]);
+    }
+  }, [selectedClientIdForDocuments]);
+
   const clientMap = useMemo(() => new Map(clients.map((c) => [c.id, c])), [clients]);
   const clientUpdates = useMemo(() => (clientId ? updates.filter((u) => u.client_profile_id === clientId) : updates), [updates, clientId]);
   const clientAppointments = useMemo(() => (clientId ? appointments.filter((a) => a.client_profile_id === clientId) : appointments), [appointments, clientId]);
   const nextAppointments = useMemo(() => appointments.filter((a) => new Date(a.start_at).getTime() >= Date.now()).slice(0, 5), [appointments]);
   const lastUpdates = useMemo(() => updates.slice(0, 5), [updates]);
+  const filteredClients = useMemo(() => {
+    const term = searchClients.trim().toLowerCase();
+    if (!term) return clients;
+    return clients.filter(
+      (c) => c.full_name.toLowerCase().includes(term) || c.email.toLowerCase().includes(term)
+    );
+  }, [clients, searchClients]);
 
   async function saveClient(e: React.FormEvent) {
     e.preventDefault();
@@ -241,6 +271,122 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     loadAll();
   }
 
+  async function deleteClient(id: string) {
+    if (!window.confirm('¿Eliminar este cliente? Esta acción elimina datos relacionados.')) return;
+    try {
+      await workspaceRequest('DELETE', { entity: 'clients', id });
+      setStatus('Cliente eliminado.');
+      await loadAll();
+    } catch (error) {
+      setStatus(`Error eliminando cliente: ${(error as Error).message}`);
+    }
+  }
+
+  async function inviteClient(email: string) {
+    if (!adminToken) return setStatus('No hay sesión admin activa.');
+    try {
+      const response = await fetch('/api/admin/invite-client', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${adminToken}`,
+        },
+        body: JSON.stringify({ email }),
+      });
+      const payload = (await response.json().catch(() => ({}))) as { ok?: boolean; error?: string; invited?: string };
+      if (!response.ok || payload.ok === false) {
+        throw new Error(payload.error ?? 'No se pudo enviar la invitación');
+      }
+      setStatus(`Invitación enviada a ${payload.invited ?? email}.`);
+    } catch (error) {
+      setStatus(`Error enviando invitación: ${(error as Error).message}`);
+    }
+  }
+
+  async function loadDocuments(clientProfileId: string) {
+    if (!adminToken || !clientProfileId) return;
+    try {
+      const response = await fetch(`/api/admin/documents?client_profile_id=${clientProfileId}`, {
+        headers: { authorization: `Bearer ${adminToken}` },
+      });
+      const payload = (await response.json().catch(() => ({}))) as { ok?: boolean; error?: string; documents?: ClientDocument[] };
+      if (!response.ok || payload.ok === false) throw new Error(payload.error ?? 'No se pudieron cargar documentos');
+      setDocuments(payload.documents ?? []);
+    } catch (error) {
+      setStatus(`Error cargando documentos: ${(error as Error).message}`);
+    }
+  }
+
+  async function uploadDocument(file: File) {
+    if (!adminToken || !selectedClientIdForDocuments) return;
+    const formData = new FormData();
+    formData.append('client_profile_id', selectedClientIdForDocuments);
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('/api/admin/documents', {
+        method: 'POST',
+        headers: { authorization: `Bearer ${adminToken}` },
+        body: formData,
+      });
+      const payload = (await response.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!response.ok || payload.ok === false) throw new Error(payload.error ?? 'No se pudo subir el documento');
+      setStatus('Documento cargado correctamente.');
+      await loadDocuments(selectedClientIdForDocuments);
+    } catch (error) {
+      setStatus(`Error subiendo documento: ${(error as Error).message}`);
+    }
+  }
+
+  async function toggleDocumentVisibility(id: string, visible: boolean) {
+    if (!adminToken) return;
+    try {
+      const response = await fetch('/api/admin/documents', {
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${adminToken}`,
+        },
+        body: JSON.stringify({ id, visible_to_client: visible }),
+      });
+      const payload = (await response.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!response.ok || payload.ok === false) throw new Error(payload.error ?? 'No se pudo actualizar la visibilidad');
+      await loadDocuments(selectedClientIdForDocuments);
+    } catch (error) {
+      setStatus(`Error actualizando visibilidad: ${(error as Error).message}`);
+    }
+  }
+
+  async function deleteDocument(id: string) {
+    if (!adminToken) return;
+    try {
+      const response = await fetch('/api/admin/documents', {
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${adminToken}`,
+        },
+        body: JSON.stringify({ id }),
+      });
+      const payload = (await response.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!response.ok || payload.ok === false) throw new Error(payload.error ?? 'No se pudo eliminar el documento');
+      await loadDocuments(selectedClientIdForDocuments);
+    } catch (error) {
+      setStatus(`Error eliminando documento: ${(error as Error).message}`);
+    }
+  }
+
+  async function downloadDocument(path: string, fileName: string) {
+    const { data, error } = await supabase.storage.from('client-documents').createSignedUrl(path, 60);
+    if (error || !data?.signedUrl) return setStatus(error?.message ?? 'No se pudo generar URL de descarga');
+    const link = document.createElement('a');
+    link.href = data.signedUrl;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
   async function exportBackup() {
     if (!adminId || !adminToken) return setStatus('No hay sesión admin para exportar.');
     const res = await fetch('/api/admin/export', {
@@ -274,6 +420,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
         <Link href="/admin/clientes" className="btn-secondary">Clientes</Link>
         <Link href="/admin/agenda" className="btn-secondary">Agenda</Link>
         <Link href="/admin/actualizaciones" className="btn-secondary">Actualizaciones</Link>
+        <Link href="/admin" className="btn-secondary">Documentos</Link>
         <Link href="/admin/exportar" className="btn-secondary">Exportar</Link>
       </div>
 
@@ -297,15 +444,40 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
         <article className="card-shell bg-white p-5">
           <h2 className="text-lg font-semibold">Clientes</h2>
           <form className="mt-3 grid gap-2" onSubmit={saveClient}>
-            <input className="rounded-lg border p-2" placeholder="Nombre" value={clientForm.full_name} onChange={(e)=>setClientForm({...clientForm,full_name:e.target.value})} required />
-            <input className="rounded-lg border p-2" type="email" placeholder="Correo" value={clientForm.email} onChange={(e)=>setClientForm({...clientForm,email:e.target.value})} required />
-            <input className="rounded-lg border p-2" placeholder="Teléfono" value={clientForm.phone} onChange={(e)=>setClientForm({...clientForm,phone:e.target.value})} />
-            <input className="rounded-lg border p-2" placeholder="Referencia" value={clientForm.case_reference} onChange={(e)=>setClientForm({...clientForm,case_reference:e.target.value})} />
-            <label className="text-sm"><input type="checkbox" checked={clientForm.can_access_portal} onChange={(e)=>setClientForm({...clientForm,can_access_portal:e.target.checked})} /> Habilitar portal</label>
+            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Nombre" value={clientForm.full_name} onChange={(e)=>setClientForm({...clientForm,full_name:e.target.value})} required />
+            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" type="email" placeholder="Correo" value={clientForm.email} onChange={(e)=>setClientForm({...clientForm,email:e.target.value})} required />
+            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Teléfono" value={clientForm.phone} onChange={(e)=>setClientForm({...clientForm,phone:e.target.value})} />
+            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Referencia" value={clientForm.case_reference} onChange={(e)=>setClientForm({...clientForm,case_reference:e.target.value})} />
+            <label className="text-sm text-ink"><input type="checkbox" checked={clientForm.can_access_portal} onChange={(e)=>setClientForm({...clientForm,can_access_portal:e.target.checked})} /> Habilitar portal</label>
             <button className="btn-primary w-fit" type="submit">{editingClientId ? 'Actualizar cliente' : 'Crear cliente'}</button>
           </form>
+          <input
+            className="mt-4 rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink"
+            placeholder="Buscar por nombre o correo"
+            value={searchClients}
+            onChange={(e) => setSearchClients(e.target.value)}
+          />
           <div className="mt-4 space-y-2 max-h-80 overflow-auto">
-            {clients.map((c)=>(<div key={c.id} className="rounded-lg border p-2 text-sm"><p className="font-semibold">{c.full_name}</p><p className="text-muted">{c.email}</p><p className="text-muted">Citas: {appointments.filter((a)=>a.client_profile_id===c.id).length}</p><div className="mt-2 flex gap-2"><button className="btn-secondary" onClick={()=>{setEditingClientId(c.id);setClientForm({full_name:c.full_name,email:c.email,phone:c.phone||'',case_reference:c.case_reference||'',can_access_portal:c.can_access_portal});}}>Editar</button><button className="btn-secondary" onClick={async ()=>{try{await workspaceRequest('PATCH',{entity:'clients',id:c.id,payload:{can_access_portal:!c.can_access_portal}});await loadAll();}catch(error){setStatus(`Error actualizando cliente: ${(error as Error).message}`);}}}>{c.can_access_portal ? 'Deshabilitar portal' : 'Habilitar portal'}</button><Link href={`/admin/clientes/${c.id}`} className="btn-secondary">Detalle</Link></div></div>))}
+            {filteredClients.map((c)=>(
+              <div key={c.id} className="rounded-xl border border-border bg-surface p-3 text-sm">
+                <p className="font-semibold text-ink">{c.full_name}</p>
+                <p className="text-muted">{c.email}</p>
+                <p className="text-muted">Citas: {appointments.filter((a)=>a.client_profile_id===c.id).length}</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <span className={`rounded-full px-2 py-1 text-xs font-semibold ${c.auth_user_id ? 'bg-emerald-100 text-emerald-700' : 'bg-panel text-muted'}`}>
+                    {c.auth_user_id ? 'Cuenta activa' : 'Sin cuenta'}
+                  </span>
+                  {!c.can_access_portal && <span className="rounded-full bg-red-100 px-2 py-1 text-xs font-semibold text-red-700">Portal bloqueado</span>}
+                </div>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <button className="btn-secondary" onClick={()=>{setEditingClientId(c.id);setClientForm({full_name:c.full_name,email:c.email,phone:c.phone||'',case_reference:c.case_reference||'',can_access_portal:c.can_access_portal});}}>Editar</button>
+                  <button className="btn-secondary" onClick={async ()=>{try{await workspaceRequest('PATCH',{entity:'clients',id:c.id,payload:{can_access_portal:!c.can_access_portal}});await loadAll();}catch(error){setStatus(`Error actualizando cliente: ${(error as Error).message}`);}}}>{c.can_access_portal ? 'Deshabilitar portal' : 'Habilitar portal'}</button>
+                  {c.can_access_portal && !c.auth_user_id && <button className="btn-secondary" onClick={() => inviteClient(c.email)}>Invitar al portal</button>}
+                  <button className="btn-secondary" onClick={() => deleteClient(c.id)}>Eliminar</button>
+                  <Link href={`/admin/clientes/${c.id}`} className="btn-secondary">Detalle</Link>
+                </div>
+              </div>
+            ))}
           </div>
         </article>
       )}
@@ -336,6 +508,60 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             <button className="btn-primary w-fit" type="submit">{editingUpdateId ? 'Actualizar actualización' : 'Crear actualización'}</button>
           </form>
           <div className="mt-4 space-y-2 max-h-80 overflow-auto">{clientUpdates.map((u)=><div key={u.id} className="rounded-lg border p-2 text-sm"><p className="font-semibold">{u.title}</p><p className="text-muted">{clientMap.get(u.client_profile_id)?.full_name || 'Cliente no encontrado'} · {u.status}</p><p>{u.update_text}</p><div className="mt-2 flex gap-2"><button className="btn-secondary" onClick={()=>{setEditingUpdateId(u.id);setUpdateForm({client_profile_id:u.client_profile_id,title:u.title,update_text:u.update_text,status:u.status,visible_to_client:u.visible_to_client});}}>Editar</button><button className="btn-secondary" onClick={()=>deleteUpdate(u.id)}>Eliminar</button><button className="btn-secondary" onClick={async ()=>{try{await workspaceRequest('PATCH',{entity:'updates',id:u.id,payload:{visible_to_client:!u.visible_to_client}});await loadAll();}catch(error){setStatus(`Error actualizando actualización: ${(error as Error).message}`);}}}>{u.visible_to_client ? 'Ocultar' : 'Hacer visible'}</button></div></div>)}</div>
+        </article>
+      )}
+
+      {(section === 'documentos' || section === 'all') && (
+        <article className="card-shell bg-white p-5">
+          <h2 className="text-lg font-semibold">Documentos</h2>
+          <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+            <select
+              className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink"
+              value={selectedClientIdForDocuments}
+              onChange={(e) => setSelectedClientIdForDocuments(e.target.value)}
+            >
+              <option value="">Selecciona cliente</option>
+              {clients.map((c) => (
+                <option key={c.id} value={c.id}>{c.full_name}</option>
+              ))}
+            </select>
+            <label className="btn-secondary cursor-pointer justify-center">
+              Subir documento
+              <input
+                type="file"
+                className="hidden"
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    void uploadDocument(file);
+                    e.currentTarget.value = '';
+                  }
+                }}
+              />
+            </label>
+          </div>
+
+          <div className="mt-4 space-y-3">
+            {documents.map((doc) => (
+              <article key={doc.id} className="rounded-xl border border-border bg-surface p-4">
+                <p className="font-semibold text-ink">{doc.file_name}</p>
+                <p className="text-xs text-muted">
+                  {doc.file_size ? `${Math.round(doc.file_size / 1024)} KB` : 'Tamaño no disponible'} · {new Date(doc.created_at).toLocaleString('es-CO')}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button className="btn-secondary" onClick={() => downloadDocument(doc.storage_path, doc.file_name)}>Descargar</button>
+                  <button className="btn-secondary" onClick={() => toggleDocumentVisibility(doc.id, !doc.visible_to_client)}>
+                    {doc.visible_to_client ? 'Ocultar' : 'Mostrar'}
+                  </button>
+                  <button className="btn-secondary" onClick={() => deleteDocument(doc.id)}>Eliminar</button>
+                </div>
+              </article>
+            ))}
+            {selectedClientIdForDocuments && documents.length === 0 && (
+              <p className="text-sm text-muted">No hay documentos para este cliente.</p>
+            )}
+          </div>
         </article>
       )}
 

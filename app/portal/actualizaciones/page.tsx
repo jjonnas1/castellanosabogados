@@ -32,21 +32,35 @@ export default function ClienteActualizacionesPage() {
     })();
   }, [router]);
 
+  async function logout() {
+    await supabase.auth.signOut();
+    router.push('/cliente/login');
+  }
+
   return (
-    <main className="min-h-screen bg-slate-100 p-6">
-      <div className="mx-auto max-w-5xl rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-        <h1 className="text-xl font-semibold text-slate-900">Actualizaciones</h1>
-        <div className="mt-4 space-y-2">
-          {items.map((it) => (
-            <article key={it.id} className="rounded-lg border border-slate-200 p-3 text-sm">
-              <p className="font-semibold">{it.title}</p>
-              <p>{it.update_text ?? it.body ?? ''}</p>
-              <p className="text-slate-600">Estado: {it.status} · {new Date(it.created_at).toLocaleString('es-CO')}</p>
-            </article>
-          ))}
-          {items.length === 0 && <p className="text-sm text-slate-600">No hay actualizaciones disponibles aún.</p>}
+    <main className="min-h-screen bg-canvas text-ink">
+      <header className="sticky top-0 z-50 border-b border-border bg-white/90 backdrop-blur">
+        <div className="container flex items-center justify-between py-4">
+          <p className="font-semibold text-ink">Portal Cliente · Actualizaciones</p>
+          <button onClick={logout} className="btn-secondary px-4 py-2 text-sm">Cerrar sesión</button>
         </div>
-      </div>
+      </header>
+
+      <section className="container section-shell">
+        <article className="card-shell bg-white p-5">
+          <h1 className="text-xl font-semibold text-ink">Actualizaciones</h1>
+          <div className="mt-4 space-y-3">
+            {items.map((it) => (
+              <article key={it.id} className="rounded-2xl border border-border bg-surface p-4 text-sm text-ink">
+                <p className="font-semibold text-ink">{it.title}</p>
+                <p className="mt-1 text-muted">{it.update_text ?? it.body ?? ''}</p>
+                <p className="mt-2 text-xs text-muted">Estado: {it.status} · {new Date(it.created_at).toLocaleString('es-CO')}</p>
+              </article>
+            ))}
+            {items.length === 0 && <p className="text-sm text-muted">No hay actualizaciones disponibles aún.</p>}
+          </div>
+        </article>
+      </section>
     </main>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
@@ -76,29 +77,45 @@ export default function ClienteLoginPage() {
   }
 
   return (
-    <main className="section">
-      <div className="wrap" style={{ maxWidth: 460 }}>
-        <h1 className="h2">Iniciar sesión</h1>
-        <p className="muted">Accede con tu cuenta para entrar a tu panel de cliente.</p>
+    <main className="min-h-screen bg-canvas text-ink flex items-center justify-center px-4">
+      <div className="card-shell w-full max-w-md bg-white p-8 space-y-5">
+        <h1 className="font-heading text-2xl font-semibold text-ink">Acceso al portal</h1>
+        <p className="text-sm text-muted">Ingresa con tu cuenta para ver el estado de tu caso.</p>
 
-        <form onSubmit={handleLogin} className="panel" style={{ display: 'grid', gap: 14 }}>
-          <label>
+        <form onSubmit={handleLogin} className="grid gap-4">
+          <label className="grid gap-2 text-sm font-medium text-ink">
             Correo electrónico
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+            />
           </label>
 
-          <label>
+          <label className="grid gap-2 text-sm font-medium text-ink">
             Contraseña
-            <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+            />
           </label>
 
-          <button type="submit" className="btn btn--primary" disabled={loading}>
+          <button type="submit" className="btn-primary justify-center" disabled={loading}>
             {loading ? 'Ingresando…' : 'Ingresar'}
           </button>
-
         </form>
 
-        {error && <div style={{ marginTop: 10, color: '#b91c1c' }}>{error}</div>}
+        {error && <p className="text-sm text-red-700">{error}</p>}
+
+        <div className="flex gap-3">
+          <Link href="/cliente/registro" className="btn-secondary flex-1 justify-center">Crear cuenta</Link>
+          <Link href="/" className="btn-secondary flex-1 justify-center">Volver al sitio</Link>
+        </div>
       </div>
     </main>
   );
