@@ -53,7 +53,7 @@ type ClientDocument = {
   created_at: string;
 };
 
-const emptyClient = { full_name: '', email: '', phone: '', case_reference: '', can_access_portal: true };
+const emptyClient = { full_name: '', email: '', password: '', phone: '', case_reference: '', can_access_portal: true };
 const emptyUpdate = { client_profile_id: '', title: '', update_text: '', status: 'en curso', visible_to_client: true };
 const emptyAppointment = { title: '', description: '', start_at: '', end_at: '', status: 'programada', client_profile_id: '' };
 
@@ -176,37 +176,20 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             'content-type': 'application/json',
             authorization: `Bearer ${adminToken}`,
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({ ...payload, password: clientForm.password }),
         });
 
-        const createData = (await createRes.json().catch(() => ({} as { error?: string }))) as { ok?: boolean; error?: string };
+        const createData = (await createRes.json().catch(() => ({} as { error?: string }))) as {
+          ok?: boolean;
+          error?: string;
+          auth_created?: boolean;
+        };
         if (!createRes.ok || createData.ok === false) {
           throw new Error(createData.error ?? 'Error creando cliente');
         }
 
-        if (clientForm.can_access_portal && email) {
-          try {
-            const inviteRes = await fetch('/api/admin/invite-client', {
-              method: 'POST',
-              headers: {
-                'content-type': 'application/json',
-                authorization: `Bearer ${adminToken}`,
-              },
-              body: JSON.stringify({ email }),
-            });
-            const inviteData = (await inviteRes.json().catch(() => ({} as { ok?: boolean; error?: string }))) as {
-              ok?: boolean;
-              error?: string;
-            };
-
-            if (inviteRes.ok && inviteData.ok) {
-              setStatus(`✅ Cliente creado. Se envió invitación de acceso al portal a ${email}`);
-            } else {
-              setStatus(`✅ Cliente creado. No se pudo enviar invitación: ${inviteData.error ?? 'error desconocido'}`);
-            }
-          } catch {
-            setStatus('✅ Cliente creado. Error enviando invitación (revisar configuración de email).');
-          }
+        if (createData.auth_created) {
+          setStatus(`✅ Cliente creado. Cuenta de acceso habilitada para ${email}.`);
         } else {
           setStatus('✅ Cliente creado correctamente.');
         }
@@ -474,6 +457,16 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
           <form className="mt-3 grid gap-2" onSubmit={saveClient}>
             <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Nombre" value={clientForm.full_name} onChange={(e)=>setClientForm({...clientForm,full_name:e.target.value})} required />
             <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" type="email" placeholder="Correo" value={clientForm.email} onChange={(e)=>setClientForm({...clientForm,email:e.target.value})} required />
+            {!editingClientId && (
+              <input
+                className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink"
+                type="password"
+                placeholder="Contraseña de acceso al portal"
+                value={clientForm.password}
+                onChange={(e)=>setClientForm({...clientForm,password:e.target.value})}
+                required={clientForm.can_access_portal}
+              />
+            )}
             <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Teléfono" value={clientForm.phone} onChange={(e)=>setClientForm({...clientForm,phone:e.target.value})} />
             <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Referencia" value={clientForm.case_reference} onChange={(e)=>setClientForm({...clientForm,case_reference:e.target.value})} />
             <label className="text-sm text-ink"><input type="checkbox" checked={clientForm.can_access_portal} onChange={(e)=>setClientForm({...clientForm,can_access_portal:e.target.checked})} /> Habilitar portal</label>
@@ -498,7 +491,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
                   {!c.can_access_portal && <span className="rounded-full bg-red-100 px-2 py-1 text-xs font-semibold text-red-700">Portal bloqueado</span>}
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  <button className="btn-secondary" onClick={()=>{setEditingClientId(c.id);setClientForm({full_name:c.full_name,email:c.email,phone:c.phone||'',case_reference:c.case_reference||'',can_access_portal:c.can_access_portal});}}>Editar</button>
+                  <button className="btn-secondary" onClick={()=>{setEditingClientId(c.id);setClientForm({full_name:c.full_name,email:c.email,password:'',phone:c.phone||'',case_reference:c.case_reference||'',can_access_portal:c.can_access_portal});}}>Editar</button>
                   <button className="btn-secondary" onClick={async ()=>{try{await workspaceRequest('PATCH',{entity:'clients',id:c.id,payload:{can_access_portal:!c.can_access_portal}});await loadAll();}catch(error){setStatus(`Error actualizando cliente: ${(error as Error).message}`);}}}>{c.can_access_portal ? 'Deshabilitar portal' : 'Habilitar portal'}</button>
                   {c.can_access_portal && !c.auth_user_id && <button className="btn-secondary" onClick={() => inviteClient(c.email)}>Invitar al portal</button>}
                   <button className="btn-secondary" onClick={() => deleteClient(c.id)}>Eliminar</button>
