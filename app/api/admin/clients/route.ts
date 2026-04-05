@@ -11,7 +11,7 @@ type CreateClientBody = {
 
 export async function POST(req: NextRequest) {
   try {
-    const adminCheck = await requireAdmin();
+    const adminCheck = await requireAdmin(req.headers.get('authorization'));
 
     if (!adminCheck.ok) {
       return NextResponse.json(

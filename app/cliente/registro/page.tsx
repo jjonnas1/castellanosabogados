@@ -12,6 +12,7 @@ export default function ClienteRegistroPage() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const [invited, setInvited] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,6 +24,12 @@ export default function ClienteRegistroPage() {
   useEffect(() => {
     if (session) router.push('/cliente');
   }, [session, router]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    setInvited(params.get('invited') === 'true');
+  }, []);
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
@@ -45,7 +52,11 @@ export default function ClienteRegistroPage() {
     <main className="min-h-screen bg-canvas text-ink flex items-center justify-center px-4">
       <div className="card-shell w-full max-w-md bg-white p-8 space-y-5">
         <h1 className="font-heading text-2xl font-semibold text-ink">Crear cuenta</h1>
-        <p className="text-sm text-muted">Regístrate para agendar asesorías y ver tu historial.</p>
+        <p className="text-sm text-muted">
+          {invited
+            ? 'Bienvenido, establece tu contraseña para acceder a tu portal.'
+            : 'Regístrate para agendar asesorías y ver tu historial.'}
+        </p>
 
         <form onSubmit={handleRegister} className="grid gap-4">
           <label className="grid gap-2 text-sm font-medium text-ink">

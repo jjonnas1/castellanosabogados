@@ -155,9 +155,10 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
 
   async function saveClient(e: React.FormEvent) {
     e.preventDefault();
+    const email = clientForm.email.toLowerCase();
     const payload = {
       full_name: clientForm.full_name,
-      email: clientForm.email.toLowerCase(),
+      email,
       phone: clientForm.phone || null,
       case_reference: clientForm.case_reference || null,
       can_access_portal: clientForm.can_access_portal,
@@ -166,6 +167,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     try {
       if (editingClientId) {
         await workspaceRequest('PATCH', { entity: 'clients', id: editingClientId, payload });
+        setStatus('Cliente actualizado correctamente.');
       } else {
         if (!adminToken) return setStatus('No hay sesión admin activa.');
         const createRes = await fetch('/api/admin/clients', {
@@ -181,12 +183,38 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
         if (!createRes.ok || createData.ok === false) {
           throw new Error(createData.error ?? 'Error creando cliente');
         }
+
+        if (clientForm.can_access_portal && email) {
+          try {
+            const inviteRes = await fetch('/api/admin/invite-client', {
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${adminToken}`,
+              },
+              body: JSON.stringify({ email }),
+            });
+            const inviteData = (await inviteRes.json().catch(() => ({} as { ok?: boolean; error?: string }))) as {
+              ok?: boolean;
+              error?: string;
+            };
+
+            if (inviteRes.ok && inviteData.ok) {
+              setStatus(`✅ Cliente creado. Se envió invitación de acceso al portal a ${email}`);
+            } else {
+              setStatus(`✅ Cliente creado. No se pudo enviar invitación: ${inviteData.error ?? 'error desconocido'}`);
+            }
+          } catch {
+            setStatus('✅ Cliente creado. Error enviando invitación (revisar configuración de email).');
+          }
+        } else {
+          setStatus('✅ Cliente creado correctamente.');
+        }
       }
     } catch (error) {
       return setStatus(`Error guardando cliente: ${(error as Error).message}`);
     }
 
-    setStatus('Cliente guardado correctamente.');
     setClientForm(emptyClient);
     setEditingClientId(null);
     loadAll();
