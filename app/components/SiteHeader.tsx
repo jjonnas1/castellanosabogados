@@ -25,7 +25,7 @@ const NAV_ITEMS = [
       { label: "Administrativo", href: "/servicios/administrativo" },
     ],
   },
-  { label: "Tutela", href: "/tutela", highlight: true },
+  { label: "Tutelas", href: "/tutela", highlight: true },
   { label: "Metodología", href: "/como-trabajamos" },
   { label: "Nosotros", href: "/nosotros" },
   { label: "Clientes", href: "/a-quien-servimos" },
@@ -211,8 +211,8 @@ export default function SiteHeader() {
                     item.highlight
                       ? `rounded-full border px-3 py-1.5 text-[13px] font-semibold tracking-[0.02em] transition ${
                           isActive(item.href)
-                            ? "border-[#7b1e2b] bg-[#7b1e2b]/8 text-[#7b1e2b]"
-                            : "border-[#7b1e2b]/70 bg-white/70 text-[#5f1822] hover:bg-[#7b1e2b]/5"
+                            ? "border-[#6a1624] bg-[#6a1624] text-white"
+                            : "border-[#7b1e2b] bg-[#7b1e2b] text-white hover:bg-[#6a1624] hover:border-[#6a1624]"
                         }`
                       : `group relative transition hover:text-ink ${
                           isActive(item.href) ? "text-ink" : ""
@@ -372,8 +372,8 @@ export default function SiteHeader() {
                   item.highlight
                     ? `rounded-xl border px-3 py-2 transition ${
                         isActive(item.href)
-                          ? "border-[#7b1e2b] bg-[#7b1e2b]/8 text-[#7b1e2b]"
-                          : "border-[#7b1e2b]/70 text-[#5f1822] hover:bg-[#7b1e2b]/5"
+                          ? "border-[#6a1624] bg-[#6a1624] text-white"
+                          : "border-[#7b1e2b] bg-[#7b1e2b] text-white hover:bg-[#6a1624] hover:border-[#6a1624]"
                       }`
                     : `rounded-xl px-3 py-2 transition hover:bg-subtle hover:text-ink ${
                         isActive(item.href) ? "bg-subtle text-ink" : ""
