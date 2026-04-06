@@ -10,7 +10,7 @@ export default function ClienteRegistroPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<string | null>(null);
+  const [status, setStatus] = useState<{ type: 'ok' | 'error'; message: string } | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [invited, setInvited] = useState(false);
   const router = useRouter();
@@ -35,17 +35,51 @@ export default function ClienteRegistroPage() {
     e.preventDefault();
     setLoading(true);
     setStatus(null);
+    const normalizedEmail = email.trim().toLowerCase();
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { role: 'client' } },
-    });
+    if (!normalizedEmail) {
+      setStatus({ type: 'error', message: 'Ingresa un correo válido.' });
+      setLoading(false);
+      return;
+    }
 
-    if (error) setStatus(error.message);
-    else setStatus('✅ Revisa tu correo y confirma tu cuenta para continuar.');
+    if (password.length < 6) {
+      setStatus({ type: 'error', message: 'La contraseña debe tener al menos 6 caracteres.' });
+      setLoading(false);
+      return;
+    }
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: normalizedEmail,
+        password,
+        options: { data: { role: 'client' } },
+      });
 
-    setLoading(false);
+      if (error) {
+        setStatus({ type: 'error', message: error.message });
+        return;
+      }
+
+      if (!data.user) {
+        setStatus({
+          type: 'error',
+          message: 'No se pudo crear la cuenta en este momento. Intenta nuevamente.',
+        });
+        return;
+      }
+
+      setStatus({
+        type: 'ok',
+        message: 'Registro enviado. Revisa tu correo y confirma tu cuenta para continuar.',
+      });
+    } catch {
+      setStatus({
+        type: 'error',
+        message: 'Ocurrió un error inesperado al registrar la cuenta.',
+      });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -86,7 +120,11 @@ export default function ClienteRegistroPage() {
           </button>
         </form>
 
-        {status && <p className="text-sm text-muted">{status}</p>}
+        {status && (
+          <p className={`text-sm ${status.type === 'error' ? 'text-red-700' : 'text-emerald-700'}`}>
+            {status.message}
+          </p>
+        )}
 
         <div className="flex gap-3">
           <Link href="/cliente/login" className="btn-secondary flex-1 justify-center">Ya tengo cuenta</Link>

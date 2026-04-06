@@ -31,6 +31,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: "Administrativo", href: "/servicios/administrativo" },
     ],
   },
+  { label: "Tutelas", href: "/tutela", highlight: true },
   { label: "Metodología", href: "/como-trabajamos" },
   { label: "Nosotros", href: "/nosotros" },
   { label: "Clientes", href: "/a-quien-servimos" },
