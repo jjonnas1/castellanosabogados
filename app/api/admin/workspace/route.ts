@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseServer, requireAdmin } from '@/lib/supabase-server';
 
-type Entity = 'clients' | 'updates' | 'appointments';
+type Entity = 'clients' | 'updates' | 'appointments' | 'consultations';
 
 function badRequest(message: string) {
   return NextResponse.json({ ok: false, error: message }, { status: 400 });
@@ -10,6 +10,7 @@ function badRequest(message: string) {
 function entityTable(entity: Entity) {
   if (entity === 'clients') return 'client_profiles';
   if (entity === 'updates') return 'client_case_updates';
+  if (entity === 'consultations') return 'consultations';
   return 'appointments';
 }
 
@@ -19,13 +20,14 @@ export async function GET(req: NextRequest) {
 
   const supabaseServer = getSupabaseServer({ serviceRole: true });
 
-  const [clients, updates, appointments] = await Promise.all([
+  const [clients, updates, appointments, consultations] = await Promise.all([
     supabaseServer.from('client_profiles').select('*').order('created_at', { ascending: false }),
     supabaseServer.from('client_case_updates').select('*').order('created_at', { ascending: false }),
     supabaseServer.from('appointments').select('*').order('start_at', { ascending: true }),
+    supabaseServer.from('consultations').select('*').order('created_at', { ascending: false }),
   ]);
 
-  const error = clients.error ?? updates.error ?? appointments.error;
+  const error = clients.error ?? updates.error ?? appointments.error ?? consultations.error;
   if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
 
   return NextResponse.json({
@@ -33,6 +35,7 @@ export async function GET(req: NextRequest) {
     clients: clients.data ?? [],
     updates: updates.data ?? [],
     appointments: appointments.data ?? [],
+    consultations: consultations.data ?? [],
   });
 }
 

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase-browser';
 
-type Section = 'resumen' | 'clientes' | 'agenda' | 'actualizaciones' | 'documentos' | 'exportar' | 'all';
+type Section = 'resumen' | 'clientes' | 'agenda' | 'actualizaciones' | 'documentos' | 'exportar' | 'consultas' | 'all';
 
 type ClientProfile = {
   id: string;
@@ -53,9 +53,22 @@ type ClientDocument = {
   created_at: string;
 };
 
+type Consultation = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  subject: string;
+  notes: string | null;
+  status: string;
+  consultation_date: string | null;
+  created_at: string;
+};
+
 const emptyClient = { full_name: '', email: '', password: '', phone: '', case_reference: '', can_access_portal: true };
 const emptyUpdate = { client_profile_id: '', title: '', update_text: '', status: 'en curso', visible_to_client: true };
 const emptyAppointment = { title: '', description: '', start_at: '', end_at: '', status: 'programada', client_profile_id: '' };
+const emptyConsultation = { name: '', email: '', phone: '', subject: '', notes: '', status: 'pendiente', consultation_date: '' };
 
 export default function AdminWorkspace({ section = 'all', clientId }: { section?: Section; clientId?: string }) {
   const [ready, setReady] = useState(false);
@@ -74,6 +87,9 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const [documents, setDocuments] = useState<ClientDocument[]>([]);
   const [selectedClientIdForDocuments, setSelectedClientIdForDocuments] = useState('');
   const [searchClients, setSearchClients] = useState('');
+  const [consultations, setConsultations] = useState<Consultation[]>([]);
+  const [consultationForm, setConsultationForm] = useState(emptyConsultation);
+  const [editingConsultationId, setEditingConsultationId] = useState<string | null>(null);
 
   async function workspaceRequest<T>(method: 'GET' | 'POST' | 'PATCH' | 'DELETE', body?: Record<string, unknown>) {
     if (!adminId || !adminToken) {
@@ -95,6 +111,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       clients?: ClientProfile[];
       updates?: ClientUpdate[];
       appointments?: Appointment[];
+      consultations?: Consultation[];
     };
 
     if (!response.ok || payload.ok === false) {
@@ -113,10 +130,16 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
 
   const loadAll = async () => {
     try {
-      const data = await workspaceRequest<{ clients: ClientProfile[]; updates: ClientUpdate[]; appointments: Appointment[] }>('GET');
+      const data = await workspaceRequest<{
+        clients: ClientProfile[];
+        updates: ClientUpdate[];
+        appointments: Appointment[];
+        consultations: Consultation[];
+      }>('GET');
       setClients(data.clients ?? []);
       setUpdates(data.updates ?? []);
       setAppointments(data.appointments ?? []);
+      setConsultations(data.consultations ?? []);
     } catch (error) {
       setStatus(`Error cargando datos: ${(error as Error).message}`);
     }
@@ -398,6 +421,47 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     link.remove();
   }
 
+  async function saveConsultation(e: React.FormEvent) {
+    e.preventDefault();
+    if (!adminId) return setStatus('No hay sesión admin activa.');
+
+    const payload = {
+      name: consultationForm.name,
+      email: consultationForm.email.toLowerCase(),
+      phone: consultationForm.phone || null,
+      subject: consultationForm.subject,
+      notes: consultationForm.notes || null,
+      status: consultationForm.status,
+      consultation_date: consultationForm.consultation_date || null,
+    };
+
+    try {
+      if (editingConsultationId) {
+        await workspaceRequest('PATCH', { entity: 'consultations', id: editingConsultationId, payload });
+      } else {
+        await workspaceRequest('POST', { entity: 'consultations', payload });
+      }
+    } catch (error) {
+      return setStatus(`Error guardando consulta: ${(error as Error).message}`);
+    }
+
+    setStatus('✅ Consulta guardada correctamente.');
+    setConsultationForm(emptyConsultation);
+    setEditingConsultationId(null);
+    loadAll();
+  }
+
+  async function deleteConsultation(id: string) {
+    if (!window.confirm('¿Eliminar esta consulta?')) return;
+    try {
+      await workspaceRequest('DELETE', { entity: 'consultations', id });
+      setStatus('Consulta eliminada.');
+      loadAll();
+    } catch (error) {
+      setStatus(`Error eliminando consulta: ${(error as Error).message}`);
+    }
+  }
+
   async function exportBackup() {
     if (!adminId || !adminToken) return setStatus('No hay sesión admin para exportar.');
     const res = await fetch('/api/admin/export', {
@@ -431,6 +495,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
         <Link href="/admin/clientes" className="btn-secondary">Clientes</Link>
         <Link href="/admin/agenda" className="btn-secondary">Agenda</Link>
         <Link href="/admin/actualizaciones" className="btn-secondary">Actualizaciones</Link>
+        <Link href="/admin/consultas" className="btn-secondary">Consultas</Link>
         <Link href="/admin" className="btn-secondary">Documentos</Link>
         <Link href="/admin/exportar" className="btn-secondary">Exportar</Link>
       </div>
@@ -582,6 +647,151 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             {selectedClientIdForDocuments && documents.length === 0 && (
               <p className="text-sm text-muted">No hay documentos para este cliente.</p>
             )}
+          </div>
+        </article>
+      )}
+
+      {(section === 'consultas' || section === 'all') && (
+        <article className="card-shell bg-white p-5">
+          <h2 className="text-lg font-semibold">Consultas — personas interesadas (sin registro)</h2>
+          <p className="mt-1 text-sm text-muted">Registro de consultas de personas que contactaron pero aún no son clientes.</p>
+
+          <form className="mt-4 grid gap-3" onSubmit={saveConsultation}>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <input
+                className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+                placeholder="Nombre completo"
+                value={consultationForm.name}
+                onChange={(e) => setConsultationForm({ ...consultationForm, name: e.target.value })}
+                required
+              />
+              <input
+                className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+                type="email"
+                placeholder="Correo"
+                value={consultationForm.email}
+                onChange={(e) => setConsultationForm({ ...consultationForm, email: e.target.value })}
+                required
+              />
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <input
+                className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+                placeholder="Teléfono (opcional)"
+                value={consultationForm.phone}
+                onChange={(e) => setConsultationForm({ ...consultationForm, phone: e.target.value })}
+              />
+              <input
+                className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+                type="date"
+                value={consultationForm.consultation_date}
+                onChange={(e) => setConsultationForm({ ...consultationForm, consultation_date: e.target.value })}
+              />
+            </div>
+            <input
+              className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+              placeholder="Asunto / tema de consulta"
+              value={consultationForm.subject}
+              onChange={(e) => setConsultationForm({ ...consultationForm, subject: e.target.value })}
+              required
+            />
+            <textarea
+              className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+              placeholder="Notas internas (opcional)"
+              rows={3}
+              value={consultationForm.notes}
+              onChange={(e) => setConsultationForm({ ...consultationForm, notes: e.target.value })}
+            />
+            <select
+              className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
+              value={consultationForm.status}
+              onChange={(e) => setConsultationForm({ ...consultationForm, status: e.target.value })}
+            >
+              <option value="pendiente">Pendiente</option>
+              <option value="atendida">Atendida</option>
+              <option value="descartada">Descartada</option>
+            </select>
+
+            <div className="flex gap-3">
+              <button className="btn-primary" type="submit">
+                {editingConsultationId ? 'Actualizar consulta' : 'Registrar consulta'}
+              </button>
+              {editingConsultationId && (
+                <button
+                  className="btn-secondary"
+                  type="button"
+                  onClick={() => {
+                    setEditingConsultationId(null);
+                    setConsultationForm(emptyConsultation);
+                  }}
+                >
+                  Cancelar
+                </button>
+              )}
+            </div>
+          </form>
+
+          <div className="mt-5 max-h-96 space-y-3 overflow-auto">
+            {consultations.length === 0 && (
+              <p className="text-sm text-muted">No hay consultas registradas aún.</p>
+            )}
+
+            {consultations.map((c) => (
+              <div key={c.id} className="rounded-2xl border border-border bg-white p-4 text-sm">
+                <div className="flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-semibold text-ink">{c.name}</p>
+                    <p className="text-muted">
+                      {c.email}
+                      {c.phone ? ` · ${c.phone}` : ''}
+                    </p>
+                    <p className="mt-1 text-ink">{c.subject}</p>
+                    {c.notes && <p className="mt-1 italic text-muted">{c.notes}</p>}
+                    {c.consultation_date && (
+                      <p className="mt-1 text-xs text-muted">
+                        Fecha: {new Date(c.consultation_date).toLocaleDateString('es-CO')}
+                      </p>
+                    )}
+                  </div>
+                  <span
+                    className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${
+                      c.status === 'atendida'
+                        ? 'bg-green-100 text-green-700'
+                        : c.status === 'descartada'
+                          ? 'bg-slate-100 text-slate-500'
+                          : 'bg-yellow-100 text-yellow-700'
+                    }`}
+                  >
+                    {c.status}
+                  </span>
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <button
+                    className="btn-secondary"
+                    onClick={() => {
+                      setEditingConsultationId(c.id);
+                      setConsultationForm({
+                        name: c.name,
+                        email: c.email,
+                        phone: c.phone || '',
+                        subject: c.subject,
+                        notes: c.notes || '',
+                        status: c.status,
+                        consultation_date: c.consultation_date
+                          ? new Date(c.consultation_date).toISOString().slice(0, 10)
+                          : '',
+                      });
+                    }}
+                  >
+                    Editar
+                  </button>
+                  <button className="btn-secondary" onClick={() => deleteConsultation(c.id)}>
+                    Eliminar
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </article>
       )}

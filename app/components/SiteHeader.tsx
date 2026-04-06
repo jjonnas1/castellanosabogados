@@ -8,8 +8,14 @@ import { getProfileRoleByUserId, type AppRole } from "@/lib/profile-role";
 import { supabase } from "@/lib/supabase-browser";
 
 type HeaderRole = AppRole;
+type NavItem = {
+  label: string;
+  href: string;
+  highlight?: boolean;
+  children?: Array<{ label: string; href: string }>;
+};
 
-const NAV_ITEMS = [
+const NAV_ITEMS: NavItem[] = [
   { label: "Inicio", href: "/" },
   {
     label: "Servicios",
@@ -25,7 +31,6 @@ const NAV_ITEMS = [
       { label: "Administrativo", href: "/servicios/administrativo" },
     ],
   },
-  { label: "Tutelas", href: "/tutela", highlight: true },
   { label: "Metodología", href: "/como-trabajamos" },
   { label: "Nosotros", href: "/nosotros" },
   { label: "Clientes", href: "/a-quien-servimos" },
