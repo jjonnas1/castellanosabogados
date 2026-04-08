@@ -295,19 +295,6 @@ export default async function Home() {
                 </a>
               </p>
 
-              <p>
-                <strong className="text-white">WhatsApp:</strong>{" "}
-                <a
-                  href={buildWhatsAppUrl({
-                    area: "Contacto",
-                    source: "/#contacto",
-                    message: "Hola, quisiera agendar una evaluación.",
-                  })}
-                  className="underline underline-offset-4"
-                >
-                  {contactConfig.whatsappDisplay ?? "Escribir por WhatsApp"}
-                </a>
-              </p>
             </div>
           </div>
 

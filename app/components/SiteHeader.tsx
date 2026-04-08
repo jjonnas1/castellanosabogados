@@ -16,7 +16,6 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Inicio", href: "/" },
   {
     label: "Servicios",
     href: "/servicios",
@@ -137,14 +136,15 @@ export default function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-white/90 backdrop-blur">
-      <div className="container flex items-center justify-between gap-6 py-4">
-        <div className="flex flex-1 items-center gap-8 md:justify-center">
-          <Link href="/" className="text-base font-semibold text-ink">
-            Castellanos Abogados
-          </Link>
+      <div className="container flex items-center justify-between gap-4 py-4">
+        {/* Logo */}
+        <Link href="/" className="shrink-0 font-heading text-base font-semibold text-ink tracking-tight">
+          Castellanos Abogados
+        </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden items-center gap-6 text-sm font-medium text-muted md:flex">
+        {/* Desktop nav — centered */}
+        <div className="flex flex-1 justify-center">
+          <nav className="hidden items-center gap-5 text-sm font-medium text-muted md:flex">
             {NAV_ITEMS.map((item) => {
               if (item.children) {
                 return (
@@ -239,7 +239,7 @@ export default function SiteHeader() {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-3">
           <a href={mailtoEvaluacionDesktop} className="hidden btn-primary md:inline-flex">
             Solicitar evaluación
           </a>
@@ -313,16 +313,6 @@ export default function SiteHeader() {
       {open && (
         <div className="border-t border-border/70 bg-white/95 backdrop-blur md:hidden">
           <div className="container flex flex-col gap-3 py-4 text-sm font-medium text-muted">
-            <Link
-              href="/"
-              className={`rounded-xl px-3 py-2 transition hover:bg-subtle hover:text-ink ${
-                isActive("/") ? "bg-subtle text-ink" : ""
-              }`}
-              onClick={() => setOpen(false)}
-            >
-              Inicio
-            </Link>
-
             <button
               type="button"
               className="flex w-full items-center justify-between rounded-xl px-3 py-2 text-left transition hover:bg-subtle hover:text-ink"
