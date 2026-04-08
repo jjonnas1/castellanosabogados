@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { GoogleTagManager } from '@next/third-parties/google';
 import AdminConsultChat from '@/app/components/AdminConsultChat';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
+import WhatsAppFloat from '@/app/components/WhatsAppFloat';
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function RootLayout({
         {children}
         <AdminConsultChat />
         <AdminFloatingAccess />
+        <WhatsAppFloat />
       </body>
     </html>
   );

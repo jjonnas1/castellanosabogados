@@ -32,9 +32,8 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   { label: "Tutelas", href: "/tutela", highlight: true },
-  { label: "Metodología", href: "/como-trabajamos" },
+  { label: "Blog", href: "/blog" },
   { label: "Nosotros", href: "/nosotros" },
-  { label: "Clientes", href: "/a-quien-servimos" },
   { label: "Contacto", href: "/contacto" },
 ];
 

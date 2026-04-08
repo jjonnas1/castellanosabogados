@@ -90,6 +90,8 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const [consultations, setConsultations] = useState<Consultation[]>([]);
   const [consultationForm, setConsultationForm] = useState(emptyConsultation);
   const [editingConsultationId, setEditingConsultationId] = useState<string | null>(null);
+  const [consultationStatusFilter, setConsultationStatusFilter] = useState('');
+  const [consultationSearch, setConsultationSearch] = useState('');
 
   async function workspaceRequest<T>(method: 'GET' | 'POST' | 'PATCH' | 'DELETE', body?: Record<string, unknown>) {
     if (!adminId || !adminToken) {
@@ -172,9 +174,31 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     const term = searchClients.trim().toLowerCase();
     if (!term) return clients;
     return clients.filter(
-      (c) => c.full_name.toLowerCase().includes(term) || c.email.toLowerCase().includes(term)
+      (c) => (c.full_name ?? '').toLowerCase().includes(term) || (c.email ?? '').toLowerCase().includes(term)
     );
   }, [clients, searchClients]);
+
+  const filteredConsultations = useMemo(() => {
+    return consultations.filter((c) => {
+      const matchStatus = !consultationStatusFilter || c.status === consultationStatusFilter;
+      const term = consultationSearch.trim().toLowerCase();
+      const matchSearch = !term || (c.name ?? '').toLowerCase().includes(term) || (c.email ?? '').toLowerCase().includes(term) || (c.subject ?? '').toLowerCase().includes(term);
+      return matchStatus && matchSearch;
+    });
+  }, [consultations, consultationStatusFilter, consultationSearch]);
+
+  async function convertToClient(c: Consultation) {
+    if (!adminToken) return setStatus('No hay sesión admin activa.');
+    const res = await fetch('/api/admin/clients', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', authorization: `Bearer ${adminToken}` },
+      body: JSON.stringify({ full_name: c.name, email: c.email, phone: c.phone, can_access_portal: false }),
+    });
+    const data = await res.json().catch(() => ({})) as { ok?: boolean; error?: string };
+    if (!res.ok || data.ok === false) return setStatus(`Error: ${data.error ?? 'No se pudo convertir'}`);
+    setStatus(`${c.name || c.email || 'Consulta'} convertido a cliente correctamente.`);
+    loadAll();
+  }
 
   async function saveClient(e: React.FormEvent) {
     e.preventDefault();
@@ -283,7 +307,14 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       if (editingUpdateId) {
         await workspaceRequest('PATCH', { entity: 'updates', id: editingUpdateId, payload });
       } else {
-        await workspaceRequest('POST', { entity: 'updates', payload });
+        const result = await workspaceRequest<{ ok: boolean; item: { id: string } }>('POST', { entity: 'updates', payload });
+        if (payload.visible_to_client && result.item?.id && adminToken) {
+          fetch('/api/admin/notify-update', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', authorization: `Bearer ${adminToken}` },
+            body: JSON.stringify({ update_id: result.item.id }),
+          }).catch(() => null);
+        }
       }
     } catch (error) {
       return setStatus(`Error guardando actualización: ${(error as Error).message}`);
@@ -729,12 +760,31 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             </div>
           </form>
 
-          <div className="mt-5 max-h-96 space-y-3 overflow-auto">
-            {consultations.length === 0 && (
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <input
+              className="rounded-xl border border-border px-4 py-2 text-sm text-ink"
+              placeholder="Buscar por nombre, correo o asunto"
+              value={consultationSearch}
+              onChange={(e) => setConsultationSearch(e.target.value)}
+            />
+            <select
+              className="rounded-xl border border-border px-4 py-2 text-sm text-ink"
+              value={consultationStatusFilter}
+              onChange={(e) => setConsultationStatusFilter(e.target.value)}
+            >
+              <option value="">Todos los estados</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="atendida">Atendida</option>
+              <option value="descartada">Descartada</option>
+            </select>
+          </div>
+
+          <div className="mt-4 max-h-96 space-y-3 overflow-auto">
+            {filteredConsultations.length === 0 && (
               <p className="text-sm text-muted">No hay consultas registradas aún.</p>
             )}
 
-            {consultations.map((c) => (
+            {filteredConsultations.map((c) => (
               <div key={c.id} className="rounded-2xl border border-border bg-white p-4 text-sm">
                 <div className="flex items-start justify-between gap-2">
                   <div>
@@ -786,6 +836,9 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
                   </button>
                   <button className="btn-secondary" onClick={() => deleteConsultation(c.id)}>
                     Eliminar
+                  </button>
+                  <button className="btn-primary" onClick={() => convertToClient(c)}>
+                    Convertir en cliente
                   </button>
                 </div>
               </div>

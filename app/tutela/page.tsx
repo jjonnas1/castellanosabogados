@@ -117,6 +117,36 @@ export default function TutelaPage() {
         </div>
       </section>
 
+      <section className="section-shell border-t border-border/70 bg-white" id="formulario-tutela">
+        <div className="container max-w-2xl">
+          <div className="space-y-2 mb-6">
+            <p className="pill w-fit">Contacto rápido</p>
+            <h2>Cuéntenos su caso</h2>
+            <p className="text-muted">Llene el formulario y le respondemos a la brevedad.</p>
+          </div>
+          <form className="card-shell bg-surface p-6 grid gap-4" action="/api/contact" method="post">
+            <input type="hidden" name="area" value="Tutelas" />
+            <input type="hidden" name="source" value="/tutela#formulario-tutela" />
+            <input type="hidden" name="subject" value="Consulta de tutela" />
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="text-sm font-semibold text-ink">
+                Nombre
+                <input name="name" type="text" placeholder="Su nombre" className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" />
+              </label>
+              <label className="text-sm font-semibold text-ink">
+                Correo o teléfono
+                <input name="email" type="text" required placeholder="Para responderle" className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" />
+              </label>
+            </div>
+            <label className="text-sm font-semibold text-ink">
+              ¿Cuál es su situación?
+              <textarea name="message" rows={4} required placeholder="Describa brevemente su caso (EPS, entidad, qué derecho considera vulnerado)" className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" />
+            </label>
+            <button type="submit" className="btn-primary justify-center">Enviar consulta</button>
+          </form>
+        </div>
+      </section>
+
       <section className="section-shell border-t border-border/70 bg-surface/80" id="cta-tutelas">
         <div className="container">
           <article className="card-shell bg-white p-8 text-center">

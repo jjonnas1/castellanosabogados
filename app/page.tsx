@@ -374,6 +374,43 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* TESTIMONIOS */}
+      <section className="section-shell bg-surface/80">
+        <div className="container space-y-8">
+          <div className="space-y-2">
+            <p className="pill w-fit">Clientes</p>
+            <h2>Lo que dicen quienes han trabajado con nosotros</h2>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            {[
+              {
+                quote: "El acompañamiento fue claro desde el primer momento. Entendieron mi caso y me explicaron cada paso del proceso con transparencia.",
+                name: "M. Rodríguez",
+                role: "Cliente — Derecho penal personas",
+              },
+              {
+                quote: "Gracias a su gestión logramos la tutela a tiempo. La atención fue rápida y profesional, y el resultado superó mis expectativas.",
+                name: "C. Gómez",
+                role: "Cliente — Tutela EPS",
+              },
+              {
+                quote: "El equipo nos ayudó a estructurar el programa de prevención penal empresarial. Muy rigurosos y con buen criterio técnico.",
+                name: "Director de cumplimiento",
+                role: "Empresa — Responsabilidad penal PJ",
+              },
+            ].map((t) => (
+              <article key={t.name} className="card-shell bg-white p-6 flex flex-col justify-between gap-4">
+                <p className="text-muted text-sm leading-relaxed">"{t.quote}"</p>
+                <div>
+                  <p className="font-semibold text-ink text-sm">{t.name}</p>
+                  <p className="text-xs text-muted">{t.role}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="border-t border-border bg-white/90 py-8 backdrop-blur">
         <div className="container flex flex-col gap-3 text-sm text-muted md:flex-row md:items-center md:justify-between">
