@@ -1,11 +1,10 @@
 'use client';
 
 export default function WhatsAppFloat() {
-  const number = '573148309306';
-  const message = encodeURIComponent('Hola, quisiera obtener orientación jurídica.');
+  const href = 'https://wa.me/573148309306?text=Hola,%20necesito%20asesor%C3%ADa%20jur%C3%ADdica%20sobre...';
   return (
     <a
-      href={`https://wa.me/${number}?text=${message}`}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Contactar por WhatsApp"

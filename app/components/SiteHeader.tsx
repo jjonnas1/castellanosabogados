@@ -30,6 +30,7 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   { label: "Tutelas", href: "/tutela", highlight: true },
+  { label: "Blog", href: "/blog" },
   { label: "Nosotros", href: "/nosotros" },
   { label: "Contacto", href: "/contacto" },
 ];
@@ -156,34 +157,34 @@ export default function SiteHeader() {
         </nav>
 
         {/* Actions — desktop */}
-        <div className="hidden shrink-0 items-center gap-2 md:flex">
+        <div className="hidden shrink-0 items-center gap-3 md:flex">
           {loggedIn ? (
             <>
               <Link
                 href={panelHref}
-                className="rounded-full border border-border px-4 py-2 text-[13px] font-semibold text-ink transition hover:border-ink"
+                className="inline-flex h-9 w-36 items-center justify-center rounded-full bg-ink text-[13px] font-semibold text-white transition hover:bg-ink/85"
               >
-                {role === "admin" ? "Admin" : "Área cliente"}
+                {role === "admin" ? "Panel admin" : "Área cliente"}
               </Link>
               <button
                 type="button"
                 onClick={logout}
-                className="rounded-full border border-border px-4 py-2 text-[13px] font-semibold text-muted transition hover:border-ink hover:text-ink"
+                className="inline-flex h-9 w-36 items-center justify-center rounded-full border border-border text-[13px] font-semibold text-ink transition hover:border-ink"
               >
-                Salir
+                Cerrar sesión
               </button>
             </>
           ) : (
             <>
               <a
                 href={mailtoHref}
-                className="rounded-full bg-ink px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-ink/85"
+                className="inline-flex h-9 w-44 items-center justify-center rounded-full bg-ink text-[13px] font-semibold text-white transition hover:bg-ink/85"
               >
                 Solicitar evaluación
               </a>
               <Link
                 href="/cliente/login"
-                className="rounded-full border border-border px-4 py-2 text-[13px] font-semibold text-ink transition hover:border-ink"
+                className="inline-flex h-9 w-36 items-center justify-center rounded-full border border-border text-[13px] font-semibold text-ink transition hover:border-ink"
               >
                 Área cliente
               </Link>

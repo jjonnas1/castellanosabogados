@@ -162,6 +162,22 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* CONTADOR DE CREDIBILIDAD */}
+      <section className="border-b border-border/60 bg-ink text-white">
+        <div className="container grid grid-cols-3 divide-x divide-white/10 py-8">
+          {[
+            { number: "200+", label: "Casos resueltos" },
+            { number: "15+", label: "Años de experiencia" },
+            { number: "98%", label: "Clientes satisfechos" },
+          ].map((item) => (
+            <div key={item.label} className="flex flex-col items-center gap-1 px-4 text-center">
+              <span className="font-heading text-3xl font-bold text-white">{item.number}</span>
+              <span className="text-xs font-medium uppercase tracking-widest text-slate-300">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ÁREAS PRINCIPALES */}
       <section className="section-shell bg-surface/80">
         <div className="container space-y-6">
@@ -393,6 +409,46 @@ export default async function Home() {
                   <p className="text-xs text-muted">{t.role}</p>
                 </div>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section-shell bg-white">
+        <div className="container max-w-3xl space-y-6">
+          <div className="space-y-2">
+            <p className="pill w-fit">Preguntas frecuentes</p>
+            <h2>Lo que más nos preguntan</h2>
+          </div>
+          <div className="divide-y divide-border">
+            {[
+              {
+                q: "¿Cuánto cuesta una tutela?",
+                a: "En Colombia la acción de tutela es gratuita y puede presentarse sin abogado. Sin embargo, contar con acompañamiento jurídico profesional aumenta significativamente las posibilidades de éxito. Nuestros honorarios dependen de la complejidad del caso; contáctenos para una evaluación inicial.",
+              },
+              {
+                q: "¿Cuánto dura un proceso penal?",
+                a: "Depende de la etapa y la complejidad. Una investigación previa puede tomar meses; el juicio oral, una vez instalado, puede resolverse en semanas. En promedio, un proceso penal en Colombia puede durar entre 1 y 4 años. El seguimiento técnico desde el inicio es determinante para los resultados.",
+              },
+              {
+                q: "¿Qué hago si me vulneran un derecho fundamental?",
+                a: "Lo primero es documentar la situación: guardar comunicaciones, respuestas de entidades y fechas. Luego, evaluar si procede una acción de tutela, un derecho de petición o un recurso administrativo. En Castellanos Abogados hacemos ese diagnóstico con usted y definimos la estrategia más adecuada.",
+              },
+              {
+                q: "¿Puedo tener representación legal si no tengo recursos?",
+                a: "Sí. En Colombia existe la figura del defensor público para procesos penales, y las acciones constitucionales como la tutela no requieren abogado. Si su situación económica es limitada, también puede acudir a consultorios jurídicos universitarios o a la Defensoría del Pueblo.",
+              },
+            ].map((item) => (
+              <details key={item.q} className="group py-4">
+                <summary className="flex cursor-pointer items-center justify-between gap-4 text-base font-semibold text-ink list-none">
+                  {item.q}
+                  <svg className="h-4 w-4 shrink-0 text-muted transition-transform group-open:rotate-180" viewBox="0 0 12 8" fill="none" aria-hidden>
+                    <path d="M1 1.5 6 6.5 11 1.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </summary>
+                <p className="mt-3 text-sm text-muted leading-relaxed">{item.a}</p>
+              </details>
             ))}
           </div>
         </div>
