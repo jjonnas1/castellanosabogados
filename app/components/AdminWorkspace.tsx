@@ -520,8 +520,8 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
         <article className="card-shell bg-white p-5">
           <h2 className="text-lg font-semibold">Clientes</h2>
           <form className="mt-3 grid gap-2" onSubmit={saveClient}>
-            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Nombre" value={clientForm.full_name} onChange={(e)=>setClientForm({...clientForm,full_name:e.target.value})} required />
-            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" type="email" placeholder="Correo" value={clientForm.email} onChange={(e)=>setClientForm({...clientForm,email:e.target.value})} required />
+            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Nombre (opcional)" value={clientForm.full_name} onChange={(e)=>setClientForm({...clientForm,full_name:e.target.value})} />
+            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" type="email" placeholder="Correo (opcional)" value={clientForm.email} onChange={(e)=>setClientForm({...clientForm,email:e.target.value})} />
             {!editingClientId && (
               <input
                 className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink"
@@ -660,18 +660,16 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             <div className="grid gap-3 sm:grid-cols-2">
               <input
                 className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
-                placeholder="Nombre completo"
+                placeholder="Nombre completo (opcional)"
                 value={consultationForm.name}
                 onChange={(e) => setConsultationForm({ ...consultationForm, name: e.target.value })}
-                required
               />
               <input
                 className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
                 type="email"
-                placeholder="Correo"
+                placeholder="Correo (opcional)"
                 value={consultationForm.email}
                 onChange={(e) => setConsultationForm({ ...consultationForm, email: e.target.value })}
-                required
               />
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -690,10 +688,10 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             </div>
             <input
               className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"
-              placeholder="Asunto / tema de consulta"
+              placeholder="Asunto / tema de consulta (opcional)"
               value={consultationForm.subject}
               onChange={(e) => setConsultationForm({ ...consultationForm, subject: e.target.value })}
-              required
+
             />
             <textarea
               className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50"

@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     const case_reference = String(body.case_reference ?? '').trim();
     const can_access_portal = Boolean(body.can_access_portal ?? false);
 
-    if (!full_name || !email) return badRequest('Nombre y correo son obligatorios');
+    if (can_access_portal && !email) return badRequest('El correo es obligatorio para habilitar acceso al portal');
     if (can_access_portal && password.length < 8) {
       return badRequest('La contraseña debe tener al menos 8 caracteres para habilitar acceso al portal');
     }
@@ -58,8 +58,8 @@ export async function POST(req: NextRequest) {
       .from('client_profiles')
       .insert({
         auth_user_id: authUserId,
-        full_name,
-        email,
+        full_name: full_name || null,
+        email: email || null,
         phone: phone || null,
         case_reference: case_reference || null,
         can_access_portal,
