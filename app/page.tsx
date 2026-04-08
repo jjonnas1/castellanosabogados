@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 import SiteHeader from "./components/SiteHeader";
-import { buildMailtoUrl, buildWhatsAppUrl, contactConfig } from "@/lib/contactLinks";
+import { buildMailtoUrl, contactConfig } from "@/lib/contactLinks";
 
 const heroBackground =
   "linear-gradient(120deg, rgba(12,17,29,0.88), rgba(17,37,68,0.82)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
@@ -132,37 +132,6 @@ export default async function Home() {
                 </div>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CÓMO TRABAJAMOS */}
-      <section id="como-trabajamos" className="section-shell bg-white">
-        <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="space-y-4">
-            <p className="pill w-fit">Cómo trabajamos</p>
-            <h2>Metodología clara y coordinación precisa</h2>
-            <p className="max-w-2xl text-muted">Definimos alcance, responsables y documentación para que cada decisión quede trazada con rigor.</p>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {["Diagnóstico inicial", "Mapa de riesgos", "Sesiones de análisis", "Seguimiento especializado"].map((item) => (
-                <div key={item} className="rounded-2xl border border-border bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">{item}</div>
-              ))}
-            </div>
-            <a href={buildWhatsAppUrl({ area: "Metodología", source: "/#como-trabajamos", message: "Hola, quisiera programar una sesión para conocer la metodología." })} className="btn-primary">
-              Programar sesión
-            </a>
-          </div>
-          <div className="card-shell relative overflow-hidden bg-gradient-to-b from-ink to-accent-700 p-8 text-white" style={{ backgroundImage: executiveDesk, backgroundSize: "cover", backgroundPosition: "center" }}>
-            <div className="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/84 to-accent-700/80" aria-hidden />
-            <div className="relative space-y-4">
-              <h3>Alcance y límites</h3>
-              <p className="text-slate-100">Nuestro rol es estratégico, preventivo y documental. Si el caso exige defensa judicial, se articula con aliados externos.</p>
-              <div className="mt-6 grid gap-3 text-sm text-slate-100">
-                <div className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">Sesiones por videollamada o en sitio.</div>
-                <div className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">Reportes, minutas y reglas de actuación.</div>
-                <div className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">Coordinación con aliados técnicos.</div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
