@@ -16,7 +16,7 @@ function entityTable(entity: Entity) {
 
 export async function GET(req: NextRequest) {
   const admin = await requireAdmin(req.headers.get('authorization'));
-  if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: 403 });
+  if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: admin.status });
 
   const supabaseServer = getSupabaseServer({ serviceRole: true });
 
@@ -41,7 +41,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const admin = await requireAdmin(req.headers.get('authorization'));
-  if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: 403 });
+  if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: admin.status });
 
   const body = (await req.json().catch(() => null)) as { entity?: Entity; payload?: Record<string, unknown> } | null;
   if (!body?.entity || !body.payload) return badRequest('Solicitud inválida');
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   const admin = await requireAdmin(req.headers.get('authorization'));
-  if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: 403 });
+  if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: admin.status });
 
   const body = (await req.json().catch(() => null)) as { entity?: Entity; id?: string; payload?: Record<string, unknown> } | null;
   if (!body?.entity || !body?.id || !body.payload) return badRequest('Solicitud inválida');
@@ -71,7 +71,7 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   const admin = await requireAdmin(req.headers.get('authorization'));
-  if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: 403 });
+  if (!admin.ok) return NextResponse.json({ ok: false, error: admin.error }, { status: admin.status });
 
   const body = (await req.json().catch(() => null)) as { entity?: Entity; id?: string } | null;
   if (!body?.entity || !body?.id) return badRequest('Solicitud inválida');
