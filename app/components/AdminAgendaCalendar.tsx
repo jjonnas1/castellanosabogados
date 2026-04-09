@@ -23,7 +23,33 @@ function statusClass(status: string) {
   const key = status.toLowerCase();
   if (key.includes('complet')) return 'bg-emerald-100 text-emerald-700';
   if (key.includes('cancel')) return 'bg-red-100 text-red-700';
-  return 'bg-accent-50 text-accent-700';
+  return 'bg-amber-100 text-amber-700';
+}
+
+/** Devuelve las clases de fondo/borde para la celda del día según el estado dominante */
+function dayCellClass(dayAppointments: Appointment[], inCurrentMonth: boolean, isSelected: boolean): string {
+  const base = isSelected ? 'ring-2 ring-offset-1 ring-accent-700' : '';
+
+  if (!inCurrentMonth) return `border-border/60 bg-panel/40 text-muted ${base}`;
+  if (dayAppointments.length === 0) return `border-border bg-white ${base}`;
+
+  // Estado dominante: el que más aparece; en empate, prioridad: programada > completada > cancelada
+  const counts = { programada: 0, completada: 0, cancelada: 0 };
+  for (const a of dayAppointments) {
+    const k = a.status.toLowerCase();
+    if (k.includes('complet'))    counts.completada++;
+    else if (k.includes('cancel')) counts.cancelada++;
+    else                           counts.programada++;
+  }
+
+  const dominant =
+    counts.programada >= counts.completada && counts.programada >= counts.cancelada ? 'programada'
+    : counts.completada >= counts.cancelada ? 'completada'
+    : 'cancelada';
+
+  if (dominant === 'completada') return `border-emerald-300 bg-emerald-50 ${base}`;
+  if (dominant === 'cancelada')  return `border-red-300 bg-red-50 ${base}`;
+  return `border-amber-300 bg-amber-50 ${base}`;
 }
 
 export default function AdminAgendaCalendar() {
@@ -87,12 +113,13 @@ export default function AdminAgendaCalendar() {
             <div className="mt-2 grid grid-cols-7 gap-2">
               {days.map((day) => {
                 const inCurrentMonth = day.getMonth() === monthDate.getMonth();
+                const isSelected = !!(selectedDate && sameDay(day, selectedDate));
                 const dayAppointments = appointments.filter((item) => sameDay(new Date(item.start_at), day));
                 return (
                   <button
                     key={day.toISOString()}
                     onClick={() => setSelectedDate(day)}
-                    className={`min-h-24 rounded-xl border p-2 text-left transition ${inCurrentMonth ? 'border-border bg-white' : 'border-border/60 bg-panel/40 text-muted'} ${selectedDate && sameDay(day, selectedDate) ? 'ring-2 ring-accent-50' : ''}`}
+                    className={`min-h-24 rounded-xl border p-2 text-left transition hover:brightness-95 ${dayCellClass(dayAppointments, inCurrentMonth, isSelected)}`}
                   >
                     <p className="text-xs font-semibold">{day.getDate()}</p>
                     <div className="mt-1 space-y-1">
@@ -106,6 +133,19 @@ export default function AdminAgendaCalendar() {
                   </button>
                 );
               })}
+            </div>
+            {/* Leyenda */}
+            <div className="mt-3 flex flex-wrap gap-3 border-t border-border pt-3">
+              {[
+                { color: 'bg-amber-50 border-amber-300',   label: 'Programada' },
+                { color: 'bg-emerald-50 border-emerald-300', label: 'Completada' },
+                { color: 'bg-red-50 border-red-300',       label: 'Cancelada' },
+              ].map(({ color, label }) => (
+                <span key={label} className="flex items-center gap-1.5 text-xs text-muted">
+                  <span className={`inline-block h-3 w-3 rounded-sm border ${color}`} />
+                  {label}
+                </span>
+              ))}
             </div>
           </div>
 
