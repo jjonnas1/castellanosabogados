@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { supabase } from '@/lib/supabase-browser';
 
 function getOrCreateVisitorKey(): string | null {
   try {
@@ -24,19 +25,23 @@ export default function VisitTracker() {
     if (lastTracked.current === pathname) return;
     lastTracked.current = pathname;
 
-    const visitorKey = getOrCreateVisitorKey();
+    // No registrar visitas propias: si hay sesión activa (admin o cliente),
+    // se omite el registro para no contaminar las estadísticas.
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) return;
 
-    fetch('/api/visit', {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        path: pathname,
-        referrer: document.referrer || null,
-        visitor_key: visitorKey,
-      }),
-      keepalive: true,
-    }).catch(() => {
-      // Silencioso: no interrumpir la navegación por fallos de tracking
+      const visitorKey = getOrCreateVisitorKey();
+
+      fetch('/api/visit', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          path: pathname,
+          referrer: document.referrer || null,
+          visitor_key: visitorKey,
+        }),
+        keepalive: true,
+      }).catch(() => {});
     });
   }, [pathname]);
 
