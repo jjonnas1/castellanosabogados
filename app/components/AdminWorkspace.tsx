@@ -92,6 +92,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const [editingConsultationId, setEditingConsultationId] = useState<string | null>(null);
   const [consultationStatusFilter, setConsultationStatusFilter] = useState('');
   const [consultationSearch, setConsultationSearch] = useState('');
+  const [visitStats, setVisitStats] = useState<{ today: number; week: number; total: number } | null>(null);
 
   async function workspaceRequest<T>(method: 'GET' | 'POST' | 'PATCH' | 'DELETE', body?: Record<string, unknown>) {
     if (!adminId || !adminToken) {
@@ -144,6 +145,21 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       setConsultations(data.consultations ?? []);
     } catch (error) {
       setStatus(`Error cargando datos: ${(error as Error).message}`);
+    }
+
+    // Cargar estadísticas de visitas (falla silenciosamente si la tabla no existe aún)
+    try {
+      const { data: s } = await supabase.auth.getSession();
+      const token = s.session?.access_token;
+      if (token) {
+        const res = await fetch('/api/admin/visits?limit=1', {
+          headers: { authorization: `Bearer ${token}` },
+        });
+        const json = await res.json().catch(() => null) as { ok?: boolean; today?: number; week?: number; total?: number } | null;
+        if (json?.ok) setVisitStats({ today: json.today ?? 0, week: json.week ?? 0, total: json.total ?? 0 });
+      }
+    } catch {
+      // tabla aún no creada — ignorar
     }
   };
 
@@ -278,6 +294,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     setAppointmentForm(emptyAppointment);
     setEditingAppointmentId(null);
     loadAll();
+    window.dispatchEvent(new CustomEvent('appointments-updated'));
   }
 
   async function deleteAppointment(id: string) {
@@ -288,6 +305,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     }
     setStatus('Cita eliminada.');
     loadAll();
+    window.dispatchEvent(new CustomEvent('appointments-updated'));
   }
 
   async function saveUpdate(e: React.FormEvent) {
@@ -529,6 +547,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
         <Link href="/admin/consultas" className="btn-secondary">Consultas</Link>
         <Link href="/admin" className="btn-secondary">Documentos</Link>
         <Link href="/admin/exportar" className="btn-secondary">Exportar</Link>
+        <Link href="/admin/visitas" className="btn-secondary">Visitas</Link>
       </div>
 
       {status && <p className="text-sm text-muted">{status}</p>}
@@ -540,6 +559,22 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             <article className="card-shell bg-white p-4"><p className="text-xs text-muted uppercase">Total citas</p><p className="mt-1 text-2xl font-semibold">{appointments.length}</p></article>
             <article className="card-shell bg-white p-4"><p className="text-xs text-muted uppercase">Total actualizaciones</p><p className="mt-1 text-2xl font-semibold">{updates.length}</p></article>
           </section>
+          {visitStats && (
+            <section className="grid gap-4 sm:grid-cols-3">
+              <Link href="/admin/visitas" className="card-shell bg-white p-4 hover:bg-surface transition block">
+                <p className="text-xs text-muted uppercase">Visitas hoy</p>
+                <p className="mt-1 text-2xl font-semibold">{visitStats.today}</p>
+              </Link>
+              <Link href="/admin/visitas" className="card-shell bg-white p-4 hover:bg-surface transition block">
+                <p className="text-xs text-muted uppercase">Visitas últimos 7 días</p>
+                <p className="mt-1 text-2xl font-semibold">{visitStats.week}</p>
+              </Link>
+              <Link href="/admin/visitas" className="card-shell bg-white p-4 hover:bg-surface transition block">
+                <p className="text-xs text-muted uppercase">Visitas totales</p>
+                <p className="mt-1 text-2xl font-semibold">{visitStats.total}</p>
+              </Link>
+            </section>
+          )}
           <section className="grid gap-6 lg:grid-cols-2">
             <article className="card-shell bg-white p-5"><h2 className="text-lg font-semibold">Próximas citas</h2><div className="mt-3 space-y-2 text-sm">{nextAppointments.map((a) => <p key={a.id}>{new Date(a.start_at).toLocaleString('es-CO')} · {a.title}</p>)}{nextAppointments.length===0&&<p className="text-muted">Sin próximas citas.</p>}</div></article>
             <article className="card-shell bg-white p-5"><h2 className="text-lg font-semibold">Últimas actualizaciones</h2><div className="mt-3 space-y-2 text-sm">{lastUpdates.map((u) => <p key={u.id}>{u.title} · {u.status}</p>)}{lastUpdates.length===0&&<p className="text-muted">Sin actualizaciones.</p>}</div></article>

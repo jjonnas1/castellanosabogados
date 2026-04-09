@@ -31,19 +31,24 @@ export default function AdminAgendaCalendar() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
+  async function fetchAppointments() {
+    const { data: sessionData } = await supabase.auth.getSession();
+    const token = sessionData.session?.access_token;
+    if (!token) return;
+
+    const response = await fetch('/api/admin/workspace', {
+      headers: { authorization: `Bearer ${token}` },
+    });
+
+    const payload = (await response.json().catch(() => ({}))) as { appointments?: Appointment[] };
+    setAppointments(payload.appointments ?? []);
+  }
+
   useEffect(() => {
-    (async () => {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const token = sessionData.session?.access_token;
-      if (!token) return;
+    fetchAppointments();
 
-      const response = await fetch('/api/admin/workspace', {
-        headers: { authorization: `Bearer ${token}` },
-      });
-
-      const payload = (await response.json().catch(() => ({}))) as { appointments?: Appointment[] };
-      setAppointments(payload.appointments ?? []);
-    })();
+    window.addEventListener('appointments-updated', fetchAppointments);
+    return () => window.removeEventListener('appointments-updated', fetchAppointments);
   }, []);
 
   const days = useMemo(() => {

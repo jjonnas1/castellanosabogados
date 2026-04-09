@@ -4,6 +4,7 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import AdminConsultChat from '@/app/components/AdminConsultChat';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
 import WhatsAppFloat from '@/app/components/WhatsAppFloat';
+import VisitTracker from '@/app/components/VisitTracker';
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-canvas text-ink antialiased">
         {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
         {children}
+        <VisitTracker />
         <AdminConsultChat />
         <AdminFloatingAccess />
         <WhatsAppFloat />
