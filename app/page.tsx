@@ -62,9 +62,9 @@ export default async function Home() {
               <span className="text-xs uppercase tracking-[0.18em] text-slate-200">Corporativo · Personas · Ejecución · Formación</span>
             </div>
             <div className="space-y-4 animate-fade-in-up delay-100">
-              <h1 className="text-white max-w-3xl">Asesoría jurídica estratégica para personas naturales y jurídicas</h1>
+              <h1 className="text-white max-w-3xl">Firma jurídica integral en el Eje Cafetero con criterio técnico y acompañamiento real</h1>
               <p className="max-w-2xl text-lg text-slate-100">
-                Integramos análisis técnico, prevención de riesgos y acompañamiento integral en múltiples áreas de práctica.
+                Derecho penal, civil, familia, laboral, administrativo, ejecución de penas y tutelas. Diagnóstico claro, estrategia definida y presencia en cada etapa de su proceso.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-4 animate-fade-in-up delay-200">
@@ -94,21 +94,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* CONTADOR */}
-      <section className="border-b border-border/60 bg-ink text-white">
-        <div className="container grid grid-cols-3 divide-x divide-white/10 py-8">
-          {[
-            { number: "200+", label: "Casos resueltos" },
-            { number: "15+", label: "Años de experiencia" },
-            { number: "98%", label: "Clientes satisfechos" },
-          ].map((item) => (
-            <div key={item.label} className="flex flex-col items-center gap-1 px-4 text-center">
-              <span className="font-heading text-3xl font-bold text-white">{item.number}</span>
-              <span className="text-xs font-medium uppercase tracking-widest text-slate-300">{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ÁREAS DE PRÁCTICA */}
       <section className="section-shell bg-surface/80">
@@ -136,30 +121,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* TESTIMONIOS */}
-      <section className="section-shell bg-surface/80">
-        <div className="container space-y-8">
-          <div className="space-y-2">
-            <p className="pill w-fit">Clientes</p>
-            <h2>Lo que dicen quienes han trabajado con nosotros</h2>
-          </div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {[
-              { quote: "El acompañamiento fue claro desde el primer momento. Entendieron mi caso y me explicaron cada paso del proceso con transparencia.", name: "M. Rodríguez", role: "Cliente — Derecho penal personas" },
-              { quote: "Gracias a su gestión logramos la tutela a tiempo. La atención fue rápida y profesional, y el resultado superó mis expectativas.", name: "C. Gómez", role: "Cliente — Tutela EPS" },
-              { quote: "El equipo nos ayudó a estructurar el programa de prevención penal empresarial. Muy rigurosos y con buen criterio técnico.", name: "Director de cumplimiento", role: "Empresa — Responsabilidad penal PJ" },
-            ].map((t) => (
-              <article key={t.name} className="card-shell bg-white p-6 flex flex-col justify-between gap-4">
-                <p className="text-muted text-sm leading-relaxed">"{t.quote}"</p>
-                <div>
-                  <p className="font-semibold text-ink text-sm">{t.name}</p>
-                  <p className="text-xs text-muted">{t.role}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* FAQ */}
       <section className="section-shell bg-white">

@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   const resend = new Resend(key);
   await resend.emails.send({
     from: 'Chat web <onboarding@resend.dev>',
-    to: ['jonatancastellanosabogado@gmail.com'],
+    to: ['jonatan@jonatancastellanosabogado.com'],
     subject: `Nuevo mensaje en el chat — ${topic}`,
     html: `
       <div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto">

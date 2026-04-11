@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
   const userEmail = (userData.user.email ?? '').toLowerCase();
   const ownerEmail = (process.env.ADMIN_OWNER_EMAIL ?? '').trim().toLowerCase();
-  const fallbackOwner = 'jonatancastellanosabogado@gmail.com';
+  const fallbackOwner = 'jonatan@jonatancastellanosabogado.com';
   const allowed = [ownerEmail, fallbackOwner].filter(Boolean);
 
   if (!userEmail || !allowed.includes(userEmail)) {
