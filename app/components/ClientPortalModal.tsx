@@ -69,10 +69,10 @@ export default function ClientPortalModal() {
           <button
             onClick={dismiss}
             aria-label="Cerrar aviso"
-            className="absolute right-4 top-4 flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+            className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white ring-1 ring-white/30 transition-colors hover:bg-white/35"
           >
-            <svg viewBox="0 0 14 14" fill="none" className="h-3 w-3" aria-hidden>
-              <path d="M1 1l12 12M13 1 1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+            <svg viewBox="0 0 14 14" fill="none" className="h-4 w-4" aria-hidden>
+              <path d="M1 1l12 12M13 1 1 13" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
             </svg>
           </button>
 
