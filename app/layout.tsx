@@ -5,6 +5,7 @@ import AdminConsultChat from '@/app/components/AdminConsultChat';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
 import WhatsAppFloat from '@/app/components/WhatsAppFloat';
 import VisitTracker from '@/app/components/VisitTracker';
+import ClientPortalModal from '@/app/components/ClientPortalModal';
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
@@ -38,6 +39,7 @@ export default function RootLayout({
         {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
         {children}
         <VisitTracker />
+        <ClientPortalModal />
         <AdminConsultChat />
         <AdminFloatingAccess />
         <WhatsAppFloat />
