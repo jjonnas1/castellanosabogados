@@ -43,7 +43,7 @@ export default function ClientPortalModal() {
     >
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-ink/50 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-black/75 backdrop-blur-md"
         onClick={dismiss}
         aria-hidden
       />
@@ -53,13 +53,13 @@ export default function ClientPortalModal() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="cpm-title"
-        className="relative z-10 w-full max-w-sm overflow-hidden rounded-2xl shadow-[0_24px_64px_rgba(13,21,40,0.35)]"
+        className="relative z-10 w-full max-w-sm overflow-hidden rounded-2xl ring-1 ring-white/20 shadow-[0_32px_80px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.08)]"
         style={{ animation: 'ca-modal-in 0.4s cubic-bezier(0.22,1,0.36,1) forwards' }}
       >
         {/* ── Cabecera de marca ── */}
         <div
           className="relative flex flex-col items-start gap-3 px-6 pt-6 pb-5"
-          style={{ background: 'linear-gradient(135deg, #0d1528 0%, #1f365d 100%)' }}
+          style={{ background: 'linear-gradient(135deg, #1a2f5a 0%, #2a4a8a 100%)' }}
         >
           {/* Círculo decorativo */}
           <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5" aria-hidden />
