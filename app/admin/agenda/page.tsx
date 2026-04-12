@@ -1,17 +1,17 @@
-import SiteHeader from '@/app/components/SiteHeader';
+import AdminShell from '@/components/AdminShell';
 import AdminWorkspace from '@/app/components/AdminWorkspace';
 import AdminAgendaCalendar from '@/app/components/AdminAgendaCalendar';
 import DashboardCitas from '@/components/DashboardCitas';
 
 export default function AdminAgendaPage() {
   return (
-    <main className="bg-canvas text-ink min-h-screen">
-      <SiteHeader />
-      <div className="container mx-auto py-8 max-w-lg">
+    <AdminShell>
+      <div className="p-6 space-y-6">
+        <h1 className="text-xl font-semibold text-slate-100">Agenda</h1>
         <DashboardCitas />
+        <AdminAgendaCalendar />
+        <AdminWorkspace section="agenda" />
       </div>
-      <AdminAgendaCalendar />
-      <AdminWorkspace section="agenda" />
-    </main>
+    </AdminShell>
   );
 }

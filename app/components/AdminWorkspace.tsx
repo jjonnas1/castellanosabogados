@@ -538,18 +538,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   if (!adminId || !adminToken) return <section className="container section-shell"><div className="card-shell bg-white p-6 text-center">No hay sesión admin activa.</div></section>;
 
   return (
-    <section className="container section-shell space-y-6">
-      <div className="flex flex-wrap gap-2 text-sm">
-        <Link href="/admin/resumen" className="btn-secondary">Resumen</Link>
-        <Link href="/admin/clientes" className="btn-secondary">Clientes</Link>
-        <Link href="/admin/agenda" className="btn-secondary">Agenda</Link>
-        <Link href="/admin/actualizaciones" className="btn-secondary">Actualizaciones</Link>
-        <Link href="/admin/consultas" className="btn-secondary">Consultas</Link>
-        <Link href="/admin" className="btn-secondary">Documentos</Link>
-        <Link href="/admin/exportar" className="btn-secondary">Exportar</Link>
-        <Link href="/admin/visitas" className="btn-secondary">Visitas</Link>
-      </div>
-
+    <section className="space-y-6">
       {status && <p className="text-sm text-muted">{status}</p>}
 
       {(section === 'resumen' || section === 'all') && (

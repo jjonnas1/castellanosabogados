@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
 import { getProfileRoleByUserId } from '@/lib/profile-role';
-import SiteHeader from '@/app/components/SiteHeader';
+import AdminShell from '@/components/AdminShell';
 import AdminVisitasView from '@/app/components/AdminVisitasView';
 
 export default function AdminVisitasPage() {
@@ -15,10 +15,8 @@ export default function AdminVisitasPage() {
     supabase.auth.getSession().then(async ({ data }) => {
       const user = data.session?.user;
       if (!user) { router.replace('/admin/login'); return; }
-
       const role = await getProfileRoleByUserId(user.id);
       if (role !== 'admin') { router.replace('/admin/login'); return; }
-
       setReady(true);
     });
   }, [router]);
@@ -26,9 +24,11 @@ export default function AdminVisitasPage() {
   if (!ready) return null;
 
   return (
-    <main className="min-h-screen bg-canvas text-ink">
-      <SiteHeader />
-      <AdminVisitasView />
-    </main>
+    <AdminShell>
+      <div className="p-6">
+        <h1 className="text-xl font-semibold text-slate-100 mb-6">Visitas al sitio</h1>
+        <AdminVisitasView />
+      </div>
+    </AdminShell>
   );
 }
