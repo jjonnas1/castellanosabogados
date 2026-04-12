@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { supabase } from '@/lib/supabase-browser';
 
 const STORAGE_KEY = 'ca_portal_modal_dismissed';
@@ -103,24 +102,8 @@ export default function ClientPortalModal() {
           <p className="text-sm leading-relaxed text-muted">
             Si tiene un proceso activo con nosotros, puede consultar avances,
             documentos y actuaciones en tiempo real desde nuestra plataforma.
+            Encuéntrelo en <strong className="text-ink">Área cliente</strong> en el menú superior.
           </p>
-
-          <div className="flex flex-col gap-2">
-            <Link
-              href="/cliente/login"
-              onClick={dismiss}
-              className="btn-primary justify-center text-center"
-            >
-              Ingresar a mi caso
-            </Link>
-            <Link
-              href="/contacto"
-              onClick={dismiss}
-              className="btn-secondary justify-center text-center"
-            >
-              Solicitar acceso
-            </Link>
-          </div>
 
           <p className="text-center text-[11px] text-muted/70">
             Este aviso solo aparece una vez
