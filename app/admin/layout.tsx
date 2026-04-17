@@ -5,7 +5,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
 import { AdminAuthContext } from '@/contexts/admin-auth';
 
-// Páginas de admin que no necesitan sesión
 const PUBLIC_ADMIN_PATHS = ['/admin/login'];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
@@ -15,51 +14,63 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   const [token,  setToken]  = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
-  // Las páginas públicas arrancan "ready" de inmediato para no bloquear el login
-  const [ready, setReady] = useState(isPublic);
-  const didRedirect = useRef(false);
+  const [ready,  setReady]  = useState(isPublic);
+  const redirected = useRef(false);
 
   useEffect(() => {
-    // Páginas públicas (login) no necesitan verificar sesión
     if (isPublic) return;
 
     let mounted = true;
 
-    function applySession(session: { access_token: string; user: { id: string } } | null) {
+    // ── onAuthStateChange: SOLO actualiza el token cuando llega sesión válida.
+    //    NUNCA redirige desde aquí — INITIAL_SESSION puede disparar null antes
+    //    de que las cookies estén disponibles (falso negativo).
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!mounted) return;
       if (session?.access_token) {
         setToken(session.access_token);
         setUserId(session.user.id);
         setReady(true);
-      } else if (!didRedirect.current) {
-        didRedirect.current = true;
-        router.replace('/admin/login');
       }
-    }
+      // null session aquí no significa "no autenticado" — puede ser timing.
+      // getSession() es la fuente de verdad para la decisión de redirigir.
+    });
 
-    // 1. Intento inmediato con getSession()
+    // ── getSession() ES el único trigger de redirect.
+    //    Lee directamente las cookies y es autoritativo.
     supabase.auth.getSession()
-      .then(({ data: { session } }) => applySession(session))
+      .then(({ data: { session } }) => {
+        if (!mounted) return;
+        if (session?.access_token) {
+          setToken(session.access_token);
+          setUserId(session.user.id);
+          setReady(true);
+        } else if (!redirected.current) {
+          redirected.current = true;
+          router.replace('/admin/login');
+        }
+      })
       .catch(() => {
-        if (mounted && !didRedirect.current) {
-          didRedirect.current = true;
+        if (mounted && !redirected.current) {
+          redirected.current = true;
           router.replace('/admin/login');
         }
       });
 
-    // 2. Escuchar cambios de auth (INITIAL_SESSION, TOKEN_REFRESHED, SIGNED_OUT)
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      applySession(session);
-    });
+    // Fallback: si en 6 s getSession() no resolvió, desbloquear igual
+    // (el middleware ya protegió la ruta en el servidor)
+    const timeout = setTimeout(() => {
+      if (mounted) setReady(true);
+    }, 6000);
 
     return () => {
       mounted = false;
+      clearTimeout(timeout);
       sub.subscription.unsubscribe();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPublic]);
 
-  // Mostrar spinner mientras se confirma la sesión (solo en páginas protegidas)
   if (!ready) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#0d1626]">
