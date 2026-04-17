@@ -10,7 +10,7 @@ export default function AdminDocumentosPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Validamos la sesión para cargar la gestión de documentos
+    // Validamos la sesión antes de cargar el gestor de documentos legales
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setLoading(false);
@@ -27,12 +27,12 @@ export default function AdminDocumentosPage() {
     );
   }
 
-  // Estado de espera para evitar conflictos con el middleware de redirección
+  // Evitamos que el middleware te saque al login si la sesión tarda un poco
   if (!session) {
     return (
       <AdminShell>
         <div className="flex items-center justify-center h-screen text-slate-400">
-          Accediendo al gestor de documentos...
+          Verificando credenciales del gestor de archivos...
         </div>
       </AdminShell>
     );
