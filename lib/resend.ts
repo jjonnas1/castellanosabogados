@@ -64,10 +64,7 @@ export async function sendLeadNotificationEmail(params: {
 
   return await resend.emails.send({
     from: 'Castellanos Abogados <onboarding@resend.dev>',
-    to: [
-      'jonatancastellanosabogado@gmail.com',
-      'jonatan@jonatancastellanosabogado.com',
-    ],
+    to: ['jonatancastellanosabogado@gmail.com'],
     subject: `🟢 Nuevo lead: ${escapeHtml(nombre)} — ${escapeHtml(telefono)}`,
     html: `
       <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;max-width:480px;margin:0 auto;padding:32px 24px;background:#ffffff;border-radius:12px;border:1px solid #e2e8f0;">
