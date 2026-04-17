@@ -618,55 +618,55 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       {(section === 'resumen' || section === 'all') && (
         <>
           <section className="grid gap-4 md:grid-cols-3">
-            <article className="card-shell bg-white p-4"><p className="text-xs text-muted uppercase">Total clientes</p><p className="mt-1 text-2xl font-semibold">{clients.length}</p></article>
-            <article className="card-shell bg-white p-4"><p className="text-xs text-muted uppercase">Total citas</p><p className="mt-1 text-2xl font-semibold">{appointments.length}</p></article>
-            <article className="card-shell bg-white p-4"><p className="text-xs text-muted uppercase">Total actualizaciones</p><p className="mt-1 text-2xl font-semibold">{updates.length}</p></article>
+            <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-4"><p className="text-xs text-slate-500 uppercase tracking-widest">Total clientes</p><p className="mt-1 text-2xl font-bold text-blue-400">{clients.length}</p></article>
+            <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-4"><p className="text-xs text-slate-500 uppercase tracking-widest">Total citas</p><p className="mt-1 text-2xl font-bold text-indigo-400">{appointments.length}</p></article>
+            <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-4"><p className="text-xs text-slate-500 uppercase tracking-widest">Total actualizaciones</p><p className="mt-1 text-2xl font-bold text-violet-400">{updates.length}</p></article>
           </section>
           {visitStats && (
             <section className="grid gap-4 sm:grid-cols-3">
-              <Link href="/admin/visitas" className="card-shell bg-white p-4 hover:bg-surface transition block"><p className="text-xs text-muted uppercase">Visitas hoy</p><p className="mt-1 text-2xl font-semibold">{visitStats.today}</p></Link>
-              <Link href="/admin/visitas" className="card-shell bg-white p-4 hover:bg-surface transition block"><p className="text-xs text-muted uppercase">Visitas últimos 7 días</p><p className="mt-1 text-2xl font-semibold">{visitStats.week}</p></Link>
-              <Link href="/admin/visitas" className="card-shell bg-white p-4 hover:bg-surface transition block"><p className="text-xs text-muted uppercase">Visitas totales</p><p className="mt-1 text-2xl font-semibold">{visitStats.total}</p></Link>
+              <Link href="/admin/visitas" className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-4 hover:bg-[#0d1f3a] transition block"><p className="text-xs text-slate-500 uppercase tracking-widest">Visitas hoy</p><p className="mt-1 text-2xl font-bold text-cyan-400">{visitStats.today}</p></Link>
+              <Link href="/admin/visitas" className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-4 hover:bg-[#0d1f3a] transition block"><p className="text-xs text-slate-500 uppercase tracking-widest">Visitas últimos 7 días</p><p className="mt-1 text-2xl font-bold text-cyan-400">{visitStats.week}</p></Link>
+              <Link href="/admin/visitas" className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-4 hover:bg-[#0d1f3a] transition block"><p className="text-xs text-slate-500 uppercase tracking-widest">Visitas totales</p><p className="mt-1 text-2xl font-bold text-cyan-400">{visitStats.total}</p></Link>
             </section>
           )}
           <section className="grid gap-6 lg:grid-cols-2">
-            <article className="card-shell bg-white p-5"><h2 className="text-lg font-semibold">Próximas citas</h2><div className="mt-3 space-y-2 text-sm">{nextAppointments.map((a) => <p key={a.id}>{new Date(a.start_at).toLocaleString('es-CO')} · {a.title}</p>)}{nextAppointments.length===0&&<p className="text-muted">Sin próximas citas.</p>}</div></article>
-            <article className="card-shell bg-white p-5"><h2 className="text-lg font-semibold">Últimas actualizaciones</h2><div className="mt-3 space-y-2 text-sm">{lastUpdates.map((u) => <p key={u.id}>{u.title} · {u.status}</p>)}{lastUpdates.length===0&&<p className="text-muted">Sin actualizaciones.</p>}</div></article>
+            <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5"><h2 className="text-lg font-semibold text-slate-100">Próximas citas</h2><div className="mt-3 space-y-2 text-sm text-slate-300">{nextAppointments.map((a) => <p key={a.id}>{new Date(a.start_at).toLocaleString('es-CO')} · {a.title}</p>)}{nextAppointments.length===0&&<p className="text-slate-500">Sin próximas citas.</p>}</div></article>
+            <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5"><h2 className="text-lg font-semibold text-slate-100">Últimas actualizaciones</h2><div className="mt-3 space-y-2 text-sm text-slate-300">{lastUpdates.map((u) => <p key={u.id}>{u.title} · {u.status}</p>)}{lastUpdates.length===0&&<p className="text-slate-500">Sin actualizaciones.</p>}</div></article>
           </section>
         </>
       )}
 
       {(section === 'clientes' || section === 'all') && (
-        <article className="card-shell bg-white p-5">
-          <h2 className="text-lg font-semibold">Clientes</h2>
+        <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5">
+          <h2 className="text-lg font-semibold text-slate-100">Clientes</h2>
           <form className="mt-3 grid gap-2" onSubmit={saveClient}>
-            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Nombre (opcional)" value={clientForm.full_name} onChange={(e)=>setClientForm({...clientForm,full_name:e.target.value})} />
-            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" type="email" placeholder="Correo (opcional)" value={clientForm.email} onChange={(e)=>setClientForm({...clientForm,email:e.target.value})} />
+            <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" placeholder="Nombre (opcional)" value={clientForm.full_name} onChange={(e)=>setClientForm({...clientForm,full_name:e.target.value})} />
+            <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" type="email" placeholder="Correo (opcional)" value={clientForm.email} onChange={(e)=>setClientForm({...clientForm,email:e.target.value})} />
             {!editingClientId && (
-              <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" type="password" placeholder="Contraseña de acceso al portal" value={clientForm.password} onChange={(e)=>setClientForm({...clientForm,password:e.target.value})} required={clientForm.can_access_portal} />
+              <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" type="password" placeholder="Contraseña de acceso al portal" value={clientForm.password} onChange={(e)=>setClientForm({...clientForm,password:e.target.value})} required={clientForm.can_access_portal} />
             )}
-            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Teléfono" value={clientForm.phone} onChange={(e)=>setClientForm({...clientForm,phone:e.target.value})} />
-            <input className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Referencia" value={clientForm.case_reference} onChange={(e)=>setClientForm({...clientForm,case_reference:e.target.value})} />
-            <label className="text-sm text-ink"><input type="checkbox" checked={clientForm.can_access_portal} onChange={(e)=>setClientForm({...clientForm,can_access_portal:e.target.checked})} /> Habilitar portal</label>
-            <button className="btn-primary w-fit" type="submit">{editingClientId ? 'Actualizar cliente' : 'Crear cliente'}</button>
+            <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" placeholder="Teléfono" value={clientForm.phone} onChange={(e)=>setClientForm({...clientForm,phone:e.target.value})} />
+            <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" placeholder="Referencia" value={clientForm.case_reference} onChange={(e)=>setClientForm({...clientForm,case_reference:e.target.value})} />
+            <label className="text-sm text-slate-300"><input type="checkbox" checked={clientForm.can_access_portal} onChange={(e)=>setClientForm({...clientForm,can_access_portal:e.target.checked})} /> Habilitar portal</label>
+            <button className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition w-fit" type="submit">{editingClientId ? 'Actualizar cliente' : 'Crear cliente'}</button>
           </form>
-          <input className="mt-4 rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" placeholder="Buscar por nombre o correo" value={searchClients} onChange={(e) => setSearchClients(e.target.value)} />
+          <input className="mt-4 rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" placeholder="Buscar por nombre o correo" value={searchClients} onChange={(e) => setSearchClients(e.target.value)} />
           <div className="mt-4 space-y-2 max-h-80 overflow-auto">
             {filteredClients.map((c)=>(
-              <div key={c.id} className="rounded-xl border border-border bg-surface p-3 text-sm">
-                <p className="font-semibold text-ink">{c.full_name}</p>
-                <p className="text-muted">{c.email}</p>
-                <p className="text-muted">Citas: {appointments.filter((a)=>a.client_profile_id===c.id).length}</p>
+              <div key={c.id} className="rounded-xl border border-[#1e3a6e]/40 bg-[#0d1f3a] p-3 text-sm">
+                <p className="font-semibold text-slate-200">{c.full_name}</p>
+                <p className="text-slate-500">{c.email}</p>
+                <p className="text-slate-500">Citas: {appointments.filter((a)=>a.client_profile_id===c.id).length}</p>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  <span className={`rounded-full px-2 py-1 text-xs font-semibold ${c.auth_user_id ? 'bg-emerald-100 text-emerald-700' : 'bg-panel text-muted'}`}>{c.auth_user_id ? 'Cuenta activa' : 'Sin cuenta'}</span>
-                  {!c.can_access_portal && <span className="rounded-full bg-red-100 px-2 py-1 text-xs font-semibold text-red-700">Portal bloqueado</span>}
+                  <span className={`rounded-full px-2 py-1 text-xs font-semibold ${c.auth_user_id ? 'bg-emerald-900/40 text-emerald-400' : 'bg-[#111f35] text-slate-500'}`}>{c.auth_user_id ? 'Cuenta activa' : 'Sin cuenta'}</span>
+                  {!c.can_access_portal && <span className="rounded-full bg-red-900/40 px-2 py-1 text-xs font-semibold text-red-400">Portal bloqueado</span>}
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2">
-                  <button className="btn-secondary" onClick={()=>{setEditingClientId(c.id);setClientForm({full_name:c.full_name,email:c.email,password:'',phone:c.phone||'',case_reference:c.case_reference||'',can_access_portal:c.can_access_portal});}}>Editar</button>
-                  <button className="btn-secondary" onClick={async ()=>{try{await workspaceRequest('PATCH',{entity:'clients',id:c.id,payload:{can_access_portal:!c.can_access_portal}});await loadAll();}catch(error){setStatus(`Error: ${(error as Error).message}`);}}}>{c.can_access_portal ? 'Deshabilitar portal' : 'Habilitar portal'}</button>
-                  {c.can_access_portal && !c.auth_user_id && <button className="btn-secondary" onClick={() => inviteClient(c.email)}>Invitar al portal</button>}
-                  <button className="btn-secondary" onClick={() => deleteClient(c.id)}>Eliminar</button>
-                  <Link href={`/admin/clientes/${c.id}`} className="btn-secondary">Detalle</Link>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={()=>{setEditingClientId(c.id);setClientForm({full_name:c.full_name,email:c.email,password:'',phone:c.phone||'',case_reference:c.case_reference||'',can_access_portal:c.can_access_portal});}}>Editar</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={async ()=>{try{await workspaceRequest('PATCH',{entity:'clients',id:c.id,payload:{can_access_portal:!c.can_access_portal}});await loadAll();}catch(error){setStatus(`Error: ${(error as Error).message}`);}}}>{c.can_access_portal ? 'Deshabilitar portal' : 'Habilitar portal'}</button>
+                  {c.can_access_portal && !c.auth_user_id && <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => inviteClient(c.email)}>Invitar al portal</button>}
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => deleteClient(c.id)}>Eliminar</button>
+                  <Link href={`/admin/clientes/${c.id}`} className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition">Detalle</Link>
                 </div>
               </div>
             ))}
@@ -675,33 +675,33 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       )}
 
       {(section === 'agenda' || section === 'all') && (
-        <article className="card-shell bg-white p-5">
-          <h2 className="text-lg font-semibold">Agenda / Calendario</h2>
+        <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5">
+          <h2 className="text-lg font-semibold text-slate-100">Agenda / Calendario</h2>
           <form className="mt-3 grid gap-2" onSubmit={saveAppointment}>
-            <input className="rounded-lg border p-2" placeholder="Título" value={appointmentForm.title} onChange={(e)=>setAppointmentForm({...appointmentForm,title:e.target.value})} required />
-            <textarea className="rounded-lg border p-2" placeholder="Descripción" value={appointmentForm.description} onChange={(e)=>setAppointmentForm({...appointmentForm,description:e.target.value})} />
+            <input className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200 placeholder:text-slate-600" placeholder="Título" value={appointmentForm.title} onChange={(e)=>setAppointmentForm({...appointmentForm,title:e.target.value})} required />
+            <textarea className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200 placeholder:text-slate-600" placeholder="Descripción" value={appointmentForm.description} onChange={(e)=>setAppointmentForm({...appointmentForm,description:e.target.value})} />
             <div className="grid gap-2 sm:grid-cols-2">
-              <input className="rounded-lg border p-2" type="datetime-local" value={appointmentForm.start_at} onChange={(e)=>setAppointmentForm({...appointmentForm,start_at:e.target.value})} required />
-              <input className="rounded-lg border p-2" type="datetime-local" value={appointmentForm.end_at} onChange={(e)=>setAppointmentForm({...appointmentForm,end_at:e.target.value})} required />
+              <input className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200" type="datetime-local" value={appointmentForm.start_at} onChange={(e)=>setAppointmentForm({...appointmentForm,start_at:e.target.value})} required />
+              <input className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200" type="datetime-local" value={appointmentForm.end_at} onChange={(e)=>setAppointmentForm({...appointmentForm,end_at:e.target.value})} required />
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
-              <input className="rounded-lg border p-2" placeholder="Estado" value={appointmentForm.status} onChange={(e)=>setAppointmentForm({...appointmentForm,status:e.target.value})} required />
-              <select className="rounded-lg border p-2" value={appointmentForm.client_profile_id} onChange={(e)=>setAppointmentForm({...appointmentForm,client_profile_id:e.target.value})}>
+              <input className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200 placeholder:text-slate-600" placeholder="Estado" value={appointmentForm.status} onChange={(e)=>setAppointmentForm({...appointmentForm,status:e.target.value})} required />
+              <select className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200" value={appointmentForm.client_profile_id} onChange={(e)=>setAppointmentForm({...appointmentForm,client_profile_id:e.target.value})}>
                 <option value="">Sin cliente</option>
                 {clients.map((c)=><option key={c.id} value={c.id}>{c.full_name}</option>)}
               </select>
             </div>
-            <button className="btn-primary w-fit" type="submit">{editingAppointmentId ? 'Actualizar cita' : 'Crear cita'}</button>
+            <button className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition w-fit" type="submit">{editingAppointmentId ? 'Actualizar cita' : 'Crear cita'}</button>
           </form>
           <div className="mt-4 space-y-2 max-h-80 overflow-auto">
             {clientAppointments.map((a)=>(
-              <div key={a.id} className="rounded-lg border p-2 text-sm">
-                <p className="font-semibold">{a.title}</p>
-                <p className="text-muted">{new Date(a.start_at).toLocaleString('es-CO')} → {new Date(a.end_at).toLocaleString('es-CO')}</p>
-                <p className="text-muted">{a.status} · {a.client_profile_id ? clientMap.get(a.client_profile_id)?.full_name || 'Sin cliente' : 'Sin cliente'}</p>
+              <div key={a.id} className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-sm text-slate-200">
+                <p className="font-semibold text-slate-200">{a.title}</p>
+                <p className="text-slate-500">{new Date(a.start_at).toLocaleString('es-CO')} → {new Date(a.end_at).toLocaleString('es-CO')}</p>
+                <p className="text-slate-500">{a.status} · {a.client_profile_id ? clientMap.get(a.client_profile_id)?.full_name || 'Sin cliente' : 'Sin cliente'}</p>
                 <div className="mt-2 flex gap-2">
-                  <button className="btn-secondary" onClick={()=>{setEditingAppointmentId(a.id);setAppointmentForm({title:a.title,description:a.description||'',start_at:toInputDate(a.start_at),end_at:toInputDate(a.end_at),status:a.status,client_profile_id:a.client_profile_id||''});}}>Editar</button>
-                  <button className="btn-secondary" onClick={()=>deleteAppointment(a.id)}>Eliminar</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={()=>{setEditingAppointmentId(a.id);setAppointmentForm({title:a.title,description:a.description||'',start_at:toInputDate(a.start_at),end_at:toInputDate(a.end_at),status:a.status,client_profile_id:a.client_profile_id||''});}}>Editar</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={()=>deleteAppointment(a.id)}>Eliminar</button>
                 </div>
               </div>
             ))}
@@ -710,29 +710,29 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       )}
 
       {(section === 'actualizaciones' || section === 'all') && (
-        <article className="card-shell bg-white p-5">
-          <h2 className="text-lg font-semibold">Actualizaciones de proceso</h2>
+        <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5">
+          <h2 className="text-lg font-semibold text-slate-100">Actualizaciones de proceso</h2>
           <form className="mt-3 grid gap-2" onSubmit={saveUpdate}>
-            <select className="rounded-lg border p-2" value={updateForm.client_profile_id} onChange={(e)=>setUpdateForm({...updateForm,client_profile_id:e.target.value})} required>
+            <select className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200" value={updateForm.client_profile_id} onChange={(e)=>setUpdateForm({...updateForm,client_profile_id:e.target.value})} required>
               <option value="">Selecciona cliente</option>
               {clients.map((c)=><option key={c.id} value={c.id}>{c.full_name}</option>)}
             </select>
-            <input className="rounded-lg border p-2" placeholder="Título" value={updateForm.title} onChange={(e)=>setUpdateForm({...updateForm,title:e.target.value})} required />
-            <textarea className="rounded-lg border p-2" placeholder="Detalle" value={updateForm.update_text} onChange={(e)=>setUpdateForm({...updateForm,update_text:e.target.value})} required />
-            <input className="rounded-lg border p-2" placeholder="Estado" value={updateForm.status} onChange={(e)=>setUpdateForm({...updateForm,status:e.target.value})} required />
+            <input className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200 placeholder:text-slate-600" placeholder="Título" value={updateForm.title} onChange={(e)=>setUpdateForm({...updateForm,title:e.target.value})} required />
+            <textarea className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200 placeholder:text-slate-600" placeholder="Detalle" value={updateForm.update_text} onChange={(e)=>setUpdateForm({...updateForm,update_text:e.target.value})} required />
+            <input className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200 placeholder:text-slate-600" placeholder="Estado" value={updateForm.status} onChange={(e)=>setUpdateForm({...updateForm,status:e.target.value})} required />
             <label className="text-sm"><input type="checkbox" checked={updateForm.visible_to_client} onChange={(e)=>setUpdateForm({...updateForm,visible_to_client:e.target.checked})} /> Visible al cliente</label>
-            <button className="btn-primary w-fit" type="submit">{editingUpdateId ? 'Actualizar' : 'Crear actualización'}</button>
+            <button className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition w-fit" type="submit">{editingUpdateId ? 'Actualizar' : 'Crear actualización'}</button>
           </form>
           <div className="mt-4 space-y-2 max-h-80 overflow-auto">
             {clientUpdates.map((u)=>(
-              <div key={u.id} className="rounded-lg border p-2 text-sm">
-                <p className="font-semibold">{u.title}</p>
-                <p className="text-muted">{clientMap.get(u.client_profile_id)?.full_name || 'Cliente no encontrado'} · {u.status}</p>
-                <p>{u.update_text}</p>
+              <div key={u.id} className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-sm text-slate-200">
+                <p className="font-semibold text-slate-200">{u.title}</p>
+                <p className="text-slate-500">{clientMap.get(u.client_profile_id)?.full_name || 'Cliente no encontrado'} · {u.status}</p>
+                <p className="text-slate-400">{u.update_text}</p>
                 <div className="mt-2 flex gap-2">
-                  <button className="btn-secondary" onClick={()=>{setEditingUpdateId(u.id);setUpdateForm({client_profile_id:u.client_profile_id,title:u.title,update_text:u.update_text,status:u.status,visible_to_client:u.visible_to_client});}}>Editar</button>
-                  <button className="btn-secondary" onClick={()=>deleteUpdate(u.id)}>Eliminar</button>
-                  <button className="btn-secondary" onClick={async ()=>{try{await workspaceRequest('PATCH',{entity:'updates',id:u.id,payload:{visible_to_client:!u.visible_to_client}});await loadAll();}catch(error){setStatus(`Error: ${(error as Error).message}`);}}}>{u.visible_to_client ? 'Ocultar' : 'Hacer visible'}</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={()=>{setEditingUpdateId(u.id);setUpdateForm({client_profile_id:u.client_profile_id,title:u.title,update_text:u.update_text,status:u.status,visible_to_client:u.visible_to_client});}}>Editar</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={()=>deleteUpdate(u.id)}>Eliminar</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={async ()=>{try{await workspaceRequest('PATCH',{entity:'updates',id:u.id,payload:{visible_to_client:!u.visible_to_client}});await loadAll();}catch(error){setStatus(`Error: ${(error as Error).message}`);}}}>{u.visible_to_client ? 'Ocultar' : 'Hacer visible'}</button>
                 </div>
               </div>
             ))}
@@ -741,63 +741,63 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       )}
 
       {(section === 'documentos' || section === 'all') && (
-        <article className="card-shell bg-white p-5">
-          <h2 className="text-lg font-semibold">Documentos</h2>
+        <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5">
+          <h2 className="text-lg font-semibold text-slate-100">Documentos</h2>
           <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
-            <select className="rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink" value={selectedClientIdForDocuments} onChange={(e) => setSelectedClientIdForDocuments(e.target.value)}>
+            <select className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" value={selectedClientIdForDocuments} onChange={(e) => setSelectedClientIdForDocuments(e.target.value)}>
               <option value="">Selecciona cliente</option>
               {clients.map((c) => <option key={c.id} value={c.id}>{c.full_name}</option>)}
             </select>
-            <label className="btn-secondary cursor-pointer justify-center">
+            <label className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition cursor-pointer flex items-center justify-center gap-1">
               Subir documento
               <input type="file" className="hidden" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onChange={(e) => { const file = e.target.files?.[0]; if (file) { void uploadDocument(file); e.currentTarget.value = ''; } }} />
             </label>
           </div>
           <div className="mt-4 space-y-3">
             {documents.map((doc) => (
-              <article key={doc.id} className="rounded-xl border border-border bg-surface p-4">
-                <p className="font-semibold text-ink">{doc.file_name}</p>
-                <p className="text-xs text-muted">{doc.file_size ? `${Math.round(doc.file_size / 1024)} KB` : 'Tamaño no disponible'} · {new Date(doc.created_at).toLocaleString('es-CO')}</p>
+              <article key={doc.id} className="rounded-xl border border-[#1e3a6e]/40 bg-[#0d1f3a] p-4">
+                <p className="font-semibold text-slate-200">{doc.file_name}</p>
+                <p className="text-xs text-slate-500">{doc.file_size ? `${Math.round(doc.file_size / 1024)} KB` : 'Tamaño no disponible'} · {new Date(doc.created_at).toLocaleString('es-CO')}</p>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  <button className="btn-secondary" onClick={() => downloadDocument(doc.storage_path, doc.file_name)}>Descargar</button>
-                  <button className="btn-secondary" onClick={() => toggleDocumentVisibility(doc.id, !doc.visible_to_client)}>{doc.visible_to_client ? 'Ocultar' : 'Mostrar'}</button>
-                  <button className="btn-secondary" onClick={() => deleteDocument(doc.id)}>Eliminar</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => downloadDocument(doc.storage_path, doc.file_name)}>Descargar</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => toggleDocumentVisibility(doc.id, !doc.visible_to_client)}>{doc.visible_to_client ? 'Ocultar' : 'Mostrar'}</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => deleteDocument(doc.id)}>Eliminar</button>
                 </div>
               </article>
             ))}
-            {selectedClientIdForDocuments && documents.length === 0 && <p className="text-sm text-muted">No hay documentos para este cliente.</p>}
+            {selectedClientIdForDocuments && documents.length === 0 && <p className="text-sm text-slate-500">No hay documentos para este cliente.</p>}
           </div>
         </article>
       )}
 
       {(section === 'consultas' || section === 'all') && (
-        <article className="card-shell bg-white p-5">
-          <h2 className="text-lg font-semibold">Consultas — personas interesadas (sin registro)</h2>
-          <p className="mt-1 text-sm text-muted">Registro de consultas de personas que contactaron pero aún no son clientes.</p>
+        <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5">
+          <h2 className="text-lg font-semibold text-slate-100">Consultas — personas interesadas (sin registro)</h2>
+          <p className="mt-1 text-sm text-slate-500">Registro de consultas de personas que contactaron pero aún no son clientes.</p>
           <form className="mt-4 grid gap-3" onSubmit={saveConsultation}>
             <div className="grid gap-3 sm:grid-cols-2">
-              <input className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" placeholder="Nombre completo (opcional)" value={consultationForm.name} onChange={(e) => setConsultationForm({ ...consultationForm, name: e.target.value })} />
-              <input className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" type="email" placeholder="Correo (opcional)" value={consultationForm.email} onChange={(e) => setConsultationForm({ ...consultationForm, email: e.target.value })} />
+              <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" placeholder="Nombre completo (opcional)" value={consultationForm.name} onChange={(e) => setConsultationForm({ ...consultationForm, name: e.target.value })} />
+              <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" type="email" placeholder="Correo (opcional)" value={consultationForm.email} onChange={(e) => setConsultationForm({ ...consultationForm, email: e.target.value })} />
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
-              <input className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" placeholder="Teléfono (opcional)" value={consultationForm.phone} onChange={(e) => setConsultationForm({ ...consultationForm, phone: e.target.value })} />
-              <input className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" type="date" value={consultationForm.consultation_date} onChange={(e) => setConsultationForm({ ...consultationForm, consultation_date: e.target.value })} />
+              <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" placeholder="Teléfono (opcional)" value={consultationForm.phone} onChange={(e) => setConsultationForm({ ...consultationForm, phone: e.target.value })} />
+              <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" type="date" value={consultationForm.consultation_date} onChange={(e) => setConsultationForm({ ...consultationForm, consultation_date: e.target.value })} />
             </div>
-            <input className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" placeholder="Asunto / tema de consulta (opcional)" value={consultationForm.subject} onChange={(e) => setConsultationForm({ ...consultationForm, subject: e.target.value })} />
-            <textarea className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" placeholder="Notas internas (opcional)" rows={3} value={consultationForm.notes} onChange={(e) => setConsultationForm({ ...consultationForm, notes: e.target.value })} />
-            <select className="rounded-xl border border-border px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" value={consultationForm.status} onChange={(e) => setConsultationForm({ ...consultationForm, status: e.target.value })}>
+            <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" placeholder="Asunto / tema de consulta (opcional)" value={consultationForm.subject} onChange={(e) => setConsultationForm({ ...consultationForm, subject: e.target.value })} />
+            <textarea className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" placeholder="Notas internas (opcional)" rows={3} value={consultationForm.notes} onChange={(e) => setConsultationForm({ ...consultationForm, notes: e.target.value })} />
+            <select className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" value={consultationForm.status} onChange={(e) => setConsultationForm({ ...consultationForm, status: e.target.value })}>
               <option value="pendiente">Pendiente</option>
               <option value="atendida">Atendida</option>
               <option value="descartada">Descartada</option>
             </select>
             <div className="flex gap-3">
-              <button className="btn-primary" type="submit">{editingConsultationId ? 'Actualizar consulta' : 'Registrar consulta'}</button>
-              {editingConsultationId && <button className="btn-secondary" type="button" onClick={() => { setEditingConsultationId(null); setConsultationForm(emptyConsultation); }}>Cancelar</button>}
+              <button className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition" type="submit">{editingConsultationId ? 'Actualizar consulta' : 'Registrar consulta'}</button>
+              {editingConsultationId && <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" type="button" onClick={() => { setEditingConsultationId(null); setConsultationForm(emptyConsultation); }}>Cancelar</button>}
             </div>
           </form>
           <div className="mt-4 grid gap-2 sm:grid-cols-2">
-            <input className="rounded-xl border border-border px-4 py-2 text-sm text-ink" placeholder="Buscar por nombre, correo o asunto" value={consultationSearch} onChange={(e) => setConsultationSearch(e.target.value)} />
-            <select className="rounded-xl border border-border px-4 py-2 text-sm text-ink" value={consultationStatusFilter} onChange={(e) => setConsultationStatusFilter(e.target.value)}>
+            <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none" placeholder="Buscar por nombre, correo o asunto" value={consultationSearch} onChange={(e) => setConsultationSearch(e.target.value)} />
+            <select className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none" value={consultationStatusFilter} onChange={(e) => setConsultationStatusFilter(e.target.value)}>
               <option value="">Todos los estados</option>
               <option value="pendiente">Pendiente</option>
               <option value="atendida">Atendida</option>
@@ -805,23 +805,23 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             </select>
           </div>
           <div className="mt-4 max-h-96 space-y-3 overflow-auto">
-            {filteredConsultations.length === 0 && <p className="text-sm text-muted">No hay consultas registradas aún.</p>}
+            {filteredConsultations.length === 0 && <p className="text-sm text-slate-500">No hay consultas registradas aún.</p>}
             {filteredConsultations.map((c) => (
-              <div key={c.id} className="rounded-2xl border border-border bg-white p-4 text-sm">
+              <div key={c.id} className="rounded-2xl border border-[#1e3a6e]/40 bg-[#0b1929] p-4 text-sm">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="font-semibold text-ink">{c.name}</p>
-                    <p className="text-muted">{c.email}{c.phone ? ` · ${c.phone}` : ''}</p>
-                    <p className="mt-1 text-ink">{c.subject}</p>
-                    {c.notes && <p className="mt-1 italic text-muted">{c.notes}</p>}
-                    {c.consultation_date && <p className="mt-1 text-xs text-muted">Fecha: {new Date(c.consultation_date).toLocaleDateString('es-CO')}</p>}
+                    <p className="font-semibold text-slate-200">{c.name}</p>
+                    <p className="text-slate-500">{c.email}{c.phone ? ` · ${c.phone}` : ''}</p>
+                    <p className="mt-1 text-slate-300">{c.subject}</p>
+                    {c.notes && <p className="mt-1 italic text-slate-500">{c.notes}</p>}
+                    {c.consultation_date && <p className="mt-1 text-xs text-slate-500">Fecha: {new Date(c.consultation_date).toLocaleDateString('es-CO')}</p>}
                   </div>
-                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${c.status === 'atendida' ? 'bg-green-100 text-green-700' : c.status === 'descartada' ? 'bg-slate-100 text-slate-500' : 'bg-yellow-100 text-yellow-700'}`}>{c.status}</span>
+                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${c.status === 'atendida' ? 'bg-green-900/40 text-green-400' : c.status === 'descartada' ? 'bg-slate-800/40 text-slate-400' : 'bg-yellow-900/40 text-yellow-400'}`}>{c.status}</span>
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  <button className="btn-secondary" onClick={() => { setEditingConsultationId(c.id); setConsultationForm({ name: c.name, email: c.email, phone: c.phone || '', subject: c.subject, notes: c.notes || '', status: c.status, consultation_date: c.consultation_date ? new Date(c.consultation_date).toISOString().slice(0, 10) : '' }); }}>Editar</button>
-                  <button className="btn-secondary" onClick={() => deleteConsultation(c.id)}>Eliminar</button>
-                  <button className="btn-primary" onClick={() => convertToClient(c)}>Convertir en cliente</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => { setEditingConsultationId(c.id); setConsultationForm({ name: c.name, email: c.email, phone: c.phone || '', subject: c.subject, notes: c.notes || '', status: c.status, consultation_date: c.consultation_date ? new Date(c.consultation_date).toISOString().slice(0, 10) : '' }); }}>Editar</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => deleteConsultation(c.id)}>Eliminar</button>
+                  <button className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition" onClick={() => convertToClient(c)}>Convertir en cliente</button>
                 </div>
               </div>
             ))}
@@ -830,10 +830,10 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       )}
 
       {(section === 'exportar' || section === 'all') && (
-        <article className="card-shell bg-white p-5">
-          <h2 className="text-lg font-semibold">Exportar / respaldo</h2>
-          <p className="text-sm text-muted mt-2">Descarga Excel con clientes, citas y actualizaciones.</p>
-          <button className="btn-primary mt-3" onClick={exportBackup}>Descargar Excel completo</button>
+        <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5">
+          <h2 className="text-lg font-semibold text-slate-100">Exportar / respaldo</h2>
+          <p className="text-sm text-slate-500 mt-2">Descarga Excel con clientes, citas y actualizaciones.</p>
+          <button className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition mt-3" onClick={exportBackup}>Descargar Excel completo</button>
         </article>
       )}
     </section>
