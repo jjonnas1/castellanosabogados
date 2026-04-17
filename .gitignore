@@ -20,3 +20,4 @@ pnpm-debug.log*
 
 # TypeScript incremental cache
 tsconfig.tsbuildinfo
+.vercel
