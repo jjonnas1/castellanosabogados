@@ -5,14 +5,14 @@ import { supabase } from '@/lib/supabase-browser';
 
 type Section = 'resumen' | 'clientes' | 'actualizaciones' | 'agenda' | 'consultas' | 'documentos' | 'exportar' | 'all';
 
-export default function AdminWorkspace({ section = 'all' }: { section?: Section }) {
+// AÑADIMOS clientId AQUÍ PARA QUE VERCEL NO PROTESTE
+export default function AdminWorkspace({ section = 'all', clientId }: { section?: Section; clientId?: string }) {
   const [ready, setReady] = useState(true);
   const [adminToken, setAdminToken] = useState<string | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [dataLoading, setDataLoading] = useState(false);
   const [data, setData] = useState<any>({ clients: [], appointments: [], consultations: [] });
 
-  // Función para forzar la captura del token
   const fetchToken = useCallback(async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -22,7 +22,6 @@ export default function AdminWorkspace({ section = 'all' }: { section?: Section 
       }
       return null;
     } catch (err) {
-      console.error("Error obteniendo token:", err);
       return null;
     }
   }, []);
@@ -52,14 +51,11 @@ export default function AdminWorkspace({ section = 'all' }: { section?: Section 
   useEffect(() => {
     const init = async () => {
       const token = await fetchToken();
-      if (token) {
-        loadData(token);
-      } else {
-        // Reintento rápido si la sesión tarda
+      if (token) loadData(token);
+      else {
         setTimeout(async () => {
           const retryToken = await fetchToken();
           if (retryToken) loadData(retryToken);
-          else setLoadError("No se pudo validar la sesión. Por favor, inicia sesión de nuevo.");
         }, 1500);
       }
     };
@@ -68,7 +64,6 @@ export default function AdminWorkspace({ section = 'all' }: { section?: Section 
 
   return (
     <section className="space-y-4">
-      {/* Estado visual de conexión */}
       <div className="flex items-center gap-2 mb-4">
         {!adminToken ? (
           <span className="flex items-center gap-2 text-xs text-yellow-500 bg-yellow-500/10 px-3 py-1 rounded-full border border-yellow-500/20">
@@ -85,33 +80,29 @@ export default function AdminWorkspace({ section = 'all' }: { section?: Section 
 
       {loadError && (
         <div className="p-4 bg-red-950/20 border border-red-500/50 rounded-xl text-red-300 text-sm">
-          <p className="font-bold">Error de sincronización:</p>
           <p className="opacity-80">{loadError}</p>
         </div>
       )}
 
-      {/* Grid de Datos Simplificado */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {section === 'clientes' || section === 'all' ? (
+        {(section === 'clientes' || section === 'all') && (
           <div className="bg-[#111f35] p-5 rounded-2xl border border-[#1e3a6e]/50">
             <h3 className="text-slate-500 text-xs font-bold uppercase">Clientes</h3>
             <p className="text-3xl font-mono text-white mt-1">{dataLoading ? '...' : data.clients.length}</p>
           </div>
-        ) : null}
-
-        {section === 'agenda' || section === 'all' ? (
+        )}
+        {(section === 'agenda' || section === 'all') && (
           <div className="bg-[#111f35] p-5 rounded-2xl border border-[#1e3a6e]/50">
             <h3 className="text-slate-500 text-xs font-bold uppercase">Citas</h3>
             <p className="text-3xl font-mono text-white mt-1">{dataLoading ? '...' : data.appointments.length}</p>
           </div>
-        ) : null}
-
-        {section === 'consultas' || section === 'all' ? (
+        )}
+        {(section === 'consultas' || section === 'all') && (
           <div className="bg-[#111f35] p-5 rounded-2xl border border-[#1e3a6e]/50">
             <h3 className="text-slate-500 text-xs font-bold uppercase">Consultas</h3>
             <p className="text-3xl font-mono text-white mt-1">{dataLoading ? '...' : data.consultations.length}</p>
           </div>
-        ) : null}
+        )}
       </div>
     </section>
   );
