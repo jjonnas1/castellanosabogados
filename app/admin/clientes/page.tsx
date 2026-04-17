@@ -1,25 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase-browser';
-import { getProfileRoleByUserId } from '@/lib/profile-role';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 import AdminShell from '@/components/AdminShell';
 import AdminWorkspace from '@/app/components/AdminWorkspace';
 
 export default function AdminClientesPage() {
-  const router = useRouter();
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(async ({ data }) => {
-      const user = data.session?.user;
-      if (!user) { router.replace('/admin/login'); return; }
-      const role = await getProfileRoleByUserId(user.id);
-      if (role !== 'admin') { router.replace('/admin/login'); return; }
-      setReady(true);
-    });
-  }, [router]);
+  const { ready } = useAdminAuth();
 
   return (
     <AdminShell>
