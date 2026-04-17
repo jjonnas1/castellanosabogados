@@ -34,6 +34,7 @@ export default function TutelaPage() {
                   subject: 'Solicitud de orientación – Tutelas',
                   message: 'Hola, necesito orientación para preparar o presentar una tutela.',
                 })}
+                data-wa-lead
                 className="btn-primary bg-white text-ink hover:bg-slate-100"
               >
                 Solicitar orientación

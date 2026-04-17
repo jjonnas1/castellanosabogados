@@ -50,6 +50,7 @@ export default function ComoTrabajamosPage() {
                 subject: "Solicitud de evaluación – Metodología estructurada",
                 message: "Hola, deseo solicitar una evaluación estratégica.",
               })}
+              data-wa-lead
               className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
             >
               Solicitar evaluación

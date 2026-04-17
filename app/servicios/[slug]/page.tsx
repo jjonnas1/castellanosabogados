@@ -57,6 +57,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                 subject: `Solicitud de evaluación – ${detail.title}`,
                 message: "Hola, deseo solicitar una evaluación estratégica.",
               })}
+              data-wa-lead
               className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
             >
               Solicitar evaluación estratégica

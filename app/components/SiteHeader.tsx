@@ -179,6 +179,7 @@ export default function SiteHeader() {
             <>
               <a
                 href={mailtoHref}
+                data-wa-lead
                 className="inline-flex h-9 w-44 items-center justify-center rounded-full bg-ink text-[13px] font-semibold text-white transition hover:bg-ink/85"
               >
                 Solicitar evaluación
@@ -267,7 +268,7 @@ export default function SiteHeader() {
                 </>
               ) : (
                 <>
-                  <a href={mailtoHref} onClick={() => setOpen(false)} className="rounded-xl bg-ink px-4 py-2.5 text-center text-sm font-semibold text-white">
+                  <a href={mailtoHref} onClick={() => setOpen(false)} data-wa-lead className="rounded-xl bg-ink px-4 py-2.5 text-center text-sm font-semibold text-white">
                     Solicitar evaluación
                   </a>
                   <Link href="/cliente/login" onClick={() => setOpen(false)} className="rounded-xl border border-border px-4 py-2.5 text-center text-sm font-semibold text-ink">

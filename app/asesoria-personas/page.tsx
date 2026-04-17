@@ -31,6 +31,7 @@ export default function AsesoriaPersonasPage() {
                 subject: "Solicitud de contacto – Asesoría a personas",
                 message: "Hola, quisiera solicitar orientación personal.",
               })}
+              data-wa-lead
               className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
             >
               Solicitar orientación
