@@ -21,13 +21,17 @@ export default function AdminConsultasPage() {
     });
   }, [router]);
 
-  if (!ready) return null;
-
   return (
     <AdminShell>
       <div className="p-6">
         <h1 className="text-xl font-semibold text-slate-100 mb-6">Consultas</h1>
-        <AdminWorkspace section="consultas" />
+        {ready ? (
+          <AdminWorkspace section="consultas" />
+        ) : (
+          <div className="flex items-center justify-center h-32">
+            <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          </div>
+        )}
       </div>
     </AdminShell>
   );
