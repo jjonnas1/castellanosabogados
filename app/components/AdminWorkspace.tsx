@@ -100,25 +100,29 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
 
   // ── Auth ────────────────────────────────────────────────────────────────────
 
-  const resolveAdmin = async () => {
-    try {
-      const { data: s } = await supabase.auth.getSession();
-      setAdminId(s.session?.user?.id ?? null);
-      setAdminToken(s.session?.access_token ?? null);
-    } catch (err) {
-      console.error('[AdminWorkspace] getSession error:', err);
-      setAdminId(null);
-      setAdminToken(null);
-    } finally {
-      setReady(true); // siempre desbloquear la UI
-    }
-  };
-
   useEffect(() => {
-    resolveAdmin();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => resolveAdmin());
-    return () => sub.subscription.unsubscribe();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    let mounted = true;
+
+    // onAuthStateChange dispara INITIAL_SESSION inmediatamente con la sesión actual.
+    // Usamos la sesión que pasa el evento directamente — sin llamar getSession() de nuevo,
+    // que puede devolver null antes de que Supabase hidrate desde localStorage.
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!mounted) return;
+      setAdminId(session?.user?.id ?? null);
+      setAdminToken(session?.access_token ?? null);
+      setReady(true);
+    });
+
+    // Fallback: si onAuthStateChange no dispara en 5s, desbloquear la UI de todas formas
+    const timeout = setTimeout(() => {
+      if (mounted) setReady(true);
+    }, 5000);
+
+    return () => {
+      mounted = false;
+      clearTimeout(timeout);
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   // ── API helper ───────────────────────────────────────────────────────────────
