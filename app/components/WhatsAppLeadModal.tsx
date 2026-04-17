@@ -24,40 +24,51 @@ export default function WhatsAppLeadModal() {
   const router                  = useRouter();
 
   // ── Intercepción global ──────────────────────────────────────────────────
+  // Palabras clave que identifican un CTA de conversión
+  const TRIGGER_WORDS = ['solicitar', 'agendar', 'programar', 'consultar', 'contactar ahora'];
+
   useEffect(() => {
     function intercept(e: MouseEvent) {
       const el = e.target as HTMLElement;
 
-      // ── Exclusión explícita: nunca interferir con formularios existentes ──
+      // GUARDIA 1: nunca interferir dentro de un <form> existente
       if (el.closest('form')) return;
 
       const anchor = el.closest('a[href]') as HTMLAnchorElement | null;
-      const ctaEl  = el.closest('[data-wa-lead]') as HTMLElement | null;
+      if (!anchor) return;
 
-      // Condición 1: enlace directo a WhatsApp
-      const href     = anchor?.getAttribute('href') ?? '';
+      const href     = anchor.getAttribute('href') ?? '';
+      const linkText = anchor.textContent?.trim().toLowerCase() ?? '';
+
+      // CONDICIÓN A: enlace directo a WhatsApp
       const isWaLink = href.includes('wa.me') || href.includes('whatsapp.com');
 
-      // Condición 2: botón CTA etiquetado con data-wa-lead
-      const isCta = !isWaLink && ctaEl !== null;
+      // CONDICIÓN B: marcado explícitamente con data-wa-lead
+      const hasDataAttr = anchor.hasAttribute('data-wa-lead') ||
+                          !!anchor.closest('[data-wa-lead]');
 
-      if (!isWaLink && !isCta) return;
+      // CONDICIÓN C: enlace mailto: con texto de conversión
+      const isMailtoCta = href.startsWith('mailto:') &&
+                          TRIGGER_WORDS.some(w => linkText.includes(w));
+
+      if (!isWaLink && !hasDataAttr && !isMailtoCta) return;
 
       e.preventDefault();
       e.stopPropagation();
 
-      // Prioridad: URL del enlace WA > data-wa-url en el CTA > URL por defecto
+      // Destino final siempre es WhatsApp; WA links preservan su URL original
       const resolved = isWaLink
-        ? (anchor!.href || href)
-        : (ctaEl!.dataset.waUrl ?? buildWhatsAppUrl({ source: 'CTA' }));
+        ? (anchor.href || href)
+        : buildWhatsAppUrl({ source: 'CTA' });
 
       setWaUrl(resolved);
       setUiState('open');
     }
 
-    // Fase de captura para interceptar antes que cualquier onClick del componente
+    // Fase de captura → corre antes de cualquier onClick del árbol
     document.addEventListener('click', intercept, true);
     return () => document.removeEventListener('click', intercept, true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Foco automático al abrir
