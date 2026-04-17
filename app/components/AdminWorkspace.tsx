@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase-browser';
+import { useAdminAuth } from '@/contexts/admin-auth';
 
 type Section = 'resumen' | 'clientes' | 'agenda' | 'actualizaciones' | 'documentos' | 'exportar' | 'consultas' | 'all';
 
@@ -71,6 +72,9 @@ const emptyAppointment = { title: '', description: '', start_at: '', end_at: '',
 const emptyConsultation = { name: '', email: '', phone: '', subject: '', notes: '', status: 'pendiente', consultation_date: '' };
 
 export default function AdminWorkspace({ section = 'all', clientId }: { section?: Section; clientId?: string }) {
+  // El layout /admin/layout.tsx garantiza que el token esté disponible antes de renderizar
+  const { token: ctxToken, userId: ctxUserId } = useAdminAuth();
+
   const [ready, setReady]           = useState(false);
   const [adminId, setAdminId]       = useState<string | null>(null);
   const [adminToken, setAdminToken] = useState<string | null>(null);
@@ -98,32 +102,15 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const [consultationSearch, setConsultationSearch] = useState('');
   const [visitStats, setVisitStats] = useState<{ today: number; week: number; total: number } | null>(null);
 
-  // ── Auth ────────────────────────────────────────────────────────────────────
+  // ── Auth via layout context ──────────────────────────────────────────────────
+  // El layout de /admin/ espera a tener sesión antes de renderizar sus hijos.
+  // Cuando AdminWorkspace monta, ctxToken ya está disponible.
 
   useEffect(() => {
-    let mounted = true;
-
-    // onAuthStateChange dispara INITIAL_SESSION inmediatamente con la sesión actual.
-    // Usamos la sesión que pasa el evento directamente — sin llamar getSession() de nuevo,
-    // que puede devolver null antes de que Supabase hidrate desde localStorage.
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!mounted) return;
-      setAdminId(session?.user?.id ?? null);
-      setAdminToken(session?.access_token ?? null);
-      setReady(true);
-    });
-
-    // Fallback: si onAuthStateChange no dispara en 5s, desbloquear la UI de todas formas
-    const timeout = setTimeout(() => {
-      if (mounted) setReady(true);
-    }, 5000);
-
-    return () => {
-      mounted = false;
-      clearTimeout(timeout);
-      sub.subscription.unsubscribe();
-    };
-  }, []);
+    setAdminId(ctxUserId);
+    setAdminToken(ctxToken);
+    setReady(true);
+  }, [ctxToken, ctxUserId]);
 
   // ── API helper ───────────────────────────────────────────────────────────────
 
