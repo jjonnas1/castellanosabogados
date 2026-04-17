@@ -2,17 +2,15 @@ import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
 
+// Cliente para Server Components (basado en cookies)
 export async function createSupabaseServerClient() {
   const cookieStore = await cookies();
-
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
+        get(name: string) { return cookieStore.get(name)?.value; },
         set() {},
         remove() {},
       },
@@ -20,163 +18,63 @@ export async function createSupabaseServerClient() {
   );
 }
 
+// Cliente con privilegios administrativos (Service Role)
 export function createSupabaseAdminClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!url || !serviceRoleKey) {
-    throw new Error('Faltan NEXT_PUBLIC_SUPABASE_URL o SUPABASE_SERVICE_ROLE_KEY');
-  }
-
+  if (!url || !serviceRoleKey) throw new Error('Faltan llaves de Supabase Admin');
   return createClient(url, serviceRoleKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
+    auth: { autoRefreshToken: false, persistSession: false },
   });
 }
 
-export function hasServiceRole() {
-  return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
-}
-
-function getAllowedOwnerEmails() {
-  const ownerEmail = (process.env.ADMIN_OWNER_EMAIL ?? '').trim().toLowerCase();
-  const fallbackOwner = 'jonatancastellanosabogado@gmail.com';
-  return [ownerEmail, fallbackOwner].filter(Boolean);
-}
-
-async function ensureOwnerAdminRole(user: { id: string; email?: string | null }) {
-  if (!hasServiceRole()) return false;
-
-  const userEmail = (user.email ?? '').trim().toLowerCase();
-  if (!userEmail || !getAllowedOwnerEmails().includes(userEmail)) return false;
-
-  const supabaseAdmin = createSupabaseAdminClient();
-  const { error } = await supabaseAdmin.from('profiles').upsert({
-    id: user.id,
-    email: userEmail,
-    role: 'admin',
-  });
-
-  return !error;
-}
-
+// Helper para obtener el cliente servidor
 export function getSupabaseServer(options?: { serviceRole?: boolean }) {
   if (options?.serviceRole) return createSupabaseAdminClient();
-
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!url || !anonKey) {
-    throw new Error('Supabase env is missing (NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY).');
-  }
-
-  return createClient(url, anonKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  });
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } }
+  );
 }
 
+// LA FUNCIÓN CRÍTICA: Simplificada para no bloquearte
 export async function requireAdmin(authHeader?: string | null) {
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    if (!hasServiceRole()) {
-      return { ok: false as const, status: 500, error: 'Falta SUPABASE_SERVICE_ROLE_KEY en el servidor' };
+  const supabaseAdmin = createSupabaseAdminClient();
+  let user: any = null;
+
+  try {
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.slice('Bearer '.length);
+      const { data } = await supabaseAdmin.auth.getUser(token);
+      user = data.user;
+    } else {
+      const supabase = await createSupabaseServerClient();
+      const { data } = await supabase.auth.getUser();
+      user = data.user;
     }
 
-    const token = authHeader.slice('Bearer '.length);
-    const supabaseAdmin = createSupabaseAdminClient();
-    const {
-      data: { user },
-      error: userError,
-    } = await supabaseAdmin.auth.getUser(token);
+    if (!user) return { ok: false as const, status: 401, error: 'No autenticado' };
 
-    if (userError || !user) {
-      return { ok: false as const, status: 401, error: 'No autenticado' };
-    }
+    // Verificación de email de dueño (Jonatan)
+    const ownerEmail = 'jonatancastellanosabogado@gmail.com';
+    const isOwner = user.email?.toLowerCase() === ownerEmail.toLowerCase();
 
-    const { data: profile, error: profileError } = await supabaseAdmin
+    // Buscamos el perfil
+    const { data: profile } = await supabaseAdmin
       .from('profiles')
-      .select('id, email, role')
+      .select('role')
       .eq('id', user.id)
       .maybeSingle();
 
-    if (profileError) {
-      return { ok: false as const, status: 500, error: profileError.message };
+    // Si eres el dueño o tienes rol admin, pasas directo
+    if (isOwner || profile?.role === 'admin') {
+      return { ok: true as const, user, profile: profile || { role: 'admin' }, supabase: supabaseAdmin };
     }
 
-    if (!profile || profile.role !== 'admin') {
-      const ownerRoleEnsured = await ensureOwnerAdminRole(user);
-      if (!ownerRoleEnsured) {
-        return { ok: false as const, status: 403, error: 'Permisos insuficientes' };
-      }
+    return { ok: false as const, status: 403, error: 'Acceso denegado' };
 
-      const { data: ensuredProfile, error: ensuredProfileError } = await supabaseAdmin
-        .from('profiles')
-        .select('id, email, role')
-        .eq('id', user.id)
-        .maybeSingle();
-
-      if (ensuredProfileError) {
-        return { ok: false as const, status: 500, error: ensuredProfileError.message };
-      }
-
-      if (!ensuredProfile || ensuredProfile.role !== 'admin') {
-        return { ok: false as const, status: 403, error: 'Permisos insuficientes' };
-      }
-
-      return { ok: true as const, user, profile: ensuredProfile, supabase: supabaseAdmin };
-    }
-
-    return { ok: true as const, user, profile, supabase: supabaseAdmin };
+  } catch (err: any) {
+    return { ok: false as const, status: 500, error: err.message };
   }
-
-  const supabase = await createSupabaseServerClient();
-
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  if (userError || !user) {
-    return { ok: false as const, status: 401, error: 'No autenticado' };
-  }
-
-  const { data: profile, error: profileError } = await supabase
-    .from('profiles')
-    .select('id, email, role')
-    .eq('id', user.id)
-    .maybeSingle();
-
-  if (profileError) {
-    return { ok: false as const, status: 500, error: profileError.message };
-  }
-
-  if (!profile || profile.role !== 'admin') {
-    const ownerRoleEnsured = await ensureOwnerAdminRole(user);
-    if (!ownerRoleEnsured) {
-      return { ok: false as const, status: 403, error: 'Permisos insuficientes' };
-    }
-
-    const supabaseAdmin = createSupabaseAdminClient();
-    const { data: ensuredProfile, error: ensuredProfileError } = await supabaseAdmin
-      .from('profiles')
-      .select('id, email, role')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    if (ensuredProfileError) {
-      return { ok: false as const, status: 500, error: ensuredProfileError.message };
-    }
-
-    if (!ensuredProfile || ensuredProfile.role !== 'admin') {
-      return { ok: false as const, status: 403, error: 'Permisos insuficientes' };
-    }
-
-    return { ok: true as const, user, profile: ensuredProfile, supabase };
-  }
-
-  return { ok: true as const, user, profile, supabase };
 }
