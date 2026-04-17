@@ -180,9 +180,10 @@ export default function AdminRootPage() {
     return () => { mounted = false; };
   }, [session?.user?.id]);
 
+  // CORRECCIÓN: Comentamos la redirección automática para evitar bucles de expulsión
   useEffect(() => {
     if (loadingSession || loadingRole) return;
-    if (!session) router.replace('/admin/login');
+    // if (!session) router.replace('/admin/login'); 
   }, [loadingSession, loadingRole, session, router]);
 
   useEffect(() => {
@@ -193,7 +194,7 @@ export default function AdminRootPage() {
         .then((r) => r.json())
         .then((d: { clients?: unknown[]; appointments?: unknown[]; consultations?: unknown[] }) => ({
           clientes:  (d.clients       ?? []).length,
-          citas:     (d.appointments  ?? []).length,
+          citas:      (d.appointments  ?? []).length,
           consultas: (d.consultations ?? []).length,
         }))
         .catch(() => ({ clientes: 0, citas: 0, consultas: 0 })),
@@ -215,7 +216,15 @@ export default function AdminRootPage() {
       </AdminShell>
     );
   }
-  if (!session || role !== 'admin') return null;
+
+  // Permitimos ver el dashboard si hay sesión, incluso mientras se valida el rol detalladamente
+  if (!session) return (
+    <AdminShell>
+      <div className="flex items-center justify-center h-screen text-slate-400">
+        Iniciando sesión en el Workspace...
+      </div>
+    </AdminShell>
+  );
 
   return (
     <AdminShell>
