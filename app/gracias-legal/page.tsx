@@ -1,40 +1,3 @@
-/**
- * /gracias-legal — Página de confirmación y puente de conversión para Google Ads.
- *
- * ═══════════════════════════════════════════════════════════════════════════════
- * PASO 1 — GLOBAL SITE TAG  (pegar UNA SOLA VEZ, en app/layout.tsx)
- * ───────────────────────────────────────────────────────────────────────────────
- * Si aún no tienes el tag de Google Ads en tu sitio, abre app/layout.tsx y pega
- * dentro del bloque <head> (usando next/script con strategy="afterInteractive"):
- *
- *   import Script from 'next/script';
- *
- *   // En el <head> o justo antes de </body>:
- *   <Script
- *     src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXX"
- *     strategy="afterInteractive"
- *   />
- *   <Script id="gtag-init" strategy="afterInteractive">{`
- *     window.dataLayer = window.dataLayer || [];
- *     function gtag(){dataLayer.push(arguments);}
- *     gtag('js', new Date());
- *     gtag('config', 'AW-XXXXXXXXX');
- *   `}</Script>
- *
- * Reemplaza AW-XXXXXXXXX con tu ID de cuenta de Google Ads.
- * Si ya usas GTM (Google Tag Manager), este paso no es necesario — configura
- * la etiqueta de conversión directamente en tu contenedor GTM activada con un
- * trigger de Page View sobre la URL /gracias-legal.
- * ═══════════════════════════════════════════════════════════════════════════════
- *
- * PASO 2 — EVENT SNIPPET DE CONVERSIÓN  (ya incluido abajo, solo reemplaza IDs)
- * ───────────────────────────────────────────────────────────────────────────────
- * Busca el componente <ConversionScript /> más abajo y sustituye:
- *   • 'AW-XXXXXXXXX/YYYYYYYYYYYYYYY'  →  el valor 'send_to' de tu Event Snippet
- *   • value / currency               →  ajusta según tu configuración de conversión
- * ═══════════════════════════════════════════════════════════════════════════════
- */
-
 import { Suspense } from 'react';
 import Script from 'next/script';
 import type { Metadata } from 'next';
@@ -46,20 +9,23 @@ export const metadata: Metadata = {
 };
 
 /**
- * PASO 2 — EVENT SNIPPET
- * Reemplaza 'AW-XXXXXXXXX/YYYYYYYYYYYYYYY' con el valor exacto de tu
- * "send_to" que aparece en la configuración de conversión de Google Ads.
+ * Event Snippet de conversión de Google Ads.
+ * Se dispara únicamente cuando el usuario llega a /gracias-legal,
+ * es decir, justo después de completar el formulario del modal de WhatsApp.
+ *
+ * El Global Site Tag (gtag.js) se carga en app/layout.tsx para todo el sitio.
+ * send_to: AW-18056733453  →  cuenta de Google Ads de Castellanos Abogados
  */
 function ConversionScript() {
   return (
     <Script id="gads-conversion" strategy="afterInteractive">{`
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'conversion', {
-          'send_to':  'AW-XXXXXXXXX/YYYYYYYYYYYYYYY',
-          'value':    1.0,
-          'currency': 'COP'
-        });
-      }
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('event', 'conversion', {
+        'send_to':  'AW-18056733453',
+        'value':    1.0,
+        'currency': 'COP'
+      });
     `}</Script>
   );
 }
@@ -67,7 +33,7 @@ function ConversionScript() {
 export default function GraciasLegalPage() {
   return (
     <>
-      {/* ── Event Snippet de Google Ads ── ver instrucciones al tope del archivo */}
+      {/* Conversión de Google Ads — solo se ejecuta en esta página */}
       <ConversionScript />
 
       <Suspense>
