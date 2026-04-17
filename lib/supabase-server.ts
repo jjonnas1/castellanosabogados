@@ -2,7 +2,6 @@ import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
 
-// Cliente para Server Components (basado en cookies)
 export async function createSupabaseServerClient() {
   const cookieStore = await cookies();
   return createServerClient(
@@ -18,34 +17,26 @@ export async function createSupabaseServerClient() {
   );
 }
 
-// Cliente con privilegios administrativos (Service Role)
 export function createSupabaseAdminClient() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !serviceRoleKey) throw new Error('Faltan llaves de Supabase Admin');
-  return createClient(url, serviceRoleKey, {
-    auth: { autoRefreshToken: false, persistSession: false },
-  });
-}
-
-// Helper para obtener el cliente servidor
-export function getSupabaseServer(options?: { serviceRole?: boolean }) {
-  if (options?.serviceRole) return createSupabaseAdminClient();
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
     { auth: { autoRefreshToken: false, persistSession: false } }
   );
 }
 
-// LA FUNCIÓN CRÍTICA: Simplificada para no bloquearte
-export async function requireAdmin(authHeader?: string | null) {
-  const supabaseAdmin = createSupabaseAdminClient();
-  let user: any = null;
+// ESTA ES LA FUNCIÓN QUE FALTABA Y CAUSÓ EL ERROR DE VERCEL
+export function hasServiceRole() {
+  return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
 
+export async function requireAdmin(authHeader?: string | null) {
   try {
-    if (authHeader && authHeader.startsWith('Bearer ')) {
-      const token = authHeader.slice('Bearer '.length);
+    const supabaseAdmin = createSupabaseAdminClient();
+    let user: any = null;
+
+    if (authHeader?.startsWith('Bearer ')) {
+      const token = authHeader.slice(7);
       const { data } = await supabaseAdmin.auth.getUser(token);
       user = data.user;
     } else {
@@ -54,27 +45,33 @@ export async function requireAdmin(authHeader?: string | null) {
       user = data.user;
     }
 
-    if (!user) return { ok: false as const, status: 401, error: 'No autenticado' };
+    if (!user) return { ok: false as const, status: 401, error: 'Sesión expirada' };
 
-    // Verificación de email de dueño (Jonatan)
-    const ownerEmail = 'jonatancastellanosabogado@gmail.com';
-    const isOwner = user.email?.toLowerCase() === ownerEmail.toLowerCase();
+    const masterEmail = 'jonatancastellanosabogado@gmail.com';
+    if (user.email?.toLowerCase() === masterEmail.toLowerCase()) {
+      return { ok: true as const, user, profile: { role: 'admin' }, supabase: supabaseAdmin };
+    }
 
-    // Buscamos el perfil
     const { data: profile } = await supabaseAdmin
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .maybeSingle();
 
-    // Si eres el dueño o tienes rol admin, pasas directo
-    if (isOwner || profile?.role === 'admin') {
-      return { ok: true as const, user, profile: profile || { role: 'admin' }, supabase: supabaseAdmin };
+    if (profile?.role === 'admin') {
+      return { ok: true as const, user, profile, supabase: supabaseAdmin };
     }
 
-    return { ok: false as const, status: 403, error: 'Acceso denegado' };
-
+    return { ok: false as const, status: 403, error: 'No tienes permiso de admin' };
   } catch (err: any) {
     return { ok: false as const, status: 500, error: err.message };
   }
+}
+
+export function getSupabaseServer(options?: { serviceRole?: boolean }) {
+  if (options?.serviceRole) return createSupabaseAdminClient();
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 }
