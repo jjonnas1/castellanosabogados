@@ -163,6 +163,7 @@ export default function AdminRootPage() {
     const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
       if (!mounted) return;
       setSession(s ?? null);
+      setLoadingSession(false);
     });
     return () => { mounted = false; sub.subscription.unsubscribe(); };
   }, []);
@@ -180,11 +181,12 @@ export default function AdminRootPage() {
     return () => { mounted = false; };
   }, [session?.user?.id]);
 
-  // CORRECCIÓN: Comentamos la redirección automática para evitar bucles de expulsión
+  // PROTECCIÓN FLEXIBLE: No expulsamos de inmediato para evitar errores por lentitud de carga
   useEffect(() => {
     if (loadingSession || loadingRole) return;
-    // if (!session) router.replace('/admin/login'); 
-  }, [loadingSession, loadingRole, session, router]);
+    // Si después de cargar no hay sesión, podrías redirigir aquí manualmente si lo deseas, 
+    // pero por ahora lo dejamos libre para que no te bloquee.
+  }, [loadingSession, loadingRole, session]);
 
   useEffect(() => {
     if (!session?.access_token) return;
@@ -217,14 +219,19 @@ export default function AdminRootPage() {
     );
   }
 
-  // Permitimos ver el dashboard si hay sesión, incluso mientras se valida el rol detalladamente
-  if (!session) return (
-    <AdminShell>
-      <div className="flex items-center justify-center h-screen text-slate-400">
-        Iniciando sesión en el Workspace...
-      </div>
-    </AdminShell>
-  );
+  // Si no hay sesión tras la carga, mostramos un aviso en lugar de redirigir bruscamente
+  if (!session) {
+    return (
+      <AdminShell>
+        <div className="flex flex-col items-center justify-center h-screen text-slate-400 space-y-4">
+          <p>No se detectó una sesión activa.</p>
+          <a href="/admin/login" className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-500 transition-colors text-sm">
+            Ir al Inicio de Sesión
+          </a>
+        </div>
+      </AdminShell>
+    );
+  }
 
   return (
     <AdminShell>
