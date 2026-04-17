@@ -7,41 +7,21 @@ import AdminWorkspace from '@/app/components/AdminWorkspace';
 
 export default function AdminDocumentosPage() {
   const [session, setSession] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Validamos la sesión antes de cargar el gestor de documentos legales
+    // Obtenemos la sesión en segundo plano para que el Workspace tenga acceso al token
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
-      setLoading(false);
     });
   }, []);
-
-  if (loading) {
-    return (
-      <AdminShell>
-        <div className="flex items-center justify-center h-screen">
-          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-        </div>
-      </AdminShell>
-    );
-  }
-
-  // Evitamos que el middleware te saque al login si la sesión tarda un poco
-  if (!session) {
-    return (
-      <AdminShell>
-        <div className="flex items-center justify-center h-screen text-slate-400">
-          Verificando credenciales del gestor de archivos...
-        </div>
-      </AdminShell>
-    );
-  }
 
   return (
     <AdminShell>
       <div className="p-6">
-        <h1 className="text-xl font-semibold text-slate-100 mb-6">Documentos</h1>
+        <h1 className="text-xl font-semibold text-slate-100 mb-6">Gestión de Documentos</h1>
+        
+        {/* Cargamos el Workspace directamente. 
+            Él mismo mostrará su estado de carga interno si es necesario */}
         <AdminWorkspace section="documentos" />
       </div>
     </AdminShell>
