@@ -14,7 +14,7 @@ const GADS_ID = 'AW-18056733453';
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
-  title: 'Castellanos Abogados',
+  title: 'Castellanos Abogado',
   description:
     'Acompañamiento estratégico y preventivo del riesgo penal asociado a decisiones sensibles en contratación estatal.',
   manifest: '/manifest.webmanifest',
