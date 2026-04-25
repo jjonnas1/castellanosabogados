@@ -50,7 +50,7 @@ color-scheme: light;
 --color-panel: #eef2f8;
 --color-card: #ffffff;
 --color-ink: #0d1528;
---color-muted: #4b5568;
+--color-muted: #3a4356; /* WCAG AA: contraste ≥ 4.5:1 sobre fondos claros */
 --color-border: #d4deec;
 --color-subtle: #e6edf7;
 --color-accent: #1f365d;
@@ -75,7 +75,7 @@ color-scheme: light;
 --color-panel: #eef2f8;
 --color-card: #ffffff;
 --color-ink: #0d1528;
---color-muted: #4b5568;
+--color-muted: #3a4356;
 --color-border: #d4deec;
 --color-subtle: #e6edf7;
 --color-accent: #1f365d;

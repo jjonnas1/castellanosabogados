@@ -26,37 +26,52 @@ export default function MetodologiaPage() {
         </div>
       </section>
 
-      {/* PROCESO GENERAL */}
+      {/* PROCESO GENERAL — línea de tiempo */}
       <section className="section-shell bg-white">
         <div className="container space-y-8">
           <div className="space-y-2">
             <p className="pill w-fit">Proceso general</p>
-            <h2>Tres fases, sin excepción</h2>
+            <h2>Cómo avanza su caso</h2>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {[
-              {
-                step: "01",
-                title: "Diagnóstico inicial",
-                desc: "Evaluamos el contexto, los documentos disponibles y los riesgos inmediatos para definir la situación jurídica con precisión.",
-              },
-              {
-                step: "02",
-                title: "Plan de actuación",
-                desc: "Construimos la ruta de trabajo con hitos, responsables y documentación requerida. Cada caso tiene su propio mapa de acción.",
-              },
-              {
-                step: "03",
-                title: "Seguimiento continuo",
-                desc: "Mantenemos trazabilidad de actuaciones, términos y resultados. El cliente conoce el estado de su proceso en todo momento.",
-              },
-            ].map((item) => (
-              <div key={item.step} className="card-shell bg-surface/60 p-6 space-y-3">
-                <span className="font-heading text-4xl font-bold text-ink/15">{item.step}</span>
-                <h3 className="text-lg text-ink">{item.title}</h3>
-                <p className="text-sm text-muted leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
+
+          <div className="max-w-2xl">
+            <ol className="relative border-l-2 border-accent pl-8 space-y-10">
+              {[
+                {
+                  when: "Día 1",
+                  title: "Diagnóstico inicial",
+                  desc: "Evaluamos el contexto, los documentos disponibles y los riesgos inmediatos para definir la situación jurídica con precisión.",
+                },
+                {
+                  when: "Día 2–5",
+                  title: "Plan de actuación",
+                  desc: "Construimos la ruta de trabajo con hitos, responsables y documentación requerida. Cada caso tiene su propio mapa de acción.",
+                },
+                {
+                  when: "Continuo",
+                  title: "Seguimiento continuo",
+                  desc: "Mantenemos trazabilidad de actuaciones, términos y resultados. El cliente conoce el estado de su proceso en todo momento.",
+                },
+                {
+                  when: "Al cierre",
+                  title: "Informe final",
+                  desc: "Consolidamos resultados, actuaciones y próximos pasos en un informe de cierre. El expediente queda documentado para referencia futura.",
+                },
+              ].map((hito) => (
+                <li key={hito.when} className="relative">
+                  {/* Nodo de la línea */}
+                  <span
+                    className="absolute -left-[41px] flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-accent"
+                    aria-hidden
+                  />
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-accent mb-0.5">
+                    {hito.when}
+                  </span>
+                  <h3 className="text-base font-semibold text-ink">{hito.title}</h3>
+                  <p className="mt-1 text-sm text-muted leading-relaxed">{hito.desc}</p>
+                </li>
+              ))}
+            </ol>
           </div>
           <div className="rounded-2xl border border-border bg-white p-6 space-y-3 max-w-2xl">
             <h3 className="text-base font-semibold text-ink">Modalidad de atención</h3>

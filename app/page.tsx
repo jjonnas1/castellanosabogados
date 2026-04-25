@@ -2,6 +2,7 @@
 import Link from "next/link";
 
 import SiteHeader from "./components/SiteHeader";
+import HeroTipificador from "./components/HeroTipificador";
 import { buildMailtoUrl, contactConfig } from "@/lib/contactLinks";
 
 const heroBackground =
@@ -41,9 +42,26 @@ const faq = [
   },
 ];
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.a,
+    },
+  })),
+};
+
 export default async function Home() {
   return (
     <main className="bg-canvas text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <SiteHeader />
 
       {/* HERO */}
@@ -75,22 +93,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="card-shell relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-8 shadow-soft ring-1 ring-white/15 animate-fade-in-left delay-200" style={{ backgroundImage: executiveDesk, backgroundSize: "cover", backgroundPosition: "center" }}>
-            <div className="absolute inset-0 bg-gradient-to-b from-ink/78 via-ink/82 to-accent-700/70" aria-hidden />
-            <div className="relative space-y-4 text-white">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-slate-200">Firma jurídica</p>
-              <h3 className="text-white">Acompañamiento integral con criterio técnico y humano</h3>
-              <p className="text-slate-100 text-sm">Atendemos asuntos de personas y empresas con enfoque preventivo, estratégico y de ejecución.</p>
-              <div className="mt-5 grid gap-3 text-sm text-slate-100">
-                {["Diagnóstico inicial", "Plan de actuación", "Seguimiento continuo"].map((item) => (
-                  <div key={item} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-white" aria-hidden />
-                    {item}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <HeroTipificador />
         </div>
       </section>
 

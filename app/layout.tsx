@@ -9,8 +9,34 @@ import WhatsAppLeadModal from '@/app/components/WhatsAppLeadModal';
 import VisitTracker from '@/app/components/VisitTracker';
 import ClientPortalModal from '@/app/components/ClientPortalModal';
 
-// Google Ads — Global Site Tag (carga en todas las páginas)
 const GADS_ID = 'AW-18056733453';
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": ["LegalService", "Attorney"],
+  name: "Castellanos Abogados",
+  description:
+    "Firma jurídica integral con enfoque en derecho penal, ejecución de penas, tutelas y asesoría jurídica estratégica.",
+  url: "https://jonatancastellanosabogado.com",
+  telephone: "+573148309306",
+  email: "jonatancastellanosabogado@gmail.com",
+  priceRange: "$$",
+  areaServed: [
+    { "@type": "City", name: "Pereira" },
+    { "@type": "AdministrativeArea", name: "Risaralda" },
+    { "@type": "AdministrativeArea", name: "Eje Cafetero" },
+    { "@type": "Country", name: "Colombia" },
+  ],
+  hasMap: "https://maps.google.com/?q=Pereira,Risaralda,Colombia",
+  founder: {
+    "@type": "Person",
+    name: "Jonatan Castellanos",
+    jobTitle: "Abogado",
+  },
+  sameAs: [
+    "https://wa.me/573148309306",
+  ],
+};
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
@@ -54,6 +80,10 @@ export default function RootLayout({
         `}</Script>
 
         {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
         {children}
         <VisitTracker />
         <ClientPortalModal />

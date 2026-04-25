@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import SiteHeader from '@/app/components/SiteHeader';
+import EvaluadorTutela from '@/app/components/EvaluadorTutela';
 import { buildMailtoUrl, buildWhatsAppUrl } from '@/lib/contactLinks';
 
 const tutelaHeroBackground =
@@ -115,6 +116,20 @@ export default function TutelaPage() {
               </div>
             </div>
           </article>
+        </div>
+      </section>
+
+      {/* EVALUADOR DE TUTELA */}
+      <section className="section-shell bg-surface/80" id="evaluador">
+        <div className="container max-w-2xl space-y-4">
+          <div className="space-y-2">
+            <p className="pill w-fit">Evaluador preliminar</p>
+            <h2>¿Procede una tutela en su caso?</h2>
+            <p className="text-muted">
+              Responda cuatro preguntas y un abogado revisa su situación en menos de 4 horas hábiles.
+            </p>
+          </div>
+          <EvaluadorTutela />
         </div>
       </section>
 
