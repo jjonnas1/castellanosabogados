@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { supabase } from '@/lib/supabase-browser';
 
 const STORAGE_KEY = 'ca_portal_modal_dismissed';
@@ -11,11 +12,8 @@ export default function ClientPortalModal() {
 
   useEffect(() => {
     setMounted(true);
-
     if (sessionStorage.getItem(STORAGE_KEY)) return;
-
     let timer: ReturnType<typeof setTimeout>;
-
     supabase.auth.getSession()
       .then(({ data: { session } }) => {
         if (session) return;
@@ -24,7 +22,6 @@ export default function ClientPortalModal() {
       .catch(() => {
         timer = setTimeout(() => setVisible(true), 1500);
       });
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -60,7 +57,6 @@ export default function ClientPortalModal() {
           className="relative flex flex-col items-start gap-3 px-6 pt-6 pb-5"
           style={{ background: 'linear-gradient(135deg, #1a2f5a 0%, #2a4a8a 100%)' }}
         >
-          {/* Círculo decorativo */}
           <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/5" aria-hidden />
           <div className="absolute -right-2 top-8 h-16 w-16 rounded-full bg-white/5" aria-hidden />
 
@@ -83,31 +79,40 @@ export default function ClientPortalModal() {
             </svg>
           </div>
 
-          {/* Texto cabecera */}
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-white/50">
               Castellanos Abogados
             </p>
-            <h2
-              id="cpm-title"
-              className="mt-0.5 text-lg font-bold leading-snug text-white"
-            >
-              Siga su proceso<br />sin salir de casa
+            <h2 id="cpm-title" className="mt-0.5 text-lg font-bold leading-snug text-white">
+              Siga su proceso<br />desde cualquier lugar
             </h2>
           </div>
         </div>
 
         {/* ── Cuerpo ── */}
-        <div className="bg-white px-6 pt-4 pb-5 space-y-4">
-          <p className="text-sm leading-relaxed text-muted">
-            Si tiene un proceso activo con nosotros, puede consultar avances,
-            documentos y actuaciones en tiempo real desde nuestra plataforma.
-            Encuéntrelo en <strong className="text-ink">Área cliente</strong> en el menú superior.
-          </p>
+        <div className="bg-white divide-y divide-slate-100">
 
-          <p className="text-center text-[11px] text-muted/70">
-            Este aviso solo aparece una vez
-          </p>
+          {/* Sección clientes */}
+          <div className="px-6 pt-5 pb-5">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-accent mb-1">
+              ¿Ya es cliente?
+            </p>
+            <p className="text-sm text-muted mb-4 leading-relaxed">
+              Acceda a su portal para consultar el estado de su proceso, documentos y próximas audiencias.
+            </p>
+            <Link
+              href="/cliente/login"
+              onClick={dismiss}
+              className="flex items-center justify-center gap-2 w-full rounded-xl bg-accent-500 px-4 py-3 text-sm font-semibold text-white transition hover:bg-accent-700 active:scale-[0.98]"
+            >
+              <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4" aria-hidden>
+                <path fillRule="evenodd" d="M3 3a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3zm10.293 9.293a1 1 0 0 0 1.414 1.414l3-3a1 1 0 0 0 0-1.414l-3-3a1 1 0 1 0-1.414 1.414L14.586 9H7a1 1 0 1 0 0 2h7.586l-1.293 1.293z" clipRule="evenodd"/>
+              </svg>
+              Acceder a mi proceso
+            </Link>
+          </div>
+
+
         </div>
       </div>
 
