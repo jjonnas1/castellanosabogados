@@ -83,12 +83,10 @@ const PLAIN_NAV = [
 function MegaMenuPanel({
   id,
   onClose,
-  whatsappHref,
   mailtoHref,
 }: {
   id: string;
   onClose: () => void;
-  whatsappHref: string;
   mailtoHref: string;
 }) {
   return (
@@ -149,8 +147,8 @@ function MegaMenuPanel({
           </div>
         </div>
 
-        {/* Right: Tutelas featured + CTA */}
-        <div className="flex w-[220px] shrink-0 flex-col gap-4 border-l border-border bg-[#fafafa] p-5">
+        {/* Right: Tutelas destacado */}
+        <div className="flex w-[200px] shrink-0 flex-col gap-3 border-l border-border bg-[#fafafa] p-5">
           <Link
             href="/tutela"
             onClick={onClose}
@@ -170,28 +168,13 @@ function MegaMenuPanel({
             </span>
           </Link>
 
-          <div className="space-y-2">
-            <a
-              href="https://wa.me/573148309306?text=Hola%2C%20quisiera%20solicitar%20una%20evaluaci%C3%B3n%20estrat%C3%A9gica."
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={onClose}
-              className="block w-full rounded-xl bg-ink px-3 py-2.5 text-center text-[13px] font-semibold text-white transition hover:bg-accent-strong"
-            >
-              Solicitar evaluación
-            </a>
-            <a
-              href={mailtoHref}
-              onClick={onClose}
-              className="block w-full rounded-xl border border-border bg-white px-3 py-2.5 text-center text-[13px] font-semibold text-ink transition hover:border-ink"
-            >
-              Contactar por correo
-            </a>
-          </div>
-
-          <p className="text-[10px] text-muted text-center leading-snug">
-            Consulta inicial sin costo · respuesta en 4 horas hábiles
-          </p>
+          <Link
+            href="/cliente/login"
+            onClick={onClose}
+            className="block w-full rounded-xl border border-border bg-white px-3 py-2.5 text-center text-[13px] font-semibold text-ink transition hover:border-ink hover:bg-subtle"
+          >
+            Área cliente
+          </Link>
         </div>
       </div>
     </div>
@@ -343,7 +326,6 @@ export default function SiteHeader() {
               <MegaMenuPanel
                 id={megaMenuId}
                 onClose={() => setMegaOpen(false)}
-                whatsappHref={whatsappHref}
                 mailtoHref={mailtoHref}
               />
             )}
