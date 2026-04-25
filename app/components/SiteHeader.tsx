@@ -172,7 +172,7 @@ function MegaMenuPanel({
 
           <div className="space-y-2">
             <a
-              href={whatsappHref}
+              href="https://wa.me/573148309306?text=Hola%2C%20quisiera%20solicitar%20una%20evaluaci%C3%B3n%20estrat%C3%A9gica."
               target="_blank"
               rel="noopener noreferrer"
               onClick={onClose}
@@ -288,7 +288,7 @@ export default function SiteHeader() {
         {/* Logo */}
         <Link
           href="/"
-          className="group shrink-0 flex items-center gap-2.5"
+          className="group shrink-0 flex items-center gap-3"
           aria-label="Castellanos Abogados — Inicio"
         >
           {/* Monograma */}
@@ -299,15 +299,10 @@ export default function SiteHeader() {
               <path d="M158 312h196l28 72H130z" fill="rgba(255,255,255,0.55)"/>
             </svg>
           </div>
-          {/* Texto */}
-          <div className="flex flex-col leading-none">
-            <span className="font-heading text-[14px] font-semibold tracking-tight text-ink">
-              Castellanos
-            </span>
-            <span className="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-muted">
-              Abogados
-            </span>
-          </div>
+          {/* Nombre completo — una sola línea, legible */}
+          <span className="font-heading text-[17px] font-semibold tracking-tight text-ink">
+            Castellanos Abogados
+          </span>
         </Link>
 
         {/* Nav — desktop */}
