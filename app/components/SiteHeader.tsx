@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { buildMailtoUrl } from "@/lib/contactLinks";
+import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 import { getProfileRoleByUserId, type AppRole } from "@/lib/profile-role";
 import { supabase } from "@/lib/supabase-browser";
 
@@ -83,10 +83,12 @@ const PLAIN_NAV = [
 function MegaMenuPanel({
   id,
   onClose,
+  whatsappHref,
   mailtoHref,
 }: {
   id: string;
   onClose: () => void;
+  whatsappHref: string;
   mailtoHref: string;
 }) {
   return (
@@ -170,20 +172,20 @@ function MegaMenuPanel({
 
           <div className="space-y-2">
             <a
-              href={mailtoHref}
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={onClose}
               className="block w-full rounded-xl bg-ink px-3 py-2.5 text-center text-[13px] font-semibold text-white transition hover:bg-accent-strong"
             >
               Solicitar evaluación
             </a>
             <a
-              href="https://wa.me/573148309306?text=Hola,%20necesito%20asesor%C3%ADa%20jur%C3%ADdica."
-              target="_blank"
-              rel="noopener noreferrer"
+              href={mailtoHref}
               onClick={onClose}
               className="block w-full rounded-xl border border-border bg-white px-3 py-2.5 text-center text-[13px] font-semibold text-ink transition hover:border-ink"
             >
-              WhatsApp
+              Contactar por correo
             </a>
           </div>
 
@@ -273,6 +275,12 @@ export default function SiteHeader() {
     message: "Hola, quisiera solicitar una evaluación estratégica.",
   });
 
+  const whatsappHref = buildWhatsAppUrl({
+    area: "Contacto general",
+    source: "Header",
+    message: "Hola, quisiera solicitar una evaluación estratégica.",
+  });
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-white/95 backdrop-blur-md">
       <div className="container flex h-16 items-center justify-between gap-6">
@@ -280,9 +288,26 @@ export default function SiteHeader() {
         {/* Logo */}
         <Link
           href="/"
-          className="shrink-0 font-heading text-[15px] font-semibold tracking-tight text-ink"
+          className="group shrink-0 flex items-center gap-2.5"
+          aria-label="Castellanos Abogados — Inicio"
         >
-          Castellanos Abogados
+          {/* Monograma */}
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ink transition group-hover:bg-accent-strong">
+            <svg viewBox="0 0 512 512" className="h-[18px] w-[18px]" aria-hidden fill="none">
+              <path d="M128 176h256v24H128zm42 72h172v24H170z" fill="white"/>
+              <circle cx="256" cy="128" r="52" stroke="white" strokeWidth="24" fill="none"/>
+              <path d="M158 312h196l28 72H130z" fill="rgba(255,255,255,0.55)"/>
+            </svg>
+          </div>
+          {/* Texto */}
+          <div className="flex flex-col leading-none">
+            <span className="font-heading text-[14px] font-semibold tracking-tight text-ink">
+              Castellanos
+            </span>
+            <span className="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-muted">
+              Abogados
+            </span>
+          </div>
         </Link>
 
         {/* Nav — desktop */}
@@ -323,6 +348,7 @@ export default function SiteHeader() {
               <MegaMenuPanel
                 id={megaMenuId}
                 onClose={() => setMegaOpen(false)}
+                whatsappHref={whatsappHref}
                 mailtoHref={mailtoHref}
               />
             )}
@@ -376,7 +402,9 @@ export default function SiteHeader() {
           ) : (
             <>
               <a
-                href={mailtoHref}
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
                 data-wa-lead
                 className="inline-flex h-9 w-44 items-center justify-center rounded-full bg-ink text-[13px] font-semibold text-white transition hover:bg-ink/85"
               >
@@ -517,7 +545,9 @@ export default function SiteHeader() {
               ) : (
                 <>
                   <a
-                    href={mailtoHref}
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() => setOpen(false)}
                     data-wa-lead
                     className="rounded-xl bg-ink px-4 py-2.5 text-center text-sm font-semibold text-white"
