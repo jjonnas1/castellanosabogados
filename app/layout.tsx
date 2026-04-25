@@ -5,7 +5,6 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import AdminConsultChat from '@/app/components/AdminConsultChat';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
 import WhatsAppFloat from '@/app/components/WhatsAppFloat';
-import WhatsAppLeadModal from '@/app/components/WhatsAppLeadModal';
 import VisitTracker from '@/app/components/VisitTracker';
 import ClientPortalModal from '@/app/components/ClientPortalModal';
 
@@ -90,7 +89,6 @@ export default function RootLayout({
         <AdminConsultChat />
         <AdminFloatingAccess />
         <WhatsAppFloat />
-        <WhatsAppLeadModal />
       </body>
     </html>
   );
