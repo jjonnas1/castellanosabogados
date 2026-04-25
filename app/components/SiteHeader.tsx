@@ -147,21 +147,34 @@ function MegaMenuPanel({
           </div>
         </div>
 
-        {/* Right: acceso cliente */}
-        <div className="flex w-[180px] shrink-0 flex-col justify-center gap-3 border-l border-border bg-[#fafafa] px-5 py-6">
-          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted">
-            ¿Ya es cliente?
-          </p>
+        {/* Right: Tutelas destacado + acceso cliente */}
+        <div className="flex w-[200px] shrink-0 flex-col gap-3 border-l border-border bg-[#fafafa] p-5">
+          <Link
+            href="/tutela"
+            onClick={onClose}
+            className="flex flex-col gap-2 rounded-2xl bg-[#7b1e2b] p-4 text-white transition hover:bg-[#6a1624]"
+          >
+            <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/70">
+              Destacado
+            </span>
+            <span className="font-heading text-base font-semibold leading-snug">
+              Tutelas
+            </span>
+            <span className="text-[12px] leading-snug text-white/85">
+              Protección de derechos ante EPS, entidades públicas y privadas.
+            </span>
+            <span className="mt-1 inline-flex w-fit items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-semibold text-white">
+              ⚡ Fallo en 10 días hábiles
+            </span>
+          </Link>
+
           <Link
             href="/cliente/login"
             onClick={onClose}
-            className="block w-full rounded-xl bg-ink px-3 py-2.5 text-center text-[13px] font-semibold text-white transition hover:bg-accent-strong"
+            className="block w-full rounded-xl border border-border bg-white px-3 py-2.5 text-center text-[13px] font-semibold text-ink transition hover:border-ink hover:bg-subtle"
           >
-            Acceder al portal
+            Área cliente
           </Link>
-          <p className="text-[11px] text-muted leading-snug">
-            Consulte el estado de su caso, citas y actualizaciones.
-          </p>
         </div>
       </div>
     </div>
