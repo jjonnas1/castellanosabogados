@@ -1,13 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import type { Session } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase-browser';
 import { getProfileRoleByUserId, type AppRole } from '@/lib/profile-role';
 import AdminShell from '@/components/AdminShell';
 import DashboardCitas from '@/components/DashboardCitas';
+import { useAdminAuth } from '@/contexts/admin-auth';
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -148,50 +146,28 @@ function TodayTimeline({ token }: { token: string }) {
 // ─── Main page ─────────────────────────────────────────────────────────────────
 
 export default function AdminRootPage() {
-  const router = useRouter();
-  const [session, setSession]               = useState<Session | null>(null);
-  const [role, setRole]                     = useState<AppRole>(null);
-  const [loadingSession, setLoadingSession] = useState(true);
-  const [loadingRole, setLoadingRole]       = useState(true);
-  const [stats, setStats]                   = useState<Stats>({
+  const { token, userId } = useAdminAuth();
+  const [role, setRole]         = useState<AppRole>(null);
+  const [loadingRole, setLoadingRole] = useState(true);
+  const [stats, setStats]       = useState<Stats>({
     clientes: 0, citas: 0, consultas: 0, visitasHoy: 0,
   });
 
   useEffect(() => {
     let mounted = true;
-    supabase.auth.getSession().then(({ data }) => {
-      if (!mounted) return;
-      setSession(data.session ?? null);
-      setLoadingSession(false);
-    });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
-      if (!mounted) return;
-      setSession(s ?? null);
-    });
-    return () => { mounted = false; sub.subscription.unsubscribe(); };
-  }, []);
-
-  useEffect(() => {
-    let mounted = true;
     async function loadRole() {
-      if (!session?.user?.id) { setRole(null); setLoadingRole(false); return; }
+      if (!userId) { setRole(null); setLoadingRole(false); return; }
       setLoadingRole(true);
-      const r = await getProfileRoleByUserId(session.user.id);
+      const r = await getProfileRoleByUserId(userId);
       if (!mounted) return;
       setRole(r); setLoadingRole(false);
     }
     loadRole();
     return () => { mounted = false; };
-  }, [session?.user?.id]);
+  }, [userId]);
 
   useEffect(() => {
-    if (loadingSession || loadingRole) return;
-    if (!session) router.replace('/admin/login');
-  }, [loadingSession, loadingRole, session, router]);
-
-  useEffect(() => {
-    if (!session?.access_token) return;
-    const token = session.access_token;
+    if (!token) return;
     Promise.all([
       fetch('/api/admin/workspace', { headers: { authorization: `Bearer ${token}` } })
         .then((r) => r.json())
@@ -208,9 +184,9 @@ export default function AdminRootPage() {
     ]).then(([ws, visitasHoy]) => {
       setStats({ ...(ws as Omit<Stats, 'visitasHoy'>), visitasHoy: visitasHoy as number });
     });
-  }, [session?.access_token]);
+  }, [token]);
 
-  if (loadingSession || loadingRole) {
+  if (!token || loadingRole) {
     return (
       <AdminShell>
         <div className="flex items-center justify-center h-screen">
@@ -219,7 +195,7 @@ export default function AdminRootPage() {
       </AdminShell>
     );
   }
-  if (!session || role !== 'admin') return null;
+  if (role !== 'admin') return null;
 
   return (
     <AdminShell>
@@ -265,7 +241,7 @@ export default function AdminRootPage() {
                 Ver todo →
               </a>
             </div>
-            <TodayTimeline token={session.access_token} />
+            <TodayTimeline token={token} />
           </div>
         </div>
       </div>
