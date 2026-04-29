@@ -80,9 +80,17 @@ export function getSupabaseServer(options?: { serviceRole?: boolean }) {
   });
 }
 
+function logAuth(level: 'info' | 'warn' | 'error', event: string, meta?: Record<string, unknown>) {
+  const entry = { ts: new Date().toISOString(), level, event, ...meta };
+  if (level === 'error') console.error('[auth]', JSON.stringify(entry));
+  else if (level === 'warn')  console.warn('[auth]',  JSON.stringify(entry));
+  else                        console.log('[auth]',   JSON.stringify(entry));
+}
+
 export async function requireAdmin(authHeader?: string | null) {
   if (authHeader && authHeader.startsWith('Bearer ')) {
     if (!hasServiceRole()) {
+      logAuth('error', 'missing_service_role_key');
       return { ok: false as const, status: 500, error: 'Falta SUPABASE_SERVICE_ROLE_KEY en el servidor' };
     }
 
@@ -94,6 +102,7 @@ export async function requireAdmin(authHeader?: string | null) {
     } = await supabaseAdmin.auth.getUser(token);
 
     if (userError || !user) {
+      logAuth('warn', 'unauthenticated_bearer', { supabaseError: userError?.message });
       return { ok: false as const, status: 401, error: 'No autenticado' };
     }
 
@@ -104,12 +113,14 @@ export async function requireAdmin(authHeader?: string | null) {
       .maybeSingle();
 
     if (profileError) {
+      logAuth('error', 'profile_fetch_failed', { userId: user.id, supabaseError: profileError.message });
       return { ok: false as const, status: 500, error: profileError.message };
     }
 
     if (!profile || profile.role !== 'admin') {
       const ownerRoleEnsured = await ensureOwnerAdminRole(user);
       if (!ownerRoleEnsured) {
+        logAuth('warn', 'forbidden_bearer', { userId: user.id, email: user.email });
         return { ok: false as const, status: 403, error: 'Permisos insuficientes' };
       }
 
@@ -120,13 +131,16 @@ export async function requireAdmin(authHeader?: string | null) {
         .maybeSingle();
 
       if (ensuredProfileError) {
+        logAuth('error', 'ensured_profile_fetch_failed', { userId: user.id, supabaseError: ensuredProfileError.message });
         return { ok: false as const, status: 500, error: ensuredProfileError.message };
       }
 
       if (!ensuredProfile || ensuredProfile.role !== 'admin') {
+        logAuth('warn', 'forbidden_after_upsert', { userId: user.id });
         return { ok: false as const, status: 403, error: 'Permisos insuficientes' };
       }
 
+      logAuth('info', 'admin_ok_owner_upserted', { userId: user.id });
       return { ok: true as const, user, profile: ensuredProfile, supabase: supabaseAdmin };
     }
 
@@ -141,6 +155,7 @@ export async function requireAdmin(authHeader?: string | null) {
   } = await supabase.auth.getUser();
 
   if (userError || !user) {
+    logAuth('warn', 'unauthenticated_cookie', { supabaseError: userError?.message });
     return { ok: false as const, status: 401, error: 'No autenticado' };
   }
 
@@ -151,12 +166,14 @@ export async function requireAdmin(authHeader?: string | null) {
     .maybeSingle();
 
   if (profileError) {
+    logAuth('error', 'profile_fetch_failed_cookie', { userId: user.id, supabaseError: profileError.message });
     return { ok: false as const, status: 500, error: profileError.message };
   }
 
   if (!profile || profile.role !== 'admin') {
     const ownerRoleEnsured = await ensureOwnerAdminRole(user);
     if (!ownerRoleEnsured) {
+      logAuth('warn', 'forbidden_cookie', { userId: user.id, email: user.email });
       return { ok: false as const, status: 403, error: 'Permisos insuficientes' };
     }
 
@@ -168,13 +185,16 @@ export async function requireAdmin(authHeader?: string | null) {
       .maybeSingle();
 
     if (ensuredProfileError) {
+      logAuth('error', 'ensured_profile_fetch_failed_cookie', { userId: user.id, supabaseError: ensuredProfileError.message });
       return { ok: false as const, status: 500, error: ensuredProfileError.message };
     }
 
     if (!ensuredProfile || ensuredProfile.role !== 'admin') {
+      logAuth('warn', 'forbidden_after_upsert_cookie', { userId: user.id });
       return { ok: false as const, status: 403, error: 'Permisos insuficientes' };
     }
 
+    logAuth('info', 'admin_ok_owner_upserted_cookie', { userId: user.id });
     return { ok: true as const, user, profile: ensuredProfile, supabase };
   }
 

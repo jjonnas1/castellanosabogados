@@ -84,23 +84,23 @@ export default function ClienteDashboardPage() {
         </article>
 
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <article className="card-shell bg-white p-4">
+          <Link href="/cliente/citas" className="card-shell bg-white p-4 block cursor-pointer transition-all duration-200 hover:shadow-hover hover:-translate-y-0.5 hover:bg-slate-50">
             <p className="text-xs uppercase tracking-[0.12em] text-muted">Próximas citas</p>
             <p className="mt-1 text-2xl font-semibold text-ink">{upcoming}</p>
-            <Link href="/cliente/citas" className="mt-3 inline-flex text-sm font-semibold text-ink hover:underline">Ver citas</Link>
-          </article>
+            <p className="mt-3 text-sm font-semibold text-accent-500">Ver citas →</p>
+          </Link>
 
-          <article className="card-shell bg-white p-4">
+          <Link href="/cliente/actualizaciones" className="card-shell bg-white p-4 block cursor-pointer transition-all duration-200 hover:shadow-hover hover:-translate-y-0.5 hover:bg-slate-50">
             <p className="text-xs uppercase tracking-[0.12em] text-muted">Actualizaciones visibles</p>
             <p className="mt-1 text-2xl font-semibold text-ink">{updates.length}</p>
-            <Link href="/cliente/actualizaciones" className="mt-3 inline-flex text-sm font-semibold text-ink hover:underline">Ver actualizaciones</Link>
-          </article>
+            <p className="mt-3 text-sm font-semibold text-accent-500">Ver actualizaciones →</p>
+          </Link>
 
-          <article className="card-shell bg-white p-4">
+          <Link href="/cliente/documentos" className="card-shell bg-white p-4 block cursor-pointer transition-all duration-200 hover:shadow-hover hover:-translate-y-0.5 hover:bg-slate-50">
             <p className="text-xs uppercase tracking-[0.12em] text-muted">Documentos disponibles</p>
             <p className="mt-1 text-2xl font-semibold text-ink">{documents.length}</p>
-            <Link href="/cliente/documentos" className="mt-3 inline-flex text-sm font-semibold text-ink hover:underline">Ver documentos</Link>
-          </article>
+            <p className="mt-3 text-sm font-semibold text-accent-500">Ver documentos →</p>
+          </Link>
 
           <article className="card-shell bg-white p-4">
             <p className="text-xs uppercase tracking-[0.12em] text-muted">Perfil</p>

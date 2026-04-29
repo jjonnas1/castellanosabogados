@@ -5,16 +5,16 @@ export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
   const supabase = createMiddlewareClient({ req: request, res: response });
 
-  // getSession() refresca el token si está expirado y actualiza las cookies en la respuesta
+  // getSession() refresca el token si está expirado y sincroniza las cookies
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
   const { pathname } = request.nextUrl;
 
-  const isAdminPath   = pathname.startsWith('/admin');
-  const isAdminLogin  = pathname === '/admin/login';
-  const isClientPath  = pathname.startsWith('/cliente') || pathname.startsWith('/portal') || pathname.startsWith('/panel');
+  const isAdminPath    = pathname.startsWith('/admin');
+  const isAdminLogin   = pathname === '/admin/login';
+  const isClientPath   = pathname.startsWith('/cliente') || pathname.startsWith('/portal') || pathname.startsWith('/panel');
   const isClientPublic = pathname === '/cliente/login' || pathname === '/cliente/registro' || pathname === '/cliente/acceso';
 
   if (!session) {

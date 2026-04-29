@@ -42,20 +42,24 @@ export async function POST(req: NextRequest) {
     const ip_masked = ip ? maskIp(ip) : null;
 
     const supabase = getSupabaseServer({ serviceRole: true });
-    await supabase.from('site_visits').insert({
-      path,
-      referrer:       typeof body?.referrer    === 'string' ? body.referrer.slice(0, 1000)    : null,
-      visitor_key:    typeof body?.visitor_key === 'string' ? body.visitor_key.slice(0, 100)  : null,
-      user_agent:     req.headers.get('user-agent')?.slice(0, 500)    ?? null,
-      ip_hash,
-      ip_masked,
-      country:        req.headers.get('x-vercel-ip-country')         ?? null,
-      region:         req.headers.get('x-vercel-ip-region')          ?? null,
-      city:           req.headers.get('x-vercel-ip-city')            ?? null,
-      is_admin_visit: path.startsWith('/admin'),
-    });
+    const { data: inserted } = await supabase
+      .from('site_visits')
+      .insert({
+        path,
+        referrer:       typeof body?.referrer    === 'string' ? body.referrer.slice(0, 1000)   : null,
+        visitor_key:    typeof body?.visitor_key === 'string' ? body.visitor_key.slice(0, 100) : null,
+        user_agent:     req.headers.get('user-agent')?.slice(0, 500)   ?? null,
+        ip_hash,
+        ip_masked,
+        country:        req.headers.get('x-vercel-ip-country')        ?? null,
+        region:         req.headers.get('x-vercel-ip-region')         ?? null,
+        city:           req.headers.get('x-vercel-ip-city')           ?? null,
+        is_admin_visit: path.startsWith('/admin'),
+      })
+      .select('id')
+      .single();
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, visit_id: inserted?.id ?? null });
   } catch {
     return NextResponse.json({ ok: false }, { status: 500 });
   }

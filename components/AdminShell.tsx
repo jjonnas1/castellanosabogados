@@ -62,6 +62,25 @@ const NAV = [
     ),
   },
   {
+    href:  '/admin/ingresos',
+    label: 'Ingresos',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      </svg>
+    ),
+  },
+  {
+    href:  '/admin/gastos',
+    label: 'Gastos',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h18v4H3zM3 7v14h18V7" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6M9 16h4" />
+      </svg>
+    ),
+  },
+  {
     href:  '/admin/documentos',
     label: 'Documentos',
     icon: (

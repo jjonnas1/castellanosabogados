@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase-browser';
 import { getProfileRoleByUserId, type AppRole } from '@/lib/profile-role';
@@ -51,12 +52,15 @@ function fmtHora(iso: string) {
 
 // ─── Stat card ─────────────────────────────────────────────────────────────────
 
-function StatCard({ label, value, color }: { label: string; value: number | string; color: string }) {
+function StatCard({ label, value, color, href }: { label: string; value: number | string; color: string; href: string }) {
   return (
-    <div className="bg-[#111f35] border border-[#1e3a6e]/50 rounded-xl p-4">
+    <Link
+      href={href}
+      className="block bg-[#111f35] border border-[#1e3a6e]/50 rounded-xl p-4 cursor-pointer transition-all duration-200 hover:bg-[#162138] hover:border-[#2a4a8a] hover:shadow-lg hover:-translate-y-0.5"
+    >
       <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">{label}</p>
       <p className={`mt-2 text-3xl font-bold tabular-nums ${color}`}>{value}</p>
-    </div>
+    </Link>
   );
 }
 
@@ -235,10 +239,10 @@ export default function AdminRootPage() {
 
         {/* Stats — grid-cols-4 */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Clientes"      value={stats.clientes}   color="text-blue-400" />
-          <StatCard label="Citas totales" value={stats.citas}      color="text-indigo-400" />
-          <StatCard label="Consultas"     value={stats.consultas}  color="text-violet-400" />
-          <StatCard label="Visitas hoy"   value={stats.visitasHoy} color="text-cyan-400" />
+          <StatCard label="Clientes"      value={stats.clientes}   color="text-blue-400"   href="/admin/clientes" />
+          <StatCard label="Citas totales" value={stats.citas}      color="text-indigo-400" href="/admin/agenda" />
+          <StatCard label="Consultas"     value={stats.consultas}  color="text-violet-400" href="/admin/consultas" />
+          <StatCard label="Visitas hoy"   value={stats.visitasHoy} color="text-cyan-400"   href="/admin/visitas" />
         </div>
 
         {/* Body — two columns */}

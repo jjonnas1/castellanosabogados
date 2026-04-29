@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
+import BackButton from '@/components/BackButton';
 
 type Update = { id: string; title: string; update_text?: string; body?: string; status: string; created_at: string };
 
@@ -41,7 +42,11 @@ export default function ClienteActualizacionesPage() {
     <main className="min-h-screen bg-canvas text-ink">
       <header className="sticky top-0 z-50 border-b border-border bg-white/90 backdrop-blur">
         <div className="container flex items-center justify-between py-4">
-          <p className="font-semibold text-ink">Portal Cliente · Actualizaciones</p>
+          <div className="flex items-center gap-3">
+            <BackButton />
+            <span className="text-border">|</span>
+            <p className="font-semibold text-ink">Actualizaciones</p>
+          </div>
           <button onClick={logout} className="btn-secondary px-4 py-2 text-sm">Cerrar sesión</button>
         </div>
       </header>

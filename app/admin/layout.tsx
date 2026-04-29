@@ -15,53 +15,68 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const [token,  setToken]  = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [ready,  setReady]  = useState(isPublic);
+
+  const found      = useRef(false);
   const redirected = useRef(false);
 
   useEffect(() => {
     if (isPublic) return;
 
     let mounted = true;
+    found.current      = false;
+    redirected.current = false;
 
-    // ── onAuthStateChange: SOLO actualiza el token cuando llega sesión válida.
-    //    NUNCA redirige desde aquí — INITIAL_SESSION puede disparar null antes
-    //    de que las cookies estén disponibles (falso negativo).
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!mounted) return;
+    function applySession(session: { access_token: string; user: { id: string } } | null) {
+      if (!mounted || found.current) return;
       if (session?.access_token) {
+        found.current = true;
         setToken(session.access_token);
         setUserId(session.user.id);
         setReady(true);
       }
-      // null session aquí no significa "no autenticado" — puede ser timing.
-      // getSession() es la fuente de verdad para la decisión de redirigir.
+    }
+
+    function doRedirect() {
+      if (mounted && !found.current && !redirected.current) {
+        redirected.current = true;
+        router.replace('/admin/login');
+      }
+    }
+
+    // Fuente 1: onAuthStateChange
+    // - Aplica sesión válida cuando llega.
+    // - Solo redirige en SIGNED_OUT explícito (no en INITIAL_SESSION null,
+    //   que puede ser un falso negativo por timing de cookies).
+    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!mounted) return;
+      if (session?.access_token) {
+        applySession(session);
+      } else if (event === 'SIGNED_OUT') {
+        doRedirect();
+      }
+      // INITIAL_SESSION null → ignorar, getSession() es la fuente de verdad
     });
 
-    // ── getSession() ES el único trigger de redirect.
-    //    Lee directamente las cookies y es autoritativo.
+    // Fuente 2: getSession() lee las cookies directamente.
+    // Si devuelve sesión → listo.
+    // Si devuelve null → esperar 2 s por si onAuthStateChange llega después,
+    // luego redirigir solo si aún no hay sesión.
     supabase.auth.getSession()
       .then(({ data: { session } }) => {
         if (!mounted) return;
         if (session?.access_token) {
-          setToken(session.access_token);
-          setUserId(session.user.id);
-          setReady(true);
-        } else if (!redirected.current) {
-          redirected.current = true;
-          router.replace('/admin/login');
+          applySession(session);
+        } else {
+          // Grace period: cookies pueden tardar un ciclo en propagarse
+          setTimeout(doRedirect, 2000);
         }
       })
       .catch(() => {
-        if (mounted && !redirected.current) {
-          redirected.current = true;
-          router.replace('/admin/login');
-        }
+        setTimeout(doRedirect, 2000);
       });
 
-    // Fallback: si en 6 s getSession() no resolvió, desbloquear igual
-    // (el middleware ya protegió la ruta en el servidor)
-    const timeout = setTimeout(() => {
-      if (mounted) setReady(true);
-    }, 6000);
+    // Fallback absoluto: 10 s sin sesión → redirigir
+    const timeout = setTimeout(doRedirect, 10_000);
 
     return () => {
       mounted = false;
