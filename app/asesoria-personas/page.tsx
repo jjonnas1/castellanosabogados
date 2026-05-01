@@ -4,7 +4,7 @@ import SiteHeader from "@/app/components/SiteHeader";
 import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 
 const personalBackground =
-  "linear-gradient(140deg, rgba(10,16,28,0.9), rgba(20,32,52,0.82)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=2200&q=80')";
+  "linear-gradient(140deg, rgba(10,16,28,0.9), rgba(20,32,52,0.82)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
 export default function AsesoriaPersonasPage() {
   return (

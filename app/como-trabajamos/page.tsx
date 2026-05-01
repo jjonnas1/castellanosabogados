@@ -4,7 +4,7 @@ import SiteHeader from "@/app/components/SiteHeader";
 import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 
 const background =
-  "linear-gradient(140deg, rgba(12,17,29,0.92), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1450101215322-bf5cd27642fc?auto=format&fit=crop&w=2200&q=80')";
+  "linear-gradient(140deg, rgba(12,17,29,0.92), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1450101215322-bf5cd27642fc?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
 const steps = [
   {

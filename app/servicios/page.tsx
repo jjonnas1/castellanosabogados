@@ -13,7 +13,7 @@ import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
 import { getServiceDetail, serviceDetailList } from "@/lib/serviceDetails";
 
 const headerBackground =
-  "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
+  "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
 export default async function ServiciosPage() {
   const { data, error } = await fetchServiceAreas();

@@ -1,6 +1,7 @@
 // app/page.tsx
 import type { Metadata } from 'next';
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: 'Castellanos Abogados | Firma jurídica en Pereira',
@@ -11,13 +12,6 @@ export const metadata: Metadata = {
 import SiteHeader from "./components/SiteHeader";
 import HeroTipificador from "./components/HeroTipificador";
 import { buildMailtoUrl, contactConfig } from "@/lib/contactLinks";
-
-const heroBackground =
-  "linear-gradient(120deg, rgba(12,17,29,0.88), rgba(17,37,68,0.82)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=2200&q=80')";
-const executiveDesk =
-  "linear-gradient(180deg, rgba(13,21,40,0.9), rgba(13,21,40,0.8)), url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2100&q=80')";
-const skylineBackground =
-  "linear-gradient(180deg, rgba(15,23,42,0.9), rgba(17,37,68,0.75)), url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=2000&q=80')";
 
 const serviceLines = [
   { title: "Penal Personas", description: "Estrategia penal para personas naturales con acompañamiento técnico en cada etapa.", href: "/servicios/penal-personas", area: "Penal Personas", intent: "linea-penal-personas" },
@@ -72,10 +66,18 @@ export default async function Home() {
       <SiteHeader />
 
       {/* HERO */}
-      <section
-        className="relative overflow-hidden border-b border-border/60 text-white animate-gradient"
-        style={{ backgroundImage: heroBackground, backgroundSize: "cover", backgroundPosition: "center" }}
-      >
+      <section className="relative overflow-hidden border-b border-border/60 text-white">
+        <Image
+          src="https://images.unsplash.com/photo-1521791055366-0d553872125f"
+          alt=""
+          fill
+          priority
+          sizes="(max-width: 640px) 640px, (max-width: 1280px) 1280px, 1920px"
+          quality={80}
+          className="object-cover object-center"
+          aria-hidden="true"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(12,17,29,0.88),rgba(17,37,68,0.82))]" aria-hidden />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.12),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.14),transparent_36%)]" aria-hidden />
         <div className="absolute -left-24 top-16 h-56 w-56 rounded-full bg-white/10 blur-3xl" aria-hidden />
         <div className="absolute -right-24 bottom-0 h-64 w-64 rounded-full bg-accent-500/20 blur-3xl" aria-hidden />

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import SiteHeader from "@/app/components/SiteHeader";
 
 export const metadata: Metadata = {
@@ -54,11 +55,13 @@ export default function NosotrosPage() {
           </article>
 
           <div className="rounded-2xl border border-border bg-white p-4 shadow-soft/30">
-            <div className="relative w-full h-full rounded-2xl overflow-hidden">
-              <img
+            <div className="relative overflow-hidden rounded-2xl" style={{ minHeight: '320px', height: '100%' }}>
+              <Image
+                fill
                 src="/IMG_4096.JPG"
                 alt="Jonatan Castellanos"
-                className="w-full h-full object-cover"
+                className="object-cover object-top"
+                sizes="(max-width: 1024px) 100vw, 45vw"
               />
             </div>
           </div>

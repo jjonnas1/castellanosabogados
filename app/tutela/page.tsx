@@ -11,7 +11,7 @@ import EvaluadorTutela from '@/app/components/EvaluadorTutela';
 import { buildMailtoUrl, buildWhatsAppUrl } from '@/lib/contactLinks';
 
 const tutelaHeroBackground =
-  "linear-gradient(120deg, rgba(13,21,40,0.92), rgba(31,54,93,0.84)), url('https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=1800&q=80')";
+  "linear-gradient(120deg, rgba(13,21,40,0.92), rgba(31,54,93,0.84)), url('https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
 export default function TutelaPage() {
   return (

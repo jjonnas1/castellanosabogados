@@ -2,13 +2,15 @@ import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { GoogleTagManager } from '@next/third-parties/google';
-import AdminConsultChat from '@/app/components/AdminConsultChat';
+import dynamic from 'next/dynamic';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
-import WhatsAppFloat from '@/app/components/WhatsAppFloat';
-import WhatsAppLeadModal from '@/app/components/WhatsAppLeadModal';
-import VisitTracker from '@/app/components/VisitTracker';
-import ClientPortalModal from '@/app/components/ClientPortalModal';
 import SiteFooter from '@/app/components/SiteFooter';
+
+const WhatsAppFloat    = dynamic(() => import('@/app/components/WhatsAppFloat'),    { ssr: false });
+const WhatsAppLeadModal = dynamic(() => import('@/app/components/WhatsAppLeadModal'), { ssr: false });
+const ClientPortalModal = dynamic(() => import('@/app/components/ClientPortalModal'), { ssr: false });
+const AdminConsultChat  = dynamic(() => import('@/app/components/AdminConsultChat'),  { ssr: false });
+const VisitTracker      = dynamic(() => import('@/app/components/VisitTracker'),      { ssr: false });
 
 const GADS_ID = 'AW-18056733453';
 const GT_ID   = 'GT-NCNRRTDW';
