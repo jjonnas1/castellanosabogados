@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
+import { useAdminAuth } from '@/contexts/admin-auth';
 
 // ─── Nav items ─────────────────────────────────────────────────────────────────
 
@@ -17,6 +18,16 @@ const NAV = [
         <rect x="14" y="3" width="7" height="7" rx="1" />
         <rect x="3" y="14" width="7" height="7" rx="1" />
         <rect x="14" y="14" width="7" height="7" rx="1" />
+      </svg>
+    ),
+  },
+  {
+    href:  '/admin/procesos',
+    label: 'Procesos',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} className="w-5 h-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M3 12h18M3 18h18" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 6V4m8 2V4M8 18v2m8-2v2" />
       </svg>
     ),
   },
@@ -120,6 +131,16 @@ const NAV = [
 
 export default function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const { token } = useAdminAuth();
+  const [actuacionesNuevas, setActuacionesNuevas] = useState(0);
+
+  useEffect(() => {
+    if (!token) return;
+    fetch('/api/admin/procesos/alertas', { headers: { authorization: `Bearer ${token}` } })
+      .then((r) => r.json())
+      .then((d: { actuacionesNuevas?: number }) => setActuacionesNuevas(d.actuacionesNuevas ?? 0))
+      .catch(() => {});
+  }, [token, pathname]);
 
   function isActive(href: string, exact?: boolean) {
     if (exact) return pathname === href;
@@ -154,7 +175,12 @@ export default function AdminShell({ children }: { children: ReactNode }) {
                 ].join(' ')}
               >
                 <span className={active ? 'text-blue-400' : 'text-slate-500'}>{item.icon}</span>
-                {item.label}
+                <span className="flex-1">{item.label}</span>
+                {item.href === '/admin/procesos' && actuacionesNuevas > 0 && (
+                  <span className="flex-shrink-0 inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full bg-red-600 text-white text-[10px] font-bold">
+                    {actuacionesNuevas}
+                  </span>
+                )}
               </Link>
             );
           })}

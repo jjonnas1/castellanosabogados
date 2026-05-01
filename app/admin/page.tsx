@@ -10,10 +10,12 @@ import { useAdminAuth } from '@/contexts/admin-auth';
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
 interface Stats {
-  clientes:   number;
-  citas:      number;
-  consultas:  number;
-  visitasHoy: number;
+  clientes:         number;
+  citas:            number;
+  consultas:        number;
+  visitasHoy:       number;
+  procesosActivos:  number;
+  actuacionesNuevas: number;
 }
 
 interface Appointment {
@@ -150,7 +152,7 @@ export default function AdminRootPage() {
   const [role, setRole]         = useState<AppRole>(null);
   const [loadingRole, setLoadingRole] = useState(true);
   const [stats, setStats]       = useState<Stats>({
-    clientes: 0, citas: 0, consultas: 0, visitasHoy: 0,
+    clientes: 0, citas: 0, consultas: 0, visitasHoy: 0, procesosActivos: 0, actuacionesNuevas: 0,
   });
 
   useEffect(() => {
@@ -181,8 +183,22 @@ export default function AdminRootPage() {
         .then((r) => r.json())
         .then((d: { today?: number }) => d.today ?? 0)
         .catch(() => 0),
-    ]).then(([ws, visitasHoy]) => {
-      setStats({ ...(ws as Omit<Stats, 'visitasHoy'>), visitasHoy: visitasHoy as number });
+      fetch('/api/admin/procesos', { headers: { authorization: `Bearer ${token}` } })
+        .then((r) => r.json())
+        .then((d: { procesos?: Array<{ estado: string; actuaciones_nuevas: number }> }) => {
+          const ps = d.procesos ?? [];
+          return {
+            procesosActivos:   ps.filter((p) => p.estado === 'Activo' || p.estado === 'En trámite').length,
+            actuacionesNuevas: ps.reduce((s, p) => s + (p.actuaciones_nuevas ?? 0), 0),
+          };
+        })
+        .catch(() => ({ procesosActivos: 0, actuacionesNuevas: 0 })),
+    ]).then(([ws, visitasHoy, proc]) => {
+      setStats({
+        ...(ws as Pick<Stats, 'clientes' | 'citas' | 'consultas'>),
+        visitasHoy: visitasHoy as number,
+        ...(proc as Pick<Stats, 'procesosActivos' | 'actuacionesNuevas'>),
+      });
     });
   }, [token]);
 
@@ -213,11 +229,13 @@ export default function AdminRootPage() {
           </div>
         </div>
 
-        {/* Stats — grid-cols-4 */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Stats — grid-cols-3 top row + 3 bottom */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
           <StatCard label="Clientes"      value={stats.clientes}   color="text-blue-400"   href="/admin/clientes" />
           <StatCard label="Citas totales" value={stats.citas}      color="text-indigo-400" href="/admin/agenda" />
           <StatCard label="Consultas"     value={stats.consultas}  color="text-violet-400" href="/admin/consultas" />
+          <StatCard label="Procesos activos"    value={stats.procesosActivos}   color="text-emerald-400" href="/admin/procesos" />
+          <StatCard label="Actuaciones nuevas"  value={stats.actuacionesNuevas} color={stats.actuacionesNuevas > 0 ? 'text-red-400' : 'text-slate-400'} href="/admin/procesos" />
           <StatCard label="Visitas hoy"   value={stats.visitasHoy} color="text-cyan-400"   href="/admin/visitas" />
         </div>
 
