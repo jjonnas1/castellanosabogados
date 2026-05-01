@@ -1,4 +1,11 @@
+import type { Metadata } from 'next';
 import SiteHeader from "@/app/components/SiteHeader";
+
+export const metadata: Metadata = {
+  title: 'Nosotros | Castellanos Abogados',
+  description: 'Conoce al equipo de Castellanos Abogados: formación, experiencia y enfoque jurídico estratégico en Pereira y el Eje Cafetero.',
+  alternates: { canonical: '/nosotros' },
+};
 
 export default function NosotrosPage() {
   return (

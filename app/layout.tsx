@@ -42,6 +42,7 @@ const organizationSchema = {
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
+  metadataBase: new URL('https://jonatancastellanosabogado.com'),
   title: 'Castellanos Abogados',
   description:
     'Acompañamiento estratégico y preventivo del riesgo penal asociado a decisiones sensibles en contratación estatal.',

@@ -1,5 +1,12 @@
 // app/servicios/page.tsx
+import type { Metadata } from 'next';
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: 'Servicios legales | Castellanos Abogados',
+  description: 'Penal, ejecución de penas, tutelas, civil, familia, laboral y administrativo. Asesoría jurídica integral en Pereira y el Eje Cafetero.',
+  alternates: { canonical: '/servicios' },
+};
 
 import SiteHeader from "@/app/components/SiteHeader";
 import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";

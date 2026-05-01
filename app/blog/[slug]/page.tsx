@@ -512,6 +512,17 @@ export async function generateStaticParams() {
   return Object.keys(articles).map((slug) => ({ slug }));
 }
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const article = articles[slug];
+  if (!article) return {};
+  return {
+    title: `${article.title} | Castellanos Abogados`,
+    description: article.content.trim().split('\n')[0].slice(0, 160),
+    alternates: { canonical: `/blog/${slug}` },
+  };
+}
+
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = articles[slug];

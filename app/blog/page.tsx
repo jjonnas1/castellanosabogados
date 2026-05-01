@@ -5,6 +5,7 @@ export const metadata = {
   title: 'Blog jurídico | Castellanos Abogados',
   description:
     'Artículos y orientación legal sobre derecho penal, tutelas, ejecución de penas y más, escritos por el equipo de Castellanos Abogados.',
+  alternates: { canonical: '/blog' },
 };
 
 const articles = [

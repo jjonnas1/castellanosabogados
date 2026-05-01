@@ -1,5 +1,12 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import SiteHeader from '@/app/components/SiteHeader';
+
+export const metadata: Metadata = {
+  title: 'Tutelas | Castellanos Abogados',
+  description: 'Interponemos acciones de tutela para proteger tus derechos fundamentales. Evaluación gratuita y acompañamiento en todo el proceso.',
+  alternates: { canonical: '/tutela' },
+};
 import EvaluadorTutela from '@/app/components/EvaluadorTutela';
 import { buildMailtoUrl, buildWhatsAppUrl } from '@/lib/contactLinks';
 

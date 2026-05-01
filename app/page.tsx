@@ -1,5 +1,12 @@
 // app/page.tsx
+import type { Metadata } from 'next';
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: 'Castellanos Abogados | Firma jurídica en Pereira',
+  description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
+  alternates: { canonical: '/' },
+};
 
 import SiteHeader from "./components/SiteHeader";
 import HeroTipificador from "./components/HeroTipificador";
