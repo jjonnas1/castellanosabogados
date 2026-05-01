@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+
+declare global { function gtag(...args: unknown[]): void; }
 import { useRouter } from 'next/navigation';
 import { buildWhatsAppUrl } from '@/lib/contactLinks';
 
@@ -117,6 +119,15 @@ export default function WhatsAppLeadModal() {
         }),
       });
       if (!res.ok) throw new Error('api_error');
+
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'conversion', {
+          send_to: 'AW-18056733453/cC0KCL_sk58cEI3Gj6JD',
+          event_category: 'contacto',
+          event_label: 'whatsapp_modal',
+        });
+        gtag('event', 'click_whatsapp', { event_category: 'contacto' });
+      }
 
       router.push(
         `/gracias-legal?wa=${encodeURIComponent(waUrl)}&nombre=${encodeURIComponent(nombre.trim())}`,

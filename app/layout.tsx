@@ -8,8 +8,10 @@ import WhatsAppFloat from '@/app/components/WhatsAppFloat';
 import WhatsAppLeadModal from '@/app/components/WhatsAppLeadModal';
 import VisitTracker from '@/app/components/VisitTracker';
 import ClientPortalModal from '@/app/components/ClientPortalModal';
+import SiteFooter from '@/app/components/SiteFooter';
 
 const GADS_ID = 'AW-18056733453';
+const GT_ID   = 'GT-NCNRRTDW';
 
 const organizationSchema = {
   "@context": "https://schema.org",
@@ -77,6 +79,7 @@ export default function RootLayout({
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           gtag('config', '${GADS_ID}');
+          gtag('config', '${GT_ID}');
         `}</Script>
 
         {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
@@ -85,6 +88,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
         {children}
+        <SiteFooter />
         <VisitTracker />
         <ClientPortalModal />
         <AdminConsultChat />

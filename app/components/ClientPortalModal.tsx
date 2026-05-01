@@ -13,6 +13,10 @@ export default function ClientPortalModal() {
   useEffect(() => {
     setMounted(true);
     if (sessionStorage.getItem(STORAGE_KEY)) return;
+    if (!localStorage.getItem('visited')) {
+      localStorage.setItem('visited', 'true');
+      return;
+    }
     let timer: ReturnType<typeof setTimeout>;
     supabase.auth.getSession()
       .then(({ data: { session } }) => {

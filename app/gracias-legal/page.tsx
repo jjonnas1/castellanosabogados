@@ -22,7 +22,7 @@ function ConversionScript() {
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('event', 'conversion', {
-        'send_to':  'AW-18056733453',
+        'send_to':  'AW-18056733453/cC0KCL_sk58cEI3Gj6JD',
         'value':    1.0,
         'currency': 'COP'
       });

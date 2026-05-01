@@ -6,7 +6,18 @@ export default function NosotrosPage() {
       <SiteHeader />
 
       <section className="section-shell bg-surface/70">
-        <div className="container grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
+        <div className="container space-y-6">
+
+          {/* Formación académica */}
+          <div className="card-shell bg-white p-6">
+            <p className="pill w-fit mb-3">Formación académica</p>
+            <div className="space-y-1">
+              <p className="text-base font-semibold text-ink">Abogado — Universidad Libre de Pereira</p>
+              <p className="text-base font-semibold text-ink">Licenciado en Lenguas Modernas — Universidad de Caldas</p>
+            </div>
+          </div>
+
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
           <article className="card-shell bg-white p-8">
             <h1 className="text-2xl font-semibold text-ink">Jonatan Castellanos</h1>
             <p className="mt-1 text-sm font-semibold uppercase tracking-[0.12em] text-muted">CEO y fundador</p>
@@ -44,6 +55,7 @@ export default function NosotrosPage() {
               />
             </div>
           </div>
+        </div>
         </div>
       </section>
     </main>

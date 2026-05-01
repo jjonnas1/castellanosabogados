@@ -87,13 +87,29 @@ export default async function Home() {
             </div>
             <div className="flex flex-wrap items-center gap-4 animate-fade-in-up delay-200">
               <Link href="/servicios" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">Ver servicios</Link>
-              <a href={buildMailtoUrl({ area: "General", source: "/", subject: "Solicitud de contacto – General", message: "Hola, quisiera orientación general sobre sus servicios." })} className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
-                Contactar por correo
+              <a
+                href="https://wa.me/573148309306?text=Hola%2C%20quiero%20información%20sobre%20sus%20servicios%20legales"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+              >
+                Consultar por WhatsApp
               </a>
             </div>
           </div>
 
-          <HeroTipificador />
+          <div className="flex flex-col gap-3">
+            <HeroTipificador />
+            <a
+              href={`tel:+${contactConfig.whatsapp}`}
+              className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-white py-4 text-[16px] font-semibold text-ink shadow-[0_4px_24px_rgba(0,0,0,0.25)] transition hover:bg-slate-50 active:scale-[0.98]"
+            >
+              <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 shrink-0" aria-hidden>
+                <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C9.61 21 3 14.39 3 6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              {contactConfig.whatsappDisplay.replace("+57 ", "")}
+            </a>
+          </div>
         </div>
       </section>
 
@@ -125,6 +141,46 @@ export default async function Home() {
       </section>
 
 
+      {/* PORTAL DEL CLIENTE */}
+      <section
+        className="section-shell text-white"
+        style={{ background: "linear-gradient(120deg, rgba(12,17,29,0.95), rgba(17,37,68,0.92))" }}
+      >
+        <div className="container space-y-8">
+          <div className="space-y-3 text-center">
+            <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ring-1 ring-white/25">
+              Portal del cliente
+            </span>
+            <h2 className="text-white">Tu caso, siempre a la mano</h2>
+            <p className="mx-auto max-w-xl text-slate-300">
+              Cuando nos contratas, tienes acceso en tiempo real a tu expediente desde tu celular.
+            </p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
+            <div className="rounded-2xl border border-white/15 bg-white/8 p-6 text-center space-y-3 backdrop-blur">
+              <span className="text-3xl">📄</span>
+              <p className="text-sm text-slate-200">Documentos de tu caso en un solo lugar</p>
+            </div>
+            <div className="rounded-2xl border border-white/15 bg-white/8 p-6 text-center space-y-3 backdrop-blur">
+              <span className="text-3xl">🔔</span>
+              <p className="text-sm text-slate-200">Actualizaciones del proceso sin tener que llamar</p>
+            </div>
+            <div className="rounded-2xl border border-white/15 bg-white/8 p-6 text-center space-y-3 backdrop-blur">
+              <span className="text-3xl">📅</span>
+              <p className="text-sm text-slate-200">Agenda y gestiona tus citas fácilmente</p>
+            </div>
+          </div>
+          <div className="text-center">
+            <Link
+              href="/cliente/login"
+              className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/10 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20"
+            >
+              Conoce el portal
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="section-shell bg-white">
         <div className="container max-w-3xl space-y-6">
@@ -148,68 +204,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* CONTACTO */}
-      <section id="contacto" className="relative overflow-hidden section-shell" style={{ backgroundImage: skylineBackground, backgroundSize: "cover", backgroundPosition: "center" }}>
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/82 to-accent-700/70" aria-hidden />
-        <div className="container relative grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-start text-white">
-          <div className="space-y-4">
-            <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Contacto</p>
-            <h2 className="text-white">Primer punto de control</h2>
-            <p className="text-slate-100">Comparte el contexto esencial y coordinamos la disponibilidad más cercana.</p>
-            <p className="text-sm text-slate-100">
-              <strong className="text-white">Correo:</strong>{" "}
-              <a href={buildMailtoUrl({ area: "Contacto", source: "/#contacto", subject: "Solicitud de contacto", message: "Hola, necesito coordinar una revisión." })} className="underline underline-offset-4">
-                {contactConfig.email}
-              </a>
-            </p>
-          </div>
-          <form className="card-shell bg-white/90 p-8 text-ink backdrop-blur" action="/api/contact" method="post">
-            <div className="grid gap-4">
-              <input type="hidden" name="area" value="Contacto – Home" />
-              <input type="hidden" name="source" value="/#contacto" />
-              <input type="hidden" name="subject" value="Solicitud de contacto (Home)" />
-              <label className="text-sm font-semibold text-ink">
-                Nombre
-                <input name="name" type="text" placeholder="Su nombre" className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" />
-              </label>
-              <label className="text-sm font-semibold text-ink">
-                Correo
-                <input name="email" type="email" required placeholder="nombre@correo.com" className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" />
-              </label>
-              <label className="text-sm font-semibold text-ink">
-                Motivo
-                <select name="reason" className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50">
-                  <option>Penal personas</option>
-                  <option>Tutelas</option>
-                  <option>Ejecución de penas</option>
-                  <option>Penal empresarial</option>
-                  <option>Civil / Familia / Laboral</option>
-                  <option>Otro</option>
-                </select>
-              </label>
-              <label className="text-sm font-semibold text-ink">
-                Mensaje (opcional)
-                <textarea name="message" rows={3} placeholder="Cuéntenos brevemente su situación" className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" />
-              </label>
-              <button type="submit" className="btn-primary justify-center">Enviar</button>
-            </div>
-          </form>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="border-t border-border bg-white/90 py-8 backdrop-blur">
-        <div className="container flex flex-col gap-3 text-sm text-muted md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="font-heading text-base font-semibold text-ink">Castellanos Abogados</p>
-            <p>Firma · Asesoría jurídica estratégica integral</p>
-          </div>
-          <div className="text-right text-muted">
-            <p className="font-heading font-semibold text-ink">Criterio • Control • Tranquilidad</p>
-            <p>© {new Date().getFullYear()} Todos los derechos reservados.</p>
-          </div>
-        </div>
-      </footer>
     </main>
   );
 }

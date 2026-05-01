@@ -40,6 +40,70 @@ const articles = [
     date: '2026-04-05',
     category: 'Ejecución de Penas',
   },
+  {
+    slug: 'abogado-penalista-pereira',
+    title: 'Abogado penalista en Pereira: cuándo necesitas uno y cómo elegirlo',
+    summary:
+      'Enfrentar un proceso penal en el Eje Cafetero requiere un profesional especializado. Te explicamos cuándo actuar, qué hace un penalista y cómo elegir bien.',
+    date: '2026-05-05',
+    category: 'Penal',
+  },
+  {
+    slug: 'que-hacer-si-te-detienen-colombia',
+    title: '¿Qué hacer si te detienen en Colombia? Guía paso a paso',
+    summary:
+      'Una detención puede ocurrirle a cualquier persona. Conoce tus derechos desde el primer instante y los pasos que pueden determinar el resultado de tu caso.',
+    date: '2026-05-05',
+    category: 'Penal',
+  },
+  {
+    slug: 'detencion-domiciliaria-colombia',
+    title: 'Detención domiciliaria en Colombia: requisitos y cómo solicitarla',
+    summary:
+      'Muchos condenados pueden cumplir su pena fuera de la cárcel. Explicamos los dos tipos de detención domiciliaria en Colombia y cómo tramitarlos.',
+    date: '2026-05-05',
+    category: 'Ejecución de Penas',
+  },
+  {
+    slug: 'divorcio-colombia',
+    title: 'Divorcio en Colombia: tipos, proceso y tiempos',
+    summary:
+      'En Colombia existen varias vías para disolver el matrimonio. Conoce cuál aplica a tu caso y qué esperar del proceso judicial o notarial.',
+    date: '2026-05-12',
+    category: 'Familia',
+  },
+  {
+    slug: 'acoso-laboral-colombia',
+    title: 'Acoso laboral en Colombia: qué es, cómo reconocerlo y cómo denunciarlo',
+    summary:
+      'El acoso laboral tiene nombre legal en Colombia y un proceso claro para denunciarlo. Te explicamos qué dice la Ley 1010 de 2006 y cómo actuar.',
+    date: '2026-05-12',
+    category: 'Laboral',
+  },
+  {
+    slug: 'medida-de-aseguramiento-colombia',
+    title: 'Medida de aseguramiento en Colombia: tipos, requisitos y cómo impugnarla',
+    summary:
+      'La medida de aseguramiento puede privarte de la libertad antes de una condena. Conoce sus requisitos y las vías para impugnarla o sustituirla.',
+    date: '2026-05-19',
+    category: 'Penal',
+  },
+  {
+    slug: 'libertad-condicional-colombia',
+    title: 'Libertad condicional en Colombia: requisitos del artículo 64 del Código Penal',
+    summary:
+      'La libertad condicional permite recuperar la libertad antes de cumplir toda la condena. Conoce los 4 requisitos del artículo 64 del Código Penal y el proceso.',
+    date: '2026-05-19',
+    category: 'Ejecución de Penas',
+  },
+  {
+    slug: 'preacuerdo-penal-colombia',
+    title: 'Preacuerdo penal en Colombia: ventajas, riesgos y cuándo conviene',
+    summary:
+      'Un preacuerdo bien negociado puede reducir significativamente tu pena. Uno mal manejado puede ser un error grave. Te explicamos cuándo conviene y cuándo no.',
+    date: '2026-05-19',
+    category: 'Penal',
+  },
 ];
 
 export default function BlogPage() {

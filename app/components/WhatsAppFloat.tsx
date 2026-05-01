@@ -2,6 +2,7 @@
 
 export default function WhatsAppFloat() {
   const href = 'https://wa.me/573148309306?text=Hola,%20necesito%20asesor%C3%ADa%20jur%C3%ADdica%20sobre...';
+
   return (
     <a
       href={href}
