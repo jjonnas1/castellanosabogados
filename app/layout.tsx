@@ -2,15 +2,9 @@ import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { GoogleTagManager } from '@next/third-parties/google';
-import dynamic from 'next/dynamic';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
 import SiteFooter from '@/app/components/SiteFooter';
-
-const WhatsAppFloat    = dynamic(() => import('@/app/components/WhatsAppFloat'),    { ssr: false });
-const WhatsAppLeadModal = dynamic(() => import('@/app/components/WhatsAppLeadModal'), { ssr: false });
-const ClientPortalModal = dynamic(() => import('@/app/components/ClientPortalModal'), { ssr: false });
-const AdminConsultChat  = dynamic(() => import('@/app/components/AdminConsultChat'),  { ssr: false });
-const VisitTracker      = dynamic(() => import('@/app/components/VisitTracker'),      { ssr: false });
+import ClientWidgets from '@/app/components/ClientWidgets';
 
 const GADS_ID = 'AW-18056733453';
 const GT_ID   = 'GT-NCNRRTDW';
@@ -92,12 +86,8 @@ export default function RootLayout({
         />
         {children}
         <SiteFooter />
-        <VisitTracker />
-        <ClientPortalModal />
-        <AdminConsultChat />
         <AdminFloatingAccess />
-        <WhatsAppFloat />
-        <WhatsAppLeadModal />
+        <ClientWidgets />
       </body>
     </html>
   );
