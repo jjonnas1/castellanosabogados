@@ -45,8 +45,8 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { radicado, nombre_cliente, contraparte, cliente_id, despacho, ciudad, tipo, estado, notas, alerta_vencimiento, tipo_vencimiento, id_rama_judicial } = body;
 
-  if (!radicado || !nombre_cliente) {
-    return NextResponse.json({ ok: false, error: 'radicado y nombre_cliente son obligatorios' }, { status: 400 });
+  if (!radicado) {
+    return NextResponse.json({ ok: false, error: 'El radicado es obligatorio' }, { status: 400 });
   }
 
   const db = createSupabaseAdminClient();
@@ -54,7 +54,7 @@ export async function POST(req: NextRequest) {
     .from('procesos')
     .insert({
       radicado: radicado.trim(),
-      nombre_cliente: nombre_cliente.trim(),
+      nombre_cliente: (nombre_cliente || 'Sin definir').trim(),
       contraparte:       contraparte       || null,
       cliente_id:        cliente_id        || null,
       id_rama_judicial:  id_rama_judicial  || null,

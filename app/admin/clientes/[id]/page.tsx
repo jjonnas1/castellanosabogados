@@ -1,25 +1,29 @@
+'use client';
+
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import SiteHeader from '@/app/components/SiteHeader';
+import AdminShell from '@/components/AdminShell';
 import AdminWorkspace from '@/app/components/AdminWorkspace';
 
-export default async function AdminClienteDetallePage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default function AdminClienteDetallePage() {
+  const params = useParams<{ id: string }>();
 
   return (
-    <main className="bg-canvas text-ink min-h-screen">
-      <SiteHeader />
-      <div className="container pt-4">
-        <Link
-          href="/admin/clientes"
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-ink"
-        >
-          <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4" aria-hidden>
-            <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-          Volver a Clientes
-        </Link>
+    <AdminShell>
+      <div className="p-6">
+        <div className="mb-4">
+          <Link
+            href="/admin/clientes"
+            className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-300 transition-colors"
+          >
+            <svg viewBox="0 0 16 16" fill="none" className="h-4 w-4">
+              <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Volver a Clientes
+          </Link>
+        </div>
+        <AdminWorkspace section="all" clientId={params.id} />
       </div>
-      <AdminWorkspace section="all" clientId={id} />
-    </main>
+    </AdminShell>
   );
 }

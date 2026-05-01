@@ -49,7 +49,7 @@ function ModalNuevo({ token, onClose, onCreated }: { token: string; onClose: () 
       const res = await fetch('/api/admin/procesos', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, nombre_cliente: form.nombre_cliente || 'Sin definir' }),
       });
       const d = await res.json();
       if (!d.ok) { setErr(d.error ?? 'Error'); setSaving(false); return; }
@@ -83,11 +83,11 @@ function ModalNuevo({ token, onClose, onCreated }: { token: string; onClose: () 
               />
             </div>
             <div className="col-span-2">
-              <label className="block text-xs text-slate-400 mb-1">Cliente *</label>
+              <label className="block text-xs text-slate-400 mb-1">Cliente <span className="text-slate-600">(opcional)</span></label>
               <input
-                required
                 value={form.nombre_cliente}
                 onChange={(e) => setForm((f) => ({ ...f, nombre_cliente: e.target.value }))}
+                placeholder="Nombre del cliente o dejar vacío"
                 className="w-full bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-600"
               />
             </div>
