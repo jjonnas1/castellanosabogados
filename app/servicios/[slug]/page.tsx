@@ -44,8 +44,9 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <Link href="/servicios" className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
               Servicios
             </Link>
-            <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">Riesgo penal empresarial</span>
-            <span className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">{detail.slug}</span>
+            {detail.chips.map((chip) => (
+              <span key={chip} className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">{chip}</span>
+            ))}
           </div>
           <h1 className="text-white max-w-3xl">{detail.headline}</h1>
           <p className="max-w-3xl text-slate-100 text-lg">{detail.summary}</p>
@@ -67,9 +68,9 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             </Link>
           </div>
           <div className="grid gap-3 text-sm text-slate-100 md:grid-cols-3">
-            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">No asumimos litigio penal.</div>
-            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Coordinamos con juntas y comités.</div>
-            <div className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">Documentación especializada y trazable.</div>
+            {detail.heroStats.map((stat) => (
+              <div key={stat} className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">{stat}</div>
+            ))}
           </div>
         </div>
       </header>
@@ -104,9 +105,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <div className="card-shell bg-white p-8 shadow-soft/40">
           <p className="pill w-fit">Entregables</p>
           <h2 className="mt-3 text-ink">Lo que entregamos</h2>
-          <p className="mt-2 text-muted">
-            Trabajamos con documentación especializada, protocolos activables y coordinación con los responsables clave. No intervenimos en litigio penal, pero articulamos aliados cuando es necesario.
-          </p>
+          <p className="mt-2 text-muted">{detail.deliverablesIntro}</p>
           <ul className="mt-5 space-y-3 text-sm text-muted">
             {detail.deliverables.map((item) => (
               <li key={item} className="flex gap-3">
@@ -138,7 +137,6 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               Coordinar con junta
             </a>
           </div>
-          <p className="mt-4 text-xs text-muted">Si requieres litigio, te conectamos con aliados especializados manteniendo la trazabilidad.</p>
         </div>
       </section>
     </main>
