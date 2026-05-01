@@ -26,6 +26,21 @@ interface Appointment {
   status:   string;
 }
 
+interface ProcesoAlerta {
+  id: string;
+  radicado: string;
+  nombre_cliente: string;
+  actuaciones_nuevas: number;
+}
+
+interface Vencimiento {
+  id: string;
+  radicado: string;
+  nombre_cliente: string;
+  alerta_vencimiento: string;
+  tipo_vencimiento: string | null;
+}
+
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
 function isToday(iso: string) {
@@ -154,6 +169,8 @@ export default function AdminRootPage() {
   const [stats, setStats]       = useState<Stats>({
     clientes: 0, citas: 0, consultas: 0, visitasHoy: 0, procesosActivos: 0, actuacionesNuevas: 0,
   });
+  const [procesosConNuevas, setProcesosConNuevas] = useState<ProcesoAlerta[]>([]);
+  const [vencimientos, setVencimientos]           = useState<Vencimiento[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -185,14 +202,23 @@ export default function AdminRootPage() {
         .catch(() => 0),
       fetch('/api/admin/procesos', { headers: { authorization: `Bearer ${token}` } })
         .then((r) => r.json())
-        .then((d: { procesos?: Array<{ estado: string; actuaciones_nuevas: number }> }) => {
+        .then((d: { procesos?: Array<{ id: string; radicado: string; nombre_cliente: string; estado: string; actuaciones_nuevas: number }> }) => {
           const ps = d.procesos ?? [];
+          setProcesosConNuevas(
+            ps.filter((p) => p.actuaciones_nuevas > 0).slice(0, 5),
+          );
           return {
             procesosActivos:   ps.filter((p) => p.estado === 'Activo' || p.estado === 'En trámite').length,
             actuacionesNuevas: ps.reduce((s, p) => s + (p.actuaciones_nuevas ?? 0), 0),
           };
         })
         .catch(() => ({ procesosActivos: 0, actuacionesNuevas: 0 })),
+      fetch('/api/admin/procesos/alertas', { headers: { authorization: `Bearer ${token}` } })
+        .then((r) => r.json())
+        .then((d: { vencimientos?: Vencimiento[] }) => {
+          setVencimientos((d.vencimientos ?? []).slice(0, 5));
+        })
+        .catch(() => {}),
     ]).then(([ws, visitasHoy, proc]) => {
       setStats({
         ...(ws as Pick<Stats, 'clientes' | 'citas' | 'consultas'>),
@@ -261,6 +287,91 @@ export default function AdminRootPage() {
             </div>
             <TodayTimeline token={token} />
           </div>
+        </div>
+
+        {/* Alertas procesales */}
+        <div className="bg-[#0b1929] border border-[#1e3a6e]/60 rounded-2xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+              Alertas procesales
+            </p>
+            <a href="/admin/procesos" className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors">
+              Ver procesos →
+            </a>
+          </div>
+
+          {procesosConNuevas.length === 0 && vencimientos.length === 0 ? (
+            <p className="text-xs text-slate-500 py-4 text-center">Sin novedades procesales.</p>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              {/* Actuaciones nuevas */}
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-600 mb-2">
+                  Actuaciones nuevas sin leer
+                </p>
+                {procesosConNuevas.length === 0 ? (
+                  <p className="text-xs text-slate-600">Sin actuaciones nuevas.</p>
+                ) : (
+                  <div className="space-y-2">
+                    {procesosConNuevas.map((p) => (
+                      <div key={p.id} className="flex items-center justify-between gap-3 bg-red-950/20 border border-red-900/30 rounded-lg px-3 py-2">
+                        <div className="min-w-0">
+                          <p className="text-xs font-medium text-slate-200 truncate">{p.nombre_cliente}</p>
+                          <p className="text-[11px] font-mono text-slate-500 truncate">{p.radicado}</p>
+                          <p className="text-[11px] text-red-400 mt-0.5">
+                            {p.actuaciones_nuevas} actuación{p.actuaciones_nuevas !== 1 ? 'es' : ''} nueva{p.actuaciones_nuevas !== 1 ? 's' : ''}
+                          </p>
+                        </div>
+                        <a
+                          href={`/admin/procesos/${p.id}`}
+                          className="flex-shrink-0 text-[11px] text-blue-400 hover:text-blue-300 transition-colors"
+                        >
+                          Ver →
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Vencimientos próximos */}
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-600 mb-2">
+                  Vencimientos próximos (7 días)
+                </p>
+                {vencimientos.length === 0 ? (
+                  <p className="text-xs text-slate-600">Sin vencimientos próximos.</p>
+                ) : (
+                  <div className="space-y-2">
+                    {vencimientos.map((v) => {
+                      const diasRestantes = Math.ceil(
+                        (new Date(v.alerta_vencimiento).getTime() - Date.now()) / (1000 * 60 * 60 * 24),
+                      );
+                      const color = diasRestantes <= 2 ? 'text-red-400' : diasRestantes <= 5 ? 'text-orange-400' : 'text-yellow-400';
+                      const bg    = diasRestantes <= 2 ? 'bg-red-950/20 border-red-900/30' : diasRestantes <= 5 ? 'bg-orange-950/20 border-orange-900/30' : 'bg-yellow-950/20 border-yellow-900/30';
+                      return (
+                        <div key={v.id} className={`flex items-center justify-between gap-3 rounded-lg border px-3 py-2 ${bg}`}>
+                          <div className="min-w-0">
+                            <p className="text-xs font-medium text-slate-200 truncate">{v.nombre_cliente}</p>
+                            <p className="text-[11px] text-slate-500 truncate">{v.tipo_vencimiento ?? 'Vencimiento'}</p>
+                            <p className={`text-[11px] font-semibold mt-0.5 ${color}`}>
+                              Vence en {diasRestantes} día{diasRestantes !== 1 ? 's' : ''}
+                            </p>
+                          </div>
+                          <a
+                            href={`/admin/procesos/${v.id}`}
+                            className="flex-shrink-0 text-[11px] text-blue-400 hover:text-blue-300 transition-colors"
+                          >
+                            Ver →
+                          </a>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </AdminShell>

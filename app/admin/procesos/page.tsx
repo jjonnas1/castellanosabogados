@@ -39,8 +39,37 @@ function ModalNuevo({ token, onClose, onCreated }: { token: string; onClose: () 
     radicado: '', nombre_cliente: '', contraparte: '', despacho: '', ciudad: '',
     tipo: '', estado: 'Activo', notas: '', id_rama_judicial: '',
   });
-  const [saving, setSaving] = useState(false);
-  const [err, setErr]       = useState('');
+  const [saving, setSaving]       = useState(false);
+  const [err, setErr]             = useState('');
+  const [verificando, setVerificando] = useState(false);
+  const [verificMsg, setVerificMsg]   = useState<{ ok: boolean; text: string } | null>(null);
+
+  async function verificarRadicado() {
+    const radicado = form.radicado.trim();
+    if (!radicado || radicado.length < 10) return;
+    setVerificando(true); setVerificMsg(null);
+    try {
+      const res = await fetch(
+        `/api/admin/procesos/verificar?radicado=${encodeURIComponent(radicado)}`,
+        { headers: { authorization: `Bearer ${token}` } },
+      );
+      const d = await res.json();
+      if (d.ok) {
+        setForm((f) => ({
+          ...f,
+          id_rama_judicial: d.idRamaJudicial ?? f.id_rama_judicial,
+          despacho:         d.despacho       ?? f.despacho,
+        }));
+        setVerificMsg({ ok: true, text: `Encontrado: ${d.despacho ?? 'despacho no disponible'}` });
+      } else {
+        setVerificMsg({ ok: false, text: d.error ?? 'No encontrado en Rama Judicial' });
+      }
+    } catch {
+      setVerificMsg({ ok: false, text: 'Error de conexión con Rama Judicial' });
+    } finally {
+      setVerificando(false);
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -74,13 +103,24 @@ function ModalNuevo({ token, onClose, onCreated }: { token: string; onClose: () 
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2">
               <label className="block text-xs text-slate-400 mb-1">Radicado *</label>
-              <input
-                required
-                value={form.radicado}
-                onChange={(e) => setForm((f) => ({ ...f, radicado: e.target.value }))}
-                placeholder="05001310300120240001200"
-                className="w-full bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-600"
-              />
+              <div className="relative">
+                <input
+                  required
+                  value={form.radicado}
+                  onChange={(e) => { setForm((f) => ({ ...f, radicado: e.target.value.replace(/\D/g, '') })); setVerificMsg(null); }}
+                  onBlur={verificarRadicado}
+                  placeholder="05001310300120240001200"
+                  className="w-full bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-600 pr-8"
+                />
+                {verificando && (
+                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
+                )}
+              </div>
+              {verificMsg && (
+                <p className={`text-[11px] mt-1 ${verificMsg.ok ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {verificMsg.ok ? '✓ ' : '✗ '}{verificMsg.text}
+                </p>
+              )}
             </div>
             <div className="col-span-2">
               <label className="block text-xs text-slate-400 mb-1">Cliente <span className="text-slate-600">(opcional)</span></label>
