@@ -21,31 +21,41 @@ export default function AdminLoginPage() {
   useEffect(() => {
     let mounted = true;
 
+    // Seguridad: si algo falla o tarda, desbloquear el formulario tras 4 s
+    const safetyTimer = setTimeout(() => {
+      if (mounted) setChecking(false);
+    }, 4000);
+
     const checkAdmin = async () => {
-      const { data: s } = await supabase.auth.getSession();
-      const user = s.session?.user;
-      if (!user) {
+      try {
+        const { data: s } = await supabase.auth.getSession();
+        const user = s.session?.user;
+        if (!user) {
+          if (mounted) setChecking(false);
+          return;
+        }
+
+        const isAdmin = await resolveAdminRole(user.id);
         if (!mounted) return;
+        if (isAdmin) {
+          router.replace('/admin');
+          return;
+        }
+
+        setError('Tu cuenta no tiene rol admin.');
         setChecking(false);
-        return;
+      } catch {
+        if (mounted) setChecking(false);
       }
-
-      const isAdmin = await resolveAdminRole(user.id);
-      if (!mounted) return;
-      if (isAdmin) {
-        router.replace('/admin');
-        return;
-      }
-
-      setError('Tu cuenta no tiene rol admin.');
-      setChecking(false);
     };
 
     checkAdmin();
     return () => {
       mounted = false;
+      clearTimeout(safetyTimer);
     };
   }, [router]);
+
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
