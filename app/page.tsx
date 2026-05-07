@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 import SiteHeader from "./components/SiteHeader";
-import HeroTipificador from "./components/HeroTipificador";
+import HeroCarrusel from "./components/HeroCarrusel";
 import { buildMailtoUrl, contactConfig } from "@/lib/contactLinks";
 
 const serviceLines = [
@@ -108,7 +108,7 @@ export default async function Home() {
           </div>
 
           <div className="flex flex-col gap-3">
-            <HeroTipificador />
+            <HeroCarrusel />
             <a
               href={`tel:+${contactConfig.whatsapp}`}
               className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-white py-4 text-[16px] font-semibold text-ink shadow-[0_4px_24px_rgba(0,0,0,0.25)] transition hover:bg-slate-50 active:scale-[0.98]"
