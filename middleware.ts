@@ -18,11 +18,21 @@ export async function middleware(request: NextRequest) {
   const isClientPublic = pathname === '/cliente/login' || pathname === '/cliente/registro' || pathname === '/cliente/acceso';
 
   if (!session) {
-    if (isAdminPath && !isAdminLogin) {
-      return NextResponse.redirect(new URL('/admin/login', request.url));
-    }
-    if (isClientPath && !isClientPublic) {
-      return NextResponse.redirect(new URL('/cliente/login', request.url));
+    // Comprobación secundaria: si existe una cookie de sesión de Supabase,
+    // getSession() puede haber fallado por timing en el edge (primera visita
+    // a rutas no cacheadas). En ese caso dejamos pasar y el layout del cliente
+    // se encarga de verificar la sesión real.
+    const hasAuthCookie = request.cookies.getAll().some(
+      (c) => c.name.startsWith('sb-') && c.name.includes('-auth-token')
+    );
+
+    if (!hasAuthCookie) {
+      if (isAdminPath && !isAdminLogin) {
+        return NextResponse.redirect(new URL('/admin/login', request.url));
+      }
+      if (isClientPath && !isClientPublic) {
+        return NextResponse.redirect(new URL('/cliente/login', request.url));
+      }
     }
   }
 
