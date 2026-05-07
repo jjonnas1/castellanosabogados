@@ -1,14 +1,35 @@
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next();
-  const supabase = createMiddlewareClient({ req: request, res: response });
+  let response = NextResponse.next({ request });
 
-  // getSession() refresca el token si está expirado y sincroniza las cookies
+  // Usamos @supabase/ssr (librería actual) — compatible con el resto de la app
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          );
+          response = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
+        },
+      },
+    }
+  );
+
+  // getUser() es más seguro que getSession() — valida el JWT con el servidor
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
 
@@ -17,7 +38,7 @@ export async function middleware(request: NextRequest) {
   const isClientPath   = pathname.startsWith('/cliente') || pathname.startsWith('/portal') || pathname.startsWith('/panel');
   const isClientPublic = pathname === '/cliente/login' || pathname === '/cliente/registro' || pathname === '/cliente/acceso';
 
-  if (!session) {
+  if (!user) {
     if (isAdminPath && !isAdminLogin) {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
