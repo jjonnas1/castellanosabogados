@@ -58,7 +58,7 @@ export default function NosotrosPage() {
             <div className="relative overflow-hidden rounded-2xl" style={{ minHeight: '320px', height: '100%' }}>
               <Image
                 fill
-                src="/IMG_4096.JPG"
+                src="/jonatan-castellanos.png"
                 alt="Jonatan Castellanos"
                 className="object-cover object-top"
                 sizes="(max-width: 1024px) 100vw, 45vw"
