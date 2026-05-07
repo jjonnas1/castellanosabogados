@@ -161,39 +161,43 @@ padding: var(--section-space) 0;
 }
 
 @layer base {
-h1,
-h2,
-h3,
-h4 {
-letter-spacing: var(--letter-tight, -0.018em);
+  h1, h2, h3, h4 {
+    letter-spacing: var(--letter-tight, -0.018em);
+    color: var(--color-ink);
+  }
+
+  h1 {
+    @apply font-heading text-[40px] font-semibold tracking-tight sm:text-[46px] lg:text-[58px] leading-[1.05];
+  }
+
+  h2 {
+    @apply font-heading text-3xl font-semibold sm:text-[34px] lg:text-[40px] leading-[1.1];
+  }
+
+  h3 {
+    @apply font-heading text-2xl font-semibold leading-tight;
+  }
+
+  p {
+    @apply text-base text-muted leading-relaxed;
+  }
 }
 
-h1 {
-@apply font-heading text-[40px] font-semibold tracking-tight text-ink sm:text-[46px] lg:text-[58px] leading-[1.05];
-}
-
-h2 {
-@apply font-heading text-3xl font-semibold text-ink sm:text-[34px] lg:text-[40px] leading-[1.1];
-}
-
-h3 {
-@apply font-heading text-2xl font-semibold text-ink leading-tight;
-}
-
-p {
-@apply text-base text-muted leading-relaxed;
-}
-}
 
 @layer components {
-.card-shell {
-@apply rounded-3xl border border-border bg-card shadow-soft transition duration-300 ease-out;
-}
+  .card-shell {
+    @apply rounded-3xl border border-border bg-card shadow-soft transition duration-300 ease-out;
+  }
 
-.card-shell:hover {
-@apply shadow-hover;
-transform: translateY(-2px);
-}
+  .dark .card-shell {
+    @apply bg-surface border-border/50;
+  }
+
+  .card-shell:hover {
+    @apply shadow-hover;
+    transform: translateY(-2px);
+  }
+
 
 .pill {
 @apply inline-flex items-center gap-2 rounded-full bg-accent-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-700;

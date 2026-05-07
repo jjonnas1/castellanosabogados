@@ -367,44 +367,7 @@ export default function SiteHeader() {
         </nav>
 
         {/* Actions — desktop */}
-        <div className="hidden shrink-0 items-center gap-3 md:flex">
-          {/* Theme Toggle */}
-          <button
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white text-ink transition hover:shadow-soft dark:bg-canvas"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
-
-          {/* Language Switcher */}
-          <div className="relative" ref={langRef}>
-            <button
-              onClick={() => setLangOpen(!langOpen)}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white text-ink transition hover:shadow-soft dark:bg-canvas"
-              aria-label="Change language"
-            >
-              <Languages size={18} />
-            </button>
-            {langOpen && (
-              <div className="absolute right-0 top-full mt-2 w-32 overflow-hidden rounded-xl border border-border bg-white shadow-xl dark:bg-canvas">
-                {(['es', 'en', 'fr', 'it'] as const).map((lang) => (
-                  <button
-                    key={lang}
-                    onClick={() => {
-                      setLanguage(lang);
-                      setLangOpen(false);
-                    }}
-                    className="flex w-full items-center justify-between px-4 py-2.5 text-xs font-medium transition hover:bg-subtle"
-                  >
-                    <span className="uppercase">{lang}</span>
-                    {language === lang && <Check size={14} className="text-accent" />}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
+        <div className="hidden shrink-0 items-center gap-4 md:flex">
           {loggedIn ? (
             <>
               <Link
@@ -424,7 +387,48 @@ export default function SiteHeader() {
               </Link>
             </>
           )}
+
+          <div className="h-4 w-px bg-border/60 mx-1" />
+
+          {/* Theme Toggle */}
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white text-ink transition hover:shadow-soft dark:bg-canvas dark:border-border/40"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
+          </button>
+
+          {/* Language Switcher */}
+          <div className="relative" ref={langRef}>
+            <button
+              onClick={() => setLangOpen(!langOpen)}
+              className="flex h-9 items-center gap-2 rounded-full border border-border bg-white px-3 text-ink transition hover:shadow-soft dark:bg-canvas dark:border-border/40"
+              aria-label="Change language"
+            >
+              <Languages size={17} />
+              <span className="text-[11px] font-bold uppercase tracking-wider">{language}</span>
+            </button>
+            {langOpen && (
+              <div className="absolute right-0 top-full mt-2 w-36 overflow-hidden rounded-xl border border-border bg-white shadow-2xl dark:bg-panel dark:border-border/60">
+                {(['es', 'en', 'fr', 'it'] as const).map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => {
+                      setLanguage(lang);
+                      setLangOpen(false);
+                    }}
+                    className="flex w-full items-center justify-between px-4 py-2.5 text-xs font-medium transition hover:bg-subtle dark:hover:bg-white/5"
+                  >
+                    <span className="uppercase">{lang === 'es' ? 'Español' : lang === 'en' ? 'English' : lang === 'fr' ? 'Français' : 'Italiano'}</span>
+                    {language === lang && <Check size={14} className="text-accent" />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
+
 
 
         {/* Mobile toggle */}
