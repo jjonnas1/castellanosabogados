@@ -1,7 +1,6 @@
 // app/page.tsx
 import type { Metadata } from 'next';
 import Link from "next/link";
-import Image from "next/image";
 
 export const metadata: Metadata = {
   title: 'Castellanos Abogados | Firma jurídica en Pereira',
@@ -11,7 +10,8 @@ export const metadata: Metadata = {
 
 import SiteHeader from "./components/SiteHeader";
 import HeroCarrusel from "./components/HeroCarrusel";
-import { buildMailtoUrl, contactConfig } from "@/lib/contactLinks";
+import { buildMailtoUrl } from "@/lib/contactLinks";
+
 
 const serviceLines = [
   { title: "Penal Personas", description: "Estrategia penal para personas naturales con acompañamiento técnico en cada etapa.", href: "/servicios/penal-personas", area: "Penal Personas", intent: "linea-penal-personas" },
@@ -65,62 +65,8 @@ export default async function Home() {
       />
       <SiteHeader />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden border-b border-border/60 text-white">
-        <Image
-          src="https://images.unsplash.com/photo-1521791055366-0d553872125f"
-          alt=""
-          fill
-          priority
-          sizes="(max-width: 640px) 640px, (max-width: 1280px) 1280px, 1920px"
-          quality={80}
-          className="object-cover object-center"
-          aria-hidden="true"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(12,17,29,0.88),rgba(17,37,68,0.82))]" aria-hidden />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.12),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.14),transparent_36%)]" aria-hidden />
-        <div className="absolute -left-24 top-16 h-56 w-56 rounded-full bg-white/10 blur-3xl" aria-hidden />
-        <div className="absolute -right-24 bottom-0 h-64 w-64 rounded-full bg-accent-500/20 blur-3xl" aria-hidden />
-
-        <div className="container section-shell relative grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="space-y-7">
-            <div className="flex flex-wrap items-center gap-3 text-sm text-slate-200 animate-fade-in-up">
-              <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ring-1 ring-white/25">Castellanos Abogados</span>
-              <span className="text-xs uppercase tracking-[0.18em] text-slate-200">Corporativo · Personas · Ejecución · Formación</span>
-            </div>
-            <div className="space-y-4 animate-fade-in-up delay-100">
-              <h1 className="text-white max-w-3xl">Firma jurídica integral en el Eje Cafetero con criterio técnico y acompañamiento real</h1>
-              <p className="max-w-2xl text-lg text-slate-100">
-                Derecho penal, civil, familia, laboral, administrativo, ejecución de penas y tutelas. Diagnóstico claro, estrategia definida y presencia en cada etapa de su proceso.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-4 animate-fade-in-up delay-200">
-              <Link href="/servicios" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">Ver servicios</Link>
-              <a
-                href="https://wa.me/573148309306?text=Hola%2C%20quiero%20información%20sobre%20sus%20servicios%20legales"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
-              >
-                Consultar por WhatsApp
-              </a>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <HeroCarrusel />
-            <a
-              href={`tel:+${contactConfig.whatsapp}`}
-              className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-white py-4 text-[16px] font-semibold text-ink shadow-[0_4px_24px_rgba(0,0,0,0.25)] transition hover:bg-slate-50 active:scale-[0.98]"
-            >
-              <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 shrink-0" aria-hidden>
-                <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C9.61 21 3 14.39 3 6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02l-2.2 2.2z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              {contactConfig.whatsappDisplay.replace("+57 ", "")}
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* HERO — carrusel pantalla completa */}
+      <HeroCarrusel />
 
 
       {/* ÁREAS DE PRÁCTICA */}

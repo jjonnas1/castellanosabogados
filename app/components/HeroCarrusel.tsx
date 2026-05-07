@@ -3,153 +3,189 @@
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from 'react';
 
+const WA = 'https://wa.me/573148309306';
+
 const SLIDES = [
   {
+    tag: 'Castellanos Abogados · Pereira',
+    title: 'Firma jurídica integral en el Eje Cafetero',
+    body: 'Derecho penal, civil, familia, laboral, administrativo y ejecución de penas. Diagnóstico claro, estrategia definida y presencia en cada etapa de su proceso.',
+    cta: 'Ver servicios',
+    ctaHref: '/servicios',
+    ctaStyle: 'primary',
+    accent: 'from-[#0c111d] to-[#112544]',
+  },
+  {
     tag: 'Derecho Laboral',
-    title: 'Hacemos su liquidación laboral',
-    body: 'Calculamos prima, cesantías, vacaciones e indemnización por despido. Que no le paguen de menos.',
-    cta: 'Consultar liquidación',
-    href: 'https://wa.me/573148309306?text=Hola%2C%20necesito%20que%20calculen%20mi%20liquidaci%C3%B3n%20laboral.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7 text-blue-300">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" />
-      </svg>
-    ),
+    title: 'Hacemos su liquidación laboral completa',
+    body: 'Prima de servicios, cesantías, vacaciones e indemnización por despido. Si lo despidieron sin justa causa, calculamos exactamente cuánto le deben.',
+    cta: 'Consultar por WhatsApp',
+    ctaHref: WA + '?text=Hola%2C%20necesito%20que%20calculen%20mi%20liquidaci%C3%B3n%20laboral.',
+    ctaStyle: 'wa',
+    accent: 'from-[#0c1e3a] to-[#0d2255]',
   },
   {
     tag: 'Derecho de Familia',
-    title: 'Fijamos y reclamamos alimentos',
-    body: 'Si el obligado no cumple con la cuota alimentaria, hay herramientas legales poderosas. Le asesoramos desde el primer día.',
-    cta: 'Consultar caso de familia',
-    href: 'https://wa.me/573148309306?text=Hola%2C%20necesito%20asesor%C3%ADa%20en%20alimentos%20o%20custodia.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7 text-rose-300">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
+    title: 'Fijamos y reclamamos cuotas de alimentos',
+    body: 'Si el obligado no paga, hay herramientas legales inmediatas: embargo, arresto por desacato, actualización de mora. Le asesoramos desde el primer día.',
+    cta: 'Hablar con un abogado',
+    ctaHref: WA + '?text=Hola%2C%20necesito%20asesor%C3%ADa%20en%20alimentos%20o%20custodia.',
+    ctaStyle: 'wa',
+    accent: 'from-[#1a0c1e] to-[#2a0d3a]',
   },
   {
-    tag: 'Derecho Civil',
-    title: '¿Le subieron el arriendo ilegalmente?',
-    body: 'El incremento está limitado por ley al IPC del año anterior. Cualquier cobro mayor es ilegal y puede revertirse.',
-    cta: 'Revisar mi arrendamiento',
-    href: 'https://wa.me/573148309306?text=Hola%2C%20quiero%20revisar%20si%20mi%20incremento%20de%20arriendo%20es%20legal.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7 text-emerald-300">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 0 0 1 1h3m10-11l2 2m-2-2v10a1 1 0 0 1-1 1h-3m-6 0a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1m-6 0h6" />
-      </svg>
-    ),
+    tag: 'Derecho Civil e Inmobiliario',
+    title: '¿Le subieron el arriendo más de lo legal?',
+    body: 'La ley limita el incremento al IPC del año anterior. Todo cobro mayor es ilegal. También tramitamos deudas civiles, prescripciones y contratos.',
+    cta: 'Revisar mi caso',
+    ctaHref: WA + '?text=Hola%2C%20quiero%20revisar%20si%20mi%20incremento%20de%20arriendo%20es%20legal.',
+    ctaStyle: 'wa',
+    accent: 'from-[#0c1e18] to-[#0d2d1a]',
   },
   {
     tag: 'Derecho Penal',
-    title: 'Defensa penal con estrategia real',
-    body: 'Calculamos cuartos de pena, gestionamos redenciones y vigilamos los términos procesales para proteger su libertad.',
-    cta: 'Hablar con un penalista',
-    href: 'https://wa.me/573148309306?text=Hola%2C%20necesito%20asesor%C3%ADa%20penal%20urgente.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7 text-violet-300">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      </svg>
-    ),
-  },
-  {
-    tag: 'Ejecución de Penas',
-    title: 'Su familiar puede salir antes',
-    body: 'Tramitamos redenciones por trabajo y estudio, prisión domiciliaria y libertad condicional. Cada día cuenta.',
-    cta: 'Evaluar caso de libertad',
-    href: 'https://wa.me/573148309306?text=Hola%2C%20quiero%20saber%20si%20mi%20familiar%20puede%20acceder%20a%20un%20beneficio.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-7 h-7 text-amber-300">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 1 1 8 0m-4 8v2m-6 4h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2z" />
-      </svg>
-    ),
+    title: 'Defensa penal con criterio técnico y real',
+    body: 'Calculamos cuartos de pena, gestionamos redenciones, tramitamos libertad condicional y prisión domiciliaria. Su libertad es nuestra prioridad.',
+    cta: 'Consultar urgente',
+    ctaHref: WA + '?text=Hola%2C%20necesito%20asesor%C3%ADa%20penal%20urgente.',
+    ctaStyle: 'wa',
+    accent: 'from-[#130c1e] to-[#1e0d35]',
   },
 ];
 
 export default function HeroCarrusel() {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [animating, setAnimating] = useState(false);
 
-  const next = useCallback(() => {
-    setCurrent((c) => (c + 1) % SLIDES.length);
-  }, []);
+  const goTo = useCallback((idx: number) => {
+    if (animating) return;
+    setAnimating(true);
+    setCurrent(idx);
+    setTimeout(() => setAnimating(false), 400);
+  }, [animating]);
 
-  const prev = useCallback(() => {
-    setCurrent((c) => (c - 1 + SLIDES.length) % SLIDES.length);
-  }, []);
+  const next = useCallback(() => goTo((current + 1) % SLIDES.length), [current, goTo]);
+  const prev = useCallback(() => goTo((current - 1 + SLIDES.length) % SLIDES.length), [current, goTo]);
 
   useEffect(() => {
     if (paused) return;
-    const id = setInterval(next, 4500);
+    const id = setInterval(next, 5000);
     return () => clearInterval(id);
   }, [next, paused]);
 
   const slide = SLIDES[current];
 
   return (
-    <div
-      className="relative overflow-hidden rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md shadow-[0_8px_40px_rgba(0,0,0,0.35)] p-6 min-h-[220px] flex flex-col justify-between"
+    <section
+      className={`relative min-h-[92vh] flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br ${slide.accent} transition-all duration-700`}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
+      {/* Background texture */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.07),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(255,255,255,0.05),transparent_40%)]" aria-hidden />
+      <div className="absolute -left-32 top-20 h-96 w-96 rounded-full bg-white/5 blur-3xl pointer-events-none" aria-hidden />
+      <div className="absolute -right-32 bottom-10 h-96 w-96 rounded-full bg-white/5 blur-3xl pointer-events-none" aria-hidden />
+
       {/* Slide content */}
-      <div className="space-y-3 transition-all duration-300">
-        <div className="flex items-center gap-2.5">
-          {slide.icon}
-          <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-white/60">{slide.tag}</span>
+      <div
+        key={current}
+        className="relative z-10 w-full max-w-4xl mx-auto px-6 py-20 text-center flex flex-col items-center gap-7"
+        style={{ animation: 'fadeSlideUp 0.45s ease forwards' }}
+      >
+        {/* Tag */}
+        <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white/70 ring-1 ring-white/20">
+          {slide.tag}
+        </span>
+
+        {/* Title */}
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight max-w-3xl">
+          {slide.title}
+        </h1>
+
+        {/* Body */}
+        <p className="text-lg md:text-xl text-slate-300 max-w-2xl leading-relaxed">
+          {slide.body}
+        </p>
+
+        {/* CTA Button */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
+          <Link
+            href={slide.ctaHref}
+            target={slide.ctaStyle === 'wa' ? '_blank' : undefined}
+            rel={slide.ctaStyle === 'wa' ? 'noopener noreferrer' : undefined}
+            className={
+              slide.ctaStyle === 'wa'
+                ? 'inline-flex items-center gap-2.5 bg-[#25d366] hover:bg-[#20bd5a] text-white font-bold px-7 py-4 rounded-2xl text-base shadow-xl transition-all active:scale-95'
+                : 'inline-flex items-center gap-2.5 bg-white text-[#0c111d] hover:bg-slate-100 font-bold px-7 py-4 rounded-2xl text-base shadow-xl transition-all active:scale-95'
+            }
+          >
+            {slide.ctaStyle === 'wa' && (
+              <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 shrink-0">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+              </svg>
+            )}
+            {slide.cta}
+          </Link>
+
+          {/* WhatsApp number always visible */}
+          <a
+            href={WA + '?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20servicios.'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-medium transition-colors"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-[#25d366] shrink-0">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+            </svg>
+            314 830 9306
+          </a>
         </div>
-        <h3 className="text-lg font-bold text-white leading-snug">{slide.title}</h3>
-        <p className="text-sm text-slate-300 leading-relaxed">{slide.body}</p>
       </div>
 
-      {/* CTA */}
-      <div className="mt-5">
-        <Link
-          href={slide.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-xl bg-white text-ink text-sm font-semibold px-4 py-2.5 hover:bg-slate-100 transition-colors shadow"
-        >
-          {slide.cta} →
-        </Link>
-      </div>
+      {/* Bottom controls */}
+      <div className="relative z-10 flex items-center gap-6 pb-10">
+        {/* Prev */}
+        <button onClick={prev} aria-label="Anterior"
+          className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition">
+          <svg viewBox="0 0 12 12" fill="none" className="w-3.5 h-3.5">
+            <path d="M8 10L4 6l4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
 
-      {/* Dots + arrows */}
-      <div className="mt-5 flex items-center justify-between">
         {/* Dots */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           {SLIDES.map((_, i) => (
             <button
               key={i}
-              onClick={() => setCurrent(i)}
-              aria-label={`Slide ${i + 1}`}
+              onClick={() => goTo(i)}
+              aria-label={`Ir a slide ${i + 1}`}
               className={[
-                'rounded-full transition-all duration-300',
+                'rounded-full transition-all duration-400',
                 i === current
-                  ? 'w-5 h-2 bg-white'
-                  : 'w-2 h-2 bg-white/35 hover:bg-white/60',
+                  ? 'w-8 h-2.5 bg-white'
+                  : 'w-2.5 h-2.5 bg-white/30 hover:bg-white/60',
               ].join(' ')}
             />
           ))}
         </div>
-        {/* Arrows */}
-        <div className="flex items-center gap-1">
-          <button onClick={prev} aria-label="Anterior"
-            className="w-7 h-7 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition">
-            <svg viewBox="0 0 12 12" fill="none" className="w-3 h-3">
-              <path d="M8 10L4 6l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-          <button onClick={next} aria-label="Siguiente"
-            className="w-7 h-7 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition">
-            <svg viewBox="0 0 12 12" fill="none" className="w-3 h-3">
-              <path d="M4 10l4-4-4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </div>
+
+        {/* Next */}
+        <button onClick={next} aria-label="Siguiente"
+          className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/20 transition">
+          <svg viewBox="0 0 12 12" fill="none" className="w-3.5 h-3.5">
+            <path d="M4 10l4-4-4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
       </div>
-    </div>
+
+      {/* CSS animation */}
+      <style>{`
+        @keyframes fadeSlideUp {
+          from { opacity: 0; transform: translateY(18px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+    </section>
   );
 }
