@@ -100,23 +100,24 @@ color-scheme: light;
 --shadow-hover: 0 16px 36px rgba(17, 24, 39, 0.16);
 }
 
-/* Direction C: Dark executive */
-.theme-dark {
-color-scheme: dark;
---color-canvas: #0c111d;
---color-surface: #111827;
---color-panel: #0f172a;
---color-card: #131b2f;
---color-ink: #e6ecf8;
---color-muted: #a4b2cc;
---color-border: #1f2a3d;
---color-subtle: #162138;
---color-accent: #3e6bd8;
---color-accent-strong: #294490;
---color-accent-soft: rgba(62, 107, 216, 0.14);
---shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.32);
---shadow-hover: 0 18px 48px rgba(0, 0, 0, 0.38);
+/* Dark Mode Executive */
+.dark {
+  color-scheme: dark;
+  --color-canvas: #0c111d;
+  --color-surface: #111827;
+  --color-panel: #0f172a;
+  --color-card: #131b2f;
+  --color-ink: #e6ecf8;
+  --color-muted: #a4b2cc;
+  --color-border: #1f2a3d;
+  --color-subtle: #162138;
+  --color-accent: #3e6bd8;
+  --color-accent-strong: #294490;
+  --color-accent-soft: rgba(62, 107, 216, 0.14);
+  --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.32);
+  --shadow-hover: 0 18px 48px rgba(0, 0, 0, 0.38);
 }
+
 
 html,
 body {

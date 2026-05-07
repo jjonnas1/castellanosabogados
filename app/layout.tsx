@@ -58,37 +58,50 @@ export const viewport: Viewport = {
   themeColor: '#0f172a',
 };
 
+import { ThemeProvider } from '@/components/theme-provider';
+import { LanguageProvider } from '@/contexts/LanguageContext';
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className="theme-a">
+    <html lang="es" suppressHydrationWarning>
       <body className="min-h-screen bg-canvas text-ink antialiased">
-        {/* Google Ads — Global Site Tag */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GADS_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="gads-init" strategy="afterInteractive">{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${GADS_ID}');
-          gtag('config', '${GT_ID}');
-        `}</Script>
+        <LanguageProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {/* Google Ads — Global Site Tag */}
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GADS_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="gads-init" strategy="afterInteractive">{`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', '${GADS_ID}');
+              gtag('config', '${GT_ID}');
+            `}</Script>
 
-        {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
-        {children}
-        <SiteFooter />
-        <AdminFloatingAccess />
-        <ClientWidgets />
+            {GTM_ID ? <GoogleTagManager gtmId={GTM_ID} /> : null}
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+            />
+            {children}
+            <SiteFooter />
+            <AdminFloatingAccess />
+            <ClientWidgets />
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
 }
+

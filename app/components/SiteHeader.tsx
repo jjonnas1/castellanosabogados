@@ -6,6 +6,9 @@ import { useEffect, useId, useRef, useState } from "react";
 import { buildMailtoUrl, buildWhatsAppUrl, contactConfig } from "@/lib/contactLinks";
 import { getProfileRoleByUserId, type AppRole } from "@/lib/profile-role";
 import { supabase } from "@/lib/supabase-browser";
+import { useTheme } from "next-themes";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Moon, Sun, Languages, Check } from "lucide-react";
 
 // ── Mega-menu data ──────────────────────────────────────────────────────────
 
@@ -193,8 +196,12 @@ export default function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const { language, setLanguage, t } = useLanguage();
   const [role, setRole] = useState<AppRole>(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
 
   const isActive = (href: string) =>
     pathname === href || (href !== "/" && pathname?.startsWith(href));
@@ -204,6 +211,7 @@ export default function SiteHeader() {
   useEffect(() => {
     const onClickOutside = (e: MouseEvent) => {
       if (!megaRef.current?.contains(e.target as Node)) setMegaOpen(false);
+      if (!langRef.current?.contains(e.target as Node)) setLangOpen(false);
     };
     const onEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -265,7 +273,7 @@ export default function SiteHeader() {
   });
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-white/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-white/95 backdrop-blur-md dark:bg-canvas/95 transition-colors duration-300">
       <div className="container flex h-16 items-center justify-between gap-6">
 
         {/* Logo */}
@@ -305,7 +313,7 @@ export default function SiteHeader() {
                 isServicesActive() ? "text-ink" : ""
               }`}
             >
-              Servicios
+              {t.nav.services}
               <svg
                 className={`h-3 w-3 transition-transform ${megaOpen ? "rotate-180" : ""}`}
                 viewBox="0 0 12 8"
@@ -352,7 +360,7 @@ export default function SiteHeader() {
                   isActive(item.href) ? "text-ink" : ""
                 }`}
               >
-                {item.label}
+                {t.nav[item.href.replace("/", "") as keyof typeof t.nav] || item.label}
               </Link>
             );
           })}
@@ -360,33 +368,64 @@ export default function SiteHeader() {
 
         {/* Actions — desktop */}
         <div className="hidden shrink-0 items-center gap-3 md:flex">
+          {/* Theme Toggle */}
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white text-ink transition hover:shadow-soft dark:bg-canvas"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
+          {/* Language Switcher */}
+          <div className="relative" ref={langRef}>
+            <button
+              onClick={() => setLangOpen(!langOpen)}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white text-ink transition hover:shadow-soft dark:bg-canvas"
+              aria-label="Change language"
+            >
+              <Languages size={18} />
+            </button>
+            {langOpen && (
+              <div className="absolute right-0 top-full mt-2 w-32 overflow-hidden rounded-xl border border-border bg-white shadow-xl dark:bg-canvas">
+                {(['es', 'en', 'fr', 'it'] as const).map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => {
+                      setLanguage(lang);
+                      setLangOpen(false);
+                    }}
+                    className="flex w-full items-center justify-between px-4 py-2.5 text-xs font-medium transition hover:bg-subtle"
+                  >
+                    <span className="uppercase">{lang}</span>
+                    {language === lang && <Check size={14} className="text-accent" />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
           {loggedIn ? (
             <>
               <Link
                 href={panelHref}
-                className="inline-flex h-9 w-36 items-center justify-center rounded-full bg-ink text-[13px] font-semibold text-white transition hover:bg-ink/85"
+                className="inline-flex h-9 w-32 items-center justify-center rounded-full bg-ink text-[13px] font-semibold text-white transition hover:bg-ink/85 dark:bg-accent dark:hover:bg-accent-strong"
               >
-                {role === "admin" ? "Panel admin" : "Área cliente"}
+                {role === "admin" ? t.nav.admin : "Área cliente"}
               </Link>
-              <button
-                type="button"
-                onClick={logout}
-                className="inline-flex h-9 w-36 items-center justify-center rounded-full border border-border text-[13px] font-semibold text-ink transition hover:border-ink"
-              >
-                Cerrar sesión
-              </button>
             </>
           ) : (
             <>
               <Link
                 href="/cliente/login"
-                className="inline-flex h-9 items-center justify-center rounded-full bg-ink px-5 text-[13px] font-semibold text-white transition hover:bg-ink/85"
+                className="inline-flex h-9 items-center justify-center rounded-full bg-ink px-5 text-[13px] font-semibold text-white transition hover:bg-ink/85 dark:bg-accent dark:hover:bg-accent-strong"
               >
                 Área cliente
               </Link>
             </>
           )}
         </div>
+
 
         {/* Mobile toggle */}
         <button
