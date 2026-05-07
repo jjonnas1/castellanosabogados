@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { contactConfig } from "@/lib/contactLinks";
-import { useLang } from "@/contexts/LangContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const SERVICE_SLUGS = [
   "penal-personas",
@@ -20,7 +20,7 @@ const HIDDEN = ["/admin", "/cliente", "/portal", "/panel", "/login", "/registro"
 
 export default function SiteFooter() {
   const pathname = usePathname();
-  const { t } = useLang();
+  const { t } = useLanguage();
 
   if (HIDDEN.some((p) => pathname.startsWith(p))) return null;
 
@@ -35,7 +35,7 @@ export default function SiteFooter() {
           <p className="text-xs text-white/35">{t.footer.motto}</p>
         </div>
 
-        {/* Servicios — 2 columnas */}
+        {/* Servicios */}
         <div className="space-y-3">
           <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/50">
             {t.footer.services}
@@ -47,7 +47,7 @@ export default function SiteFooter() {
                   href={`/servicios/${slug}`}
                   className="text-white/65 transition hover:text-white"
                 >
-                  {t.mega.serviceNames[slug]}
+                  {t.header.serviceNames[slug]}
                 </Link>
               </li>
             ))}

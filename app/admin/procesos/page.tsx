@@ -38,6 +38,7 @@ function ModalNuevo({ token, onClose, onCreated }: { token: string; onClose: () 
   const [form, setForm] = useState({
     radicado: '', nombre_cliente: '', contraparte: '', despacho: '', ciudad: '',
     tipo: '', estado: 'Activo', notas: '', id_rama_judicial: '',
+    alerta_vencimiento: '', tipo_vencimiento: '',
   });
   const [saving, setSaving]       = useState(false);
   const [err, setErr]             = useState('');
@@ -103,22 +104,33 @@ function ModalNuevo({ token, onClose, onCreated }: { token: string; onClose: () 
           <div className="grid grid-cols-2 gap-3">
             <div className="col-span-2">
               <label className="block text-xs text-slate-400 mb-1">Radicado *</label>
-              <div className="relative">
+              <div className="flex gap-2">
                 <input
                   required
                   value={form.radicado}
-                  onChange={(e) => { setForm((f) => ({ ...f, radicado: e.target.value.replace(/\D/g, '') })); setVerificMsg(null); }}
-                  onBlur={verificarRadicado}
+                  onChange={(e) => { setForm((f) => ({ ...f, radicado: e.target.value })); setVerificMsg(null); }}
                   placeholder="05001310300120240001200"
-                  className="w-full bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-600 pr-8"
+                  className="flex-1 bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-600"
                 />
-                {verificando && (
-                  <div className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
-                )}
+                <button
+                  type="button"
+                  onClick={verificarRadicado}
+                  disabled={verificando || form.radicado.trim().length < 5}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-[#1a3a6e] hover:bg-[#1e4a8e] disabled:opacity-40 text-xs font-semibold text-blue-200 border border-blue-800/50 transition-colors whitespace-nowrap"
+                >
+                  {verificando ? (
+                    <div className="w-3 h-3 border-2 border-blue-300 border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="w-3.5 h-3.5">
+                      <circle cx="11" cy="11" r="8" /><path strokeLinecap="round" d="m21 21-4.35-4.35" />
+                    </svg>
+                  )}
+                  Consultar
+                </button>
               </div>
               {verificMsg && (
-                <p className={`text-[11px] mt-1 ${verificMsg.ok ? 'text-emerald-400' : 'text-red-400'}`}>
-                  {verificMsg.ok ? '✓ ' : '✗ '}{verificMsg.text}
+                <p className={`text-[11px] mt-1.5 ${verificMsg.ok ? 'text-emerald-400' : 'text-amber-400'}`}>
+                  {verificMsg.ok ? '✓ ' : 'ⓘ '}{verificMsg.text}{!verificMsg.ok ? ' — puedes guardarlo de todas formas' : ''}
                 </p>
               )}
             </div>
@@ -186,13 +198,36 @@ function ModalNuevo({ token, onClose, onCreated }: { token: string; onClose: () 
               />
             </div>
             <div className="col-span-2">
-              <label className="block text-xs text-slate-400 mb-1">Notas</label>
+              <label className="block text-xs text-slate-400 mb-1">Notas internas</label>
               <textarea
                 value={form.notas}
                 onChange={(e) => setForm((f) => ({ ...f, notas: e.target.value }))}
                 rows={2}
                 className="w-full bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-600 resize-none"
               />
+            </div>
+            <div className="col-span-2 border-t border-[#1a2d4a] pt-3">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-amber-500/80 mb-2">Alerta de término / vencimiento (opcional)</p>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="col-span-2">
+                  <label className="block text-xs text-slate-400 mb-1">Descripción del término</label>
+                  <input
+                    value={form.tipo_vencimiento}
+                    onChange={(e) => setForm((f) => ({ ...f, tipo_vencimiento: e.target.value }))}
+                    placeholder="Ej: Audiencia de juicio, Traslado de pruebas…"
+                    className="w-full bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-600"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-xs text-slate-400 mb-1">Fecha límite</label>
+                  <input
+                    type="datetime-local"
+                    value={form.alerta_vencimiento}
+                    onChange={(e) => setForm((f) => ({ ...f, alerta_vencimiento: e.target.value }))}
+                    className="w-full bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-amber-600"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           {err && <p className="text-xs text-red-400">{err}</p>}

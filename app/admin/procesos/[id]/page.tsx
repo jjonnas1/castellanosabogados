@@ -182,9 +182,11 @@ export default function ProcesoDetallePage() {
   const [sincing, setSincing]       = useState(false);
   const [syncMsg, setSyncMsg]       = useState('');
   const [deleting, setDeleting]     = useState(false);
-  const [editEstado, setEditEstado] = useState('');
-  const [editNotas, setEditNotas]   = useState('');
-  const [saving, setSaving]         = useState(false);
+  const [editEstado, setEditEstado]         = useState('');
+  const [editNotas, setEditNotas]           = useState('');
+  const [editAlerta, setEditAlerta]         = useState('');
+  const [editTipoAlerta, setEditTipoAlerta] = useState('');
+  const [saving, setSaving]                 = useState(false);
 
   const cargar = useCallback(async () => {
     if (!token) return;
@@ -198,6 +200,8 @@ export default function ProcesoDetallePage() {
       setActuaciones(d.actuaciones ?? []);
       setEditEstado(d.proceso.estado);
       setEditNotas(d.proceso.notas ?? '');
+      setEditAlerta(d.proceso.alerta_vencimiento ? new Date(d.proceso.alerta_vencimiento).toISOString().slice(0, 16) : '');
+      setEditTipoAlerta(d.proceso.tipo_vencimiento ?? '');
     }
     setLoading(false);
   }, [token, id]);
@@ -227,7 +231,12 @@ export default function ProcesoDetallePage() {
     await fetch(`/api/admin/procesos/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', authorization: `Bearer ${token}` },
-      body: JSON.stringify({ estado: editEstado, notas: editNotas || null }),
+      body: JSON.stringify({
+        estado: editEstado,
+        notas: editNotas || null,
+        alerta_vencimiento: editAlerta || null,
+        tipo_vencimiento: editTipoAlerta || null,
+      }),
     });
     setSaving(false);
     cargar();
@@ -376,6 +385,38 @@ export default function ProcesoDetallePage() {
                   rows={3}
                   className="w-full bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-600 resize-none"
                 />
+              </div>
+              <div className="pt-1 border-t border-[#1a2d4a]">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-amber-500/80 mb-2">Alerta de vencimiento</p>
+                <div className="space-y-2">
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">Tipo / descripción del término</label>
+                    <input
+                      value={editTipoAlerta}
+                      onChange={(e) => setEditTipoAlerta(e.target.value)}
+                      placeholder="Ej: Audiencia de juicio, Traslado de pruebas…"
+                      className="w-full bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-amber-600"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs text-slate-400 mb-1">Fecha límite</label>
+                    <input
+                      type="datetime-local"
+                      value={editAlerta}
+                      onChange={(e) => setEditAlerta(e.target.value)}
+                      className="w-full bg-[#111f35] border border-[#1a2d4a] rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-amber-600"
+                    />
+                  </div>
+                  {editAlerta && (
+                    <button
+                      type="button"
+                      onClick={() => { setEditAlerta(''); setEditTipoAlerta(''); }}
+                      className="text-[11px] text-slate-500 hover:text-red-400 transition-colors"
+                    >
+                      Quitar alerta
+                    </button>
+                  )}
+                </div>
               </div>
               <button
                 onClick={guardarCambios}

@@ -28,7 +28,7 @@ export default function MetodologiaPage() {
       </section>
 
       {/* PROCESO GENERAL — línea de tiempo */}
-      <section className="section-shell bg-white">
+      <section className="section-shell bg-surface">
         <div className="container space-y-8">
           <div className="space-y-2">
             <p className="pill w-fit">Proceso general</p>
@@ -74,7 +74,7 @@ export default function MetodologiaPage() {
               ))}
             </ol>
           </div>
-          <div className="rounded-2xl border border-border bg-white p-6 space-y-3 max-w-2xl">
+          <div className="rounded-2xl border border-border bg-card p-6 space-y-3 max-w-2xl">
             <h3 className="text-base font-semibold text-ink">Modalidad de atención</h3>
             <ul className="space-y-2 text-sm text-muted">
               {[
@@ -94,7 +94,7 @@ export default function MetodologiaPage() {
       </section>
 
       {/* SERVICIOS */}
-      <section className="section-shell bg-surface/80">
+      <section className="section-shell bg-canvas">
         <div className="container space-y-10">
           <div className="space-y-2">
             <p className="pill w-fit">Por área de práctica</p>
@@ -106,7 +106,7 @@ export default function MetodologiaPage() {
 
           <div className="space-y-8">
             {serviceDetailList.map((svc) => (
-              <article key={svc.slug} className="card-shell bg-white p-6 md:p-8 space-y-6">
+              <article key={svc.slug} className="card-shell p-6 md:p-8 space-y-6">
                 <div className="space-y-1">
                   <Link
                     href={`/servicios/${svc.slug}`}
@@ -205,7 +205,7 @@ export default function MetodologiaPage() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-border bg-white/90 py-8 backdrop-blur">
+      <footer className="border-t border-border bg-canvas/90 py-8 backdrop-blur">
         <div className="container flex flex-col gap-3 text-sm text-muted md:flex-row md:items-center md:justify-between">
           <div>
             <p className="font-heading text-base font-semibold text-ink">Castellanos Abogados</p>

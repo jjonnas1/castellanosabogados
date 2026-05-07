@@ -281,9 +281,9 @@ export default function AdminRootPage() {
               <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
                 Agenda de hoy
               </p>
-              <a href="/admin/agenda" className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors">
+              <Link href="/admin/agenda" className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors">
                 Ver todo →
-              </a>
+              </Link>
             </div>
             <TodayTimeline token={token} />
           </div>
@@ -295,9 +295,9 @@ export default function AdminRootPage() {
             <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">
               Alertas procesales
             </p>
-            <a href="/admin/procesos" className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors">
+            <Link href="/admin/procesos" className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors">
               Ver procesos →
-            </a>
+            </Link>
           </div>
 
           {procesosConNuevas.length === 0 && vencimientos.length === 0 ? (
@@ -322,12 +322,12 @@ export default function AdminRootPage() {
                             {p.actuaciones_nuevas} actuación{p.actuaciones_nuevas !== 1 ? 'es' : ''} nueva{p.actuaciones_nuevas !== 1 ? 's' : ''}
                           </p>
                         </div>
-                        <a
+                        <Link
                           href={`/admin/procesos/${p.id}`}
                           className="flex-shrink-0 text-[11px] text-blue-400 hover:text-blue-300 transition-colors"
                         >
                           Ver →
-                        </a>
+                        </Link>
                       </div>
                     ))}
                   </div>
@@ -358,12 +358,12 @@ export default function AdminRootPage() {
                               Vence en {diasRestantes} día{diasRestantes !== 1 ? 's' : ''}
                             </p>
                           </div>
-                          <a
+                          <Link
                             href={`/admin/procesos/${v.id}`}
                             className="flex-shrink-0 text-[11px] text-blue-400 hover:text-blue-300 transition-colors"
                           >
                             Ver →
-                          </a>
+                          </Link>
                         </div>
                       );
                     })}

@@ -14,73 +14,61 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   const [token,  setToken]  = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
-  const [ready,  setReady]  = useState(isPublic);
+  // ready=true por defecto: evita el flash de redirect durante navegación
+  // client-side entre sub-rutas del admin (el layout no se desmonta).
+  const [ready,  setReady]  = useState(true);
 
-  const found      = useRef(false);
   const redirected = useRef(false);
 
   useEffect(() => {
     if (isPublic) return;
 
     let mounted = true;
-    found.current      = false;
     redirected.current = false;
 
-    function applySession(session: { access_token: string; user: { id: string } } | null) {
-      if (!mounted || found.current) return;
-      if (session?.access_token) {
-        found.current = true;
-        setToken(session.access_token);
-        setUserId(session.user.id);
-        setReady(true);
-      }
-    }
-
-    function doRedirect() {
-      if (mounted && !found.current && !redirected.current) {
-        redirected.current = true;
-        router.replace('/admin/login');
-      }
-    }
-
-    // Fuente 1: onAuthStateChange
-    // - Aplica sesión válida cuando llega.
-    // - Solo redirige en SIGNED_OUT explícito (no en INITIAL_SESSION null,
-    //   que puede ser un falso negativo por timing de cookies).
+    // Fuente 1: onAuthStateChange — detecta cambios en tiempo real
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return;
       if (session?.access_token) {
-        applySession(session);
+        setToken(session.access_token);
+        setUserId(session.user.id);
+        setReady(true);
       } else if (event === 'SIGNED_OUT') {
-        doRedirect();
+        if (!redirected.current) {
+          redirected.current = true;
+          setReady(false);
+          router.replace('/admin/login');
+        }
       }
-      // INITIAL_SESSION null → ignorar, getSession() es la fuente de verdad
     });
 
-    // Fuente 2: getSession() lee las cookies directamente.
-    // Si devuelve sesión → listo.
-    // Si devuelve null → esperar 2 s por si onAuthStateChange llega después,
-    // luego redirigir solo si aún no hay sesión.
+    // Fuente 2: getSession() — lee cookies directamente
     supabase.auth.getSession()
       .then(({ data: { session } }) => {
         if (!mounted) return;
         if (session?.access_token) {
-          applySession(session);
+          setToken(session.access_token);
+          setUserId(session.user.id);
         } else {
-          // Grace period: cookies pueden tardar un ciclo en propagarse
-          setTimeout(doRedirect, 2000);
+          // Sin sesión → redirigir tras 1.5 s de gracia
+          setTimeout(() => {
+            if (mounted && !redirected.current) {
+              redirected.current = true;
+              setReady(false);
+              router.replace('/admin/login');
+            }
+          }, 1500);
         }
       })
       .catch(() => {
-        setTimeout(doRedirect, 2000);
+        if (mounted && !redirected.current) {
+          redirected.current = true;
+          router.replace('/admin/login');
+        }
       });
-
-    // Fallback absoluto: 10 s sin sesión → redirigir
-    const timeout = setTimeout(doRedirect, 10_000);
 
     return () => {
       mounted = false;
-      clearTimeout(timeout);
       sub.subscription.unsubscribe();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
