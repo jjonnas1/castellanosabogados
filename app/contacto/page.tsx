@@ -7,31 +7,12 @@ import { useSearchParams } from 'next/navigation';
 import SiteHeader from '@/app/components/SiteHeader';
 import { Alert, Badge, Button, Input, Progress, Textarea } from '@/components/ui';
 import { buildWhatsAppUrl } from '@/lib/contactLinks';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 type FieldErrors = {
   name?: string;
   email?: string;
   message?: string;
-};
-
-const validateName = (value: string) => {
-  if (!value.trim()) return 'El nombre es obligatorio.';
-  if (value.trim().length < 2) return 'El nombre debe tener al menos 2 caracteres.';
-  if (value.trim().length > 100) return 'El nombre no puede superar 100 caracteres.';
-  return '';
-};
-
-const validateEmail = (value: string) => {
-  if (!value.trim()) return 'El correo es obligatorio.';
-  const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-  return isValid ? '' : 'Ingresa un correo válido.';
-};
-
-const validateMessage = (value: string) => {
-  if (!value.trim()) return 'El mensaje es obligatorio.';
-  if (value.trim().length < 10) return 'El mensaje debe tener al menos 10 caracteres.';
-  if (value.trim().length > 1000) return 'El mensaje no puede superar 1000 caracteres.';
-  return '';
 };
 
 export default function ContactoPage() {
@@ -43,8 +24,10 @@ export default function ContactoPage() {
 }
 
 function ContactoContent() {
-  const searchParams = useSearchParams();
+  const { t } = useLanguage();
+  const p = t.pages.contacto;
 
+  const searchParams = useSearchParams();
   const area = searchParams.get('area') ?? 'Contacto prioritario';
   const intent = searchParams.get('intent') ?? '';
   const source = searchParams.get('source') ?? '/contacto';
@@ -54,6 +37,26 @@ function ContactoContent() {
     if (intent === 'coordinar-junta') return `Solicitud de coordinación con junta – ${area}`;
     return `Solicitud de contacto – ${area}`;
   }, [area, intent]);
+
+  const validateName = (value: string) => {
+    if (!value.trim()) return p.validName;
+    if (value.trim().length < 2) return p.validNameMin;
+    if (value.trim().length > 100) return p.validNameMax;
+    return '';
+  };
+
+  const validateEmail = (value: string) => {
+    if (!value.trim()) return p.validEmail;
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    return isValid ? '' : p.validEmailFormat;
+  };
+
+  const validateMessage = (value: string) => {
+    if (!value.trim()) return p.validMessage;
+    if (value.trim().length < 10) return p.validMessageMin;
+    if (value.trim().length > 1000) return p.validMessageMax;
+    return '';
+  };
 
   const [loading, setLoading] = useState(false);
   const [ok, setOk] = useState<null | boolean>(null);
@@ -71,7 +74,8 @@ function ContactoContent() {
       email: validateEmail(email),
       message: validateMessage(message),
     });
-  }, [name, email, message]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, email, message, t]);
 
   const hasErrors = useMemo(() => Boolean(errors.name || errors.email || errors.message), [errors]);
 
@@ -79,7 +83,7 @@ function ContactoContent() {
     e.preventDefault();
 
     if (hasErrors) {
-      setErr('Revisa los campos marcados antes de enviar.');
+      setErr(p.validErrors);
       setOk(false);
       return;
     }
@@ -88,15 +92,7 @@ function ContactoContent() {
     setOk(null);
     setErr(null);
 
-    const payload = {
-      name,
-      email,
-      message,
-      area,
-      source,
-      intent,
-      subject,
-    };
+    const payload = { name, email, message, area, source, intent, subject };
 
     try {
       const res = await fetch('/api/contact', {
@@ -116,11 +112,11 @@ function ContactoContent() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         setOk(false);
-        setErr(json.error || 'No pudimos enviar tu mensaje.');
+        setErr(json.error || p.errorTitle);
       }
     } catch (error: any) {
       setOk(false);
-      setErr(error?.message || 'Error de red.');
+      setErr(error?.message || p.errorTitle);
     } finally {
       setLoading(false);
     }
@@ -132,15 +128,12 @@ function ContactoContent() {
 
       <header className="border-b border-border bg-gradient-to-r from-ink via-ink/92 to-accent-700 dark:from-[#0c111d] dark:via-[#0c111d]/92 dark:to-[#1f365d] text-white animate-gradient">
         <div className="container section-shell space-y-4 animate-fade-in-up">
-          <Badge variant="info">Contacto</Badge>
-          <h1 className="max-w-3xl text-white">Coordinemos una evaluación prioritaria</h1>
-          <p className="max-w-2xl text-slate-100">
-            Déjanos los datos mínimos para asignar un responsable y definir el primer control. No utilizamos esta línea
-            para promoción, solo para coordinación ejecutiva. ✨
-          </p>
+          <Badge variant="info">{p.badge}</Badge>
+          <h1 className="max-w-3xl text-white">{p.heroTitle}</h1>
+          <p className="max-w-2xl text-slate-100">{p.heroParagraph}</p>
 
           <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.18em] text-slate-200">
-            {['Confidencialidad', 'Respuesta rápida', 'Seguimiento ejecutivo'].map((item) => (
+            {p.badges.map((item) => (
               <span key={item} className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
                 {item}
               </span>
@@ -151,29 +144,21 @@ function ContactoContent() {
 
       <section className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <div className="space-y-4 animate-fade-in-up">
-          <Badge variant="neutral">Prioridad</Badge>
-          <h2>Datos mínimos para actuar</h2>
-          <p className="max-w-2xl text-muted">
-            Si requieres defensa litigiosa, lo articulamos con aliados manteniendo trazabilidad. Este formulario es para
-            coordinar la revisión estratégica inicial.
-          </p>
+          <Badge variant="neutral">{p.priorityBadge}</Badge>
+          <h2>{p.priorityTitle}</h2>
+          <p className="max-w-2xl text-muted">{p.prioritySubtitle}</p>
 
           <ul className="space-y-2 text-sm text-muted">
-            {['Sin spam ni campañas.', 'Respuesta prioritaria.', 'Puedes volver al inicio o agendar en cualquier momento.'].map(
-              (item) => (
-                <li key={item} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
-                  {item}
-                </li>
-              )
-            )}
+            {p.bulletItems.map((item) => (
+              <li key={item} className="flex gap-3">
+                <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                {item}
+              </li>
+            ))}
           </ul>
 
           <div className="flex flex-wrap gap-3">
-            <Link href="/" className="btn-secondary">
-              Volver al inicio
-            </Link>
-
+            <Link href="/" className="btn-secondary">{p.backBtn}</Link>
             <a
               href={buildWhatsAppUrl({
                 area,
@@ -182,13 +167,13 @@ function ContactoContent() {
               })}
               className="btn-primary"
             >
-              Agendar evaluación
+              {p.scheduleBtn}
             </a>
           </div>
 
           <div className="rounded-2xl border border-border bg-card p-4 shadow-soft/30">
             <div className="flex items-center justify-between text-sm text-muted">
-              <span>Progreso de envío</span>
+              <span>{p.progressLabel}</span>
               <span>{ok ? '100%' : '60%'}</span>
             </div>
             <Progress value={ok ? 100 : 60} />
@@ -196,16 +181,16 @@ function ContactoContent() {
         </div>
 
         <form onSubmit={handleSubmit} className="card-shell p-6 shadow-soft/40 animate-fade-in-up">
-          <Badge variant="info">Formulario</Badge>
-          <h3 className="mt-2 text-ink">Mensaje confidencial</h3>
+          <Badge variant="info">{p.formBadge}</Badge>
+          <h3 className="mt-2 text-ink">{p.formTitle}</h3>
 
           <div className="mt-4 space-y-4">
             <Input
               id="name"
               name="name"
-              label="Nombre"
+              label={p.nameLabel}
               required
-              placeholder="Tu nombre"
+              placeholder={p.namePlaceholder}
               value={name}
               onChange={(event) => setName(event.target.value)}
               error={errors.name}
@@ -216,9 +201,9 @@ function ContactoContent() {
               id="email"
               name="email"
               type="email"
-              label="Correo"
+              label={p.emailLabel}
               required
-              placeholder="tucorreo@ejemplo.com"
+              placeholder={p.emailPlaceholder}
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               error={errors.email}
@@ -228,9 +213,9 @@ function ContactoContent() {
             <Textarea
               id="message"
               name="message"
-              label="Mensaje"
+              label={p.messageLabel}
               required
-              placeholder="Cuéntanos brevemente tu caso"
+              placeholder={p.messagePlaceholder}
               rows={6}
               value={message}
               onChange={(event) => setMessage(event.target.value)}
@@ -241,22 +226,20 @@ function ContactoContent() {
 
             <div className="flex flex-wrap gap-3">
               <Button type="submit" loading={loading} disabled={loading || hasErrors}>
-                {loading ? 'Enviando…' : 'Enviar'}
+                {loading ? p.sendingBtn : p.sendBtn}
               </Button>
 
-              <a href="/" className="btn-secondary">
-                Volver al inicio
-              </a>
+              <a href="/" className="btn-secondary">{p.backBtn}</a>
             </div>
 
             {ok && (
-              <Alert variant="success" title="Mensaje enviado">
-                ¡Gracias! Recibimos tu mensaje y te escribiremos pronto.
+              <Alert variant="success" title={p.successTitle}>
+                {p.successMsg}
               </Alert>
             )}
 
             {ok === false && err && (
-              <Alert variant="error" title="No pudimos enviar">
+              <Alert variant="error" title={p.errorTitle}>
                 {err}
               </Alert>
             )}

@@ -1,12 +1,18 @@
+'use client';
+
 import Link from "next/link";
 
 import SiteHeader from "@/app/components/SiteHeader";
 import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const personalBackground =
   "linear-gradient(140deg, rgba(10,16,28,0.9), rgba(20,32,52,0.82)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
 export default function AsesoriaPersonasPage() {
+  const { t } = useLanguage();
+  const p = t.pages.asesoriaPersonas;
+
   return (
     <main className="bg-canvas text-ink">
       <SiteHeader />
@@ -17,12 +23,9 @@ export default function AsesoriaPersonasPage() {
       >
         <div className="absolute inset-0 bg-gradient-to-r from-[#0d1528]/88 via-[#0d1528]/82 to-[#1f365d]/70" aria-hidden />
         <div className="container section-shell relative space-y-5">
-          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Línea secundaria</p>
-          <h1 className="max-w-3xl text-white">Asesoría penal a personas naturales</h1>
-          <p className="max-w-3xl text-slate-100">
-            Intervención corta y confidencial para situaciones puntuales. No implica representación litigiosa y no interfiere con el foco
-            corporativo de la firma.
-          </p>
+          <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{p.badge}</p>
+          <h1 className="max-w-3xl text-white">{p.heroTitle}</h1>
+          <p className="max-w-3xl text-slate-100">{p.heroParagraph}</p>
           <div className="flex flex-wrap gap-3">
             <a
               href={buildMailtoUrl({
@@ -34,7 +37,7 @@ export default function AsesoriaPersonasPage() {
               data-wa-lead
               className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
             >
-              Solicitar orientación
+              {t.common.requestInfo}
             </a>
             <a
               href={buildMailtoUrl({
@@ -45,7 +48,7 @@ export default function AsesoriaPersonasPage() {
               })}
               className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white"
             >
-              Contacto directo
+              {t.common.directContact}
             </a>
           </div>
         </div>
@@ -53,31 +56,29 @@ export default function AsesoriaPersonasPage() {
 
       <section className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <div className="space-y-4">
-          <p className="pill w-fit">Cómo te ayudamos</p>
-          <h2>Intervención corta y clara</h2>
-          <p className="max-w-2xl text-muted">
-            Revisamos el caso, delimitamos alcance y entregamos instrucciones accionables. Si se requiere defensa judicial, articulamos
-            aliados externos manteniendo el control documental.
-          </p>
+          <p className="pill w-fit">{p.howBadge}</p>
+          <h2>{p.howTitle}</h2>
+          <p className="max-w-2xl text-muted">{p.howSubtitle}</p>
           <div className="grid gap-3 sm:grid-cols-2">
-            {["Contexto y alcance en 20-30 minutos", "Guías de actuación y protocolos base", "Documentos y soportes listos para consulta", "Coordinación con aliados litigiosos cuando es necesario"].map(
-              (item) => (
-                <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
-                  {item}
-                </div>
-              ),
-            )}
+            {p.features.map((item) => (
+              <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
+                {item}
+              </div>
+            ))}
           </div>
         </div>
         <div className="card-shell bg-white p-8 shadow-soft/40">
-          <p className="pill w-fit">Alcance</p>
-          <h3 className="mt-3 text-ink">Lo que está incluido</h3>
+          <p className="pill w-fit">{p.scopeBadge}</p>
+          <h3 className="mt-3 text-ink">{p.scopeTitle}</h3>
           <ul className="mt-4 space-y-3 text-sm text-muted">
-            <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden /> Evaluación y lineamientos iniciales.</li>
-            <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden /> Protocolos de actuación y mensajes clave.</li>
-            <li className="flex gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden /> Coordinación con aliados para litigio cuando aplica.</li>
+            {p.scopeItems.map((item) => (
+              <li key={item} className="flex gap-3">
+                <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
+                {item}
+              </li>
+            ))}
           </ul>
-          <p className="mt-4 text-xs text-muted">No asumimos representación litigiosa. Nuestro rol es estratégico y documental.</p>
+          <p className="mt-4 text-xs text-muted">{p.scopeNote}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a
               href={buildWhatsAppUrl({
@@ -87,9 +88,9 @@ export default function AsesoriaPersonasPage() {
               })}
               className="btn-primary"
             >
-              Agendar revisión
+              {p.scheduleBtn}
             </a>
-            <Link href="/" className="btn-secondary">Volver al inicio</Link>
+            <Link href="/" className="btn-secondary">{p.backBtn}</Link>
           </div>
         </div>
       </section>
