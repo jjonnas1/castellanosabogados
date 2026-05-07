@@ -4,8 +4,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { MessageCircle, Phone } from 'lucide-react';
 
 const WA = 'https://wa.me/573148309306';
+const PHONE_DISPLAY = '314 830 9306';
 const INTERVAL = 5500;
 
 export default function HeroCarrusel() {
@@ -23,7 +25,7 @@ export default function HeroCarrusel() {
       cta: t.hero.slide1.cta,
       ctaHref: '/servicios',
       ctaWa: WA + '?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20servicios%20legales.',
-      ctaWaLabel: t.contact.whatsapp,
+      ctaWaLabel: PHONE_DISPLAY,
       panelTitle: t.contact.title,
       panelBody: 'Atendemos en Pereira y todo el Eje Cafetero. Primera consulta de diagnóstico.',
       stats: [
@@ -40,7 +42,7 @@ export default function HeroCarrusel() {
       cta: t.hero.slide2.cta,
       ctaHref: WA + '?text=Hola%2C%20necesito%20que%20calculen%20mi%20liquidaci%C3%B3n%20laboral.',
       ctaWa: WA + '?text=Hola%2C%20necesito%20que%20calculen%20mi%20liquidaci%C3%B3n%20laboral.',
-      ctaWaLabel: '314 830 9306',
+      ctaWaLabel: PHONE_DISPLAY,
       panelTitle: 'Le calculamos lo que le deben',
       panelBody: 'Indemnización, prima, cesantías, intereses y sanción moratoria. Sin cobro anticipado.',
       stats: [
@@ -140,7 +142,7 @@ export default function HeroCarrusel() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 space-y-4">
+          <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 space-y-5">
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
               Castellanos Abogados
             </p>
@@ -154,6 +156,19 @@ export default function HeroCarrusel() {
                   <p className="text-[10px] text-white/50 mt-0.5 leading-tight">{s.label}</p>
                 </div>
               ))}
+            </div>
+
+            <div className="pt-2 border-t border-white/10">
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/50">Contáctenos ahora</p>
+              <a
+                href={slide.ctaWa}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary w-full bg-white text-ink hover:bg-slate-50 flex items-center justify-center gap-2.5"
+              >
+                <MessageCircle size={18} fill="currentColor" className="text-ink" />
+                <span className="font-bold">{PHONE_DISPLAY}</span>
+              </a>
             </div>
           </div>
         </div>

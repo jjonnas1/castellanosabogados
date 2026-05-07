@@ -393,7 +393,7 @@ export default function SiteHeader() {
           {/* Theme Toggle */}
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border/80 bg-white text-ink shadow-sm transition hover:shadow-soft dark:bg-canvas dark:border-border/60 dark:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white text-ink shadow-md transition-all hover:scale-105 hover:shadow-lg dark:bg-canvas dark:border-border/60 dark:text-white"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
@@ -403,7 +403,7 @@ export default function SiteHeader() {
           <div className="relative" ref={langRef}>
             <button
               onClick={() => setLangOpen(!langOpen)}
-              className="flex h-9 items-center gap-2 rounded-full border border-border/80 bg-white px-3 text-ink shadow-sm transition hover:shadow-soft dark:bg-canvas dark:border-border/60 dark:text-white"
+              className="flex h-9 items-center gap-2 rounded-full border border-border bg-white px-3 text-ink shadow-md transition-all hover:scale-105 hover:shadow-lg dark:bg-canvas dark:border-border/60 dark:text-white"
               aria-label="Change language"
             >
               <Languages size={17} />

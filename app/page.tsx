@@ -70,7 +70,7 @@ export default async function Home() {
 
 
       {/* ÁREAS DE PRÁCTICA */}
-      <section className="section-shell bg-surface/80">
+      <section className="section-shell bg-surface">
         <div className="container space-y-6">
           <div className="space-y-2">
             <p className="pill w-fit">Áreas de práctica</p>
@@ -78,7 +78,7 @@ export default async function Home() {
           </div>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
             {serviceLines.map((line) => (
-              <article key={line.title} className="card-shell flex h-full flex-col justify-between bg-white p-6">
+              <article key={line.title} className="card-shell flex h-full flex-col justify-between p-6">
                 <div className="space-y-3">
                   <h3 className="text-lg text-ink">{line.title}</h3>
                   <p className="text-sm text-muted">{line.description}</p>
@@ -137,7 +137,7 @@ export default async function Home() {
       </section>
 
       {/* FAQ */}
-      <section className="section-shell bg-white">
+      <section className="section-shell bg-canvas">
         <div className="container max-w-3xl space-y-6">
           <div className="space-y-2">
             <p className="pill w-fit">Preguntas frecuentes</p>
