@@ -3,268 +3,440 @@
 import { useState } from 'react';
 import AdminShell from '@/components/AdminShell';
 
-// Lógica de cálculo de tiempo en años de 360 días (meses de 30 días)
-function getDays360(startDate: string, endDate: string) {
-  if (!startDate || !endDate) return 0;
-  
-  const d1 = new Date(startDate);
-  const d2 = new Date(endDate);
-  
-  let d1Day = d1.getUTCDate();
-  let d1Month = d1.getUTCMonth();
-  let d1Year = d1.getUTCFullYear();
-  
-  let d2Day = d2.getUTCDate();
-  let d2Month = d2.getUTCMonth();
-  let d2Year = d2.getUTCFullYear();
+// ─── Utilidades ────────────────────────────────────────────────────────────────
 
-  if (d1Day === 31) d1Day = 30;
-  if (d2Day === 31) d2Day = 30;
-  
-  // Días laborados = (Año2 - Año1) * 360 + (Mes2 - Mes1) * 30 + (Día2 - Día1) + 1
-  const days = (d2Year - d1Year) * 360 + (d2Month - d1Month) * 30 + (d2Day - d1Day) + 1;
-  return Math.max(0, days);
+/** Calcula días entre dos fechas usando mes comercial de 30 días (igual que el Excel) */
+function dias360(inicio: string, fin: string): number {
+  if (!inicio || !fin) return 0;
+  const d1 = new Date(inicio + 'T00:00:00');
+  const d2 = new Date(fin + 'T00:00:00');
+  const y1 = d1.getFullYear(), m1 = d1.getMonth(), dd1 = Math.min(d1.getDate(), 30);
+  const y2 = d2.getFullYear(), m2 = d2.getMonth(), dd2 = Math.min(d2.getDate(), 30);
+  return (y2 - y1) * 360 + (m2 - m1) * 30 + (dd2 - dd1);
 }
 
-export default function LaboralAdminPage() {
-  const [smlmv, setSmlmv] = useState(1300000); // Default to 2024 value, can be edited
-  const [contractType, setContractType] = useState<'indefinido' | 'fijo'>('indefinido');
-  const [salary, setSalary] = useState(1300000);
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [contractEndDate, setContractEndDate] = useState('');
-  
-  const [result, setResult] = useState<{ total: number; detail: string; daysWorked: number; indemnificationDays?: number } | null>(null);
+function cop(val: number) {
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency', currency: 'COP', maximumFractionDigits: 0,
+  }).format(val);
+}
 
-  const formatCurrency = (val: number) => {
-    return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(val);
+function diasAAnos(dias: number) {
+  const anos = Math.floor(dias / 360);
+  const resto = dias % 360;
+  const meses = Math.floor(resto / 30);
+  const dd = resto % 30;
+  const partes = [];
+  if (anos > 0) partes.push(`${anos} año${anos > 1 ? 's' : ''}`);
+  if (meses > 0) partes.push(`${meses} mes${meses > 1 ? 'es' : ''}`);
+  if (dd > 0) partes.push(`${dd} día${dd > 1 ? 's' : ''}`);
+  return partes.join(', ') || '0 días';
+}
+
+// ─── Tipos ─────────────────────────────────────────────────────────────────────
+
+type TabKey = 'indef_lt10_gt1' | 'indef_lt10_lte1' | 'indef_gte10_gt1' | 'indef_gte10_lte1' | 'fijo' | 'moratoria';
+
+interface ResultadoIndem {
+  primerAno: number;
+  anosAdicionales: number;
+  total: number;
+  diasLaborados: number;
+  ingresoDiario: number;
+  detalle: string[];
+}
+
+// ─── Calculadoras ──────────────────────────────────────────────────────────────
+
+function calcIndef(
+  ingreso: number,
+  fechaIngreso: string,
+  fechaLiquidacion: string,
+  diasPrimerAno: number,   // 30 o 20
+  diasAdicionales: number  // 20 o 15
+): ResultadoIndem | null {
+  const dias = dias360(fechaIngreso, fechaLiquidacion);
+  if (dias <= 0) return null;
+  const diario = ingreso / 30;
+  const primerAno = diasPrimerAno * diario;
+  const anosExtra = Math.max(0, dias - 360);
+  const indAdicional = (anosExtra / 360) * diasAdicionales * diario;
+  const total = primerAno + indAdicional;
+  return {
+    primerAno,
+    anosAdicionales: indAdicional,
+    total,
+    diasLaborados: dias,
+    ingresoDiario: diario,
+    detalle: [
+      `Días laborados: ${dias} (${diasAAnos(dias)})`,
+      `Ingreso diario: ${cop(diario)}`,
+      `Indemnización primer año (${diasPrimerAno} días): ${cop(primerAno)}`,
+      dias > 360
+        ? `Años adicionales (${(anosExtra / 360).toFixed(4)} años × ${diasAdicionales} días): ${cop(indAdicional)}`
+        : `No aplican años adicionales (tiempo ≤ 1 año)`,
+    ],
   };
+}
 
-  const calculate = (e: React.FormEvent) => {
+function calcIndef1Ano(
+  ingreso: number,
+  fechaIngreso: string,
+  fechaLiquidacion: string,
+  diasBase: number // 30 o 20
+): ResultadoIndem | null {
+  const dias = dias360(fechaIngreso, fechaLiquidacion);
+  if (dias <= 0) return null;
+  const diario = ingreso / 30;
+  const total = diasBase * diario;
+  return {
+    primerAno: total,
+    anosAdicionales: 0,
+    total,
+    diasLaborados: dias,
+    ingresoDiario: diario,
+    detalle: [
+      `Días laborados: ${dias} (${diasAAnos(dias)})`,
+      `Ingreso diario: ${cop(diario)}`,
+      `Indemnización (${diasBase} días de salario básico): ${cop(total)}`,
+    ],
+  };
+}
+
+// ─── Componentes de Formulario ────────────────────────────────────────────────
+
+function InputField({
+  label, value, onChange, type = 'number', min, placeholder,
+}: {
+  label: string; value: string | number; onChange: (v: string) => void;
+  type?: string; min?: string; placeholder?: string;
+}) {
+  return (
+    <div>
+      <label className="block text-xs font-medium text-slate-400 mb-1.5">{label}</label>
+      <input
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        min={min}
+        placeholder={placeholder}
+        className="w-full bg-[#0a1120] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white
+          placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30 transition"
+      />
+    </div>
+  );
+}
+
+function ResultBox({ r }: { r: ResultadoIndem }) {
+  return (
+    <div className="mt-6 bg-gradient-to-br from-[#0f2a1e] to-[#0d1626] border border-green-500/30 rounded-xl p-6">
+      <p className="text-xs font-semibold uppercase tracking-widest text-green-400 mb-1">Total Indemnización</p>
+      <p className="text-4xl font-bold text-white tabular-nums mb-6">{cop(r.total)}</p>
+      <div className="space-y-2 text-sm border-t border-slate-700/50 pt-4">
+        {r.detalle.map((d, i) => (
+          <p key={i} className="text-slate-300 leading-relaxed">· {d}</p>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function EmptyResult() {
+  return (
+    <div className="mt-6 bg-[#111f35]/40 border border-dashed border-slate-800 rounded-xl p-8 text-center">
+      <p className="text-slate-500 text-sm">Complete los datos y presione <span className="text-blue-400">Calcular</span>.</p>
+    </div>
+  );
+}
+
+// ─── Módulos de cada calculadora ──────────────────────────────────────────────
+
+function Calc1() {
+  // Contrato indefinido < 10 SMMLV, > 1 año. 30 días primer año + 20 días/año adicional
+  const [ingreso, setIngreso] = useState('');
+  const [fechaIngreso, setFechaIngreso] = useState('');
+  const [fechaLiq, setFechaLiq] = useState('');
+  const [resultado, setResultado] = useState<ResultadoIndem | null>(null);
+
+  const calcular = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!startDate || !endDate || !salary) return;
-    
-    const daysWorked = getDays360(startDate, endDate);
-    if (daysWorked <= 0) {
-      alert("La fecha de terminación debe ser posterior a la fecha de inicio.");
-      return;
-    }
-
-    const dailySalary = salary / 30;
-    
-    if (contractType === 'fijo') {
-      if (!contractEndDate) {
-        alert("Debe ingresar la fecha de vencimiento del contrato a término fijo.");
-        return;
-      }
-      const daysRemaining = getDays360(endDate, contractEndDate) - 1; // Subtract 1 because the termination day is already worked
-      if (daysRemaining <= 0) {
-        alert("El contrato ya estaba vencido o termina el mismo día.");
-        return;
-      }
-      
-      const total = daysRemaining * dailySalary;
-      setResult({
-        total,
-        detail: `Faltaban ${daysRemaining} días para terminar el contrato. La indemnización corresponde a los salarios por el tiempo restante.`,
-        daysWorked
-      });
-      
-    } else {
-      // Indefinido
-      const isLessThan10Smlmv = salary < (smlmv * 10);
-      
-      let baseDays = 0;
-      let extraDaysPerYear = 0;
-      
-      if (isLessThan10Smlmv) {
-        baseDays = 30;
-        extraDaysPerYear = 20;
-      } else {
-        baseDays = 20;
-        extraDaysPerYear = 15;
-      }
-      
-      let totalIndemDays = baseDays;
-      let detail = `Primer año: ${baseDays} días. `;
-      
-      if (daysWorked > 360) {
-        const extraDays = daysWorked - 360;
-        const extraIndemDays = extraDays * (extraDaysPerYear / 360);
-        totalIndemDays += extraIndemDays;
-        detail += `Tiempo adicional (${extraDays} días): ${extraIndemDays.toFixed(2)} días proporcionales.`;
-      } else {
-        detail += `El trabajador laboró menos de un año, le corresponde el primer año completo.`;
-      }
-      
-      const total = totalIndemDays * dailySalary;
-      setResult({
-        total,
-        detail,
-        daysWorked,
-        indemnificationDays: totalIndemDays
-      });
-    }
+    setResultado(calcIndef(Number(ingreso), fechaIngreso, fechaLiq, 30, 20));
   };
 
   return (
+    <form onSubmit={calcular} className="space-y-4">
+      <div className="bg-blue-900/20 border border-blue-800/40 rounded-lg p-3 text-xs text-blue-300">
+        Aplica si el ingreso es <strong>inferior a 10 SMMLV</strong> y la duración es <strong>superior a 1 año</strong> (Ley 789/2002, art. 64).<br />
+        • Primer año: 30 días de salario<br />
+        • Por cada año adicional: 20 días de salario proporcional
+      </div>
+      <InputField label="Ingreso Mensual (COP)" value={ingreso} onChange={setIngreso} placeholder="ej: 1300000" />
+      <div className="grid grid-cols-2 gap-4">
+        <InputField label="Fecha de Ingreso" value={fechaIngreso} onChange={setFechaIngreso} type="date" />
+        <InputField label="Fecha de Liquidación" value={fechaLiq} onChange={setFechaLiq} type="date" />
+      </div>
+      <button type="submit"
+        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg transition-colors text-sm">
+        Calcular Indemnización
+      </button>
+      {resultado ? <ResultBox r={resultado} /> : <EmptyResult />}
+    </form>
+  );
+}
+
+function Calc1A() {
+  // Contrato indefinido < 10 SMMLV, ≤ 1 año → 30 días
+  const [ingreso, setIngreso] = useState('');
+  const [fechaIngreso, setFechaIngreso] = useState('');
+  const [fechaLiq, setFechaLiq] = useState('');
+  const [resultado, setResultado] = useState<ResultadoIndem | null>(null);
+
+  const calcular = (e: React.FormEvent) => {
+    e.preventDefault();
+    setResultado(calcIndef1Ano(Number(ingreso), fechaIngreso, fechaLiq, 30));
+  };
+
+  return (
+    <form onSubmit={calcular} className="space-y-4">
+      <div className="bg-blue-900/20 border border-blue-800/40 rounded-lg p-3 text-xs text-blue-300">
+        Aplica si el ingreso es <strong>inferior a 10 SMMLV</strong> y la duración es <strong>igual o inferior a 1 año</strong>.<br />
+        • Indemnización: 30 días de salario básico
+      </div>
+      <InputField label="Ingreso Mensual (COP)" value={ingreso} onChange={setIngreso} placeholder="ej: 1300000" />
+      <div className="grid grid-cols-2 gap-4">
+        <InputField label="Fecha de Ingreso" value={fechaIngreso} onChange={setFechaIngreso} type="date" />
+        <InputField label="Fecha de Liquidación" value={fechaLiq} onChange={setFechaLiq} type="date" />
+      </div>
+      <button type="submit"
+        className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg transition-colors text-sm">
+        Calcular Indemnización
+      </button>
+      {resultado ? <ResultBox r={resultado} /> : <EmptyResult />}
+    </form>
+  );
+}
+
+function Calc2() {
+  // Contrato indefinido ≥ 10 SMMLV, > 1 año → 20 días + 15 días/año adicional
+  const [ingreso, setIngreso] = useState('');
+  const [fechaIngreso, setFechaIngreso] = useState('');
+  const [fechaLiq, setFechaLiq] = useState('');
+  const [resultado, setResultado] = useState<ResultadoIndem | null>(null);
+
+  const calcular = (e: React.FormEvent) => {
+    e.preventDefault();
+    setResultado(calcIndef(Number(ingreso), fechaIngreso, fechaLiq, 20, 15));
+  };
+
+  return (
+    <form onSubmit={calcular} className="space-y-4">
+      <div className="bg-purple-900/20 border border-purple-800/40 rounded-lg p-3 text-xs text-purple-300">
+        Aplica si el ingreso es <strong>igual o superior a 10 SMMLV</strong> y la duración es <strong>superior a 1 año</strong>.<br />
+        • Primer año: 20 días de salario<br />
+        • Por cada año adicional: 15 días de salario proporcional
+      </div>
+      <InputField label="Ingreso Mensual (COP)" value={ingreso} onChange={setIngreso} placeholder="ej: 13000000" />
+      <div className="grid grid-cols-2 gap-4">
+        <InputField label="Fecha de Ingreso" value={fechaIngreso} onChange={setFechaIngreso} type="date" />
+        <InputField label="Fecha de Liquidación" value={fechaLiq} onChange={setFechaLiq} type="date" />
+      </div>
+      <button type="submit"
+        className="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-2.5 rounded-lg transition-colors text-sm">
+        Calcular Indemnización
+      </button>
+      {resultado ? <ResultBox r={resultado} /> : <EmptyResult />}
+    </form>
+  );
+}
+
+function Calc2A() {
+  // Contrato indefinido ≥ 10 SMMLV, ≤ 1 año → 20 días
+  const [ingreso, setIngreso] = useState('');
+  const [fechaIngreso, setFechaIngreso] = useState('');
+  const [fechaLiq, setFechaLiq] = useState('');
+  const [resultado, setResultado] = useState<ResultadoIndem | null>(null);
+
+  const calcular = (e: React.FormEvent) => {
+    e.preventDefault();
+    setResultado(calcIndef1Ano(Number(ingreso), fechaIngreso, fechaLiq, 20));
+  };
+
+  return (
+    <form onSubmit={calcular} className="space-y-4">
+      <div className="bg-purple-900/20 border border-purple-800/40 rounded-lg p-3 text-xs text-purple-300">
+        Aplica si el ingreso es <strong>igual o superior a 10 SMMLV</strong> y la duración es <strong>igual o inferior a 1 año</strong>.<br />
+        • Indemnización: 20 días de salario básico
+      </div>
+      <InputField label="Ingreso Mensual (COP)" value={ingreso} onChange={setIngreso} placeholder="ej: 13000000" />
+      <div className="grid grid-cols-2 gap-4">
+        <InputField label="Fecha de Ingreso" value={fechaIngreso} onChange={setFechaIngreso} type="date" />
+        <InputField label="Fecha de Liquidación" value={fechaLiq} onChange={setFechaLiq} type="date" />
+      </div>
+      <button type="submit"
+        className="w-full bg-purple-600 hover:bg-purple-500 text-white font-medium py-2.5 rounded-lg transition-colors text-sm">
+        Calcular Indemnización
+      </button>
+      {resultado ? <ResultBox r={resultado} /> : <EmptyResult />}
+    </form>
+  );
+}
+
+function Calc3() {
+  // Término fijo / Obra-Labor → días restantes del contrato (mínimo 15 días)
+  const [ingreso, setIngreso] = useState('');
+  const [fechaDespido, setFechaDespido] = useState('');
+  const [fechaTerminacion, setFechaTerminacion] = useState('');
+  const [resultado, setResultado] = useState<{ total: number; diasRestantes: number; ingresoDiario: number } | null>(null);
+
+  const calcular = (e: React.FormEvent) => {
+    e.preventDefault();
+    const diasRestantes = dias360(fechaDespido, fechaTerminacion);
+    const diario = Number(ingreso) / 30;
+    const diasEfectivos = Math.max(15, diasRestantes);
+    setResultado({ total: diasEfectivos * diario, diasRestantes: diasEfectivos, ingresoDiario: diario });
+  };
+
+  return (
+    <form onSubmit={calcular} className="space-y-4">
+      <div className="bg-amber-900/20 border border-amber-800/40 rounded-lg p-3 text-xs text-amber-300">
+        Aplica para <strong>contratos a término fijo, por obra o labor</strong>.<br />
+        • La indemnización corresponde al tiempo que faltare para cumplir el plazo.<br />
+        • Mínimo garantizado: 15 días de salario.
+      </div>
+      <InputField label="Ingreso Mensual (COP)" value={ingreso} onChange={setIngreso} placeholder="ej: 1300000" />
+      <div className="grid grid-cols-2 gap-4">
+        <InputField label="Fecha de Despido" value={fechaDespido} onChange={setFechaDespido} type="date" />
+        <InputField label="Fecha Terminación Pactada" value={fechaTerminacion} onChange={setFechaTerminacion} type="date" />
+      </div>
+      <button type="submit"
+        className="w-full bg-amber-600 hover:bg-amber-500 text-white font-medium py-2.5 rounded-lg transition-colors text-sm">
+        Calcular Indemnización
+      </button>
+      {resultado ? (
+        <div className="mt-6 bg-gradient-to-br from-[#2a1f0f] to-[#0d1626] border border-amber-500/30 rounded-xl p-6">
+          <p className="text-xs font-semibold uppercase tracking-widest text-amber-400 mb-1">Total Indemnización</p>
+          <p className="text-4xl font-bold text-white tabular-nums mb-6">{cop(resultado.total)}</p>
+          <div className="space-y-2 text-sm border-t border-slate-700/50 pt-4">
+            <p className="text-slate-300">· Días restantes del contrato: <strong>{resultado.diasRestantes}</strong> {resultado.diasRestantes === 15 ? '(mínimo legal aplicado)' : ''}</p>
+            <p className="text-slate-300">· Ingreso diario: {cop(resultado.ingresoDiario)}</p>
+          </div>
+        </div>
+      ) : <EmptyResult />}
+    </form>
+  );
+}
+
+function CalcMoratoria() {
+  // Sanción moratoria: 1 día de salario por cada día de mora
+  const [ingreso, setIngreso] = useState('');
+  const [fechaLiquidacion, setFechaLiquidacion] = useState('');
+  const [fechaActual, setFechaActual] = useState(new Date().toISOString().split('T')[0]);
+  const [resultado, setResultado] = useState<{ total: number; dias: number; ingresoDiario: number } | null>(null);
+
+  const calcular = (e: React.FormEvent) => {
+    e.preventDefault();
+    const dias = dias360(fechaLiquidacion, fechaActual);
+    const diario = Number(ingreso) / 30;
+    setResultado({ total: dias * diario, dias, ingresoDiario: diario });
+  };
+
+  return (
+    <form onSubmit={calcular} className="space-y-4">
+      <div className="bg-red-900/20 border border-red-800/40 rounded-lg p-3 text-xs text-red-300">
+        <strong>Sanción moratoria</strong> (art. 65 CST): por cada día de retardo en el pago de la liquidación,
+        el empleador debe pagar un día de salario.<br />
+        • Aplica desde el día siguiente a la terminación del contrato hasta la fecha de pago efectivo.
+      </div>
+      <InputField label="Ingreso Mensual (COP)" value={ingreso} onChange={setIngreso} placeholder="ej: 1300000" />
+      <div className="grid grid-cols-2 gap-4">
+        <InputField label="Fecha de Liquidación (terminación)" value={fechaLiquidacion} onChange={setFechaLiquidacion} type="date" />
+        <InputField label="Fecha Actual / Pago" value={fechaActual} onChange={setFechaActual} type="date" />
+      </div>
+      <button type="submit"
+        className="w-full bg-red-600 hover:bg-red-500 text-white font-medium py-2.5 rounded-lg transition-colors text-sm">
+        Calcular Sanción Moratoria
+      </button>
+      {resultado ? (
+        <div className="mt-6 bg-gradient-to-br from-[#2a0f0f] to-[#0d1626] border border-red-500/30 rounded-xl p-6">
+          <p className="text-xs font-semibold uppercase tracking-widest text-red-400 mb-1">Total Sanción Moratoria</p>
+          <p className="text-4xl font-bold text-white tabular-nums mb-6">{cop(resultado.total)}</p>
+          <div className="space-y-2 text-sm border-t border-slate-700/50 pt-4">
+            <p className="text-slate-300">· Días de mora: <strong>{resultado.dias}</strong></p>
+            <p className="text-slate-300">· Salario diario: {cop(resultado.ingresoDiario)}</p>
+            <p className="text-slate-300">· Corresponde a 1 día de salario por cada día de mora.</p>
+          </div>
+        </div>
+      ) : <EmptyResult />}
+    </form>
+  );
+}
+
+// ─── Página principal ──────────────────────────────────────────────────────────
+
+const TABS: { key: TabKey; label: string; short: string; color: string }[] = [
+  { key: 'indef_lt10_gt1',  label: 'Indefinido < 10 SMMLV · > 1 año',    short: '1',  color: 'blue' },
+  { key: 'indef_lt10_lte1', label: 'Indefinido < 10 SMMLV · ≤ 1 año',    short: '1A', color: 'blue' },
+  { key: 'indef_gte10_gt1', label: 'Indefinido ≥ 10 SMMLV · > 1 año',    short: '2',  color: 'purple' },
+  { key: 'indef_gte10_lte1',label: 'Indefinido ≥ 10 SMMLV · ≤ 1 año',   short: '2A', color: 'purple' },
+  { key: 'fijo',            label: 'Término Fijo / Obra-Labor',            short: '3',  color: 'amber' },
+  { key: 'moratoria',       label: 'Sanción Moratoria',                    short: 'SM', color: 'red' },
+];
+
+export default function LaboralAdminPage() {
+  const [activeTab, setActiveTab] = useState<TabKey>('indef_lt10_gt1');
+
+  const colorMap: Record<string, string> = {
+    blue:   'border-blue-500 bg-blue-600 text-white',
+    purple: 'border-purple-500 bg-purple-600 text-white',
+    amber:  'border-amber-500 bg-amber-600 text-white',
+    red:    'border-red-500 bg-red-600 text-white',
+  };
+  const inactiveColor = 'border-slate-700 bg-slate-800/40 text-slate-400 hover:text-slate-200 hover:bg-slate-800';
+
+  return (
     <AdminShell>
-      <div className="p-6 max-w-4xl mx-auto">
-        <div className="mb-6">
+      <div className="p-6 max-w-3xl mx-auto">
+        {/* Header */}
+        <div className="mb-8">
           <h1 className="text-2xl font-bold text-slate-100">Calculadora Laboral</h1>
           <p className="text-sm text-slate-400 mt-1">
-            Indemnización por despido sin justa causa (Ley 789 de 2002).
+            Indemnización por despido sin justa causa — <span className="text-slate-300 font-medium">Ley 789 de 2002 · Art. 64 y 65 CST</span>
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          {/* Formulario */}
-          <div className="bg-[#111f35] border border-[#1e3a6e]/50 rounded-xl p-5 shadow-lg">
-            <h2 className="text-lg font-semibold text-white mb-4 border-b border-slate-700 pb-2">Datos de Liquidación</h2>
-            <form onSubmit={calculate} className="space-y-4">
-              
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs text-slate-400 mb-1">SMLMV Actual (COP)</label>
-                  <input 
-                    type="number" 
-                    value={smlmv} 
-                    onChange={(e) => setSmlmv(Number(e.target.value))}
-                    className="w-full bg-[#0a1120] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-400 mb-1">Salario Mensual (COP)</label>
-                  <input 
-                    type="number" 
-                    value={salary} 
-                    onChange={(e) => setSalary(Number(e.target.value))}
-                    className="w-full bg-[#0a1120] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs text-slate-400 mb-1">Tipo de Contrato</label>
-                <div className="flex bg-[#0a1120] rounded-lg p-1 border border-slate-700">
-                  <button
-                    type="button"
-                    onClick={() => setContractType('indefinido')}
-                    className={`flex-1 text-sm py-1.5 rounded-md transition-colors ${contractType === 'indefinido' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
-                  >
-                    Término Indefinido
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setContractType('fijo')}
-                    className={`flex-1 text-sm py-1.5 rounded-md transition-colors ${contractType === 'fijo' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-slate-200'}`}
-                  >
-                    Término Fijo
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs text-slate-400 mb-1">Fecha de Inicio</label>
-                  <input 
-                    type="date" 
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full bg-[#0a1120] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-slate-400 mb-1">Fecha de Terminación</label>
-                  <input 
-                    type="date" 
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full bg-[#0a1120] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
-                    required
-                  />
-                </div>
-              </div>
-
-              {contractType === 'fijo' && (
-                <div>
-                  <label className="block text-xs text-slate-400 mb-1">Fecha de Vencimiento Pactada</label>
-                  <input 
-                    type="date" 
-                    value={contractEndDate}
-                    onChange={(e) => setContractEndDate(e.target.value)}
-                    className="w-full bg-[#0a1120] border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500"
-                    required={contractType === 'fijo'}
-                  />
-                </div>
-              )}
-
-              <div className="pt-4">
-                <button 
-                  type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2.5 rounded-lg transition-colors"
-                >
-                  Calcular Indemnización
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* Resultados */}
-          <div>
-            {result ? (
-              <div className="bg-gradient-to-br from-[#111f35] to-[#0d1626] border border-green-500/30 rounded-xl p-6 shadow-xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <svg className="w-24 h-24 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                </div>
-                
-                <h3 className="text-sm font-semibold text-green-400 uppercase tracking-widest mb-2">Total a Pagar</h3>
-                <p className="text-4xl font-bold text-white tabular-nums tracking-tight">
-                  {formatCurrency(result.total)}
-                </p>
-                
-                <div className="mt-6 space-y-3">
-                  <div className="flex justify-between border-b border-slate-700/50 pb-2">
-                    <span className="text-sm text-slate-400">Tiempo total laborado:</span>
-                    <span className="text-sm font-medium text-slate-200">{result.daysWorked} días</span>
-                  </div>
-                  
-                  {result.indemnificationDays !== undefined && (
-                    <div className="flex justify-between border-b border-slate-700/50 pb-2">
-                      <span className="text-sm text-slate-400">Días a indemnizar:</span>
-                      <span className="text-sm font-medium text-slate-200">{result.indemnificationDays.toFixed(2)} días</span>
-                    </div>
-                  )}
-                  
-                  <div className="flex justify-between border-b border-slate-700/50 pb-2">
-                    <span className="text-sm text-slate-400">Base Salario Diario:</span>
-                    <span className="text-sm font-medium text-slate-200">{formatCurrency(salary / 30)}</span>
-                  </div>
-                </div>
-
-                <div className="mt-6 bg-[#0a1120] rounded-lg p-3 border border-slate-800">
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    <span className="font-semibold text-slate-100">Explicación:</span> {result.detail}
-                  </p>
-                </div>
-                
-              </div>
-            ) : (
-              <div className="bg-[#111f35]/50 border border-slate-800 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center h-full min-h-[300px]">
-                <div className="w-12 h-12 bg-slate-800 rounded-full flex items-center justify-center mb-4 text-slate-500">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                </div>
-                <p className="text-slate-400 text-sm">Completa el formulario y presiona Calcular para ver la indemnización detallada.</p>
-              </div>
-            )}
-          </div>
-
+        {/* Tabs */}
+        <div className="grid grid-cols-3 gap-2 mb-6">
+          {TABS.map((tab) => {
+            const active = activeTab === tab.key;
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={[
+                  'flex flex-col items-start text-left px-3 py-2.5 rounded-lg border text-xs font-medium transition-all',
+                  active ? colorMap[tab.color] : inactiveColor,
+                ].join(' ')}
+              >
+                <span className="font-bold text-base leading-none mb-1">{tab.short}</span>
+                <span className="leading-tight opacity-90">{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
+
+        {/* Panel activo */}
+        <div className="bg-[#111f35] border border-[#1e3a6e]/50 rounded-xl p-6 shadow-lg">
+          {activeTab === 'indef_lt10_gt1'  && <Calc1 />}
+          {activeTab === 'indef_lt10_lte1' && <Calc1A />}
+          {activeTab === 'indef_gte10_gt1' && <Calc2 />}
+          {activeTab === 'indef_gte10_lte1'&& <Calc2A />}
+          {activeTab === 'fijo'            && <Calc3 />}
+          {activeTab === 'moratoria'       && <CalcMoratoria />}
+        </div>
+
+        <p className="text-xs text-slate-600 text-center mt-6">
+          *Aplica para trabajadores que ingresaron después del 27 de diciembre de 1992. Herramienta de uso interno — Castellanos Abogados.
+        </p>
       </div>
     </AdminShell>
   );
