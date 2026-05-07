@@ -15,7 +15,7 @@ export default function AsesoriaPersonasPage() {
         className="relative overflow-hidden border-b border-border/70 text-white"
         style={{ backgroundImage: personalBackground, backgroundSize: "cover", backgroundPosition: "center" }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/88 via-ink/82 to-accent-700/70" aria-hidden />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0d1528]/88 via-[#0d1528]/82 to-[#1f365d]/70" aria-hidden />
         <div className="container section-shell relative space-y-5">
           <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Línea secundaria</p>
           <h1 className="max-w-3xl text-white">Asesoría penal a personas naturales</h1>

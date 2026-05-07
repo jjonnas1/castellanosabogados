@@ -35,7 +35,7 @@ export default function AQuienServimosPage() {
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      <header className="relative overflow-hidden border-b border-border/70 bg-gradient-to-br from-ink via-ink/90 to-accent text-white">
+      <header className="relative overflow-hidden border-b border-border/70 bg-gradient-to-br from-ink via-ink/90 to-accent dark:from-[#0c111d] dark:via-[#0c111d]/90 dark:to-[#1f365d] text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.12),transparent_32%),radial-gradient(circle_at_72%_8%,rgba(255,255,255,0.12),transparent_36%)]" aria-hidden />
         <div className="container section-shell relative space-y-5">
           <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">A quién servimos</p>

@@ -46,7 +46,7 @@ export default async function ServiciosPage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-ink/70 to-accent-700/60" aria-hidden />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528]/75 via-[#0d1528]/70 to-[#1f365d]/60" aria-hidden />
         <div className="container section-shell relative space-y-6">
           <div className="space-y-3">
             <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">

@@ -130,7 +130,7 @@ function ContactoContent() {
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      <header className="border-b border-border bg-gradient-to-r from-ink via-ink/92 to-accent-700 text-white animate-gradient">
+      <header className="border-b border-border bg-gradient-to-r from-ink via-ink/92 to-accent-700 dark:from-[#0c111d] dark:via-[#0c111d]/92 dark:to-[#1f365d] text-white animate-gradient">
         <div className="container section-shell space-y-4 animate-fade-in-up">
           <Badge variant="info">Contacto</Badge>
           <h1 className="max-w-3xl text-white">Coordinemos una evaluación prioritaria</h1>
@@ -186,7 +186,7 @@ function ContactoContent() {
             </a>
           </div>
 
-          <div className="rounded-2xl border border-border bg-white p-4 shadow-soft/30">
+          <div className="rounded-2xl border border-border bg-card p-4 shadow-soft/30">
             <div className="flex items-center justify-between text-sm text-muted">
               <span>Progreso de envío</span>
               <span>{ok ? '100%' : '60%'}</span>
@@ -195,7 +195,7 @@ function ContactoContent() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="card-shell bg-white p-6 shadow-soft/40 animate-fade-in-up">
+        <form onSubmit={handleSubmit} className="card-shell p-6 shadow-soft/40 animate-fade-in-up">
           <Badge variant="info">Formulario</Badge>
           <h3 className="mt-2 text-ink">Mensaje confidencial</h3>
 

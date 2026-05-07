@@ -110,7 +110,7 @@ export default function HeroTipificador() {
 
   return (
     <div className="card-shell relative overflow-hidden rounded-3xl border border-white/15 bg-white/10 p-7 shadow-soft ring-1 ring-white/15 backdrop-blur animate-fade-in-left delay-200">
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/85 to-accent-700/75" aria-hidden />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528]/80 via-[#0d1528]/85 to-[#1f365d]/75" aria-hidden />
 
       <div className="relative space-y-5 text-white">
         {/* Step 0 — selección de área */}

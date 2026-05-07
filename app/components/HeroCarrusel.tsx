@@ -4,7 +4,15 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { MessageCircle, Phone } from 'lucide-react';
+
+function WhatsAppIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.553 4.122 1.52 5.86L0 24l6.335-1.502A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.01-1.378l-.36-.213-3.732.885.899-3.628-.234-.373A9.772 9.772 0 0 1 2.182 12C2.182 6.568 6.568 2.182 12 2.182S21.818 6.568 21.818 12 17.432 21.818 12 21.818z" fill="#25D366"/>
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="#25D366"/>
+    </svg>
+  );
+}
 
 const WA = 'https://wa.me/573148309306';
 const PHONE_DISPLAY = '314 830 9306';
@@ -126,7 +134,7 @@ export default function HeroCarrusel() {
           <div className="flex flex-wrap items-center gap-4">
             <Link
               href={slide.ctaHref}
-              className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100"
+              className="btn-primary bg-white !text-[#0d1528] shadow-hover hover:bg-slate-100"
             >
               {slide.cta}
             </Link>
@@ -136,6 +144,7 @@ export default function HeroCarrusel() {
               rel="noopener noreferrer"
               className="btn-secondary border-white/40 bg-white/10 text-white hover:bg-white/18 hover:text-white flex items-center gap-2"
             >
+              <WhatsAppIcon size={16} />
               {slide.ctaWaLabel}
             </a>
           </div>
@@ -164,9 +173,9 @@ export default function HeroCarrusel() {
                 href={slide.ctaWa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary w-full bg-white text-ink hover:bg-slate-50 flex items-center justify-center gap-2.5"
+                className="btn-primary w-full bg-white hover:bg-slate-50 flex items-center justify-center gap-2.5 !text-[#0d1528]"
               >
-                <MessageCircle size={18} fill="currentColor" className="text-ink" />
+                <WhatsAppIcon size={18} />
                 <span className="font-bold">{PHONE_DISPLAY}</span>
               </a>
             </div>

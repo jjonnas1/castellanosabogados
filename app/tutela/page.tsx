@@ -54,7 +54,7 @@ export default function TutelaPage() {
           </div>
 
           <article className="card-shell relative overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-7 text-white">
-            <div className="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/70 to-ink/80" aria-hidden />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528]/60 via-[#0d1528]/70 to-[#0d1528]/80" aria-hidden />
             <div className="relative space-y-4">
               <p className="text-[11px] uppercase tracking-[0.16em] text-slate-200">Enfoque estratégico</p>
               <h2 className="text-2xl text-white">Acompañamiento claro, técnico y oportuno</h2>

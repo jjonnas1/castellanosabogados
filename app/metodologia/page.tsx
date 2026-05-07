@@ -16,7 +16,7 @@ export default function MetodologiaPage() {
       <SiteHeader />
 
       {/* HERO */}
-      <section className="section-shell border-b border-border/60 bg-ink text-white">
+      <section className="section-shell border-b border-border/60 bg-ink dark:bg-[#0c111d] text-white">
         <div className="container max-w-3xl space-y-4">
           <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Metodología</p>
           <h1 className="text-white">Cómo trabajamos</h1>
@@ -179,7 +179,7 @@ export default function MetodologiaPage() {
       </section>
 
       {/* CTA */}
-      <section className="section-shell bg-ink text-white">
+      <section className="section-shell bg-ink dark:bg-[#0c111d] text-white">
         <div className="container max-w-2xl space-y-5 text-center">
           <h2 className="text-white">¿Listo para comenzar?</h2>
           <p className="text-slate-200">
