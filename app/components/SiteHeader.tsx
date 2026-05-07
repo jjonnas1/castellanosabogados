@@ -74,6 +74,7 @@ const PLAIN_NAV = [
   { label: "Tutelas", href: "/tutela", highlight: true },
   { label: "Metodología", href: "/metodologia" },
   { label: "Blog", href: "/blog" },
+  { label: "Herramientas", href: "/herramientas" },
   { label: "Nosotros", href: "/nosotros" },
   { label: "Contacto", href: "/contacto" },
 ];
