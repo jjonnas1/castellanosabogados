@@ -184,19 +184,26 @@ export default function SiteHeader(){
           </button>
         </div>
 
-        {/* Mobile-only: dark toggle + lang switcher visible in header bar */}
-        <div className="flex items-center gap-1.5 md:hidden">
-          <button type="button" onClick={()=>setTheme(isDark?"light":"dark")} aria-label={isDark?h.lightMode:h.darkMode} className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted transition hover:border-ink hover:text-ink">
-            {isDark?<SunIcon/>:<MoonIcon/>}
-          </button>
-          <LangSwitcher/>
-        </div>
-
         <button type="button" onClick={()=>{setOpen(v=>!v);setMegaOpen(false);setMobileServicesOpen(false);}} aria-label={open?t.common.closeMenu:t.common.openMenu} aria-expanded={open} className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-ink transition hover:shadow-soft md:hidden">
           <div className="flex h-3.5 flex-col justify-between" aria-hidden>
             <span className="block h-px w-5 bg-ink"/><span className="block h-px w-5 bg-ink"/><span className="block h-px w-5 bg-ink"/>
           </div>
         </button>
+      </div>
+
+      {/* ── Mobile secondary bar: dark mode + lang switcher always visible ── */}
+      <div className="flex items-center gap-2 border-t border-border/50 bg-surface/70 px-4 py-2 backdrop-blur-sm dark:bg-canvas/80 md:hidden">
+        <button type="button" onClick={()=>setTheme(isDark?"light":"dark")} aria-label={isDark?h.lightMode:h.darkMode} className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-border bg-card px-3 py-2 text-[13px] font-semibold text-ink shadow-soft/20 transition hover:bg-subtle">
+          {isDark?<SunIcon/>:<MoonIcon/>}
+          <span className="text-ink">{isDark?h.lightMode:h.darkMode}</span>
+        </button>
+        <div className="flex overflow-hidden rounded-xl border border-border shadow-soft/20">
+          {(Object.keys(LANG_LABELS) as Language[]).map(l=>(
+            <button key={l} type="button" onClick={()=>setLanguage(l)} className={`px-3 py-2 text-[12px] font-bold transition ${language===l?"bg-ink text-white dark:bg-accent-500":"bg-card text-muted hover:bg-subtle hover:text-ink"}`}>
+              {LANG_LABELS[l]}
+            </button>
+          ))}
+        </div>
       </div>
 
       {open&&(
