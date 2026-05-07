@@ -11,7 +11,7 @@ const SLIDES = [
   {
     tag: 'Castellanos Abogados · Pereira',
     pill: 'Corporativo · Personas · Ejecución · Formación',
-    title: 'Firma jurídica integral en el Eje Cafetero con criterio técnico y acompañamiento real',
+    title: 'Firma jurídica integral en el Eje Cafetero',
     body: 'Derecho penal, civil, familia, laboral, administrativo, ejecución de penas y tutelas. Diagnóstico claro y presencia en cada etapa de su proceso.',
     cta: 'Ver servicios',
     ctaHref: '/servicios',
