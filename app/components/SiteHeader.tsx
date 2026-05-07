@@ -3,82 +3,70 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { buildMailtoUrl, buildWhatsAppUrl, contactConfig } from "@/lib/contactLinks";
+import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 import { getProfileRoleByUserId, type AppRole } from "@/lib/profile-role";
 import { supabase } from "@/lib/supabase-browser";
+import { useTheme } from "@/contexts/ThemeContext";
+import { useLang } from "@/contexts/LangContext";
+import { LANG_LABELS, LANG_NAMES, type Lang } from "@/lib/translations";
 
-// ── Mega-menu data ──────────────────────────────────────────────────────────
+// ── Static slugs (structure never changes, labels come from translations) ────
 
-const MEGA_GROUPS = [
-  {
-    label: "Para personas",
-    services: [
-      {
-        slug: "penal-personas",
-        name: "Penal Personas",
-        desc: "Defensa e investigación penal para personas naturales.",
-        for: "Personas imputadas o investigadas",
-      },
-      {
-        slug: "ejecucion-penas",
-        name: "Ejecución de Penas",
-        desc: "Redenciones, prisión domiciliaria y libertad condicional.",
-        for: "Personas privadas de la libertad",
-      },
-      {
-        slug: "civil",
-        name: "Civil",
-        desc: "Conflictos patrimoniales, contratos y obligaciones.",
-        for: "Personas y familias",
-      },
-      {
-        slug: "familia",
-        name: "Familia",
-        desc: "Custodia, alimentos, divorcio y protección familiar.",
-        for: "Familias en conflicto",
-      },
-      {
-        slug: "laboral",
-        name: "Laboral",
-        desc: "Defensa en controversias laborales y prestaciones sociales.",
-        for: "Trabajadores y empleadores",
-      },
-      {
-        slug: "administrativo",
-        name: "Administrativo",
-        desc: "Recursos ante entidades públicas y jurisdicción contenciosa.",
-        for: "Ciudadanos y empresas",
-      },
-    ],
-  },
-  {
-    label: "Para empresas",
-    services: [
-      {
-        slug: "responsabilidad-penal-pj",
-        name: "Responsabilidad Penal PJ",
-        desc: "Prevención y defensa penal para personas jurídicas y juntas.",
-        for: "Empresas y directivos",
-      },
-      {
-        slug: "capacitaciones-penal-pj",
-        name: "Capacitaciones Penal PJ",
-        desc: "Formación en prevención y trazabilidad penal corporativa.",
-        for: "Comités de cumplimiento y órganos de control",
-      },
-    ],
-  },
+const PEOPLE_SLUGS = [
+  "penal-personas",
+  "ejecucion-penas",
+  "civil",
+  "familia",
+  "laboral",
+  "administrativo",
 ];
+const COMPANY_SLUGS = ["responsabilidad-penal-pj", "capacitaciones-penal-pj"];
 
-const PLAIN_NAV = [
-  { label: "Tutelas", href: "/tutela", highlight: true },
-  { label: "Metodología", href: "/metodologia" },
-  { label: "Blog", href: "/blog" },
-  { label: "Nosotros", href: "/nosotros" },
-  { label: "Contacto", href: "/contacto" },
-];
+// ── Icons ────────────────────────────────────────────────────────────────────
 
-// ── Mega-menu panel (desktop) ───────────────────────────────────────────────
+function SunIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8" />
+      <path
+        d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
+      <path
+        d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function GlobeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" aria-hidden>
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M12 3c-2.5 3-4 5.5-4 9s1.5 6 4 9M12 3c2.5 3 4 5.5 4 9s-1.5 6-4 9M3 12h18"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+// ── Mega-menu panel (desktop) ─────────────────────────────────────────────────
 
 function MegaMenuPanel({
   id,
@@ -89,43 +77,50 @@ function MegaMenuPanel({
   onClose: () => void;
   mailtoHref: string;
 }) {
+  const { t } = useLang();
+
+  const groups = [
+    { label: t.mega.forPeople, slugs: PEOPLE_SLUGS },
+    { label: t.mega.forCompanies, slugs: COMPANY_SLUGS },
+  ];
+
   return (
     <div
       id={id}
       role="region"
       aria-label="Menú de servicios"
-      className="absolute left-1/2 top-full z-50 mt-2 w-[820px] -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-white shadow-[0_24px_64px_rgba(13,21,40,.14)]"
+      className="mega-panel absolute left-1/2 top-full z-50 mt-2 w-[820px] -translate-x-1/2 overflow-hidden rounded-2xl border border-border shadow-[0_24px_64px_rgba(13,21,40,.14)]"
     >
       <div className="flex">
         {/* Left: service groups */}
         <div className="flex-1 p-5 space-y-5">
-          {MEGA_GROUPS.map((group) => (
+          {groups.map((group) => (
             <div key={group.label}>
               <p className="mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.18em] text-muted">
                 {group.label}
               </p>
               <div
                 className={
-                  group.services.length >= 4
+                  group.slugs.length >= 4
                     ? "grid grid-cols-2 gap-0.5"
                     : "grid grid-cols-1 gap-0.5"
                 }
               >
-                {group.services.map((s) => (
+                {group.slugs.map((slug) => (
                   <Link
-                    key={s.slug}
-                    href={`/servicios/${s.slug}`}
+                    key={slug}
+                    href={`/servicios/${slug}`}
                     onClick={onClose}
-                    className="group flex flex-col gap-0.5 rounded-xl px-3 py-2.5 transition hover:bg-canvas"
+                    className="group mega-service-hover flex flex-col gap-0.5 rounded-xl px-3 py-2.5 transition"
                   >
                     <span className="text-[13px] font-semibold text-ink">
-                      {s.name}
+                      {t.mega.serviceNames[slug]}
                     </span>
                     <span className="text-[11px] text-muted leading-snug">
-                      {s.desc}
+                      {t.mega.serviceDescs[slug]}
                     </span>
-                    <span className="hidden text-[10px] font-medium text-accent group-hover:block">
-                      Para: {s.for}
+                    <span className="hidden text-[10px] font-medium text-accent-500 group-hover:block">
+                      {t.mega.serviceFor[slug]}
                     </span>
                   </Link>
                 ))}
@@ -135,45 +130,45 @@ function MegaMenuPanel({
 
           <div className="border-t border-border pt-3 px-2">
             <p className="text-[12px] text-muted">
-              ¿No encuentra su área?{" "}
+              {t.mega.notFound}{" "}
               <a
                 href={mailtoHref}
                 onClick={onClose}
-                className="font-semibold text-accent underline underline-offset-2 hover:text-accent-strong"
+                className="font-semibold text-accent-500 underline underline-offset-2 hover:text-accent-700"
               >
-                Consultar directamente →
+                {t.mega.consultDirect}
               </a>
             </p>
           </div>
         </div>
 
-        {/* Right: Tutelas destacado + acceso cliente */}
-        <div className="flex w-[200px] shrink-0 flex-col gap-3 border-l border-border bg-[#fafafa] p-5">
+        {/* Right: Tutelas + client access */}
+        <div className="mega-panel-side flex w-[200px] shrink-0 flex-col gap-3 border-l border-border p-5">
           <Link
             href="/tutela"
             onClick={onClose}
             className="flex flex-col gap-2 rounded-2xl bg-[#7b1e2b] p-4 text-white transition hover:bg-[#6a1624]"
           >
             <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/70">
-              Destacado
+              {t.mega.featured}
             </span>
             <span className="font-heading text-base font-semibold leading-snug">
-              Tutelas
+              {t.nav.tutelas}
             </span>
             <span className="text-[12px] leading-snug text-white/85">
-              Protección de derechos ante EPS, entidades públicas y privadas.
+              {t.mega.tutelaDesc}
             </span>
             <span className="mt-1 inline-flex w-fit items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-semibold text-white">
-              ⚡ Fallo en 10 días hábiles
+              {t.mega.tutelaBadge}
             </span>
           </Link>
 
           <Link
             href="/cliente/login"
             onClick={onClose}
-            className="block w-full rounded-xl border border-border bg-white px-3 py-2.5 text-center text-[13px] font-semibold text-ink transition hover:border-ink hover:bg-subtle"
+            className="block w-full rounded-xl border border-border bg-card px-3 py-2.5 text-center text-[13px] font-semibold text-ink transition hover:border-ink hover:bg-subtle"
           >
-            Área cliente
+            {t.mega.clientArea}
           </Link>
         </div>
       </div>
@@ -181,7 +176,58 @@ function MegaMenuPanel({
   );
 }
 
-// ── Main header ─────────────────────────────────────────────────────────────
+// ── Language switcher ────────────────────────────────────────────────────────
+
+function LangSwitcher() {
+  const { lang, setLang } = useLang();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-1.5 text-[12px] font-semibold text-muted transition hover:border-ink hover:text-ink"
+        aria-label="Cambiar idioma"
+      >
+        <GlobeIcon />
+        {LANG_LABELS[lang]}
+        <svg className={`h-2.5 w-2.5 transition-transform ${open ? "rotate-180" : ""}`} viewBox="0 0 10 6" fill="none" aria-hidden>
+          <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      {open && (
+        <div className="mega-panel absolute right-0 top-full z-50 mt-2 w-32 overflow-hidden rounded-xl border border-border shadow-soft">
+          {(Object.keys(LANG_LABELS) as Lang[]).map((l) => (
+            <button
+              key={l}
+              type="button"
+              onClick={() => { setLang(l); setOpen(false); }}
+              className={`flex w-full items-center gap-2 px-3 py-2 text-left text-[13px] transition mega-service-hover ${
+                lang === l ? "font-semibold text-ink" : "text-muted"
+              }`}
+            >
+              <span className="w-6 text-[11px] font-bold">{LANG_LABELS[l]}</span>
+              <span>{LANG_NAMES[l]}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Main header ──────────────────────────────────────────────────────────────
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -196,9 +242,11 @@ export default function SiteHeader() {
   const [role, setRole] = useState<AppRole>(null);
   const [loggedIn, setLoggedIn] = useState(false);
 
+  const { theme, toggle: toggleTheme } = useTheme();
+  const { lang, setLang, t } = useLang();
+
   const isActive = (href: string) =>
     pathname === href || (href !== "/" && pathname?.startsWith(href));
-
   const isServicesActive = () => !!pathname?.startsWith("/servicios");
 
   useEffect(() => {
@@ -237,7 +285,6 @@ export default function SiteHeader() {
     return () => sub.subscription.unsubscribe();
   }, []);
 
-  // Close mega-menu on route change
   useEffect(() => {
     setMegaOpen(false);
     setOpen(false);
@@ -258,14 +305,16 @@ export default function SiteHeader() {
     message: "Hola, quisiera solicitar una evaluación estratégica.",
   });
 
-  const whatsappHref = buildWhatsAppUrl({
-    area: "Contacto general",
-    source: "Header",
-    message: "Hola, quisiera solicitar una evaluación estratégica.",
-  });
+  const PLAIN_NAV = [
+    { label: t.nav.tutelas, href: "/tutela", highlight: true },
+    { label: t.nav.methodology, href: "/metodologia" },
+    { label: t.nav.blog, href: "/blog" },
+    { label: t.nav.about, href: "/nosotros" },
+    { label: t.nav.contact, href: "/contacto" },
+  ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/60 bg-white/95 backdrop-blur-md">
+    <header className="header-bg sticky top-0 z-50 border-b border-border/60">
       <div className="container flex h-16 items-center justify-between gap-6">
 
         {/* Logo */}
@@ -274,15 +323,13 @@ export default function SiteHeader() {
           className="group shrink-0 flex items-center gap-3"
           aria-label="Castellanos Abogados — Inicio"
         >
-          {/* Monograma */}
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ink transition group-hover:bg-accent-strong">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ink transition group-hover:bg-accent-700">
             <svg viewBox="0 0 512 512" className="h-[18px] w-[18px]" aria-hidden fill="none">
-              <path d="M128 176h256v24H128zm42 72h172v24H170z" fill="white"/>
-              <circle cx="256" cy="128" r="52" stroke="white" strokeWidth="24" fill="none"/>
-              <path d="M158 312h196l28 72H130z" fill="rgba(255,255,255,0.55)"/>
+              <path d="M128 176h256v24H128zm42 72h172v24H170z" fill="white" />
+              <circle cx="256" cy="128" r="52" stroke="white" strokeWidth="24" fill="none" />
+              <path d="M158 312h196l28 72H130z" fill="rgba(255,255,255,0.55)" />
             </svg>
           </div>
-          {/* Nombre completo — una sola línea, legible */}
           <span className="font-heading text-[17px] font-semibold tracking-tight text-ink">
             Castellanos Abogados
           </span>
@@ -305,7 +352,7 @@ export default function SiteHeader() {
                 isServicesActive() ? "text-ink" : ""
               }`}
             >
-              Servicios
+              {t.nav.services}
               <svg
                 className={`h-3 w-3 transition-transform ${megaOpen ? "rotate-180" : ""}`}
                 viewBox="0 0 12 8"
@@ -331,7 +378,6 @@ export default function SiteHeader() {
             )}
           </div>
 
-          {/* Plain nav items */}
           {PLAIN_NAV.map((item) => {
             if (item.highlight) {
               return (
@@ -359,33 +405,44 @@ export default function SiteHeader() {
         </nav>
 
         {/* Actions — desktop */}
-        <div className="hidden shrink-0 items-center gap-3 md:flex">
+        <div className="hidden shrink-0 items-center gap-2 md:flex">
+          {/* Language switcher */}
+          <LangSwitcher />
+
           {loggedIn ? (
             <>
               <Link
                 href={panelHref}
                 className="inline-flex h-9 w-36 items-center justify-center rounded-full bg-ink text-[13px] font-semibold text-white transition hover:bg-ink/85"
               >
-                {role === "admin" ? "Panel admin" : "Área cliente"}
+                {role === "admin" ? t.auth.adminPanel : t.auth.clientArea}
               </Link>
               <button
                 type="button"
                 onClick={logout}
                 className="inline-flex h-9 w-36 items-center justify-center rounded-full border border-border text-[13px] font-semibold text-ink transition hover:border-ink"
               >
-                Cerrar sesión
+                {t.auth.logout}
               </button>
             </>
           ) : (
-            <>
-              <Link
-                href="/cliente/login"
-                className="inline-flex h-9 items-center justify-center rounded-full bg-ink px-5 text-[13px] font-semibold text-white transition hover:bg-ink/85"
-              >
-                Área cliente
-              </Link>
-            </>
+            <Link
+              href="/cliente/login"
+              className="inline-flex h-9 items-center justify-center rounded-full bg-ink px-5 text-[13px] font-semibold text-white transition hover:bg-ink/85"
+            >
+              {t.auth.clientArea}
+            </Link>
           )}
+
+          {/* Dark mode toggle — right of cliente link */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted transition hover:border-ink hover:text-ink"
+          >
+            {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+          </button>
         </div>
 
         {/* Mobile toggle */}
@@ -396,9 +453,9 @@ export default function SiteHeader() {
             setMegaOpen(false);
             setMobileServicesOpen(false);
           }}
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          aria-label={open ? t.mobile.closeMenu : t.mobile.openMenu}
           aria-expanded={open}
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white text-ink transition hover:shadow-soft md:hidden"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-ink transition hover:shadow-soft md:hidden"
         >
           <div className="flex h-3.5 flex-col justify-between" aria-hidden>
             <span className="block h-px w-5 bg-ink" />
@@ -410,7 +467,7 @@ export default function SiteHeader() {
 
       {/* Mobile nav */}
       {open && (
-        <div className="border-t border-border/60 bg-white/98 backdrop-blur-md md:hidden">
+        <div className="mobile-menu-bg border-t border-border/60 md:hidden">
           <div className="container flex flex-col gap-1 py-4">
 
             {/* Servicios dropdown (mobile) */}
@@ -419,10 +476,10 @@ export default function SiteHeader() {
               onClick={() => setMobileServicesOpen((v) => !v)}
               aria-expanded={mobileServicesOpen}
               aria-controls={mobileServicesId}
-              className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition hover:bg-subtle hover:text-ink"
+              className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition mega-service-hover hover:text-ink"
             >
               <span className={isServicesActive() ? "text-ink" : ""}>
-                Servicios
+                {t.nav.services}
               </span>
               <svg
                 className={`h-3 w-3 transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`}
@@ -445,26 +502,29 @@ export default function SiteHeader() {
                 id={mobileServicesId}
                 className="ml-3 flex flex-col gap-3 border-l border-border pl-3"
               >
-                {MEGA_GROUPS.map((group) => (
+                {[
+                  { label: t.mega.forPeople, slugs: PEOPLE_SLUGS },
+                  { label: t.mega.forCompanies, slugs: COMPANY_SLUGS },
+                ].map((group) => (
                   <div key={group.label}>
                     <p className="mb-1 px-1 text-[10px] font-bold uppercase tracking-[0.14em] text-muted">
                       {group.label}
                     </p>
-                    {group.services.map((s) => (
+                    {group.slugs.map((slug) => (
                       <Link
-                        key={s.slug}
-                        href={`/servicios/${s.slug}`}
+                        key={slug}
+                        href={`/servicios/${slug}`}
                         onClick={() => {
                           setOpen(false);
                           setMobileServicesOpen(false);
                         }}
-                        className={`block rounded-xl px-3 py-2 text-sm transition hover:bg-subtle hover:text-ink ${
-                          isActive(`/servicios/${s.slug}`)
+                        className={`block rounded-xl px-3 py-2 text-sm transition mega-service-hover hover:text-ink ${
+                          isActive(`/servicios/${slug}`)
                             ? "bg-subtle text-ink"
                             : "text-muted"
                         }`}
                       >
-                        {s.name}
+                        {t.mega.serviceNames[slug]}
                       </Link>
                     ))}
                   </div>
@@ -480,7 +540,7 @@ export default function SiteHeader() {
                 className={
                   item.highlight
                     ? "mx-0 mt-1 rounded-xl bg-[#7b1e2b] px-3 py-2.5 text-sm font-semibold text-white"
-                    : `rounded-xl px-3 py-2.5 text-sm font-medium transition hover:bg-subtle hover:text-ink ${
+                    : `rounded-xl px-3 py-2.5 text-sm font-medium transition mega-service-hover hover:text-ink ${
                         isActive(item.href) ? "bg-subtle text-ink" : "text-muted"
                       }`
                 }
@@ -497,30 +557,55 @@ export default function SiteHeader() {
                     onClick={() => setOpen(false)}
                     className="rounded-xl bg-ink px-4 py-2.5 text-center text-sm font-semibold text-white"
                   >
-                    {role === "admin" ? "Panel admin" : "Área cliente"}
+                    {role === "admin" ? t.auth.adminPanel : t.auth.clientArea}
                   </Link>
                   <button
                     type="button"
-                    onClick={async () => {
-                      setOpen(false);
-                      await logout();
-                    }}
+                    onClick={async () => { setOpen(false); await logout(); }}
                     className="rounded-xl border border-border px-4 py-2.5 text-sm font-semibold text-muted"
                   >
-                    Cerrar sesión
+                    {t.auth.logout}
                   </button>
                 </>
               ) : (
-                <>
-                  <Link
-                    href="/cliente/login"
-                    onClick={() => setOpen(false)}
-                    className="rounded-xl bg-ink px-4 py-2.5 text-center text-sm font-semibold text-white"
-                  >
-                    Área cliente
-                  </Link>
-                </>
+                <Link
+                  href="/cliente/login"
+                  onClick={() => setOpen(false)}
+                  className="rounded-xl bg-ink px-4 py-2.5 text-center text-sm font-semibold text-white"
+                >
+                  {t.auth.clientArea}
+                </Link>
               )}
+
+              {/* Mobile: theme + lang row */}
+              <div className="flex items-center gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  aria-label={theme === "dark" ? "Modo claro" : "Modo oscuro"}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-border py-2.5 text-sm font-medium text-muted transition mega-service-hover hover:text-ink"
+                >
+                  {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+                  {theme === "dark" ? "Modo claro" : "Modo oscuro"}
+                </button>
+
+                <div className="flex flex-1 overflow-hidden rounded-xl border border-border">
+                  {(Object.keys(LANG_LABELS) as Lang[]).map((l) => (
+                    <button
+                      key={l}
+                      type="button"
+                      onClick={() => setLang(l)}
+                      className={`flex-1 py-2.5 text-[11px] font-bold transition ${
+                        lang === l
+                          ? "bg-ink text-white"
+                          : "text-muted mega-service-hover hover:text-ink"
+                      }`}
+                    >
+                      {LANG_LABELS[l]}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>

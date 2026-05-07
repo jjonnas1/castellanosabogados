@@ -5,6 +5,7 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
 import SiteFooter from '@/app/components/SiteFooter';
 import ClientWidgets from '@/app/components/ClientWidgets';
+import Providers from '@/app/components/Providers';
 
 const GADS_ID = 'AW-18056733453';
 const GT_ID   = 'GT-NCNRRTDW';
@@ -65,6 +66,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="theme-a">
+      <head>
+        {/* Prevent flash of wrong theme on load */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.classList.remove('theme-a');document.documentElement.classList.add('theme-dark');}})();` }} />
+      </head>
       <body className="min-h-screen bg-canvas text-ink antialiased">
         {/* Google Ads — Global Site Tag */}
         <Script
@@ -84,8 +89,10 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        {children}
-        <SiteFooter />
+        <Providers>
+          {children}
+          <SiteFooter />
+        </Providers>
         <AdminFloatingAccess />
         <ClientWidgets />
       </body>

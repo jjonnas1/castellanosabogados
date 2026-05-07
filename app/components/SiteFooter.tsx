@@ -3,22 +3,25 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { contactConfig } from "@/lib/contactLinks";
+import { useLang } from "@/contexts/LangContext";
 
-const SERVICES = [
-  { name: "Penal Personas", href: "/servicios/penal-personas" },
-  { name: "Ejecución de Penas", href: "/servicios/ejecucion-penas" },
-  { name: "Responsabilidad Penal PJ", href: "/servicios/responsabilidad-penal-pj" },
-  { name: "Capacitaciones Penal PJ", href: "/servicios/capacitaciones-penal-pj" },
-  { name: "Civil", href: "/servicios/civil" },
-  { name: "Familia", href: "/servicios/familia" },
-  { name: "Laboral", href: "/servicios/laboral" },
-  { name: "Administrativo", href: "/servicios/administrativo" },
+const SERVICE_SLUGS = [
+  "penal-personas",
+  "ejecucion-penas",
+  "responsabilidad-penal-pj",
+  "capacitaciones-penal-pj",
+  "civil",
+  "familia",
+  "laboral",
+  "administrativo",
 ];
 
 const HIDDEN = ["/admin", "/cliente", "/portal", "/panel", "/login", "/registro"];
 
 export default function SiteFooter() {
   const pathname = usePathname();
+  const { t } = useLang();
+
   if (HIDDEN.some((p) => pathname.startsWith(p))) return null;
 
   return (
@@ -28,18 +31,23 @@ export default function SiteFooter() {
         {/* Firma */}
         <div className="space-y-3">
           <p className="font-heading text-base font-semibold text-white">Castellanos Abogados</p>
-          <p className="text-white/55">Firma · Asesoría jurídica estratégica integral</p>
-          <p className="text-xs text-white/35">Criterio · Control · Tranquilidad</p>
+          <p className="text-white/55">{t.footer.tagline}</p>
+          <p className="text-xs text-white/35">{t.footer.motto}</p>
         </div>
 
         {/* Servicios — 2 columnas */}
         <div className="space-y-3">
-          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/50">Servicios</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/50">
+            {t.footer.services}
+          </p>
           <ul className="grid grid-cols-2 gap-x-4 gap-y-1.5">
-            {SERVICES.map((s) => (
-              <li key={s.href}>
-                <Link href={s.href} className="text-white/65 transition hover:text-white">
-                  {s.name}
+            {SERVICE_SLUGS.map((slug) => (
+              <li key={slug}>
+                <Link
+                  href={`/servicios/${slug}`}
+                  className="text-white/65 transition hover:text-white"
+                >
+                  {t.mega.serviceNames[slug]}
                 </Link>
               </li>
             ))}
@@ -48,21 +56,29 @@ export default function SiteFooter() {
 
         {/* Contacto */}
         <div className="space-y-3">
-          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/50">Contacto</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/50">
+            {t.footer.contact}
+          </p>
           <ul className="space-y-2">
             <li>
-              <a href={`tel:+${contactConfig.whatsapp}`} className="text-white/70 transition hover:text-white">
+              <a
+                href={`tel:+${contactConfig.whatsapp}`}
+                className="text-white/70 transition hover:text-white"
+              >
                 {contactConfig.whatsappDisplay.replace("+57 ", "")}
               </a>
             </li>
             <li>
-              <a href={`mailto:${contactConfig.email}`} className="break-all text-white/70 transition hover:text-white">
+              <a
+                href={`mailto:${contactConfig.email}`}
+                className="break-all text-white/70 transition hover:text-white"
+              >
                 {contactConfig.email}
               </a>
             </li>
           </ul>
           <div className="border-t border-white/10 pt-4 text-xs text-white/40">
-            © {new Date().getFullYear()} Todos los derechos reservados.
+            © {new Date().getFullYear()} {t.footer.rights}
           </div>
         </div>
 
