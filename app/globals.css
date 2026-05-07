@@ -112,10 +112,10 @@ color-scheme: light;
   --color-border: 31 42 61;
   --color-subtle: 22 33 56;
   --color-accent: 62 107 216;
-  --color-accent-strong: 41 68 144;
-  --color-accent-soft: 62 107 216;
-  --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.32);
-  --shadow-hover: 0 18px 48px rgba(0, 0, 0, 0.38);
+  --color-accent-strong: 96 165 250;
+  --color-accent-soft: 30 58 138;
+  --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.45);
+  --shadow-hover: 0 18px 48px rgba(0, 0, 0, 0.5);
 }
 
 

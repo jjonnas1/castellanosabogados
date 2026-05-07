@@ -97,7 +97,7 @@ function MegaMenuPanel({
       id={id}
       role="region"
       aria-label="Menú de servicios"
-      className="absolute left-1/2 top-full z-50 mt-2 w-[820px] -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-white shadow-[0_24px_64px_rgba(13,21,40,.14)]"
+            className="absolute left-1/2 top-full z-50 mt-2 w-[820px] -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-white shadow-[0_24px_64px_rgba(13,21,40,.14)] dark:bg-card dark:shadow-[0_24px_64px_rgba(0,0,0,.4)]"
     >
       <div className="flex">
         {/* Left: service groups */}
@@ -151,7 +151,7 @@ function MegaMenuPanel({
         </div>
 
         {/* Right: Tutelas destacado + acceso cliente */}
-        <div className="flex w-[200px] shrink-0 flex-col gap-3 border-l border-border bg-[#fafafa] p-5">
+                <div className="flex w-[200px] shrink-0 flex-col gap-3 border-l border-border bg-[#fafafa] p-5 dark:bg-panel">
           <Link
             href="/tutela"
             onClick={onClose}
@@ -174,7 +174,7 @@ function MegaMenuPanel({
           <Link
             href="/cliente/login"
             onClick={onClose}
-            className="block w-full rounded-xl border border-border bg-white px-3 py-2.5 text-center text-[13px] font-semibold text-ink transition hover:border-ink hover:bg-subtle"
+                        className="block w-full rounded-xl border border-border bg-white px-3 py-2.5 text-center text-[13px] font-semibold text-ink transition hover:border-ink hover:bg-subtle dark:bg-card dark:hover:bg-white/5"
           >
             Área cliente
           </Link>
@@ -393,7 +393,7 @@ export default function SiteHeader() {
           {/* Theme Toggle */}
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-white text-ink transition hover:shadow-soft dark:bg-canvas dark:border-border/40"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-border/80 bg-white text-ink shadow-sm transition hover:shadow-soft dark:bg-canvas dark:border-border/60 dark:text-white"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
@@ -403,7 +403,7 @@ export default function SiteHeader() {
           <div className="relative" ref={langRef}>
             <button
               onClick={() => setLangOpen(!langOpen)}
-              className="flex h-9 items-center gap-2 rounded-full border border-border bg-white px-3 text-ink transition hover:shadow-soft dark:bg-canvas dark:border-border/40"
+              className="flex h-9 items-center gap-2 rounded-full border border-border/80 bg-white px-3 text-ink shadow-sm transition hover:shadow-soft dark:bg-canvas dark:border-border/60 dark:text-white"
               aria-label="Change language"
             >
               <Languages size={17} />
