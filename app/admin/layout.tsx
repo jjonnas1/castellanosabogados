@@ -19,9 +19,20 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const [ready,  setReady]  = useState(true);
 
   const redirected = useRef(false);
+  const redirectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function clearPendingRedirect() {
+    if (redirectTimer.current) {
+      clearTimeout(redirectTimer.current);
+      redirectTimer.current = null;
+    }
+  }
 
   useEffect(() => {
-    if (isPublic) return;
+    if (isPublic) {
+      clearPendingRedirect();
+      return;
+    }
 
     let mounted = true;
     redirected.current = false;
@@ -30,10 +41,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return;
       if (session?.access_token) {
+        clearPendingRedirect();
         setToken(session.access_token);
         setUserId(session.user.id);
         setReady(true);
       } else if (event === 'SIGNED_OUT') {
+        clearPendingRedirect();
         if (!redirected.current) {
           redirected.current = true;
           setReady(false);
@@ -47,32 +60,54 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       .then(({ data: { session } }) => {
         if (!mounted) return;
         if (session?.access_token) {
+          clearPendingRedirect();
           setToken(session.access_token);
           setUserId(session.user.id);
+          setReady(true);
         } else {
-          // Sin sesión → redirigir tras 1.5 s de gracia
-          setTimeout(() => {
+          // Sin sesión: esperar y confirmar otra vez antes de sacar al usuario.
+          // En cambios de ruta, Supabase puede tardar un momento en hidratar cookies.
+          clearPendingRedirect();
+          redirectTimer.current = setTimeout(async () => {
             if (mounted && !redirected.current) {
+              const { data: retry } = await supabase.auth.getSession();
+              if (retry.session?.access_token) {
+                setToken(retry.session.access_token);
+                setUserId(retry.session.user.id);
+                setReady(true);
+                return;
+              }
               redirected.current = true;
               setReady(false);
               router.replace('/admin/login');
             }
-          }, 1500);
+          }, 2500);
         }
       })
       .catch(() => {
-        if (mounted && !redirected.current) {
+        if (!mounted || redirected.current) return;
+        clearPendingRedirect();
+        redirectTimer.current = setTimeout(async () => {
+          if (!mounted || redirected.current) return;
+          const { data: retry } = await supabase.auth.getSession();
+          if (retry.session?.access_token) {
+            setToken(retry.session.access_token);
+            setUserId(retry.session.user.id);
+            setReady(true);
+            return;
+          }
           redirected.current = true;
           router.replace('/admin/login');
-        }
+        }, 2500);
       });
 
     return () => {
       mounted = false;
+      clearPendingRedirect();
       sub.subscription.unsubscribe();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPublic]);
+  }, [isPublic, pathname]);
 
   if (!ready) {
     return (
