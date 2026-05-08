@@ -140,38 +140,93 @@ export default function HomeClient() {
 
       {/* PORTAL DEL CLIENTE */}
       <section
-        className="section-shell text-white"
-        style={{ background: "linear-gradient(120deg, rgba(12,17,29,0.95), rgba(17,37,68,0.92))" }}
+        className="section-shell overflow-hidden text-white"
+        style={{ background: "radial-gradient(circle at 20% 10%, rgba(44,83,148,0.5), transparent 28%), linear-gradient(135deg, #08111f 0%, #162842 52%, #0b1322 100%)" }}
       >
-        <div className="container space-y-8">
-          <div className="space-y-3 text-center">
-            <span className="inline-block rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ring-1 ring-white/25">
-              {p.portalBadge}
-            </span>
-            <h2 className="text-white">{p.portalTitle}</h2>
-            <p className="mx-auto max-w-xl text-slate-300">{p.portalSubtitle}</p>
-          </div>
-          <div className="grid gap-5 md:grid-cols-3">
-            <div className="rounded-2xl border border-white/15 bg-white/8 p-6 text-center space-y-3 backdrop-blur">
-              <span className="text-3xl">📄</span>
-              <p className="text-sm text-slate-200">{p.portalFeature1}</p>
+        <div className="container grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div className="max-w-xl space-y-6">
+            <div className="space-y-3">
+              <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ring-1 ring-white/25">
+                {p.portalBadge}
+              </span>
+              <h2 className="text-balance text-white">{p.portalTitle}</h2>
+              <p className="text-lg leading-relaxed text-slate-300">{p.portalSubtitle}</p>
             </div>
-            <div className="rounded-2xl border border-white/15 bg-white/8 p-6 text-center space-y-3 backdrop-blur">
-              <span className="text-3xl">🔔</span>
-              <p className="text-sm text-slate-200">{p.portalFeature2}</p>
+
+            <div className="grid gap-3">
+              {[p.portalFeature1, p.portalFeature2, p.portalFeature3].map((feature) => (
+                <div key={feature} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 backdrop-blur">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-[#13233b]">
+                    <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5" aria-hidden>
+                      <path d="M4 10.5 8 14l8-8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  <p className="text-sm leading-relaxed text-slate-200">{feature}</p>
+                </div>
+              ))}
             </div>
-            <div className="rounded-2xl border border-white/15 bg-white/8 p-6 text-center space-y-3 backdrop-blur">
-              <span className="text-3xl">📅</span>
-              <p className="text-sm text-slate-200">{p.portalFeature3}</p>
-            </div>
-          </div>
-          <div className="text-center">
+
             <Link
               href="/cliente/login"
-              className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/10 px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20"
+              className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-[#101a2d] shadow-[0_18px_45px_rgba(255,255,255,0.16)] transition hover:-translate-y-0.5 hover:bg-slate-100 sm:w-auto"
             >
               {p.portalLink}
             </Link>
+          </div>
+
+          <div className="relative">
+            <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-blue-400/15 blur-3xl" aria-hidden />
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/[0.08] p-3 shadow-[0_30px_90px_rgba(0,0,0,0.35)] backdrop-blur">
+              <div className="rounded-[1.45rem] border border-white/10 bg-[#07111f]">
+                <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-200/70">Panel del cliente</p>
+                    <p className="mt-0.5 text-sm font-semibold text-white">Expediente activo</p>
+                  </div>
+                  <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-[11px] font-bold text-emerald-200 ring-1 ring-emerald-300/25">
+                    En seguimiento
+                  </span>
+                </div>
+
+                <div className="grid gap-3 p-4 sm:grid-cols-[0.95fr_1.05fr]">
+                  <div className="space-y-3">
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Próxima cita</p>
+                      <p className="mt-2 text-2xl font-bold text-white">10:30 a. m.</p>
+                      <p className="mt-1 text-xs text-slate-400">Revisión de estrategia</p>
+                    </div>
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Documentos</p>
+                      <div className="mt-3 space-y-2">
+                        {['Poder firmado', 'Soportes del caso', 'Actuación reciente'].map((item) => (
+                          <div key={item} className="flex items-center justify-between rounded-xl bg-white/[0.06] px-3 py-2 text-xs text-slate-200">
+                            <span>{item}</span>
+                            <span className="h-2 w-2 rounded-full bg-blue-300" />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Línea de tiempo</p>
+                    <div className="mt-4 space-y-4">
+                      {[
+                        ['Hoy', 'Actualización cargada en el expediente'],
+                        ['Ayer', 'Documento revisado por el abogado'],
+                        ['Próximo', 'Cita agendada para seguimiento'],
+                      ].map(([date, text]) => (
+                        <div key={text} className="relative pl-5">
+                          <span className="absolute left-0 top-1.5 h-2.5 w-2.5 rounded-full bg-blue-300 ring-4 ring-blue-300/10" />
+                          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-blue-200">{date}</p>
+                          <p className="mt-1 text-sm leading-relaxed text-slate-200">{text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
