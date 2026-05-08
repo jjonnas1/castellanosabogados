@@ -42,6 +42,17 @@ interface Vencimiento {
   tipo_vencimiento: string | null;
 }
 
+interface WhatsAppLead {
+  id: string;
+  nombre: string;
+  telefono: string;
+  service_interest: string | null;
+  source_path: string | null;
+  status?: string | null;
+  created_at: string;
+  wa_url: string | null;
+}
+
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
 function isToday(iso: string) {
@@ -173,6 +184,7 @@ export default function AdminRootPage() {
   });
   const [procesosConNuevas, setProcesosConNuevas] = useState<ProcesoAlerta[]>([]);
   const [vencimientos, setVencimientos]           = useState<Vencimiento[]>([]);
+  const [staleLeads, setStaleLeads]               = useState<WhatsAppLead[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -192,12 +204,21 @@ export default function AdminRootPage() {
     Promise.all([
       fetch('/api/admin/workspace', { headers: { authorization: `Bearer ${token}` } })
         .then((r) => r.json())
-        .then((d: { clients?: unknown[]; appointments?: unknown[]; consultations?: unknown[]; whatsappLeads?: Array<{ status?: string }> }) => ({
-          clientes:  (d.clients       ?? []).length,
-          citas:     (d.appointments  ?? []).length,
-          consultas: (d.consultations ?? []).length,
-          leads:     (d.whatsappLeads ?? []).filter((lead) => (lead.status ?? 'nuevo') !== 'descartado').length,
-        }))
+        .then((d: { clients?: unknown[]; appointments?: unknown[]; consultations?: unknown[]; whatsappLeads?: WhatsAppLead[] }) => {
+          const leads = d.whatsappLeads ?? [];
+          const staleCutoff = Date.now() - 24 * 60 * 60 * 1000;
+          setStaleLeads(
+            leads
+              .filter((lead) => (lead.status ?? 'nuevo') === 'nuevo' && new Date(lead.created_at).getTime() <= staleCutoff)
+              .slice(0, 5),
+          );
+          return {
+            clientes:  (d.clients       ?? []).length,
+            citas:     (d.appointments  ?? []).length,
+            consultas: (d.consultations ?? []).length,
+            leads:     leads.filter((lead) => (lead.status ?? 'nuevo') !== 'descartado').length,
+          };
+        })
         .catch(() => ({ clientes: 0, citas: 0, consultas: 0, leads: 0 })),
       fetch('/api/admin/visits?limit=1', { headers: { authorization: `Bearer ${token}` } })
         .then((r) => r.json())
@@ -269,6 +290,34 @@ export default function AdminRootPage() {
           <StatCard label="Actuaciones nuevas"  value={stats.actuacionesNuevas} color={stats.actuacionesNuevas > 0 ? 'text-red-400' : 'text-slate-400'} href="/admin/procesos" />
           <StatCard label="Visitas hoy"   value={stats.visitasHoy} color="text-cyan-400"   href="/admin/visitas" />
         </div>
+
+        {staleLeads.length > 0 && (
+          <div className="rounded-2xl border border-amber-900/50 bg-amber-950/20 p-5">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-amber-400">Leads sin contactar por más de 24 horas</p>
+                <p className="mt-1 text-sm text-slate-400">Prioriza estos contactos antes de seguir con tareas internas.</p>
+              </div>
+              <Link href="/admin/consultas" className="shrink-0 rounded-lg border border-amber-700/50 px-3 py-2 text-xs font-semibold text-amber-200 transition hover:bg-amber-900/30">
+                Gestionar leads
+              </Link>
+            </div>
+            <div className="mt-4 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
+              {staleLeads.map((lead) => (
+                <a
+                  key={lead.id}
+                  href={lead.wa_url ?? `https://wa.me/57${lead.telefono.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-xl border border-amber-900/40 bg-[#0b1929] px-3 py-2 transition hover:border-amber-600/60"
+                >
+                  <p className="text-sm font-semibold text-slate-100">{lead.nombre}</p>
+                  <p className="text-xs text-slate-500">{lead.telefono} · {lead.service_interest ?? 'Consulta general'}</p>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Body — two columns */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">

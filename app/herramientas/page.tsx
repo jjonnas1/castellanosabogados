@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import SiteHeader from '@/app/components/SiteHeader';
+import PublicEvaluators from '@/app/components/PublicEvaluators';
 
 export const metadata: Metadata = {
   title: 'Herramientas Jurídicas | Castellanos Abogados',
@@ -114,6 +115,8 @@ export default function HerramientasPage() {
           </Link>
         </div>
       </section>
+
+      <PublicEvaluators />
 
       {/* Tarjetas por especialidad */}
       <section className="py-16 px-4">
