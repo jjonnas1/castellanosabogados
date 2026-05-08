@@ -13,6 +13,7 @@ export default function ClientPortalModal() {
   useEffect(() => {
     setMounted(true);
     if (sessionStorage.getItem(STORAGE_KEY)) return;
+    if (window.matchMedia('(max-width: 767px)').matches) return;
     if (!localStorage.getItem('visited')) {
       localStorage.setItem('visited', 'true');
       return;
@@ -21,10 +22,10 @@ export default function ClientPortalModal() {
     supabase.auth.getSession()
       .then(({ data: { session } }) => {
         if (session) return;
-        timer = setTimeout(() => setVisible(true), 1500);
+        timer = setTimeout(() => setVisible(true), 30000);
       })
       .catch(() => {
-        timer = setTimeout(() => setVisible(true), 1500);
+        timer = setTimeout(() => setVisible(true), 30000);
       });
     return () => clearTimeout(timer);
   }, []);

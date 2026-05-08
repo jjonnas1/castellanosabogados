@@ -128,7 +128,7 @@ export default function AdminConsultChat() {
   const showTopicOptions = !topic;
 
   return (
-    <div className="fixed bottom-24 right-4 z-[65] sm:right-6">
+    <div className="fixed bottom-24 right-4 z-[65] hidden sm:block sm:right-6">
       {open && (
         <div className="mb-2 flex w-[300px] flex-col rounded-2xl border border-border bg-white shadow-lg">
           {/* Header */}
