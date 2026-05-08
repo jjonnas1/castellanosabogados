@@ -66,6 +66,21 @@ type Consultation = {
   created_at: string;
 };
 
+type WhatsAppLead = {
+  id: string;
+  nombre: string;
+  telefono: string;
+  wa_url: string | null;
+  source_path: string | null;
+  link_text: string | null;
+  service_interest: string | null;
+  language: string | null;
+  status?: string | null;
+  notes: string | null;
+  contacted_at: string | null;
+  created_at: string;
+};
+
 const emptyClient = { full_name: '', email: '', password: '', phone: '', case_reference: '', can_access_portal: true };
 const emptyUpdate = { client_profile_id: '', title: '', update_text: '', status: 'en curso', visible_to_client: true };
 const emptyAppointment = { title: '', description: '', start_at: '', end_at: '', status: 'programada', client_profile_id: '' };
@@ -87,6 +102,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   const [appointments, setAppointments]   = useState<Appointment[]>([]);
   const [documents, setDocuments]         = useState<ClientDocument[]>([]);
   const [consultations, setConsultations] = useState<Consultation[]>([]);
+  const [whatsappLeads, setWhatsappLeads] = useState<WhatsAppLead[]>([]);
 
   const [clientForm, setClientForm]               = useState(emptyClient);
   const [editingClientId, setEditingClientId]     = useState<string | null>(null);
@@ -169,7 +185,8 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       clients?: ClientProfile[];
       updates?: ClientUpdate[];
       appointments?: Appointment[];
-      consultations?: Consultation[];
+        consultations?: Consultation[];
+        whatsappLeads?: WhatsAppLead[];
     };
 
     if (!response.ok || payload.ok === false) {
@@ -190,11 +207,13 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
         updates: ClientUpdate[];
         appointments: Appointment[];
         consultations: Consultation[];
+        whatsappLeads: WhatsAppLead[];
       }>('GET');
       setClients(data.clients ?? []);
       setUpdates(data.updates ?? []);
       setAppointments(data.appointments ?? []);
       setConsultations(data.consultations ?? []);
+      setWhatsappLeads(data.whatsappLeads ?? []);
     } catch (error) {
       const msg = (error as Error).message;
       setLoadError(msg);
@@ -258,6 +277,20 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
       return matchStatus && matchSearch;
     });
   }, [consultations, consultationStatusFilter, consultationSearch]);
+
+  const filteredWhatsAppLeads = useMemo(() => {
+    const term = consultationSearch.trim().toLowerCase();
+    return whatsappLeads.filter((lead) => {
+      const leadStatus = lead.status ?? 'nuevo';
+      const matchStatus = !consultationStatusFilter || leadStatus === consultationStatusFilter;
+      const matchSearch = !term ||
+        lead.nombre.toLowerCase().includes(term) ||
+        lead.telefono.toLowerCase().includes(term) ||
+        (lead.service_interest ?? '').toLowerCase().includes(term) ||
+        (lead.source_path ?? '').toLowerCase().includes(term);
+      return matchStatus && matchSearch;
+    });
+  }, [whatsappLeads, consultationStatusFilter, consultationSearch]);
 
   // ── CRUD helpers ─────────────────────────────────────────────────────────────
 
@@ -532,6 +565,16 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     }
   }
 
+  async function updateWhatsAppLead(id: string, payload: Partial<Pick<WhatsAppLead, 'status' | 'notes' | 'contacted_at'>>) {
+    try {
+      await workspaceRequest('PATCH', { entity: 'whatsapp_leads', id, payload });
+      setStatus('Lead actualizado.');
+      loadAll();
+    } catch (error) {
+      setStatus(`Error actualizando lead: ${(error as Error).message}`);
+    }
+  }
+
   async function exportBackup() {
     if (!adminId || !adminToken) return setStatus('No hay sesión admin para exportar.');
     const res = await fetch('/api/admin/export', {
@@ -772,8 +815,64 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
 
       {(section === 'consultas' || section === 'all') && (
         <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5">
-          <h2 className="text-lg font-semibold text-slate-100">Consultas — personas interesadas (sin registro)</h2>
-          <p className="mt-1 text-sm text-slate-500">Registro de consultas de personas que contactaron pero aún no son clientes.</p>
+          <h2 className="text-lg font-semibold text-slate-100">Leads y consultas</h2>
+          <p className="mt-1 text-sm text-slate-500">Seguimiento de personas que dejaron datos por WhatsApp o que contactaron pero aún no son clientes.</p>
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none" placeholder="Buscar por nombre, teléfono, correo, servicio u origen" value={consultationSearch} onChange={(e) => setConsultationSearch(e.target.value)} />
+            <select className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none" value={consultationStatusFilter} onChange={(e) => setConsultationStatusFilter(e.target.value)}>
+              <option value="">Todos los estados</option>
+              <option value="nuevo">Nuevo lead</option>
+              <option value="contactado">Contactado</option>
+              <option value="convertido">Convertido</option>
+              <option value="descartado">Descartado</option>
+              <option value="pendiente">Consulta pendiente</option>
+              <option value="atendida">Consulta atendida</option>
+            </select>
+          </div>
+
+          <div className="mt-5">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-xs font-semibold uppercase tracking-widest text-slate-500">Leads capturados por WhatsApp</p>
+              <span className="rounded-full bg-emerald-900/30 px-2.5 py-1 text-[11px] font-semibold text-emerald-300">{filteredWhatsAppLeads.length}</span>
+            </div>
+            <div className="max-h-[28rem] space-y-3 overflow-auto">
+              {filteredWhatsAppLeads.length === 0 && <p className="text-sm text-slate-500">No hay leads de WhatsApp con este filtro.</p>}
+              {filteredWhatsAppLeads.map((lead) => {
+                const waHref = lead.wa_url || `https://wa.me/57${lead.telefono.replace(/\D/g, '')}`;
+                const statusClass =
+                  lead.status === 'convertido' ? 'bg-green-900/40 text-green-300'
+                  : lead.status === 'contactado' ? 'bg-blue-900/40 text-blue-300'
+                  : lead.status === 'descartado' ? 'bg-slate-800/60 text-slate-400'
+                  : 'bg-emerald-900/40 text-emerald-300';
+                return (
+                  <div key={lead.id} className="rounded-2xl border border-emerald-900/30 bg-[#071723] p-4 text-sm">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="font-semibold text-slate-100">{lead.nombre}</p>
+                        <p className="text-slate-400">{lead.telefono}</p>
+                        <p className="mt-1 text-slate-300">{lead.service_interest ?? 'Consulta general'}</p>
+                        <p className="mt-1 text-xs text-slate-600">
+                          {new Date(lead.created_at).toLocaleString('es-CO')} · {lead.source_path ?? 'sin origen'} · {lead.language?.toUpperCase() ?? 'IDIOMA N/D'}
+                        </p>
+                        {lead.link_text && <p className="mt-1 text-xs text-slate-500">CTA: {lead.link_text}</p>}
+                        {lead.notes && <p className="mt-2 italic text-slate-500">{lead.notes}</p>}
+                      </div>
+                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${statusClass}`}>{lead.status ?? 'nuevo'}</span>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <a href={waHref} target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-[#25D366] text-[#082515] text-xs font-bold transition hover:brightness-110">Abrir WhatsApp</a>
+                      <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => updateWhatsAppLead(lead.id, { status: 'contactado', contacted_at: new Date().toISOString() })}>Marcar contactado</button>
+                      <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => updateWhatsAppLead(lead.id, { status: 'convertido' })}>Convertido</button>
+                      <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => updateWhatsAppLead(lead.id, { status: 'descartado' })}>Descartar</button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-8 border-t border-[#1e3a6e]/40 pt-5">
+          <h3 className="text-base font-semibold text-slate-100">Registro manual de consulta</h3>
           <form className="mt-4 grid gap-3" onSubmit={saveConsultation}>
             <div className="grid gap-3 sm:grid-cols-2">
               <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-3 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-blue-500/50" placeholder="Nombre completo (opcional)" value={consultationForm.name} onChange={(e) => setConsultationForm({ ...consultationForm, name: e.target.value })} />
@@ -795,14 +894,6 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
               {editingConsultationId && <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" type="button" onClick={() => { setEditingConsultationId(null); setConsultationForm(emptyConsultation); }}>Cancelar</button>}
             </div>
           </form>
-          <div className="mt-4 grid gap-2 sm:grid-cols-2">
-            <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none" placeholder="Buscar por nombre, correo o asunto" value={consultationSearch} onChange={(e) => setConsultationSearch(e.target.value)} />
-            <select className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none" value={consultationStatusFilter} onChange={(e) => setConsultationStatusFilter(e.target.value)}>
-              <option value="">Todos los estados</option>
-              <option value="pendiente">Pendiente</option>
-              <option value="atendida">Atendida</option>
-              <option value="descartada">Descartada</option>
-            </select>
           </div>
           <div className="mt-4 max-h-96 space-y-3 overflow-auto">
             {filteredConsultations.length === 0 && <p className="text-sm text-slate-500">No hay consultas registradas aún.</p>}

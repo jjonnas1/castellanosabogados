@@ -46,12 +46,16 @@ export async function sendLeadNotificationEmail(params: {
   nombre: string;
   telefono: string;
   wa_url?: string | null;
+  source_path?: string | null;
+  link_text?: string | null;
+  service_interest?: string | null;
+  language?: string | null;
 }) {
   if (!resend) {
     throw new Error("Falta la variable de entorno RESEND_API_KEY en Vercel.");
   }
 
-  const { nombre, telefono, wa_url } = params;
+  const { nombre, telefono, wa_url, source_path, link_text, service_interest, language } = params;
   const now = new Date().toLocaleString('es-CO', {
     timeZone: 'America/Bogota',
     dateStyle: 'full',
@@ -91,6 +95,14 @@ export async function sendLeadNotificationEmail(params: {
             </td>
           </tr>
         </table>
+
+        <div style="padding:12px 16px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;margin-bottom:20px;">
+          <p style="margin:0 0 6px;font-size:11px;font-weight:700;color:#9a3412;text-transform:uppercase;letter-spacing:0.08em;">Contexto del lead</p>
+          <p style="margin:0;font-size:14px;color:#0d1528;"><strong>Servicio:</strong> ${escapeHtml(service_interest || 'No identificado')}</p>
+          <p style="margin:4px 0 0;font-size:14px;color:#0d1528;"><strong>Origen:</strong> ${escapeHtml(source_path || 'No disponible')}</p>
+          <p style="margin:4px 0 0;font-size:14px;color:#0d1528;"><strong>CTA:</strong> ${escapeHtml(link_text || 'No disponible')}</p>
+          <p style="margin:4px 0 0;font-size:14px;color:#0d1528;"><strong>Idioma:</strong> ${escapeHtml(language || 'No disponible')}</p>
+        </div>
 
         ${waLink ? `<div style="margin-bottom:24px;">${waLink}</div>` : ''}
 

@@ -7,7 +7,7 @@ import {
   deleteCalendarEvent,
 } from '@/lib/google-calendar';
 
-type Entity = 'clients' | 'updates' | 'appointments' | 'consultations';
+type Entity = 'clients' | 'updates' | 'appointments' | 'consultations' | 'whatsapp_leads';
 
 function badRequest(message: string) {
   return NextResponse.json({ ok: false, error: message }, { status: 400 });
@@ -17,6 +17,7 @@ function entityTable(entity: Entity) {
   if (entity === 'clients')       return 'client_profiles';
   if (entity === 'updates')       return 'client_case_updates';
   if (entity === 'consultations') return 'consultations';
+  if (entity === 'whatsapp_leads') return 'whatsapp_leads';
   return 'appointments';
 }
 
@@ -81,14 +82,15 @@ export async function GET(req: NextRequest) {
 
   const supabaseServer = getSupabaseServer({ serviceRole: true });
 
-  const [clients, updates, appointments, consultations] = await Promise.all([
+  const [clients, updates, appointments, consultations, whatsappLeads] = await Promise.all([
     supabaseServer.from('client_profiles').select('*').order('created_at', { ascending: false }),
     supabaseServer.from('client_case_updates').select('*').order('created_at', { ascending: false }),
     supabaseServer.from('appointments').select('*').order('start_at', { ascending: true }),
     supabaseServer.from('consultations').select('*').order('created_at', { ascending: false }),
+    supabaseServer.from('whatsapp_leads').select('*').order('created_at', { ascending: false }).limit(200),
   ]);
 
-  const error = clients.error ?? updates.error ?? appointments.error ?? consultations.error;
+  const error = clients.error ?? updates.error ?? appointments.error ?? consultations.error ?? whatsappLeads.error;
   if (error) return NextResponse.json({ ok: false, error: error.message }, { status: 500 });
 
   return NextResponse.json({
@@ -97,6 +99,7 @@ export async function GET(req: NextRequest) {
     updates:       updates.data       ?? [],
     appointments:  appointments.data  ?? [],
     consultations: consultations.data ?? [],
+    whatsappLeads: whatsappLeads.data ?? [],
   });
 }
 

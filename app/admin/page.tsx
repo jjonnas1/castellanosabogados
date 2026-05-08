@@ -13,6 +13,7 @@ interface Stats {
   clientes:         number;
   citas:            number;
   consultas:        number;
+  leads:            number;
   visitasHoy:       number;
   procesosActivos:  number;
   actuacionesNuevas: number;
@@ -168,6 +169,7 @@ export default function AdminRootPage() {
   const [loadingRole, setLoadingRole] = useState(true);
   const [stats, setStats]       = useState<Stats>({
     clientes: 0, citas: 0, consultas: 0, visitasHoy: 0, procesosActivos: 0, actuacionesNuevas: 0,
+    leads: 0,
   });
   const [procesosConNuevas, setProcesosConNuevas] = useState<ProcesoAlerta[]>([]);
   const [vencimientos, setVencimientos]           = useState<Vencimiento[]>([]);
@@ -190,12 +192,13 @@ export default function AdminRootPage() {
     Promise.all([
       fetch('/api/admin/workspace', { headers: { authorization: `Bearer ${token}` } })
         .then((r) => r.json())
-        .then((d: { clients?: unknown[]; appointments?: unknown[]; consultations?: unknown[] }) => ({
+        .then((d: { clients?: unknown[]; appointments?: unknown[]; consultations?: unknown[]; whatsappLeads?: Array<{ status?: string }> }) => ({
           clientes:  (d.clients       ?? []).length,
           citas:     (d.appointments  ?? []).length,
           consultas: (d.consultations ?? []).length,
+          leads:     (d.whatsappLeads ?? []).filter((lead) => (lead.status ?? 'nuevo') !== 'descartado').length,
         }))
-        .catch(() => ({ clientes: 0, citas: 0, consultas: 0 })),
+        .catch(() => ({ clientes: 0, citas: 0, consultas: 0, leads: 0 })),
       fetch('/api/admin/visits?limit=1', { headers: { authorization: `Bearer ${token}` } })
         .then((r) => r.json())
         .then((d: { today?: number }) => d.today ?? 0)
@@ -222,6 +225,7 @@ export default function AdminRootPage() {
     ]).then(([ws, visitasHoy, proc]) => {
       setStats({
         ...(ws as Pick<Stats, 'clientes' | 'citas' | 'consultas'>),
+        leads: (ws as Pick<Stats, 'leads'>).leads,
         visitasHoy: visitasHoy as number,
         ...(proc as Pick<Stats, 'procesosActivos' | 'actuacionesNuevas'>),
       });
@@ -258,8 +262,9 @@ export default function AdminRootPage() {
         {/* Stats — grid-cols-3 top row + 3 bottom */}
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
           <StatCard label="Clientes"      value={stats.clientes}   color="text-blue-400"   href="/admin/clientes" />
-          <StatCard label="Citas totales" value={stats.citas}      color="text-indigo-400" href="/admin/agenda" />
+          <StatCard label="Leads activos" value={stats.leads}      color="text-emerald-400" href="/admin/consultas" />
           <StatCard label="Consultas"     value={stats.consultas}  color="text-violet-400" href="/admin/consultas" />
+          <StatCard label="Citas totales" value={stats.citas}      color="text-indigo-400" href="/admin/agenda" />
           <StatCard label="Procesos activos"    value={stats.procesosActivos}   color="text-emerald-400" href="/admin/procesos" />
           <StatCard label="Actuaciones nuevas"  value={stats.actuacionesNuevas} color={stats.actuacionesNuevas > 0 ? 'text-red-400' : 'text-slate-400'} href="/admin/procesos" />
           <StatCard label="Visitas hoy"   value={stats.visitasHoy} color="text-cyan-400"   href="/admin/visitas" />

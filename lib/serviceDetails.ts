@@ -234,4 +234,15 @@ export function getServiceDetail(slug: string) {
   return serviceDetails[slug as ServiceDetail['slug']];
 }
 
-export const serviceDetailList = Object.values(serviceDetails);
+const SERVICE_PRIORITY: ServiceDetail['slug'][] = [
+  'ejecucion-penas',
+  'penal-personas',
+  'familia',
+  'civil',
+  'laboral',
+  'administrativo',
+  'responsabilidad-penal-pj',
+  'capacitaciones-penal-pj',
+];
+
+export const serviceDetailList = SERVICE_PRIORITY.map((slug) => serviceDetails[slug]);

@@ -10,7 +10,7 @@ import { useTheme } from "next-themes";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const PEOPLE_SLUGS = [
-  "penal-personas","ejecucion-penas","civil","familia","laboral","administrativo",
+  "ejecucion-penas","penal-personas","familia","civil","laboral","administrativo",
 ];
 const COMPANY_SLUGS = ["responsabilidad-penal-pj","capacitaciones-penal-pj"];
 

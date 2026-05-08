@@ -42,6 +42,17 @@ const serviceCopy: Record<string, { title: string; description: string }> = {
   },
 };
 
+const SERVICE_PRIORITY = [
+  'ejecucion-penas',
+  'penal-personas',
+  'familia',
+  'civil',
+  'laboral',
+  'administrativo',
+  'responsabilidad-penal-pj',
+  'capacitaciones-penal-pj',
+];
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '';
 
@@ -74,5 +85,13 @@ export async function fetchServiceAreas() {
     .order('sort', { ascending: true });
 
   if (error || !data) return { data: [] as ServiceArea[], error };
-  return { data, error: null };
+  return {
+    data: [...data].sort((a, b) => {
+      const ai = SERVICE_PRIORITY.indexOf(a.slug);
+      const bi = SERVICE_PRIORITY.indexOf(b.slug);
+      if (ai !== -1 || bi !== -1) return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+      return (a.sort ?? 999) - (b.sort ?? 999);
+    }),
+    error: null,
+  };
 }
