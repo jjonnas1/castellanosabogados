@@ -26,8 +26,8 @@ export default function HeroCarrusel() {
 
   const SLIDES = [
     {
-      tag: 'Castellanos Abogados · Pereira',
-      pill: 'Corporativo · Personas · Ejecución · Formación',
+      tag: t.hero.slide1.tag,
+      pill: t.hero.slide1.pill,
       title: t.hero.slide1.title,
       body: t.hero.slide1.subtitle,
       cta: t.hero.slide1.cta,
@@ -35,7 +35,7 @@ export default function HeroCarrusel() {
       ctaWa: WA + '?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20sus%20servicios%20legales.',
       ctaWaLabel: PHONE_DISPLAY,
       panelTitle: t.contact.title,
-      panelBody: 'Atendemos en Pereira y todo el Eje Cafetero. Primera consulta de diagnóstico.',
+      panelBody: t.hero.slide1.panelBody,
       stats: [
         { label: t.hero.slide1.stats.item1.label, value: t.hero.slide1.stats.item1.value },
         { label: t.hero.slide1.stats.item2.label, value: t.hero.slide1.stats.item2.value },
@@ -43,20 +43,20 @@ export default function HeroCarrusel() {
       ],
     },
     {
-      tag: 'Derecho Laboral',
-      pill: 'Ley 789 de 2002 · Art. 64 CST',
+      tag: t.hero.slide2.tag,
+      pill: t.hero.slide2.pill,
       title: t.hero.slide2.title,
       body: t.hero.slide2.subtitle,
       cta: t.hero.slide2.cta,
       ctaHref: WA + '?text=Hola%2C%20necesito%20que%20calculen%20mi%20liquidaci%C3%B3n%20laboral.',
       ctaWa: WA + '?text=Hola%2C%20necesito%20que%20calculen%20mi%20liquidaci%C3%B3n%20laboral.',
       ctaWaLabel: PHONE_DISPLAY,
-      panelTitle: 'Le calculamos lo que le deben',
-      panelBody: 'Indemnización, prima, cesantías, intereses y sanción moratoria. Sin cobro anticipado.',
+      panelTitle: t.hero.slide2.panelTitle,
+      panelBody: t.hero.slide2.panelBody,
       stats: [
-        { label: 'Sanción moratoria', value: '1 día/día' },
-        { label: 'Término prescripción', value: '3 años' },
-        { label: 'Contrato indefinido', value: 'Aplica Ley 789' },
+        { label: t.hero.slide2.stats.item1.label, value: t.hero.slide2.stats.item1.value },
+        { label: t.hero.slide2.stats.item2.label, value: t.hero.slide2.stats.item2.value },
+        { label: t.hero.slide2.stats.item3.label, value: t.hero.slide2.stats.item3.value },
       ],
     }
   ];
@@ -168,7 +168,7 @@ export default function HeroCarrusel() {
             </div>
 
             <div className="pt-2 border-t border-white/10">
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/50">Contáctenos ahora</p>
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.14em] text-white/50">{t.hero.contactNow}</p>
               <a
                 href={slide.ctaWa}
                 target="_blank"

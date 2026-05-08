@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from 'react';
 
 declare global { function gtag(...args: unknown[]): void; }
-import { useRouter } from 'next/navigation';
 import { buildWhatsAppUrl } from '@/lib/contactLinks';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 type State = 'idle' | 'open' | 'loading' | 'error';
 
@@ -16,6 +16,7 @@ const WA_ICON = (
 );
 
 export default function WhatsAppLeadModal() {
+  const { t } = useLanguage();
   const [uiState, setUiState]   = useState<State>('idle');
   const [waUrl, setWaUrl]       = useState('');
   const [nombre, setNombre]     = useState('');
@@ -23,7 +24,6 @@ export default function WhatsAppLeadModal() {
   const [errorMsg, setErrorMsg] = useState('');
   const overlayRef              = useRef<HTMLDivElement>(null);
   const firstInputRef           = useRef<HTMLInputElement>(null);
-  const router                  = useRouter();
 
   // ── Intercepción global ──────────────────────────────────────────────────
   // Palabras clave que identifican un CTA de conversión
@@ -129,12 +129,10 @@ export default function WhatsAppLeadModal() {
         gtag('event', 'click_whatsapp', { event_category: 'contacto' });
       }
 
-      router.push(
-        `/gracias-legal?wa=${encodeURIComponent(waUrl)}&nombre=${encodeURIComponent(nombre.trim())}`,
-      );
+      window.location.assign(waUrl || buildWhatsAppUrl({ source: 'CTA' }));
     } catch {
       setUiState('error');
-      setErrorMsg('Ocurrió un problema. Por favor intenta de nuevo.');
+      setErrorMsg(t.whatsappLead.error);
     }
   }
 
@@ -149,7 +147,7 @@ export default function WhatsAppLeadModal() {
       onClick={handleOverlayClick}
       role="dialog"
       aria-modal="true"
-      aria-label="Formulario de contacto por WhatsApp"
+      aria-label={t.whatsappLead.ariaLabel}
       className="fixed inset-0 z-[200] flex items-end justify-center sm:items-center px-4 pb-4 sm:pb-0"
       style={{ background: 'rgba(13, 21, 40, 0.6)', backdropFilter: 'blur(6px)' }}
     >
@@ -171,14 +169,14 @@ export default function WhatsAppLeadModal() {
               Castellanos Abogados
             </p>
             <p className="text-xs text-muted mt-0.5">
-              Déjanos tus datos para conectarte con la oficina
+              {t.whatsappLead.subtitle}
             </p>
           </div>
 
           <button
             type="button"
             onClick={close}
-            aria-label="Cerrar"
+            aria-label={t.whatsappLead.close}
             className="ml-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-muted hover:bg-subtle transition-colors"
           >
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -189,20 +187,19 @@ export default function WhatsAppLeadModal() {
 
         {/* ── Formulario ── */}
         <form onSubmit={handleSubmit} noValidate className="px-6 py-5 space-y-4">
-          {/* Nombre */}
           <div className="space-y-1.5">
             <label
               htmlFor="wl-nombre"
               className="block text-[0.6875rem] font-semibold text-muted uppercase tracking-widest"
             >
-              Nombre
+              {t.whatsappLead.nameLabel}
             </label>
             <input
               ref={firstInputRef}
               id="wl-nombre"
               type="text"
               autoComplete="name"
-              placeholder="¿Cómo te llamas?"
+              placeholder={t.whatsappLead.namePlaceholder}
               value={nombre}
               onChange={e => setNombre(e.target.value)}
               disabled={isLoading}
@@ -211,19 +208,18 @@ export default function WhatsAppLeadModal() {
             />
           </div>
 
-          {/* Teléfono */}
           <div className="space-y-1.5">
             <label
               htmlFor="wl-telefono"
               className="block text-[0.6875rem] font-semibold text-muted uppercase tracking-widest"
             >
-              Teléfono
+              {t.whatsappLead.phoneLabel}
             </label>
             <input
               id="wl-telefono"
               type="tel"
               autoComplete="tel"
-              placeholder="Ej. 3001234567"
+              placeholder={t.whatsappLead.phonePlaceholder}
               value={telefono}
               onChange={e => setTelefono(e.target.value)}
               disabled={isLoading}
@@ -250,18 +246,18 @@ export default function WhatsAppLeadModal() {
                   <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="4" className="opacity-25" />
                   <path fill="white" className="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                Conectando…
+                {t.whatsappLead.loading}
               </>
             ) : (
               <>
                 <span className="text-white">{WA_ICON}</span>
-                Contactar ahora por WhatsApp
+                {t.whatsappLead.submit}
               </>
             )}
           </button>
 
           <p className="text-center text-[0.6875rem] text-muted/60 leading-relaxed">
-            Tu información es confidencial y está protegida por nuestro deber de reserva profesional.
+            {t.whatsappLead.privacy}
           </p>
         </form>
       </div>

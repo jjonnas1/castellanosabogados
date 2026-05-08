@@ -2,10 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const REDIRECT_DELAY_MS = 1500;
 
 export default function GraciasLegalClient() {
+  const { t }       = useLanguage();
   const params      = useSearchParams();
   const waUrl       = params.get('wa') ?? '';
   const nombre      = params.get('nombre') ?? '';
@@ -58,7 +60,7 @@ export default function GraciasLegalClient() {
           className="text-sm font-medium text-muted mb-2 animate-fade-in"
           style={{ animationDuration: '0.5s', animationDelay: '0.1s', animationFillMode: 'both' }}
         >
-          Hola, {nombre}
+          {t.graciasLegal.greeting.replace('{name}', nombre)}
         </p>
       )}
 
@@ -67,7 +69,7 @@ export default function GraciasLegalClient() {
         className="font-heading text-2xl sm:text-3xl font-semibold text-ink text-center leading-snug mb-3 animate-fade-in-up"
         style={{ animationDuration: '0.45s', animationDelay: '0.15s', animationFillMode: 'both' }}
       >
-        Conectando con la oficina jurídica{dots}
+        {t.graciasLegal.title}{dots}
       </h1>
 
       {/* Subtexto */}
@@ -75,7 +77,7 @@ export default function GraciasLegalClient() {
         className="text-sm text-muted text-center max-w-xs leading-relaxed animate-fade-in-up"
         style={{ animationDuration: '0.45s', animationDelay: '0.25s', animationFillMode: 'both' }}
       >
-        En un momento se abrirá WhatsApp para ponerte en contacto directo con nuestro equipo.
+        {t.graciasLegal.subtitle}
       </p>
 
       {/* Barra de progreso visual */}
@@ -104,7 +106,7 @@ export default function GraciasLegalClient() {
           className="mt-6 text-xs text-muted underline underline-offset-2 hover:text-ink transition-colors animate-fade-in"
           style={{ animationDuration: '0.4s', animationDelay: '0.5s', animationFillMode: 'both' }}
         >
-          ¿No se abrió WhatsApp? Haz clic aquí
+          {t.graciasLegal.fallback}
         </a>
       )}
 
