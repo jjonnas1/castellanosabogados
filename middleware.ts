@@ -13,9 +13,14 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const isAdminPath    = pathname.startsWith('/admin');
-  const isAdminLogin   = pathname === '/admin/login';
   const isClientPath   = pathname.startsWith('/cliente') || pathname.startsWith('/portal') || pathname.startsWith('/panel');
   const isClientPublic = pathname === '/cliente/login' || pathname === '/cliente/registro' || pathname === '/cliente/acceso';
+
+  // El panel admin se protege en /admin/layout.tsx, en el cliente, donde
+  // Supabase puede leer la sesión real sin falsos negativos del edge.
+  if (isAdminPath) {
+    return response;
+  }
 
   if (!session) {
     // Comprobación secundaria: si existe una cookie de sesión de Supabase,
@@ -27,9 +32,6 @@ export async function middleware(request: NextRequest) {
     );
 
     if (!hasAuthCookie) {
-      if (isAdminPath && !isAdminLogin) {
-        return NextResponse.redirect(new URL('/admin/login', request.url));
-      }
       if (isClientPath && !isClientPublic) {
         return NextResponse.redirect(new URL('/cliente/login', request.url));
       }

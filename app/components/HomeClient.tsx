@@ -49,21 +49,21 @@ export default function HomeClient() {
       <HeroCarrusel />
 
       {/* ÁREAS DE PRÁCTICA */}
-      <section className="section-shell bg-surface">
-        <div className="container space-y-6">
-          <div className="space-y-2">
+      <section className="section-shell overflow-hidden bg-surface">
+        <div className="container space-y-7">
+          <div className="max-w-2xl space-y-2">
             <p className="pill w-fit">{p.practiceBadge}</p>
-            <h2>{p.practiceTitle}</h2>
+            <h2 className="text-balance">{p.practiceTitle}</h2>
           </div>
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {p.services.map((line, idx) => (
-              <article key={line.title} className="card-shell flex h-full flex-col justify-between p-6">
-                <div className="space-y-3">
-                  <h3 className="text-lg text-ink">{line.title}</h3>
-                  <p className="text-sm text-muted">{line.description}</p>
+              <article key={line.title} className="card-shell flex h-full flex-col justify-between p-5 sm:p-6">
+                <div className="space-y-2.5">
+                  <h3 className="text-[20px] leading-snug text-ink sm:text-lg">{line.title}</h3>
+                  <p className="text-[15px] leading-relaxed text-muted sm:text-sm">{line.description}</p>
                 </div>
-                <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-                  <Link href={serviceHrefs[idx]} className="btn-secondary">{t.common.viewDetail}</Link>
+                <div className="mt-5 grid gap-2 text-sm sm:mt-6 sm:flex sm:flex-wrap sm:items-center sm:gap-3">
+                  <Link href={serviceHrefs[idx]} className="btn-secondary w-full px-4 py-2.5 text-xs sm:w-auto sm:text-sm">{t.common.viewDetail}</Link>
                   <a
                     href={buildMailtoUrl({
                       area: serviceAreas[idx],
@@ -72,7 +72,7 @@ export default function HomeClient() {
                       message: "Hola, quisiera solicitar orientación sobre esta línea.",
                       intent: serviceIntents[idx],
                     })}
-                    className="btn-primary"
+                    className="btn-primary w-full px-4 py-2.5 text-xs sm:w-auto sm:text-sm"
                   >
                     {t.common.request}
                   </a>
