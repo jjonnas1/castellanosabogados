@@ -284,8 +284,8 @@ export default function HomeClient() {
                   </div>
                 </div>
                 <div className="pb-1">
-                  <p className="text-sm font-semibold text-ink">{p.googleReviews.reviewCount}</p>
-                  <p className="text-xs text-muted">{p.googleReviews.source}</p>
+                  <p className="text-sm font-semibold text-ink">{p.googleReviews.source}</p>
+                  <p className="text-xs text-muted">{p.googleReviews.sourceNote}</p>
                 </div>
               </div>
               <Link
