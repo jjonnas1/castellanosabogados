@@ -227,6 +227,15 @@ export const fr = {
       portalFeature2: "Mises à jour du processus sans avoir à appeler",
       portalFeature3: "Planifiez et gérez vos rendez-vous facilement",
       portalLink: "Découvrir le portail",
+      googleReviews: {
+        badge: "Avis Google",
+        title: "Une confiance appuyée par les clients",
+        subtitle: "L'expérience d'autres clients aide aussi à décider. Consultez les avis publics Google de Castellanos Abogados.",
+        ratingLabel: "Note sur Google",
+        reviewCount: "13 avis",
+        source: "Profil public Google",
+        cta: "Voir les avis sur Google",
+      },
       faqBadge: "Foire aux questions",
       faqTitle: "Ce que nos clients demandent le plus",
       services: [

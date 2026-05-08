@@ -40,6 +40,8 @@ const serviceIntents = [
 ];
 
 const mobilePriority = [1, 0, 5];
+const googleReviewsUrl = "https://www.google.com/search?q=Castellanos+Abogados&hl=es-419#mpd=~18107842463722114174/customers/reviews";
+const curatedGoogleReviews: Array<{ author: string; date: string; text: string }> = [];
 
 export default function HomeClient() {
   const { t } = useLanguage();
@@ -228,6 +230,58 @@ export default function HomeClient() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* RESEÑAS DE GOOGLE */}
+      <section className="section-shell bg-canvas">
+        <div className="container grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+          <div className="space-y-5">
+            <div className="space-y-2">
+              <p className="pill w-fit">{p.googleReviews.badge}</p>
+              <h2 className="text-balance">{p.googleReviews.title}</h2>
+              <p className="max-w-xl text-muted">{p.googleReviews.subtitle}</p>
+            </div>
+
+            <div className="rounded-3xl border border-border bg-white p-5 shadow-soft">
+              <div className="flex flex-wrap items-end gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">{p.googleReviews.ratingLabel}</p>
+                  <div className="mt-2 flex items-center gap-3">
+                    <span className="text-5xl font-bold leading-none text-ink">5.0</span>
+                    <span className="flex text-lg text-amber-500" aria-label="5 estrellas">★★★★★</span>
+                  </div>
+                </div>
+                <div className="pb-1">
+                  <p className="text-sm font-semibold text-ink">{p.googleReviews.reviewCount}</p>
+                  <p className="text-xs text-muted">{p.googleReviews.source}</p>
+                </div>
+              </div>
+              <Link
+                href={googleReviewsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary mt-5 w-full justify-center sm:w-auto"
+              >
+                {p.googleReviews.cta}
+              </Link>
+            </div>
+          </div>
+
+          {curatedGoogleReviews.length > 0 && (
+            <div className="grid gap-4 md:grid-cols-3">
+              {curatedGoogleReviews.map((review) => (
+                <article key={`${review.author}-${review.date}`} className="card-shell bg-white p-5">
+                  <div className="flex text-sm text-amber-500" aria-label="5 estrellas">★★★★★</div>
+                  <p className="mt-4 text-sm leading-relaxed text-muted">“{review.text}”</p>
+                  <div className="mt-5 border-t border-border pt-4">
+                    <p className="text-sm font-semibold text-ink">{review.author}</p>
+                    <p className="text-xs text-muted">{review.date}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
