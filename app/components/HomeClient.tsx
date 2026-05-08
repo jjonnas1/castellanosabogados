@@ -41,7 +41,38 @@ const serviceIntents = [
 
 const mobilePriority = [1, 0, 5];
 const googleReviewsUrl = "https://www.google.com/search?q=Castellanos+Abogados&hl=es-419#mpd=~18107842463722114174/customers/reviews";
-const curatedGoogleReviews: Array<{ author: string; date: string; text: string }> = [];
+const curatedGoogleReviews: Array<{ author: string; date: string; text: string }> = [
+  {
+    author: "Felipe León",
+    date: "Hace 19 horas",
+    text: "Excelente profesional, recomendado al 100% para confiar en él cualquier proceso en las diferentes áreas del derecho.",
+  },
+  {
+    author: "Stefanía Hernández",
+    date: "Hace 4 semanas",
+    text: "Excelente abogado, responsable, dedicado y muy profesional.",
+  },
+  {
+    author: "Idaly Arrubla Melo",
+    date: "Hace 5 semanas",
+    text: "Genial la atención y la diligencia en los trámites. Super recomendado.",
+  },
+  {
+    author: "Alejo Santa",
+    date: "Hace 5 semanas",
+    text: "Excelente persona con calidad humana muy profesional, con experiencia, hábil, capaz, sincero y diligente.",
+  },
+  {
+    author: "Christian Camilo Ceballos",
+    date: "Hace 5 semanas",
+    text: "Muy profesional, buen servicio. Muchas gracias.",
+  },
+  {
+    author: "Esperanza Inés Isaza Maya",
+    date: "Hace 5 semanas",
+    text: "Excelente atención. La asesoría brindada fue clara, oportuna y precisa. Da la confianza de ser atendido por una persona altamente calificada.",
+  },
+];
 
 export default function HomeClient() {
   const { t } = useLanguage();
@@ -234,7 +265,7 @@ export default function HomeClient() {
       </section>
 
       {/* RESEÑAS DE GOOGLE */}
-      <section className="section-shell bg-canvas">
+      <section className="section-shell bg-canvas pb-24 sm:pb-[var(--section-space)]">
         <div className="container grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div className="space-y-5">
             <div className="space-y-2">
