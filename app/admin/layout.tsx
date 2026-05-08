@@ -34,7 +34,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     let redirectTimer: ReturnType<typeof setTimeout> | null = null;
 
     function redirectToLogin(error?: string) {
-      const next = encodeURIComponent(pathname || '/admin');
+      const currentPath = window.location.pathname || '/admin';
+      const next = encodeURIComponent(currentPath === '/admin/login' ? '/admin' : currentPath);
       const suffix = error ? `&error=${encodeURIComponent(error)}` : '';
       window.location.replace(`/admin/login?next=${next}${suffix}`);
     }
@@ -42,10 +43,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     async function acceptSession(session: Session | null) {
       if (!mounted || !session?.access_token) return false;
 
-      const role = await getProfileRoleByUserId(session.user.id);
+      const cachedAdminId = window.sessionStorage.getItem('ca_admin_user_id');
+      const role = cachedAdminId === session.user.id ? 'admin' : await getProfileRoleByUserId(session.user.id);
       if (!mounted) return false;
 
       if (role !== 'admin') {
+        window.sessionStorage.removeItem('ca_admin_user_id');
         setToken(null);
         setUserId(null);
         setChecking(false);
@@ -55,6 +58,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
       setToken(session.access_token);
       setUserId(session.user.id);
+      window.sessionStorage.setItem('ca_admin_user_id', session.user.id);
       setChecking(false);
       return true;
     }
@@ -85,6 +89,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       if (session?.access_token) {
         void acceptSession(session);
       } else if (event === 'SIGNED_OUT') {
+        window.sessionStorage.removeItem('ca_admin_user_id');
         setToken(null);
         setUserId(null);
         setChecking(false);
@@ -99,7 +104,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       if (redirectTimer) clearTimeout(redirectTimer);
       sub.subscription.unsubscribe();
     };
-  }, [isPublic, pathname]);
+  }, [isPublic]);
 
   if (!isPublic && (checking || !token)) {
     return (
