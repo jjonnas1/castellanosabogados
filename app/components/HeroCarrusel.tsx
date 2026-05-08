@@ -24,6 +24,24 @@ export default function HeroCarrusel() {
   const [paused, setPaused] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  const serviceSlides = t.hero.serviceSlides.map((item) => ({
+    tag: item.tag,
+    pill: item.pill,
+    title: item.title,
+    body: item.subtitle,
+    cta: item.cta,
+    ctaHref: item.href,
+    ctaWa: WA + `?text=${encodeURIComponent(item.whatsappText)}`,
+    ctaWaLabel: PHONE_DISPLAY,
+    panelTitle: item.panelTitle,
+    panelBody: item.panelBody,
+    stats: [
+      { label: item.stats.item1.label, value: item.stats.item1.value },
+      { label: item.stats.item2.label, value: item.stats.item2.value },
+      { label: item.stats.item3.label, value: item.stats.item3.value },
+    ],
+  }));
+
   const SLIDES = [
     {
       tag: t.hero.slide1.tag,
@@ -58,7 +76,8 @@ export default function HeroCarrusel() {
         { label: t.hero.slide2.stats.item2.label, value: t.hero.slide2.stats.item2.value },
         { label: t.hero.slide2.stats.item3.label, value: t.hero.slide2.stats.item3.value },
       ],
-    }
+    },
+    ...serviceSlides,
   ];
 
   const goTo = useCallback((idx: number) => {
