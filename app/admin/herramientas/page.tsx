@@ -237,6 +237,7 @@ type Suggestion = {
   title: string;
   say: string;
   reason: string;
+  origin?: 'local' | 'ai';
 };
 
 const HEARING_MODES: { key: HearingMode; label: string }[] = [
@@ -262,7 +263,8 @@ function AudienciaEnVivo() {
   const [status, setStatus] = useState('Listo para analizar.');
   const [listening, setListening] = useState(false);
   const [recognition, setRecognition] = useState<SpeechRecognitionLike | null>(null);
-  const [source, setSource] = useState<'openai' | 'fallback' | null>(null);
+  const [source, setSource] = useState<'hybrid' | 'local' | null>(null);
+  const [health, setHealth] = useState('Respaldo local listo.');
 
   const analyze = async (text = transcript) => {
     const clean = text.trim();
@@ -286,9 +288,10 @@ function AudienciaEnVivo() {
 
     setSuggestions(data.suggestions || []);
     setSource(data.source || null);
-    setStatus(data.source === 'openai'
-      ? 'Sugerencias generadas con IA.'
-      : 'Sugerencias generadas con reglas locales. Configure OPENAI_API_KEY para IA.');
+    setHealth(data.health || 'Sistema de respaldo activo.');
+    setStatus(data.source === 'hybrid'
+      ? 'IA conectada con respaldo local activo.'
+      : 'Modo respaldo: las alertas locales siguen funcionando.');
   };
 
   const toggleDictation = () => {
@@ -366,7 +369,10 @@ function AudienciaEnVivo() {
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-800 bg-[#0a1120] px-3 py-2.5">
-          <p className="text-xs text-slate-400">{status}</p>
+          <div>
+            <p className="text-xs font-medium text-slate-300">{status}</p>
+            <p className="mt-1 text-[11px] text-slate-500">{health}</p>
+          </div>
           <button type="button" onClick={() => { setTranscript(''); setSuggestions([]); setSource(null); }}
             className="text-xs font-medium text-slate-400 transition hover:text-white">
             Limpiar sesión
@@ -382,7 +388,7 @@ function AudienciaEnVivo() {
           </div>
           {source && (
             <span className="rounded-full border border-slate-700 px-2 py-1 text-[11px] uppercase tracking-wide text-slate-400">
-              {source === 'openai' ? 'IA' : 'Reglas'}
+              {source === 'hybrid' ? 'IA + respaldo' : 'Respaldo local'}
             </span>
           )}
         </div>
@@ -400,6 +406,11 @@ function AudienciaEnVivo() {
             </div>
             <p className="text-sm font-semibold leading-6 text-white">{item.say}</p>
             <p className="mt-2 text-xs leading-5 opacity-80">{item.reason}</p>
+            {item.origin && (
+              <p className="mt-3 text-[11px] uppercase tracking-wider opacity-60">
+                {item.origin === 'ai' ? 'Origen: IA' : 'Origen: respaldo local'}
+              </p>
+            )}
           </article>
         ))}
       </div>

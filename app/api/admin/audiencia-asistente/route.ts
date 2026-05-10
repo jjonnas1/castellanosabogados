@@ -8,6 +8,7 @@ type Suggestion = {
   title: string;
   say: string;
   reason: string;
+  origin?: 'local' | 'ai';
 };
 
 const FALLBACK_RULES: Array<{
@@ -106,7 +107,20 @@ function normalizeSuggestion(input: Partial<Suggestion>): Suggestion {
     title: String(input.title || 'Alerta').slice(0, 80),
     say: String(input.say || 'Revise el último fragmento antes de intervenir.').slice(0, 260),
     reason: String(input.reason || 'El fragmento requiere verificación.').slice(0, 260),
+    origin: 'ai',
   };
+}
+
+function mergeSuggestions(localSuggestions: Suggestion[], aiSuggestions: Suggestion[]) {
+  const seen = new Set<string>();
+  return [...localSuggestions.map((item) => ({ ...item, origin: 'local' as const })), ...aiSuggestions]
+    .filter((item) => {
+      const key = `${item.level}-${item.title}-${item.say}`.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 4);
 }
 
 export async function POST(req: NextRequest) {
@@ -125,11 +139,15 @@ export async function POST(req: NextRequest) {
   }
 
   const apiKey = process.env.OPENAI_API_KEY;
+  const localSuggestions = fallbackSuggestions(transcript).map((item) => ({ ...item, origin: 'local' as const }));
+
   if (!apiKey) {
     return NextResponse.json({
       ok: true,
-      source: 'fallback',
-      suggestions: fallbackSuggestions(transcript),
+      source: 'local',
+      mode: 'respaldo',
+      health: 'Sin OPENAI_API_KEY configurada para este deployment.',
+      suggestions: localSuggestions,
     });
   }
 
@@ -175,11 +193,13 @@ export async function POST(req: NextRequest) {
     });
 
     if (!response.ok) {
+      const errorText = await response.text().catch(() => '');
       return NextResponse.json({
         ok: true,
-        source: 'fallback',
-        suggestions: fallbackSuggestions(transcript),
-        warning: `OpenAI respondió ${response.status}`,
+        source: 'local',
+        mode: 'respaldo',
+        health: `OpenAI respondió ${response.status}${errorText ? `: ${errorText.slice(0, 180)}` : ''}`,
+        suggestions: localSuggestions,
       });
     }
 
@@ -189,18 +209,22 @@ export async function POST(req: NextRequest) {
       .filter(Boolean)
       .join('\n');
     const parsed = JSON.parse(text || '{"suggestions":[]}') as { suggestions?: Partial<Suggestion>[] };
-    const suggestions = (parsed.suggestions || []).slice(0, 3).map(normalizeSuggestion);
+    const aiSuggestions = (parsed.suggestions || []).slice(0, 3).map(normalizeSuggestion);
 
     return NextResponse.json({
       ok: true,
-      source: 'openai',
-      suggestions: suggestions.length ? suggestions : fallbackSuggestions(transcript),
+      source: 'hybrid',
+      mode: 'ia+respaldo',
+      health: 'IA conectada. Reglas locales activas como respaldo.',
+      suggestions: mergeSuggestions(localSuggestions, aiSuggestions),
     });
-  } catch {
+  } catch (error) {
     return NextResponse.json({
       ok: true,
-      source: 'fallback',
-      suggestions: fallbackSuggestions(transcript),
+      source: 'local',
+      mode: 'respaldo',
+      health: error instanceof Error ? `No se pudo consultar OpenAI: ${error.message}` : 'No se pudo consultar OpenAI.',
+      suggestions: localSuggestions,
     });
   }
 }
