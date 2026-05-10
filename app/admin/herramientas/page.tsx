@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Bot, Gavel, Mic, Pause, Send, ShieldAlert } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Bot, Gavel, Mic, Pause, Play, Send, ShieldAlert } from 'lucide-react';
 import AdminShell from '@/components/AdminShell';
 
 type SpeechRecognitionLike = {
@@ -260,52 +260,89 @@ function AudienciaEnVivo() {
   const [caseContext, setCaseContext] = useState('');
   const [transcript, setTranscript] = useState('');
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
-  const [status, setStatus] = useState('Listo para analizar.');
+  const [status, setStatus] = useState('Listo para iniciar audiencia.');
   const [listening, setListening] = useState(false);
+  const [autoMode, setAutoMode] = useState(false);
   const [recognition, setRecognition] = useState<SpeechRecognitionLike | null>(null);
   const [source, setSource] = useState<'hybrid' | 'local' | null>(null);
   const [health, setHealth] = useState('Respaldo local listo.');
+  const [latencyMs, setLatencyMs] = useState<number | null>(null);
+  const transcriptRef = useRef(transcript);
+  const caseContextRef = useRef(caseContext);
+  const modeRef = useRef(mode);
+  const lastAnalyzedRef = useRef('');
+  const analyzingRef = useRef(false);
 
-  const analyze = async (text = transcript) => {
+  useEffect(() => { transcriptRef.current = transcript; }, [transcript]);
+  useEffect(() => { caseContextRef.current = caseContext; }, [caseContext]);
+  useEffect(() => { modeRef.current = mode; }, [mode]);
+
+  const analyze = async (text = transcriptRef.current, quiet = false) => {
+    if (analyzingRef.current) return false;
     const clean = text.trim();
     if (!clean) {
       setStatus('Pegue o dicte un fragmento de audiencia.');
-      return;
+      return false;
     }
 
-    setStatus('Analizando el último fragmento...');
+    analyzingRef.current = true;
+    const startedAt = Date.now();
+    if (!quiet) setStatus('Analizando el último fragmento...');
     const recent = clean.split(/\s+/).slice(-260).join(' ');
-    const res = await fetch('/api/admin/audiencia-asistente', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ mode, caseContext, transcript: recent }),
-    });
-    const data = await res.json();
-    if (!data.ok) {
-      setStatus(data.error || 'No se pudo analizar.');
-      return;
-    }
+    try {
+      const res = await fetch('/api/admin/audiencia-asistente', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: modeRef.current, caseContext: caseContextRef.current, transcript: recent }),
+      });
+      const data = await res.json();
+      if (!data.ok) {
+        setStatus(data.error || 'No se pudo analizar.');
+        return false;
+      }
 
-    setSuggestions(data.suggestions || []);
-    setSource(data.source || null);
-    setHealth(data.health || 'Sistema de respaldo activo.');
-    setStatus(data.source === 'hybrid'
-      ? 'IA conectada con respaldo local activo.'
-      : 'Modo respaldo: las alertas locales siguen funcionando.');
+      setLatencyMs(Date.now() - startedAt);
+      setSuggestions(data.suggestions || []);
+      setSource(data.source || null);
+      setHealth(data.health || 'Sistema de respaldo activo.');
+      setStatus(data.source === 'hybrid'
+        ? 'Audiencia activa: IA conectada con respaldo local.'
+        : 'Audiencia activa: respaldo local funcionando.');
+      return true;
+    } catch (error) {
+      setStatus('No se pudo conectar con el analizador.');
+      setHealth(error instanceof Error ? error.message : 'Error inesperado.');
+      return false;
+    } finally {
+      analyzingRef.current = false;
+    }
   };
 
-  const toggleDictation = () => {
-    if (listening && recognition) {
-      recognition.stop();
-      setListening(false);
-      setStatus('Dictado pausado.');
-      return;
-    }
+  useEffect(() => {
+    if (!autoMode) return;
+
+    const timer = window.setInterval(async () => {
+      const clean = transcriptRef.current.trim();
+      const words = clean.split(/\s+/).filter(Boolean);
+      if (words.length < 10) return;
+
+      const recent = words.slice(-180).join(' ');
+      if (recent === lastAnalyzedRef.current) return;
+
+      const ok = await analyze(clean, true);
+      if (ok) lastAnalyzedRef.current = recent;
+    }, 7000);
+
+    return () => window.clearInterval(timer);
+  }, [autoMode]);
+
+  const startDictation = () => {
+    if (listening) return true;
 
     const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!Recognition) {
       setStatus('Este navegador no soporta dictado. Use Chrome o pegue la transcripción.');
-      return;
+      return false;
     }
 
     const nextRecognition = new Recognition();
@@ -323,7 +360,39 @@ function AudienciaEnVivo() {
     nextRecognition.start();
     setRecognition(nextRecognition);
     setListening(true);
-    setStatus('Dictado activo. Analice por bloques cuando haya una intervención relevante.');
+    return true;
+  };
+
+  const stopDictation = () => {
+    if (recognition) {
+      recognition.stop();
+    }
+    setListening(false);
+  };
+
+  const toggleDictation = () => {
+    if (listening) {
+      stopDictation();
+      setStatus(autoMode ? 'Audiencia activa, dictado pausado.' : 'Dictado pausado.');
+      return;
+    }
+
+    if (startDictation()) setStatus('Dictado activo. El análisis automático depende del modo audiencia.');
+  };
+
+  const toggleAudience = () => {
+    if (autoMode) {
+      setAutoMode(false);
+      stopDictation();
+      setStatus('Audiencia pausada.');
+      return;
+    }
+
+    const dictationStarted = startDictation();
+    setAutoMode(true);
+    setStatus(dictationStarted
+      ? 'Audiencia activa. Analizo automáticamente cada pocos segundos.'
+      : 'Audiencia activa en modo texto. Pegue transcripción y analizaré automáticamente.');
   };
 
   return (
@@ -338,6 +407,14 @@ function AudienciaEnVivo() {
             </select>
           </div>
           <div className="flex items-end gap-2">
+            <button type="button" onClick={toggleAudience}
+              className={[
+                'inline-flex h-10 items-center gap-2 rounded-lg px-3 text-sm font-medium transition',
+                autoMode ? 'bg-amber-500 text-slate-950 hover:bg-amber-400' : 'bg-emerald-600 text-white hover:bg-emerald-500',
+              ].join(' ')}>
+              {autoMode ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+              {autoMode ? 'Pausar audiencia' : 'Iniciar audiencia'}
+            </button>
             <button type="button" onClick={toggleDictation}
               className={[
                 'inline-flex h-10 items-center gap-2 rounded-lg border px-3 text-sm font-medium transition',
@@ -371,9 +448,11 @@ function AudienciaEnVivo() {
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-800 bg-[#0a1120] px-3 py-2.5">
           <div>
             <p className="text-xs font-medium text-slate-300">{status}</p>
-            <p className="mt-1 text-[11px] text-slate-500">{health}</p>
+            <p className="mt-1 text-[11px] text-slate-500">
+              {health}{latencyMs !== null ? ` · Latencia: ${(latencyMs / 1000).toFixed(1)} s` : ''}
+            </p>
           </div>
-          <button type="button" onClick={() => { setTranscript(''); setSuggestions([]); setSource(null); }}
+          <button type="button" onClick={() => { setTranscript(''); setSuggestions([]); setSource(null); setLatencyMs(null); lastAnalyzedRef.current = ''; }}
             className="text-xs font-medium text-slate-400 transition hover:text-white">
             Limpiar sesión
           </button>
