@@ -50,6 +50,20 @@ const FALLBACK_RULES: Array<{
   reason: string;
 }> = [
   {
+    level: 'estrategia',
+    title: 'Inicio de audiencia',
+    pattern: /inici(ar|amos|emos)|reanudar|audiencia|presentes|comparec/i,
+    say: 'Salude, identifíquese y deje claro a quién representa.',
+    reason: 'Al iniciar o reanudar, conviene fijar presencia, representación y canal de comunicación.',
+  },
+  {
+    level: 'urgente',
+    title: 'Recurso',
+    pattern: /recurso|reposici[oó]n|apelaci[oó]n|impugn|recurr/i,
+    say: 'Sustente el recurso de inmediato: decisión atacada, error concreto y solicitud.',
+    reason: 'Un recurso debe quedar claro en oportunidad, fundamento y petición.',
+  },
+  {
     level: 'urgente',
     title: 'Decisión sobre prueba',
     pattern: /nieg[ao]|rechaz|inadmit|no decret/i,
@@ -199,7 +213,11 @@ Reglas:
 - Prioriza recomendaciones útiles en menos de 8 segundos.
 - Máximo 3 sugerencias.
 - Cada "say" debe ser corto, respetuoso y listo para audiencia.
-- Si no hay intervención clara, devuelve una nota breve de seguimiento.
+- No respondas que falta contexto. Si el contexto es insuficiente, da una intervención procesal segura y genérica.
+- No uses Markdown, LaTeX, llaves, símbolos raros ni texto corrupto. Usa español colombiano claro.
+- Si escuchas "recurso", recomienda cómo sustentarlo o protegerlo procesalmente.
+- Si escuchas inicio de audiencia, recomienda saludo, identificación y representación.
+- Si no hay intervención clara, devuelve una nota breve de seguimiento sin pedir información adicional.
 - Tipo de audiencia: ${mode}.`,
     },
     {
@@ -220,19 +238,37 @@ function promptToText(messages: PromptMessage[]) {
 function normalizeSuggestion(input: Partial<Suggestion>): Suggestion {
   const levels: AlertLevel[] = ['urgente', 'riesgo', 'estrategia', 'nota'];
   const level = levels.includes(input.level as AlertLevel) ? input.level as AlertLevel : 'nota';
+  const title = sanitizeText(input.title || 'Alerta', 80);
+  const say = sanitizeText(input.say || 'Revise el último fragmento antes de intervenir.', 260);
+  const reason = sanitizeText(input.reason || 'El fragmento requiere verificación.', 260);
 
   return {
     level,
-    title: String(input.title || 'Alerta').slice(0, 80),
-    say: String(input.say || 'Revise el último fragmento antes de intervenir.').slice(0, 260),
-    reason: String(input.reason || 'El fragmento requiere verificación.').slice(0, 260),
+    title,
+    say,
+    reason,
     origin: 'ai',
   };
 }
 
+function sanitizeText(value: string, maxLength: number) {
+  return String(value)
+    .replace(/[{}[\]`*_<>]/g, '')
+    .replace(/\\[a-z]+/gi, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, maxLength);
+}
+
+function isLowValueAiSuggestion(suggestion: Suggestion) {
+  const text = `${suggestion.title} ${suggestion.say} ${suggestion.reason}`.toLowerCase();
+  return /falta de contexto|requerir informaci[oó]n|proporcione contexto|no se puede|no puedo|insuficiente informaci[oó]n/.test(text);
+}
+
 function mergeSuggestions(localSuggestions: Suggestion[], aiSuggestions: Suggestion[]) {
   const seen = new Set<string>();
-  return [...localSuggestions.map((item) => ({ ...item, origin: 'local' as const })), ...aiSuggestions]
+  const usefulAiSuggestions = aiSuggestions.filter((item) => !isLowValueAiSuggestion(item));
+  return [...localSuggestions.map((item) => ({ ...item, origin: 'local' as const })), ...usefulAiSuggestions]
     .filter((item) => {
       const key = `${item.level}-${item.title}-${item.say}`.toLowerCase();
       if (seen.has(key)) return false;
