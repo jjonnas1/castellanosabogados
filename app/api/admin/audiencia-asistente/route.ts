@@ -16,6 +16,32 @@ type PromptMessage = {
   content: string;
 };
 
+type RadarDecision = {
+  shouldCallAi: boolean;
+  cleanedTranscript: string;
+  reason: string;
+  signals: string[];
+};
+
+const FILLER_WORDS = new Set([
+  'hola', 'alo', 'aló', 'bueno', 'buenos', 'dias', 'días', 'tardes', 'noches',
+  'si', 'sí', 'ok', 'okay', 'listo', 'perfecto', 'gracias', 'eh', 'mmm', 'aja', 'ajá',
+]);
+
+const LEGAL_SIGNALS: Array<{ label: string; pattern: RegExp; weight: number }> = [
+  { label: 'prueba', pattern: /\b(prueba|pruebas|testimonial|documental|pericial|dictamen|inspecci[oó]n|decret[ao]|nieg[ao]|rechaz|inadmit|pertinen|conducen|utilidad)\b/i, weight: 3 },
+  { label: 'recurso', pattern: /\b(recurso|reposici[oó]n|apelaci[oó]n|s[uú]plica|queja|impugn|recurr)\b/i, weight: 3 },
+  { label: 'objecion', pattern: /\b(objeci[oó]n|objeto|sugestiva|impertinente|inconducente|capciosa|confusa|argumentativa)\b/i, weight: 3 },
+  { label: 'interrogatorio', pattern: /\b(interrogatorio|contrainterrogatorio|testigo|declarante|juramento|pregunta|responda|manifest[oó]|afirm[oó]|neg[oó])\b/i, weight: 2 },
+  { label: 'decision', pattern: /\b(auto|sentencia|decisi[oó]n|resuelve|ordena|dispone|declara|concede|niega|aprueba)\b/i, weight: 3 },
+  { label: 'traslado', pattern: /\b(traslado|t[eé]rmino|d[ií]as|notificaci[oó]n|ejecutoria|vencimiento)\b/i, weight: 2 },
+  { label: 'conciliacion', pattern: /\b(conciliaci[oó]n|acuerdo|propuesta|arreglo|transacci[oó]n|desistimiento)\b/i, weight: 2 },
+  { label: 'hechos', pattern: /\b(hecho|hechos|confesi[oó]n|confiesa|acepta|reconoce|responsabilidad|pretensi[oó]n|excepci[oó]n)\b/i, weight: 2 },
+  { label: 'medida', pattern: /\b(medida cautelar|embargo|secuestro|suspensi[oó]n|protecci[oó]n|amparo)\b/i, weight: 3 },
+  { label: 'nulidad', pattern: /\b(nulidad|debido proceso|competencia|impedimento|recusaci[oó]n)\b/i, weight: 3 },
+  { label: 'juez', pattern: /\b(juez|jueza|despacho|magistrad|tribunal|juzgado|audiencia)\b/i, weight: 1 },
+];
+
 const FALLBACK_RULES: Array<{
   level: AlertLevel;
   title: string;
@@ -59,6 +85,90 @@ const FALLBACK_RULES: Array<{
     reason: 'Lo relevante debe quedar incorporado al registro de la audiencia.',
   },
 ];
+
+function stripAccents(text: string) {
+  return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function cleanTranscript(transcript: string) {
+  const words = transcript
+    .replace(/[^\p{L}\p{N}\s.,;:¿?¡!-]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(/\s+/);
+
+  const compacted: string[] = [];
+  let previous = '';
+  let repeatCount = 0;
+
+  for (const word of words) {
+    const normalized = stripAccents(word.toLowerCase()).replace(/[^\p{L}\p{N}]/gu, '');
+    if (!normalized) continue;
+
+    if (normalized === previous) {
+      repeatCount += 1;
+      if (repeatCount <= 2) compacted.push(word);
+      continue;
+    }
+
+    previous = normalized;
+    repeatCount = 1;
+    compacted.push(word);
+  }
+
+  return compacted.join(' ').trim();
+}
+
+function isMostlyFiller(transcript: string) {
+  const normalizedWords = cleanTranscript(transcript)
+    .split(/\s+/)
+    .map((word) => stripAccents(word.toLowerCase()).replace(/[^\p{L}\p{N}]/gu, ''))
+    .filter(Boolean);
+
+  if (normalizedWords.length === 0) return true;
+  const fillerCount = normalizedWords.filter((word) => FILLER_WORDS.has(word)).length;
+  const uniqueCount = new Set(normalizedWords).size;
+
+  return fillerCount / normalizedWords.length > 0.65 || (uniqueCount <= 4 && normalizedWords.length >= 10);
+}
+
+function inspectTranscript(transcript: string): RadarDecision {
+  const cleanedTranscript = cleanTranscript(transcript);
+  const words = cleanedTranscript.split(/\s+/).filter(Boolean);
+
+  if (words.length < 12) {
+    return {
+      shouldCallAi: false,
+      cleanedTranscript,
+      reason: 'Bloque muy corto; radar local en escucha.',
+      signals: [],
+    };
+  }
+
+  if (isMostlyFiller(cleanedTranscript)) {
+    return {
+      shouldCallAi: false,
+      cleanedTranscript,
+      reason: 'Ruido, saludo o repetición sin contenido jurídico.',
+      signals: [],
+    };
+  }
+
+  const signals = LEGAL_SIGNALS.filter((signal) => signal.pattern.test(cleanedTranscript));
+  const score = signals.reduce((sum, signal) => sum + signal.weight, 0);
+  const hasDenseContent = words.length >= 55 && new Set(words.map((word) => stripAccents(word.toLowerCase()))).size >= 24;
+
+  return {
+    shouldCallAi: score >= 3 || hasDenseContent,
+    cleanedTranscript,
+    reason: score >= 3
+      ? `Señales jurídicas detectadas: ${signals.map((signal) => signal.label).join(', ')}.`
+      : hasDenseContent
+        ? 'Bloque sustancial sin palabra clave clara; se consulta IA por contexto.'
+        : 'Sin señal jurídica suficiente; se evita llamada a IA.',
+    signals: signals.map((signal) => signal.label),
+  };
+}
 
 function fallbackSuggestions(transcript: string): Suggestion[] {
   const hits = FALLBACK_RULES
@@ -268,15 +378,29 @@ export async function POST(req: NextRequest) {
   const aiProvider = (process.env.AI_PROVIDER || 'gemini').toLowerCase();
   const hasGemini = Boolean(process.env.GEMINI_API_KEY);
   const hasOpenAI = Boolean(process.env.OPENAI_API_KEY);
-  const localSuggestions = fallbackSuggestions(transcript).map((item) => ({ ...item, origin: 'local' as const }));
-  const prompt = buildPrompt(mode, caseContext, transcript) as PromptMessage[];
+  const radar = inspectTranscript(transcript);
+  const transcriptForAnalysis = radar.cleanedTranscript || transcript;
+  const localSuggestions = fallbackSuggestions(transcriptForAnalysis).map((item) => ({ ...item, origin: 'local' as const }));
+  const prompt = buildPrompt(mode, caseContext, transcriptForAnalysis) as PromptMessage[];
+
+  if (!radar.shouldCallAi) {
+    return NextResponse.json({
+      ok: true,
+      source: 'local',
+      mode: 'radar',
+      health: `Radar local: ${radar.reason}`,
+      radar,
+      suggestions: localSuggestions,
+    });
+  }
 
   if (!hasGemini && !hasOpenAI) {
     return NextResponse.json({
       ok: true,
       source: 'local',
       mode: 'respaldo',
-      health: 'Sin GEMINI_API_KEY ni OPENAI_API_KEY para este deployment.',
+      health: `Radar local detectó evento, pero no hay GEMINI_API_KEY ni OPENAI_API_KEY. ${radar.reason}`,
+      radar,
       suggestions: localSuggestions,
     });
   }
@@ -291,7 +415,8 @@ export async function POST(req: NextRequest) {
       source: 'hybrid',
       mode: 'ia+respaldo',
       provider: aiProvider === 'openai' && hasOpenAI ? 'openai' : 'gemini',
-      health: primary.health,
+      health: `${primary.health} Radar: ${radar.reason}`,
+      radar,
       suggestions: mergeSuggestions(localSuggestions, primary.suggestions),
     });
   } catch (error) {
@@ -303,7 +428,8 @@ export async function POST(req: NextRequest) {
           source: 'hybrid',
           mode: 'ia+respaldo',
           provider: 'openai',
-          health: `Gemini no respondió; OpenAI tomó el respaldo. ${openai.health}`,
+          health: `Gemini no respondió; OpenAI tomó el respaldo. ${openai.health} Radar: ${radar.reason}`,
+          radar,
           suggestions: mergeSuggestions(localSuggestions, openai.suggestions),
         });
       } catch {
@@ -316,6 +442,7 @@ export async function POST(req: NextRequest) {
       source: 'local',
       mode: 'respaldo',
       health: error instanceof Error ? error.message : 'No se pudo consultar la IA.',
+      radar,
       suggestions: localSuggestions,
     });
   }
