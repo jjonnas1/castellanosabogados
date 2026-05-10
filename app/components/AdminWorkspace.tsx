@@ -85,6 +85,49 @@ const emptyClient = { full_name: '', email: '', password: '', phone: '', case_re
 const emptyUpdate = { client_profile_id: '', title: '', update_text: '', status: 'en curso', visible_to_client: true };
 const emptyAppointment = { title: '', description: '', start_at: '', end_at: '', status: 'programada', client_profile_id: '' };
 const emptyConsultation = { name: '', email: '', phone: '', subject: '', notes: '', status: 'pendiente', consultation_date: '' };
+const appointmentTimeOptions = Array.from({ length: 25 }, (_, index) => {
+  const totalMinutes = 7 * 60 + index * 30;
+  const hours = String(Math.floor(totalMinutes / 60)).padStart(2, '0');
+  const minutes = String(totalMinutes % 60).padStart(2, '0');
+  return `${hours}:${minutes}`;
+});
+
+function toBogotaInputDateTime(value: string) {
+  if (!value) return '';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value.slice(0, 16);
+
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Bogota',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hourCycle: 'h23',
+  }).formatToParts(date);
+
+  const get = (type: string) => parts.find((part) => part.type === type)?.value ?? '';
+  return `${get('year')}-${get('month')}-${get('day')}T${get('hour')}:${get('minute')}`;
+}
+
+function appointmentDateValue(value: string) {
+  return value ? toBogotaInputDateTime(value).slice(0, 10) : '';
+}
+
+function appointmentTimeValue(value: string) {
+  return value ? toBogotaInputDateTime(value).slice(11, 16) : '';
+}
+
+function combineAppointmentDateTime(date: string, time: string) {
+  return date && time ? `${date}T${time}` : '';
+}
+
+function addMinutesToTime(time: string, minutesToAdd: number) {
+  const [hours, minutes] = time.split(':').map(Number);
+  const totalMinutes = Math.min(23 * 60 + 59, hours * 60 + minutes + minutesToAdd);
+  return `${String(Math.floor(totalMinutes / 60)).padStart(2, '0')}:${String(totalMinutes % 60).padStart(2, '0')}`;
+}
 
 export default function AdminWorkspace({ section = 'all', clientId }: { section?: Section; clientId?: string }) {
   // El layout /admin/layout.tsx garantiza que el token esté disponible antes de renderizar
@@ -344,6 +387,10 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
   async function saveAppointment(e: React.FormEvent) {
     e.preventDefault();
     if (!adminId) return setStatus('No hay sesión admin activa.');
+    if (!appointmentForm.start_at || !appointmentForm.end_at) return setStatus('Error guardando cita: selecciona fecha, hora de inicio y hora de fin.');
+    if (new Date(appointmentForm.end_at).getTime() <= new Date(appointmentForm.start_at).getTime()) {
+      return setStatus('Error guardando cita: la hora de fin debe ser posterior a la hora de inicio.');
+    }
     const payload = {
       title: appointmentForm.title,
       description: appointmentForm.description || null,
@@ -595,8 +642,6 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
     URL.revokeObjectURL(url);
   }
 
-  const toInputDate = (value: string) => (value ? new Date(value).toISOString().slice(0, 16) : '');
-
   // ── Render guards ────────────────────────────────────────────────────────────
 
   if (!ready) {
@@ -723,12 +768,73 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
           <form className="mt-3 grid gap-2" onSubmit={saveAppointment}>
             <input className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200 placeholder:text-slate-600" placeholder="Título" value={appointmentForm.title} onChange={(e)=>setAppointmentForm({...appointmentForm,title:e.target.value})} required />
             <textarea className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200 placeholder:text-slate-600" placeholder="Descripción" value={appointmentForm.description} onChange={(e)=>setAppointmentForm({...appointmentForm,description:e.target.value})} />
-            <div className="grid gap-2 sm:grid-cols-2">
-              <input className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200" type="datetime-local" value={appointmentForm.start_at} onChange={(e)=>setAppointmentForm({...appointmentForm,start_at:e.target.value})} required />
-              <input className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200" type="datetime-local" value={appointmentForm.end_at} onChange={(e)=>setAppointmentForm({...appointmentForm,end_at:e.target.value})} required />
+            <div className="grid gap-2 sm:grid-cols-3">
+              <label className="grid gap-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                Fecha
+                <input
+                  className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-sm normal-case tracking-normal text-slate-200"
+                  type="date"
+                  value={appointmentDateValue(appointmentForm.start_at)}
+                  onChange={(e) => {
+                    const date = e.target.value;
+                    const startTime = appointmentTimeValue(appointmentForm.start_at) || '09:00';
+                    const endTime = appointmentTimeValue(appointmentForm.end_at) || addMinutesToTime(startTime, 60);
+                    setAppointmentForm({
+                      ...appointmentForm,
+                      start_at: combineAppointmentDateTime(date, startTime),
+                      end_at: combineAppointmentDateTime(date, endTime),
+                    });
+                  }}
+                  required
+                />
+              </label>
+              <label className="grid gap-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                Inicio
+                <select
+                  className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-sm normal-case tracking-normal text-slate-200"
+                  value={appointmentTimeValue(appointmentForm.start_at)}
+                  onChange={(e) => {
+                    const date = appointmentDateValue(appointmentForm.start_at);
+                    const startTime = e.target.value;
+                    const currentEndTime = appointmentTimeValue(appointmentForm.end_at);
+                    const endTime = !currentEndTime || currentEndTime <= startTime ? addMinutesToTime(startTime, 60) : currentEndTime;
+                    setAppointmentForm({
+                      ...appointmentForm,
+                      start_at: combineAppointmentDateTime(date, startTime),
+                      end_at: combineAppointmentDateTime(date, endTime),
+                    });
+                  }}
+                  required
+                >
+                  <option value="">Hora</option>
+                  {appointmentTimeOptions.map((time) => <option key={time} value={time}>{time}</option>)}
+                </select>
+              </label>
+              <label className="grid gap-1 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                Fin
+                <select
+                  className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-sm normal-case tracking-normal text-slate-200"
+                  value={appointmentTimeValue(appointmentForm.end_at)}
+                  onChange={(e) => {
+                    const date = appointmentDateValue(appointmentForm.start_at);
+                    setAppointmentForm({
+                      ...appointmentForm,
+                      end_at: combineAppointmentDateTime(date, e.target.value),
+                    });
+                  }}
+                  required
+                >
+                  <option value="">Hora</option>
+                  {appointmentTimeOptions.map((time) => <option key={time} value={time}>{time}</option>)}
+                </select>
+              </label>
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
-              <input className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200 placeholder:text-slate-600" placeholder="Estado" value={appointmentForm.status} onChange={(e)=>setAppointmentForm({...appointmentForm,status:e.target.value})} required />
+              <select className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200" value={appointmentForm.status} onChange={(e)=>setAppointmentForm({...appointmentForm,status:e.target.value})} required>
+                <option value="programada">Programada</option>
+                <option value="completada">Completada</option>
+                <option value="cancelada">Cancelada</option>
+              </select>
               <select className="rounded-lg border border-[#1e3a6e]/50 bg-[#0a1120] p-2 text-slate-200" value={appointmentForm.client_profile_id} onChange={(e)=>setAppointmentForm({...appointmentForm,client_profile_id:e.target.value})}>
                 <option value="">Sin cliente</option>
                 {clients.map((c)=><option key={c.id} value={c.id}>{c.full_name}</option>)}
@@ -743,7 +849,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
                 <p className="text-slate-500">{new Date(a.start_at).toLocaleString('es-CO')} → {new Date(a.end_at).toLocaleString('es-CO')}</p>
                 <p className="text-slate-500">{a.status} · {a.client_profile_id ? clientMap.get(a.client_profile_id)?.full_name || 'Sin cliente' : 'Sin cliente'}</p>
                 <div className="mt-2 flex gap-2">
-                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={()=>{setEditingAppointmentId(a.id);setAppointmentForm({title:a.title,description:a.description||'',start_at:toInputDate(a.start_at),end_at:toInputDate(a.end_at),status:a.status,client_profile_id:a.client_profile_id||''});}}>Editar</button>
+                  <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={()=>{setEditingAppointmentId(a.id);setAppointmentForm({title:a.title,description:a.description||'',start_at:toBogotaInputDateTime(a.start_at),end_at:toBogotaInputDateTime(a.end_at),status:a.status,client_profile_id:a.client_profile_id||''});}}>Editar</button>
                   <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={()=>deleteAppointment(a.id)}>Eliminar</button>
                 </div>
               </div>

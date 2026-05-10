@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { supabase } from '@/lib/supabase-browser';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useAdminAuth } from '@/contexts/admin-auth';
 
 type Appointment = {
   id: string;
@@ -15,8 +15,34 @@ function startOfMonth(date: Date) {
   return new Date(date.getFullYear(), date.getMonth(), 1);
 }
 
-function sameDay(a: Date, b: Date) {
-  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+function pad(value: number) {
+  return String(value).padStart(2, '0');
+}
+
+function calendarDateKey(date: Date) {
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
+function appointmentDateKey(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value.slice(0, 10);
+
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Bogota',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+
+  const year = parts.find((part) => part.type === 'year')?.value;
+  const month = parts.find((part) => part.type === 'month')?.value;
+  const day = parts.find((part) => part.type === 'day')?.value;
+
+  return year && month && day ? `${year}-${month}-${day}` : value.slice(0, 10);
+}
+
+function sameCalendarDay(appointment: Appointment, day: Date) {
+  return appointmentDateKey(appointment.start_at) === calendarDateKey(day);
 }
 
 function statusClass(status: string) {
@@ -53,13 +79,12 @@ function dayCellClass(dayAppointments: Appointment[], inCurrentMonth: boolean, i
 }
 
 export default function AdminAgendaCalendar() {
+  const { token } = useAdminAuth();
   const [monthDate, setMonthDate] = useState(startOfMonth(new Date()));
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
-  async function fetchAppointments() {
-    const { data: sessionData } = await supabase.auth.getSession();
-    const token = sessionData.session?.access_token;
+  const fetchAppointments = useCallback(async () => {
     if (!token) return;
 
     const response = await fetch('/api/admin/workspace', {
@@ -68,14 +93,14 @@ export default function AdminAgendaCalendar() {
 
     const payload = (await response.json().catch(() => ({}))) as { appointments?: Appointment[] };
     setAppointments(payload.appointments ?? []);
-  }
+  }, [token]);
 
   useEffect(() => {
     fetchAppointments();
 
     window.addEventListener('appointments-updated', fetchAppointments);
     return () => window.removeEventListener('appointments-updated', fetchAppointments);
-  }, []);
+  }, [fetchAppointments]);
 
   const days = useMemo(() => {
     const first = startOfMonth(monthDate);
@@ -90,7 +115,7 @@ export default function AdminAgendaCalendar() {
 
   const selectedAppointments = useMemo(() => {
     if (!selectedDate) return [];
-    return appointments.filter((item) => sameDay(new Date(item.start_at), selectedDate));
+    return appointments.filter((item) => sameCalendarDay(item, selectedDate));
   }, [appointments, selectedDate]);
 
   return (
@@ -113,8 +138,8 @@ export default function AdminAgendaCalendar() {
             <div className="mt-2 grid grid-cols-7 gap-2">
               {days.map((day) => {
                 const inCurrentMonth = day.getMonth() === monthDate.getMonth();
-                const isSelected = !!(selectedDate && sameDay(day, selectedDate));
-                const dayAppointments = appointments.filter((item) => sameDay(new Date(item.start_at), day));
+                const isSelected = !!(selectedDate && calendarDateKey(day) === calendarDateKey(selectedDate));
+                const dayAppointments = appointments.filter((item) => sameCalendarDay(item, day));
                 return (
                   <button
                     key={day.toISOString()}
