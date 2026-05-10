@@ -274,10 +274,35 @@ function AudienciaEnVivo() {
   const modeRef = useRef(mode);
   const lastAnalyzedRef = useRef('');
   const analyzingRef = useRef(false);
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
+  const recognitionActiveRef = useRef(false);
+  const dictationWantedRef = useRef(false);
+  const autoModeRef = useRef(autoMode);
+  const lastResultIndexRef = useRef(0);
+  const recentPhrasesRef = useRef<string[]>([]);
 
   useEffect(() => { transcriptRef.current = transcript; }, [transcript]);
   useEffect(() => { caseContextRef.current = caseContext; }, [caseContext]);
   useEffect(() => { modeRef.current = mode; }, [mode]);
+  useEffect(() => { autoModeRef.current = autoMode; }, [autoMode]);
+  useEffect(() => () => {
+    dictationWantedRef.current = false;
+    recognitionRef.current?.stop();
+  }, []);
+
+  const appendTranscript = (phrase: string) => {
+    const cleanPhrase = phrase.replace(/\s+/g, ' ').trim();
+    if (!cleanPhrase) return;
+
+    const normalizedPhrase = cleanPhrase.toLowerCase();
+    if (recentPhrasesRef.current.includes(normalizedPhrase)) return;
+
+    recentPhrasesRef.current = [...recentPhrasesRef.current.slice(-8), normalizedPhrase];
+    setTranscript((current) => {
+      const words = `${current} ${cleanPhrase}`.trim().split(/\s+/).filter(Boolean);
+      return words.slice(-220).join(' ');
+    });
+  };
 
   const analyze = async (text = transcriptRef.current, quiet = false) => {
     if (analyzingRef.current) return false;
@@ -343,26 +368,39 @@ function AudienciaEnVivo() {
   }, [autoMode]);
 
   const startDictation = () => {
-    if (listening) return true;
+    if (listening || recognitionActiveRef.current) return true;
+    dictationWantedRef.current = true;
 
     const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!Recognition) {
+      dictationWantedRef.current = false;
       setStatus('Este navegador no soporta dictado. Use Chrome o pegue la transcripción.');
       return false;
     }
 
     const nextRecognition = new Recognition();
-    nextRecognition.continuous = true;
-    nextRecognition.interimResults = true;
+    nextRecognition.continuous = false;
+    nextRecognition.interimResults = false;
     nextRecognition.lang = 'es-CO';
     nextRecognition.onresult = (event) => {
       let finalText = '';
-      for (let i = 0; i < event.results.length; i += 1) {
+      for (let i = lastResultIndexRef.current; i < event.results.length; i += 1) {
         if (event.results[i].isFinal) finalText += `${event.results[i][0].transcript} `;
       }
-      if (finalText) setTranscript((current) => `${current} ${finalText}`.trim());
+      lastResultIndexRef.current = event.results.length;
+      appendTranscript(finalText);
     };
-    nextRecognition.onend = () => setListening(false);
+    nextRecognition.onend = () => {
+      setListening(false);
+      recognitionActiveRef.current = false;
+      lastResultIndexRef.current = 0;
+
+      if (dictationWantedRef.current && autoModeRef.current) {
+        window.setTimeout(() => startDictation(), 250);
+      }
+    };
+    recognitionActiveRef.current = true;
+    recognitionRef.current = nextRecognition;
     nextRecognition.start();
     setRecognition(nextRecognition);
     setListening(true);
@@ -370,8 +408,10 @@ function AudienciaEnVivo() {
   };
 
   const stopDictation = () => {
-    if (recognition) {
-      recognition.stop();
+    dictationWantedRef.current = false;
+    recognitionActiveRef.current = false;
+    if (recognitionRef.current || recognition) {
+      (recognitionRef.current || recognition)?.stop();
     }
     setListening(false);
   };
@@ -388,12 +428,14 @@ function AudienciaEnVivo() {
 
   const toggleAudience = () => {
     if (autoMode) {
+      autoModeRef.current = false;
       setAutoMode(false);
       stopDictation();
       setStatus('Audiencia pausada.');
       return;
     }
 
+    autoModeRef.current = true;
     const dictationStarted = startDictation();
     setAutoMode(true);
     setStatus(dictationStarted
@@ -458,7 +500,7 @@ function AudienciaEnVivo() {
               {health}{latencyMs !== null ? ` · Latencia: ${(latencyMs / 1000).toFixed(1)} s` : ''}
             </p>
           </div>
-          <button type="button" onClick={() => { setTranscript(''); setSuggestions([]); setSource(null); setProvider(null); setAnalysisMode(null); setLatencyMs(null); lastAnalyzedRef.current = ''; }}
+          <button type="button" onClick={() => { setTranscript(''); setSuggestions([]); setSource(null); setProvider(null); setAnalysisMode(null); setLatencyMs(null); lastAnalyzedRef.current = ''; recentPhrasesRef.current = []; }}
             className="text-xs font-medium text-slate-400 transition hover:text-white">
             Limpiar sesión
           </button>
