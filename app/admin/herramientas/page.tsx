@@ -1,7 +1,29 @@
 'use client';
 
 import { useState } from 'react';
+import { Bot, Gavel, Mic, Pause, Send, ShieldAlert } from 'lucide-react';
 import AdminShell from '@/components/AdminShell';
+
+type SpeechRecognitionLike = {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: {
+    results: ArrayLike<{ isFinal: boolean; 0: { transcript: string } }>;
+  }) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+};
+
+type SpeechRecognitionConstructor = new () => SpeechRecognitionLike;
+
+declare global {
+  interface Window {
+    SpeechRecognition?: SpeechRecognitionConstructor;
+    webkitSpeechRecognition?: SpeechRecognitionConstructor;
+  }
+}
 
 function cop(val: number) {
   return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(val);
@@ -208,13 +230,191 @@ function CalcCaducidad() {
   );
 }
 
+// ─── 4. Asistente de Audiencia en vivo ────────────────────────────────────────
+type HearingMode = 'civil' | 'laboral' | 'familia' | 'penal' | 'administrativo';
+type Suggestion = {
+  level: 'urgente' | 'riesgo' | 'estrategia' | 'nota';
+  title: string;
+  say: string;
+  reason: string;
+};
+
+const HEARING_MODES: { key: HearingMode; label: string }[] = [
+  { key: 'civil', label: 'Civil' },
+  { key: 'laboral', label: 'Laboral' },
+  { key: 'familia', label: 'Familia' },
+  { key: 'penal', label: 'Penal' },
+  { key: 'administrativo', label: 'Administrativo' },
+];
+
+const LEVEL_STYLES: Record<Suggestion['level'], string> = {
+  urgente: 'border-red-500/50 bg-red-950/30 text-red-200',
+  riesgo: 'border-amber-500/50 bg-amber-950/30 text-amber-200',
+  estrategia: 'border-cyan-500/50 bg-cyan-950/30 text-cyan-200',
+  nota: 'border-slate-600 bg-slate-900/50 text-slate-200',
+};
+
+function AudienciaEnVivo() {
+  const [mode, setMode] = useState<HearingMode>('civil');
+  const [caseContext, setCaseContext] = useState('');
+  const [transcript, setTranscript] = useState('');
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [status, setStatus] = useState('Listo para analizar.');
+  const [listening, setListening] = useState(false);
+  const [recognition, setRecognition] = useState<SpeechRecognitionLike | null>(null);
+  const [source, setSource] = useState<'openai' | 'fallback' | null>(null);
+
+  const analyze = async (text = transcript) => {
+    const clean = text.trim();
+    if (!clean) {
+      setStatus('Pegue o dicte un fragmento de audiencia.');
+      return;
+    }
+
+    setStatus('Analizando el último fragmento...');
+    const recent = clean.split(/\s+/).slice(-260).join(' ');
+    const res = await fetch('/api/admin/audiencia-asistente', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mode, caseContext, transcript: recent }),
+    });
+    const data = await res.json();
+    if (!data.ok) {
+      setStatus(data.error || 'No se pudo analizar.');
+      return;
+    }
+
+    setSuggestions(data.suggestions || []);
+    setSource(data.source || null);
+    setStatus(data.source === 'openai'
+      ? 'Sugerencias generadas con IA.'
+      : 'Sugerencias generadas con reglas locales. Configure OPENAI_API_KEY para IA.');
+  };
+
+  const toggleDictation = () => {
+    if (listening && recognition) {
+      recognition.stop();
+      setListening(false);
+      setStatus('Dictado pausado.');
+      return;
+    }
+
+    const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!Recognition) {
+      setStatus('Este navegador no soporta dictado. Use Chrome o pegue la transcripción.');
+      return;
+    }
+
+    const nextRecognition = new Recognition();
+    nextRecognition.continuous = true;
+    nextRecognition.interimResults = true;
+    nextRecognition.lang = 'es-CO';
+    nextRecognition.onresult = (event) => {
+      let finalText = '';
+      for (let i = 0; i < event.results.length; i += 1) {
+        if (event.results[i].isFinal) finalText += `${event.results[i][0].transcript} `;
+      }
+      if (finalText) setTranscript((current) => `${current} ${finalText}`.trim());
+    };
+    nextRecognition.onend = () => setListening(false);
+    nextRecognition.start();
+    setRecognition(nextRecognition);
+    setListening(true);
+    setStatus('Dictado activo. Analice por bloques cuando haya una intervención relevante.');
+  };
+
+  return (
+    <div className="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
+      <div className="space-y-4">
+        <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+          <div>
+            <label className="block text-xs font-medium text-slate-400 mb-1.5">Tipo de audiencia</label>
+            <select value={mode} onChange={(e) => setMode(e.target.value as HearingMode)}
+              className="w-full bg-[#0a1120] border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-cyan-500 transition">
+              {HEARING_MODES.map((item) => <option key={item.key} value={item.key}>{item.label}</option>)}
+            </select>
+          </div>
+          <div className="flex items-end gap-2">
+            <button type="button" onClick={toggleDictation}
+              className={[
+                'inline-flex h-10 items-center gap-2 rounded-lg border px-3 text-sm font-medium transition',
+                listening ? 'border-amber-500 bg-amber-500/15 text-amber-200' : 'border-slate-700 bg-slate-800/60 text-slate-200 hover:bg-slate-800',
+              ].join(' ')}>
+              {listening ? <Pause className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+              {listening ? 'Pausar' : 'Dictar'}
+            </button>
+            <button type="button" onClick={() => analyze()}
+              className="inline-flex h-10 items-center gap-2 rounded-lg bg-cyan-600 px-3 text-sm font-medium text-white transition hover:bg-cyan-500">
+              <Send className="h-4 w-4" />
+              Analizar
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-slate-400 mb-1.5">Contexto del caso</label>
+          <textarea value={caseContext} onChange={(e) => setCaseContext(e.target.value)}
+            placeholder="Pretensiones, hechos clave, pruebas importantes, teoría del caso y riesgos."
+            className="min-h-24 w-full resize-y rounded-lg border border-slate-700 bg-[#0a1120] px-3 py-2.5 text-sm text-white placeholder-slate-600 transition focus:border-cyan-500 focus:outline-none" />
+        </div>
+
+        <div>
+          <label className="block text-xs font-medium text-slate-400 mb-1.5">Transcripción en vivo</label>
+          <textarea value={transcript} onChange={(e) => setTranscript(e.target.value)}
+            placeholder="Pegue aquí lo que va diciendo el juez, contraparte o testigo. También puede usar dictado."
+            className="min-h-56 w-full resize-y rounded-lg border border-slate-700 bg-[#0a1120] px-3 py-2.5 text-sm leading-6 text-white placeholder-slate-600 transition focus:border-cyan-500 focus:outline-none" />
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-800 bg-[#0a1120] px-3 py-2.5">
+          <p className="text-xs text-slate-400">{status}</p>
+          <button type="button" onClick={() => { setTranscript(''); setSuggestions([]); setSource(null); }}
+            className="text-xs font-medium text-slate-400 transition hover:text-white">
+            Limpiar sesión
+          </button>
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Bot className="h-4 w-4 text-cyan-400" />
+            <h2 className="text-sm font-semibold text-slate-100">Sugerencias rápidas</h2>
+          </div>
+          {source && (
+            <span className="rounded-full border border-slate-700 px-2 py-1 text-[11px] uppercase tracking-wide text-slate-400">
+              {source === 'openai' ? 'IA' : 'Reglas'}
+            </span>
+          )}
+        </div>
+
+        {suggestions.length === 0 ? (
+          <div className="rounded-xl border border-dashed border-slate-700 bg-slate-900/30 p-6 text-center">
+            <Gavel className="mx-auto mb-3 h-8 w-8 text-slate-600" />
+            <p className="text-sm text-slate-400">Las alertas aparecerán aquí después de analizar un fragmento.</p>
+          </div>
+        ) : suggestions.map((item, index) => (
+          <article key={`${item.title}-${index}`} className={`rounded-xl border p-4 ${LEVEL_STYLES[item.level]}`}>
+            <div className="mb-2 flex items-center gap-2">
+              <ShieldAlert className="h-4 w-4" />
+              <p className="text-xs font-bold uppercase tracking-wider">{item.level} · {item.title}</p>
+            </div>
+            <p className="text-sm font-semibold leading-6 text-white">{item.say}</p>
+            <p className="mt-2 text-xs leading-5 opacity-80">{item.reason}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Página ────────────────────────────────────────────────────────────────────
-type Tab = 'uvt' | 'costas' | 'caducidad';
+type Tab = 'uvt' | 'costas' | 'caducidad' | 'audiencia';
 
 const TABS: { key: Tab; label: string; short: string }[] = [
   { key: 'uvt',       label: 'Conversor UVT',           short: '1' },
   { key: 'costas',    label: 'Costas Procesales',        short: '2' },
   { key: 'caducidad', label: 'Caducidad por Acción',     short: '3' },
+  { key: 'audiencia', label: 'Audiencia en Vivo',        short: '4' },
 ];
 
 export default function HerramientasAdminPage() {
@@ -222,7 +422,7 @@ export default function HerramientasAdminPage() {
 
   return (
     <AdminShell>
-      <div className="p-6 max-w-3xl mx-auto">
+      <div className="p-6 max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-slate-100">Herramientas Generales</h1>
           <p className="text-sm text-slate-400 mt-1">
@@ -230,7 +430,7 @@ export default function HerramientasAdminPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-2 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
           {TABS.map((tab) => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)}
               className={[
@@ -249,6 +449,7 @@ export default function HerramientasAdminPage() {
           {activeTab === 'uvt'       && <CalcUVT />}
           {activeTab === 'costas'    && <CalcCostas />}
           {activeTab === 'caducidad' && <CalcCaducidad />}
+          {activeTab === 'audiencia' && <AudienciaEnVivo />}
         </div>
 
         <p className="text-xs text-slate-600 text-center mt-6">
