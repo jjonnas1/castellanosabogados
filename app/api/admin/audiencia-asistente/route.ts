@@ -11,6 +11,11 @@ type Suggestion = {
   origin?: 'local' | 'ai';
 };
 
+type PromptMessage = {
+  role: 'system' | 'user';
+  content: string;
+};
+
 const FALLBACK_RULES: Array<{
   level: AlertLevel;
   title: string;
@@ -98,6 +103,10 @@ ${transcript}`,
   ];
 }
 
+function promptToText(messages: PromptMessage[]) {
+  return messages.map((message) => `${message.role.toUpperCase()}:\n${message.content}`).join('\n\n');
+}
+
 function normalizeSuggestion(input: Partial<Suggestion>): Suggestion {
   const levels: AlertLevel[] = ['urgente', 'riesgo', 'estrategia', 'nota'];
   const level = levels.includes(input.level as AlertLevel) ? input.level as AlertLevel : 'nota';
@@ -123,6 +132,124 @@ function mergeSuggestions(localSuggestions: Suggestion[], aiSuggestions: Suggest
     .slice(0, 4);
 }
 
+function getParsedSuggestions(text: string): Suggestion[] {
+  const cleaned = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```$/i, '').trim();
+  const parsed = JSON.parse(cleaned || '{"suggestions":[]}') as { suggestions?: Partial<Suggestion>[] };
+  return (parsed.suggestions || []).slice(0, 3).map(normalizeSuggestion);
+}
+
+async function getOpenAISuggestions(messages: PromptMessage[]) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) return { suggestions: [], health: 'OpenAI sin API key.' };
+
+  const response = await fetch('https://api.openai.com/v1/responses', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: process.env.OPENAI_HEARING_MODEL || 'gpt-5-mini',
+      input: messages,
+      text: {
+        format: {
+          type: 'json_schema',
+          name: 'hearing_suggestions',
+          schema: {
+            type: 'object',
+            additionalProperties: false,
+            required: ['suggestions'],
+            properties: {
+              suggestions: {
+                type: 'array',
+                maxItems: 3,
+                items: {
+                  type: 'object',
+                  additionalProperties: false,
+                  required: ['level', 'title', 'say', 'reason'],
+                  properties: {
+                    level: { type: 'string', enum: ['urgente', 'riesgo', 'estrategia', 'nota'] },
+                    title: { type: 'string' },
+                    say: { type: 'string' },
+                    reason: { type: 'string' },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '');
+    throw new Error(`OpenAI respondió ${response.status}${errorText ? `: ${errorText.slice(0, 180)}` : ''}`);
+  }
+
+  const data = await response.json();
+  const text = data.output_text || data.output?.flatMap((item: { content?: Array<{ text?: string }> }) => item.content || [])
+    .map((item: { text?: string }) => item.text)
+    .filter(Boolean)
+    .join('\n');
+
+  return {
+    suggestions: getParsedSuggestions(text || ''),
+    health: 'OpenAI conectado. Reglas locales activas como respaldo.',
+  };
+}
+
+async function getGeminiSuggestions(messages: PromptMessage[]) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) return { suggestions: [], health: 'Gemini sin API key.' };
+
+  const model = process.env.GEMINI_HEARING_MODEL || 'gemini-2.5-flash-lite';
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ role: 'user', parts: [{ text: promptToText(messages) }] }],
+      generationConfig: {
+        temperature: 0.2,
+        responseMimeType: 'application/json',
+        responseSchema: {
+          type: 'OBJECT',
+          properties: {
+            suggestions: {
+              type: 'ARRAY',
+              maxItems: 3,
+              items: {
+                type: 'OBJECT',
+                properties: {
+                  level: { type: 'STRING', enum: ['urgente', 'riesgo', 'estrategia', 'nota'] },
+                  title: { type: 'STRING' },
+                  say: { type: 'STRING' },
+                  reason: { type: 'STRING' },
+                },
+                required: ['level', 'title', 'say', 'reason'],
+              },
+            },
+          },
+          required: ['suggestions'],
+        },
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text().catch(() => '');
+    throw new Error(`Gemini respondió ${response.status}${errorText ? `: ${errorText.slice(0, 180)}` : ''}`);
+  }
+
+  const data = await response.json();
+  const text = data.candidates?.[0]?.content?.parts?.map((part: { text?: string }) => part.text).filter(Boolean).join('\n') || '';
+
+  return {
+    suggestions: getParsedSuggestions(text),
+    health: 'Gemini conectado. Reglas locales activas como respaldo.',
+  };
+}
+
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({})) as {
     mode?: HearingMode;
@@ -138,92 +265,57 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'No hay transcripción para analizar.' }, { status: 400 });
   }
 
-  const apiKey = process.env.OPENAI_API_KEY;
+  const aiProvider = (process.env.AI_PROVIDER || 'gemini').toLowerCase();
+  const hasGemini = Boolean(process.env.GEMINI_API_KEY);
+  const hasOpenAI = Boolean(process.env.OPENAI_API_KEY);
   const localSuggestions = fallbackSuggestions(transcript).map((item) => ({ ...item, origin: 'local' as const }));
+  const prompt = buildPrompt(mode, caseContext, transcript) as PromptMessage[];
 
-  if (!apiKey) {
+  if (!hasGemini && !hasOpenAI) {
     return NextResponse.json({
       ok: true,
       source: 'local',
       mode: 'respaldo',
-      health: 'Sin OPENAI_API_KEY configurada para este deployment.',
+      health: 'Sin GEMINI_API_KEY ni OPENAI_API_KEY para este deployment.',
       suggestions: localSuggestions,
     });
   }
 
   try {
-    const response = await fetch('https://api.openai.com/v1/responses', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: process.env.OPENAI_HEARING_MODEL || 'gpt-5-mini',
-        input: buildPrompt(mode, caseContext, transcript),
-        text: {
-          format: {
-            type: 'json_schema',
-            name: 'hearing_suggestions',
-            schema: {
-              type: 'object',
-              additionalProperties: false,
-              required: ['suggestions'],
-              properties: {
-                suggestions: {
-                  type: 'array',
-                  maxItems: 3,
-                  items: {
-                    type: 'object',
-                    additionalProperties: false,
-                    required: ['level', 'title', 'say', 'reason'],
-                    properties: {
-                      level: { type: 'string', enum: ['urgente', 'riesgo', 'estrategia', 'nota'] },
-                      title: { type: 'string' },
-                      say: { type: 'string' },
-                      reason: { type: 'string' },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      }),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text().catch(() => '');
-      return NextResponse.json({
-        ok: true,
-        source: 'local',
-        mode: 'respaldo',
-        health: `OpenAI respondió ${response.status}${errorText ? `: ${errorText.slice(0, 180)}` : ''}`,
-        suggestions: localSuggestions,
-      });
-    }
-
-    const data = await response.json();
-    const text = data.output_text || data.output?.flatMap((item: { content?: Array<{ text?: string }> }) => item.content || [])
-      .map((item: { text?: string }) => item.text)
-      .filter(Boolean)
-      .join('\n');
-    const parsed = JSON.parse(text || '{"suggestions":[]}') as { suggestions?: Partial<Suggestion>[] };
-    const aiSuggestions = (parsed.suggestions || []).slice(0, 3).map(normalizeSuggestion);
+    const primary = aiProvider === 'openai' && hasOpenAI
+      ? await getOpenAISuggestions(prompt)
+      : await getGeminiSuggestions(prompt);
 
     return NextResponse.json({
       ok: true,
       source: 'hybrid',
       mode: 'ia+respaldo',
-      health: 'IA conectada. Reglas locales activas como respaldo.',
-      suggestions: mergeSuggestions(localSuggestions, aiSuggestions),
+      provider: aiProvider === 'openai' && hasOpenAI ? 'openai' : 'gemini',
+      health: primary.health,
+      suggestions: mergeSuggestions(localSuggestions, primary.suggestions),
     });
   } catch (error) {
+    if (aiProvider === 'gemini' && hasOpenAI) {
+      try {
+        const openai = await getOpenAISuggestions(prompt);
+        return NextResponse.json({
+          ok: true,
+          source: 'hybrid',
+          mode: 'ia+respaldo',
+          provider: 'openai',
+          health: `Gemini no respondió; OpenAI tomó el respaldo. ${openai.health}`,
+          suggestions: mergeSuggestions(localSuggestions, openai.suggestions),
+        });
+      } catch {
+        // Fall through to local backup.
+      }
+    }
+
     return NextResponse.json({
       ok: true,
       source: 'local',
       mode: 'respaldo',
-      health: error instanceof Error ? `No se pudo consultar OpenAI: ${error.message}` : 'No se pudo consultar OpenAI.',
+      health: error instanceof Error ? error.message : 'No se pudo consultar la IA.',
       suggestions: localSuggestions,
     });
   }

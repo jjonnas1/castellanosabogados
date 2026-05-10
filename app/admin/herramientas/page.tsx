@@ -265,6 +265,7 @@ function AudienciaEnVivo() {
   const [autoMode, setAutoMode] = useState(false);
   const [recognition, setRecognition] = useState<SpeechRecognitionLike | null>(null);
   const [source, setSource] = useState<'hybrid' | 'local' | null>(null);
+  const [provider, setProvider] = useState<'gemini' | 'openai' | null>(null);
   const [health, setHealth] = useState('Respaldo local listo.');
   const [latencyMs, setLatencyMs] = useState<number | null>(null);
   const transcriptRef = useRef(transcript);
@@ -304,6 +305,7 @@ function AudienciaEnVivo() {
       setLatencyMs(Date.now() - startedAt);
       setSuggestions(data.suggestions || []);
       setSource(data.source || null);
+      setProvider(data.provider || null);
       setHealth(data.health || 'Sistema de respaldo activo.');
       setStatus(data.source === 'hybrid'
         ? 'Audiencia activa: IA conectada con respaldo local.'
@@ -452,7 +454,7 @@ function AudienciaEnVivo() {
               {health}{latencyMs !== null ? ` · Latencia: ${(latencyMs / 1000).toFixed(1)} s` : ''}
             </p>
           </div>
-          <button type="button" onClick={() => { setTranscript(''); setSuggestions([]); setSource(null); setLatencyMs(null); lastAnalyzedRef.current = ''; }}
+          <button type="button" onClick={() => { setTranscript(''); setSuggestions([]); setSource(null); setProvider(null); setLatencyMs(null); lastAnalyzedRef.current = ''; }}
             className="text-xs font-medium text-slate-400 transition hover:text-white">
             Limpiar sesión
           </button>
@@ -467,7 +469,7 @@ function AudienciaEnVivo() {
           </div>
           {source && (
             <span className="rounded-full border border-slate-700 px-2 py-1 text-[11px] uppercase tracking-wide text-slate-400">
-              {source === 'hybrid' ? 'IA + respaldo' : 'Respaldo local'}
+              {source === 'hybrid' ? `${provider === 'openai' ? 'OpenAI' : 'Gemini'} + respaldo` : 'Respaldo local'}
             </span>
           )}
         </div>
