@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { contactConfig } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Facebook, Instagram } from "lucide-react";
 
 const SERVICE_SLUGS = [
   "penal-personas",
@@ -29,10 +30,33 @@ export default function SiteFooter() {
       <div className="container grid gap-10 py-12 text-sm sm:grid-cols-3">
 
         {/* Firma */}
-        <div className="space-y-3">
-          <p className="font-heading text-base font-semibold text-white">Castellanos Abogados</p>
-          <p className="text-white/55">{t.footer.tagline}</p>
-          <p className="text-xs text-white/35">{t.footer.motto}</p>
+        <div className="space-y-4">
+          <div>
+            <p className="font-heading text-base font-semibold text-white">Castellanos Abogados</p>
+            <p className="text-white/55 mt-1">{t.footer.tagline}</p>
+            <p className="text-xs text-white/35 mt-1">{t.footer.motto}</p>
+          </div>
+          
+          <div className="flex items-center gap-4 pt-2">
+            <a 
+              href="https://www.facebook.com/profile.php?id=61588299650396&locale=es_LA" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-white/40 hover:text-[#1877F2] transition-colors"
+              aria-label="Facebook de Castellanos Abogados"
+            >
+              <Facebook size={20} />
+            </a>
+            <a 
+              href="https://www.instagram.com/castellanos_abogado/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-white/40 hover:text-[#E1306C] transition-colors"
+              aria-label="Instagram de Castellanos Abogados"
+            >
+              <Instagram size={20} />
+            </a>
+          </div>
         </div>
 
         {/* Servicios */}
