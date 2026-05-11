@@ -39,7 +39,6 @@ export default function ClienteDashboardPage() {
             .from('client_case_updates')
             .select('id,title,update_text,body,status,created_at,visible_to_client')
             .eq('visible_to_client', true)
-            .eq('client_profile_id', p.id)
             .order('created_at', { ascending: false }),
           supabase
             .from('client_documents')
@@ -127,14 +126,11 @@ export default function ClienteDashboardPage() {
           
           {/* Columna Izquierda: Timeline del Proceso */}
           <div className="lg:col-span-2 space-y-5">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center">
               <h2 className="text-xl font-serif text-white flex items-center gap-2">
                 <Activity size={20} className="text-white/50" />
                 Línea de Tiempo del Proceso
               </h2>
-              <Link href="/cliente/actualizaciones" className="text-xs uppercase tracking-wider text-white/50 hover:text-white transition">
-                Ver todo
-              </Link>
             </div>
 
             <div className="bg-white/5 border border-white/10 rounded-3xl p-6 lg:p-8">
