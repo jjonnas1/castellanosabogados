@@ -84,7 +84,7 @@ export default function ClienteDashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-canvas text-white">
+    <main className="dark min-h-screen bg-canvas text-white">
       {/* Header Premium */}
       <header className="sticky top-0 z-50 border-b border-white/10 bg-canvas/80 backdrop-blur-md">
         <div className="container flex items-center justify-between py-5">
