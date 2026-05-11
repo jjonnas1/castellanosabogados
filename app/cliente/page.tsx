@@ -50,7 +50,7 @@ export default function ClienteDashboardPage() {
             .limit(5),
         ]);
 
-        setDebug({ profileId: p.id, error: uErr?.message, count: u?.length ?? 0 });
+        setDebug({ profileId: p.id as string, error: uErr?.message, count: u?.length ?? 0 });
         setAppointments((a ?? []) as Appointment[]);
         setUpdates((u ?? []) as Update[]);
         setDocuments((d ?? []) as ClientDocument[]);
