@@ -37,7 +37,7 @@ export default function SiteFooter() {
           </div>
           
           <div className="pt-4">
-            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/70 mb-3">Síguenos en redes</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/70 mb-3">Síguenos en las redes</p>
             <div className="flex items-center gap-3">
               <a 
                 href="https://www.facebook.com/profile.php?id=61588299650396&locale=es_LA" 
