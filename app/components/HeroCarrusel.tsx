@@ -26,9 +26,9 @@ export default function HeroCarrusel() {
 
   const SLIDES = [
     {
-      tag: 'Divorcios y Separaciones',
+      tag: 'Divorcios',
       pill: 'Protección Patrimonial',
-      title: 'Divorcios y Separaciones',
+      title: 'Divorcios',
       body: 'Trámite ágil, estratégico y con total discreción para proteger su patrimonio y tranquilidad familiar.',
       cta: 'Consultar Caso',
       ctaHref: '/servicios/familia',
