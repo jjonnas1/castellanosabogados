@@ -38,87 +38,157 @@ export const it = {
       },
     },
     serviceSlides: [
-      {
-        tag: "Liquidazioni lavoro",
-        pill: "Indennità · prestazioni · mora",
-        title: "Liquidazioni del lavoro con calcolo tecnico",
-        subtitle: "Calcoliamo indennità di licenziamento, prestazioni, cesantías, interessi e sanzioni per ritardo con supporto giuridico chiaro.",
-        cta: "Consultare liquidazione",
-        href: "/servicios/laboral",
-        whatsappText: "Ciao, devo rivedere una liquidazione del lavoro e calcolare quanto mi spetta.",
-        panelTitle: "Calcolo del lavoro documentato",
-        panelBody: "Rivediamo date, salario, tipo di contratto e pagamenti pendenti per orientare reclamo o difesa.",
-        stats: {
-          item1: { value: "Art. 64", label: "Indennità CST" },
-          item2: { value: "Art. 65", label: "Sanzione mora" },
-          item3: { value: "COP", label: "Calcolo dettagliato" },
+        {
+                tag: 'Divorzi',
+                pill: 'Protezione Patrimoniale',
+                title: 'Divorzi',
+                subtitle: 'Procedura agile e strategica, con totale riservatezza per proteggere il vostro patrimonio e la tranquillità familiare.',
+                cta: 'Consulta il Caso',
+                href: '/servicios/familia',
+                whatsappText: 'Buongiorno, ho bisogno di consulenza per un divorzio.',
+                panelTitle: 'Consulenza Riservata',
+                panelBody: 'Valutiamo il vostro caso senza impegno, tutelando i beni e gli interessi familiari.',
+                stats: {
+                        item1: {
+                                label: 'Approccio',
+                                value: 'Strategico'
+                        },
+                        item2: {
+                                label: 'Processo',
+                                value: 'Agile'
+                        },
+                        item3: {
+                                label: 'Protezione',
+                                value: 'Patrimoniale'
+                        }
+                }
         },
-      },
-      {
-        tag: "Esecuzione pena",
-        pill: "Redenzioni · termini · libertà",
-        title: "Conteggio di redenzioni e benefici penali",
-        subtitle: "Rivediamo tempo scontato, lavoro, studio, insegnamento e requisiti per redenzione della pena o libertà condizionale.",
-        cta: "Rivedere esecuzione",
-        href: "/servicios/ejecucion-penas",
-        whatsappText: "Ciao, devo rivedere redenzioni, termini o libertà condizionale nell'esecuzione della pena.",
-        panelTitle: "Controllo di pena e benefici",
-        panelBody: "Organizziamo il conteggio e i documenti di supporto per identificare vie praticabili davanti ai giudici di esecuzione.",
-        stats: {
-          item1: { value: "Redenzione", label: "Lavoro e studio" },
-          item2: { value: "3/5", label: "Libertà condizionale" },
-          item3: { value: "Termini", label: "Monitoraggio tecnico" },
+        {
+                tag: 'Diritto Penale',
+                pill: 'Gestione Benefici',
+                title: 'Esecuzione delle Pene',
+                subtitle: 'Esperti nella gestione dei benefici, sconti di pena e rigoroso monitoraggio dei termini giudiziari.',
+                cta: 'Esaminare il Fascicolo',
+                href: '/servicios/ejecucion-penas',
+                whatsappText: "Buongiorno, ho bisogno di supporto per l'esecuzione di una pena.",
+                panelTitle: 'Monitoraggio delle Pene',
+                panelBody: 'Monitoraggio tecnico e richieste tempestive di libertà e sconti di pena.',
+                stats: {
+                        item1: {
+                                label: 'Supporto',
+                                value: 'Tecnico'
+                        },
+                        item2: {
+                                label: 'Termini',
+                                value: 'Rigorosi'
+                        },
+                        item3: {
+                                label: 'Difesa',
+                                value: 'Strategica'
+                        }
+                }
         },
-      },
-      {
-        tag: "Famiglia",
-        pill: "Alimenti · mora · affido",
-        title: "Quote alimentari e debiti familiari",
-        subtitle: "Stimiamo quota alimentare, mora per pagamenti arretrati e percorsi d'azione in conflitti familiari delicati.",
-        cta: "Consultare famiglia",
-        href: "/servicios/familia",
-        whatsappText: "Ciao, ho bisogno di orientamento su quota alimentare, arretrati o una questione familiare.",
-        panelTitle: "Criterio umano e tecnico",
-        panelBody: "Lavoriamo con informazioni finanziarie, contesto familiare e misure necessarie per proteggere i diritti.",
-        stats: {
-          item1: { value: "20-50%", label: "Intervallo guida" },
-          item2: { value: "Mora", label: "Rate scadute" },
-          item3: { value: "Affido", label: "Protezione famiglia" },
+        {
+                tag: 'Diritto di Famiglia',
+                pill: 'Affidamento e Alimenti',
+                title: 'Diritto di Famiglia',
+                subtitle: 'Consulenza su affidamento, assegno alimentare, successioni e misure di protezione.',
+                cta: 'Parlare con un Avvocato',
+                href: '/servicios/familia',
+                whatsappText: 'Buongiorno, ho bisogno di aiuto per un caso familiare.',
+                panelTitle: 'Protezione Familiare',
+                panelBody: 'Affidamento, alimenti e regolamentazione delle visite con approccio umano.',
+                stats: {
+                        item1: {
+                                label: 'Risoluzione',
+                                value: 'Pacifica'
+                        },
+                        item2: {
+                                label: 'Attenzione',
+                                value: 'Prioritaria'
+                        },
+                        item3: {
+                                label: 'Approccio',
+                                value: 'Integrale'
+                        }
+                }
         },
-      },
-      {
-        tag: "Diritto civile",
-        pill: "Locazioni · interessi · prescrizione",
-        title: "Calcoli civili per debiti e contratti",
-        subtitle: "Analizziamo aumenti di affitto, interessi moratori, prescrizione, indicizzazione e obbligazioni patrimoniali.",
-        cta: "Consultare civile",
-        href: "/servicios/civil",
-        whatsappText: "Ciao, devo rivedere una questione civile: debito, contratto, locazione, interessi o prescrizione.",
-        panelTitle: "Numeri con lettura giuridica",
-        panelBody: "Non solo calcoliamo: identifichiamo base normativa, rischi e miglior percorso d'azione.",
-        stats: {
-          item1: { value: "IPC", label: "Locazioni" },
-          item2: { value: "Interesse", label: "Mora civile" },
-          item3: { value: "Tempo", label: "Prescrizione" },
+        {
+                tag: 'Diritto Civile',
+                pill: 'Contratti e Obbligazioni',
+                title: 'Diritto Civile',
+                subtitle: 'Strategia probatoria in controversie patrimoniali, esigibilità di obbligazioni e contratti.',
+                cta: 'Pianifica Consulenza',
+                href: '/servicios/civil',
+                whatsappText: 'Buongiorno, ho bisogno di consulenza in diritto civile.',
+                panelTitle: 'Consulenza Civile',
+                panelBody: 'Difesa patrimoniale completa e risarcimento dei danni.',
+                stats: {
+                        item1: {
+                                label: 'Approccio',
+                                value: 'Probatorio'
+                        },
+                        item2: {
+                                label: 'Contratti',
+                                value: 'Solidi'
+                        },
+                        item3: {
+                                label: 'Contenzioso',
+                                value: 'Strategico'
+                        }
+                }
         },
-      },
-      {
-        tag: "Strumenti giuridici",
-        pill: "UVT · spese · decadenza",
-        title: "Spese, UVT e decadenza delle azioni",
-        subtitle: "Convertiamo valori, stimiamo spese processuali e verifichiamo termini di decadenza per decidere in tempo.",
-        cta: "Richiedere revisione",
-        href: "/contacto",
-        whatsappText: "Ciao, devo rivedere UVT, spese processuali o decadenza di un'azione giudiziaria.",
-        panelTitle: "Decisioni con data e cifra",
-        panelBody: "Utile per anticipare rischi, preparare reclami ed evitare di perdere opportunità processuali.",
-        stats: {
-          item1: { value: "UVT", label: "Conversione DIAN" },
-          item2: { value: "Spese", label: "Stima" },
-          item3: { value: "Decadenza", label: "Controllo termine" },
+        {
+                tag: 'Diritto del Lavoro',
+                pill: 'Difesa e Prestazioni',
+                title: 'Diritto del Lavoro',
+                subtitle: 'Difesa e prevenzione nelle controversie di lavoro. Calcolo tecnico delle liquidazioni e indennità.',
+                cta: 'Consulta Liquidazione',
+                href: '/servicios/laboral',
+                whatsappText: 'Buongiorno, ho bisogno di aiuto per calcolare la mia liquidazione.',
+                panelTitle: 'Liquidazioni Esatte',
+                panelBody: 'Indennità, straordinari e penali per ritardato pagamento.',
+                stats: {
+                        item1: {
+                                label: 'Penale',
+                                value: '1 gg/gg'
+                        },
+                        item2: {
+                                label: 'Prescrizione',
+                                value: '3 anni'
+                        },
+                        item3: {
+                                label: 'Consulenza',
+                                value: 'Immediata'
+                        }
+                }
         },
-      },
-    ],
+        {
+                tag: 'Diritto Amministrativo',
+                pill: 'Cause contro lo Stato',
+                title: 'Diritto Amministrativo',
+                subtitle: 'Azioni e ricorsi tecnici dinanzi a enti pubblici e alla giurisdizione amministrativa.',
+                cta: 'Visualizza Dettagli',
+                href: '/servicios/administrativo',
+                whatsappText: 'Buongiorno, voglio avviare un procedimento contro lo Stato.',
+                panelTitle: 'Difesa Pubblica',
+                panelBody: 'Nullità, ripristino del diritto, risarcimento diretto e controversie contrattuali.',
+                stats: {
+                        item1: {
+                                label: 'Contenzioso',
+                                value: 'Pubblico'
+                        },
+                        item2: {
+                                label: 'Ricorsi',
+                                value: 'Efficaci'
+                        },
+                        item3: {
+                                label: 'Richieste',
+                                value: 'Statali'
+                        }
+                }
+        }
+],
     contactNow: "Contattaci ora",
   },
   contact: {

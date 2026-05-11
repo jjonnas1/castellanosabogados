@@ -38,87 +38,157 @@ export const es = {
       },
     },
     serviceSlides: [
-      {
-        tag: "Liquidaciones laborales",
-        pill: "Indemnización · prestaciones · mora",
-        title: "Liquidaciones laborales con cálculo técnico",
-        subtitle: "Calculamos indemnización por despido, prestaciones, cesantías, intereses y sanción moratoria con soporte jurídico claro.",
-        cta: "Consultar liquidación",
-        href: "/servicios/laboral",
-        whatsappText: "Hola, necesito revisar una liquidación laboral y calcular lo que me corresponde.",
-        panelTitle: "Cálculo laboral documentado",
-        panelBody: "Revisamos fechas, salario, modalidad contractual y pagos pendientes para orientar la reclamación o defensa.",
-        stats: {
-          item1: { value: "Art. 64", label: "Indemnización CST" },
-          item2: { value: "Art. 65", label: "Sanción moratoria" },
-          item3: { value: "COP", label: "Cálculo detallado" },
+        {
+                tag: 'Divorcios',
+                pill: 'Protección Patrimonial',
+                title: 'Divorcios',
+                subtitle: 'Trámite ágil, estratégico y con total discreción para proteger su patrimonio y tranquilidad familiar.',
+                cta: 'Consultar Caso',
+                href: '/servicios/familia',
+                whatsappText: 'Hola, necesito asesoría para un divorcio.',
+                panelTitle: 'Asesoría Discreta',
+                panelBody: 'Evaluamos su caso sin compromiso, cuidando sus bienes e intereses familiares.',
+                stats: {
+                        item1: {
+                                label: 'Enfoque',
+                                value: 'Estratégico'
+                        },
+                        item2: {
+                                label: 'Proceso',
+                                value: 'Ágil'
+                        },
+                        item3: {
+                                label: 'Protección',
+                                value: 'Patrimonial'
+                        }
+                }
         },
-      },
-      {
-        tag: "Ejecución de penas",
-        pill: "Redenciones · términos · libertad",
-        title: "Conteo de redenciones y beneficios penales",
-        subtitle: "Revisamos tiempo físico, trabajo, estudio, enseñanza y requisitos para redención de pena o libertad condicional.",
-        cta: "Revisar ejecución",
-        href: "/servicios/ejecucion-penas",
-        whatsappText: "Hola, necesito revisar redenciones, términos o libertad condicional en ejecución de penas.",
-        panelTitle: "Control de pena y beneficios",
-        panelBody: "Organizamos el conteo y los soportes para identificar rutas viables ante juzgados de ejecución.",
-        stats: {
-          item1: { value: "Redención", label: "Trabajo y estudio" },
-          item2: { value: "3/5", label: "Libertad condicional" },
-          item3: { value: "Términos", label: "Seguimiento técnico" },
+        {
+                tag: 'Derecho Penal',
+                pill: 'Gestión de Beneficios',
+                title: 'Ejecución de Penas',
+                subtitle: 'Expertos en gestión de beneficios, redenciones y seguimiento riguroso de términos ante los juzgados.',
+                cta: 'Revisar Expediente',
+                href: '/servicios/ejecucion-penas',
+                whatsappText: 'Hola, requiero apoyo con ejecución de penas.',
+                panelTitle: 'Vigilancia de Penas',
+                panelBody: 'Seguimiento técnico y solicitud oportuna de libertades y redenciones.',
+                stats: {
+                        item1: {
+                                label: 'Acompañamiento',
+                                value: 'Técnico'
+                        },
+                        item2: {
+                                label: 'Términos',
+                                value: 'Estrictos'
+                        },
+                        item3: {
+                                label: 'Defensa',
+                                value: 'Estratégica'
+                        }
+                }
         },
-      },
-      {
-        tag: "Familia",
-        pill: "Alimentos · mora · custodia",
-        title: "Cuotas alimentarias y deudas familiares",
-        subtitle: "Estimamos cuota alimentaria, mora por pagos pendientes y rutas de actuación en conflictos familiares sensibles.",
-        cta: "Consultar familia",
-        href: "/servicios/familia",
-        whatsappText: "Hola, necesito orientación sobre cuota alimentaria, mora o un asunto de familia.",
-        panelTitle: "Criterio humano y técnico",
-        panelBody: "Trabajamos con información financiera, contexto familiar y medidas necesarias para proteger derechos.",
-        stats: {
-          item1: { value: "20-50%", label: "Rango orientativo" },
-          item2: { value: "Mora", label: "Cuotas vencidas" },
-          item3: { value: "Custodia", label: "Protección familiar" },
+        {
+                tag: 'Derecho de Familia',
+                pill: 'Custodia y Alimentos',
+                title: 'Derecho de Familia',
+                subtitle: 'Asesoría en custodia, fijación de cuotas alimentarias, sucesiones y medidas de protección.',
+                cta: 'Hablar con un Abogado',
+                href: '/servicios/familia',
+                whatsappText: 'Hola, necesito ayuda con un caso de familia.',
+                panelTitle: 'Protección Familiar',
+                panelBody: 'Trámites de custodia, alimentos y regulación de visitas con enfoque humano.',
+                stats: {
+                        item1: {
+                                label: 'Resolución',
+                                value: 'Pacífica'
+                        },
+                        item2: {
+                                label: 'Atención',
+                                value: 'Prioritaria'
+                        },
+                        item3: {
+                                label: 'Enfoque',
+                                value: 'Integral'
+                        }
+                }
         },
-      },
-      {
-        tag: "Civil",
-        pill: "Arrendamiento · intereses · prescripción",
-        title: "Cálculos civiles para deudas y contratos",
-        subtitle: "Analizamos incrementos de arriendo, intereses moratorios, prescripción, indexación y obligaciones patrimoniales.",
-        cta: "Consultar civil",
-        href: "/servicios/civil",
-        whatsappText: "Hola, necesito revisar un asunto civil: deuda, contrato, arrendamiento, intereses o prescripción.",
-        panelTitle: "Números con lectura jurídica",
-        panelBody: "No solo calculamos: ubicamos el soporte normativo, los riesgos y la mejor forma de actuar.",
-        stats: {
-          item1: { value: "IPC", label: "Arrendamientos" },
-          item2: { value: "Interés", label: "Mora civil" },
-          item3: { value: "Tiempo", label: "Prescripción" },
+        {
+                tag: 'Derecho Civil',
+                pill: 'Contratos y Obligaciones',
+                title: 'Derecho Civil',
+                subtitle: 'Estrategia probatoria en conflictos patrimoniales, exigibilidad de obligaciones y contratos.',
+                cta: 'Agendar Asesoría',
+                href: '/servicios/civil',
+                whatsappText: 'Hola, necesito asesoría en derecho civil.',
+                panelTitle: 'Asesoría Civil',
+                panelBody: 'Defensa patrimonial integral e indemnización de perjuicios.',
+                stats: {
+                        item1: {
+                                label: 'Enfoque',
+                                value: 'Probatorio'
+                        },
+                        item2: {
+                                label: 'Contratos',
+                                value: 'Blindados'
+                        },
+                        item3: {
+                                label: 'Litigio',
+                                value: 'Estratégico'
+                        }
+                }
         },
-      },
-      {
-        tag: "Herramientas jurídicas",
-        pill: "UVT · costas · caducidad",
-        title: "Costas, UVT y caducidad de acciones",
-        subtitle: "Convertimos valores, estimamos costas procesales y verificamos términos de caducidad para tomar decisiones a tiempo.",
-        cta: "Solicitar revisión",
-        href: "/contacto",
-        whatsappText: "Hola, necesito revisar UVT, costas procesales o caducidad de una acción judicial.",
-        panelTitle: "Decisiones con fecha y cifra",
-        panelBody: "Ideal para anticipar riesgos, preparar reclamaciones y evitar perder oportunidades procesales.",
-        stats: {
-          item1: { value: "UVT", label: "Conversión DIAN" },
-          item2: { value: "Costas", label: "Estimación" },
-          item3: { value: "Caducidad", label: "Control de término" },
+        {
+                tag: 'Derecho Laboral',
+                pill: 'Defensa y Prestaciones',
+                title: 'Derecho Laboral',
+                subtitle: 'Defensa y prevención en controversias laborales. Cálculo técnico de liquidaciones e indemnizaciones.',
+                cta: 'Consultar Liquidación',
+                href: '/servicios/laboral',
+                whatsappText: 'Hola, necesito que calculen mi liquidación.',
+                panelTitle: 'Liquidaciones Exactas',
+                panelBody: 'Indemnizaciones, horas extras y cobro de sanciones moratorias.',
+                stats: {
+                        item1: {
+                                label: 'Sanción moratoria',
+                                value: '1 día/día'
+                        },
+                        item2: {
+                                label: 'Prescripción',
+                                value: '3 años'
+                        },
+                        item3: {
+                                label: 'Asesoría',
+                                value: 'Inmediata'
+                        }
+                }
         },
-      },
-    ],
+        {
+                tag: 'Derecho Administrativo',
+                pill: 'Demandas al Estado',
+                title: 'Derecho Administrativo',
+                subtitle: 'Actuaciones y recursos técnicos ante entidades públicas y la jurisdicción contenciosa.',
+                cta: 'Ver Detalles',
+                href: '/servicios/administrativo',
+                whatsappText: 'Hola, quiero iniciar un proceso contra el estado.',
+                panelTitle: 'Defensa Pública',
+                panelBody: 'Nulidad, restablecimiento del derecho, reparación directa y controversias contractuales.',
+                stats: {
+                        item1: {
+                                label: 'Litigio',
+                                value: 'Público'
+                        },
+                        item2: {
+                                label: 'Recursos',
+                                value: 'Efectivos'
+                        },
+                        item3: {
+                                label: 'Demandas',
+                                value: 'Estatales'
+                        }
+                }
+        }
+],
     contactNow: "Contáctenos ahora",
   },
   contact: {

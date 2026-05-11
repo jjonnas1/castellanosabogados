@@ -38,87 +38,157 @@ export const en = {
       },
     },
     serviceSlides: [
-      {
-        tag: "Labor settlements",
-        pill: "Compensation · benefits · late payment",
-        title: "Labor settlements with technical calculations",
-        subtitle: "We calculate dismissal compensation, benefits, unemployment funds, interest, and late-payment penalties with clear legal support.",
-        cta: "Review settlement",
-        href: "/servicios/laboral",
-        whatsappText: "Hello, I need to review a labor settlement and calculate what I may be owed.",
-        panelTitle: "Documented labor calculation",
-        panelBody: "We review dates, salary, contract type, and pending payments to guide a claim or defense.",
-        stats: {
-          item1: { value: "Art. 64", label: "CST compensation" },
-          item2: { value: "Art. 65", label: "Late-payment penalty" },
-          item3: { value: "COP", label: "Detailed calculation" },
+        {
+                tag: 'Divorces',
+                pill: 'Asset Protection',
+                title: 'Divorces',
+                subtitle: 'Agile, strategic process with full discretion to protect your assets and family peace of mind.',
+                cta: 'Consult Case',
+                href: '/servicios/familia',
+                whatsappText: 'Hello, I need advice for a divorce.',
+                panelTitle: 'Discreet Advice',
+                panelBody: 'We evaluate your case with no commitment, safeguarding your assets and family interests.',
+                stats: {
+                        item1: {
+                                label: 'Approach',
+                                value: 'Strategic'
+                        },
+                        item2: {
+                                label: 'Process',
+                                value: 'Agile'
+                        },
+                        item3: {
+                                label: 'Protection',
+                                value: 'Asset'
+                        }
+                }
         },
-      },
-      {
-        tag: "Sentence execution",
-        pill: "Reductions · terms · release",
-        title: "Sentence reductions and criminal benefits",
-        subtitle: "We review served time, work, study, teaching, and requirements for sentence reduction or conditional release.",
-        cta: "Review execution",
-        href: "/servicios/ejecucion-penas",
-        whatsappText: "Hello, I need to review sentence reductions, deadlines, or conditional release.",
-        panelTitle: "Sentence and benefit control",
-        panelBody: "We organize the calculation and supporting documents to identify viable routes before sentence execution courts.",
-        stats: {
-          item1: { value: "Reduction", label: "Work and study" },
-          item2: { value: "3/5", label: "Conditional release" },
-          item3: { value: "Terms", label: "Technical tracking" },
+        {
+                tag: 'Criminal Law',
+                pill: 'Benefits Management',
+                title: 'Sentence Execution',
+                subtitle: 'Experts in benefits management, reductions, and rigorous monitoring of court deadlines.',
+                cta: 'Review Case',
+                href: '/servicios/ejecucion-penas',
+                whatsappText: 'Hello, I need support with sentence execution.',
+                panelTitle: 'Sentence Monitoring',
+                panelBody: 'Technical tracking and timely requests for conditional release and reductions.',
+                stats: {
+                        item1: {
+                                label: 'Support',
+                                value: 'Technical'
+                        },
+                        item2: {
+                                label: 'Deadlines',
+                                value: 'Strict'
+                        },
+                        item3: {
+                                label: 'Defense',
+                                value: 'Strategic'
+                        }
+                }
         },
-      },
-      {
-        tag: "Family law",
-        pill: "Support · arrears · custody",
-        title: "Child support and family debts",
-        subtitle: "We estimate support payments, arrears for unpaid installments, and action routes in sensitive family disputes.",
-        cta: "Consult family law",
-        href: "/servicios/familia",
-        whatsappText: "Hello, I need guidance on child support, arrears, or a family law matter.",
-        panelTitle: "Human and technical judgment",
-        panelBody: "We work with financial information, family context, and the measures needed to protect rights.",
-        stats: {
-          item1: { value: "20-50%", label: "Guidance range" },
-          item2: { value: "Arrears", label: "Unpaid installments" },
-          item3: { value: "Custody", label: "Family protection" },
+        {
+                tag: 'Family Law',
+                pill: 'Custody & Alimony',
+                title: 'Family Law',
+                subtitle: 'Advice on custody, alimony, successions, and protection measures.',
+                cta: 'Speak to a Lawyer',
+                href: '/servicios/familia',
+                whatsappText: 'Hello, I need help with a family law case.',
+                panelTitle: 'Family Protection',
+                panelBody: 'Custody, alimony, and visitation procedures with a human-centered approach.',
+                stats: {
+                        item1: {
+                                label: 'Resolution',
+                                value: 'Peaceful'
+                        },
+                        item2: {
+                                label: 'Attention',
+                                value: 'Priority'
+                        },
+                        item3: {
+                                label: 'Approach',
+                                value: 'Integral'
+                        }
+                }
         },
-      },
-      {
-        tag: "Civil law",
-        pill: "Leases · interest · limitation",
-        title: "Civil calculations for debts and contracts",
-        subtitle: "We analyze rent increases, default interest, limitation periods, indexation, and financial obligations.",
-        cta: "Consult civil law",
-        href: "/servicios/civil",
-        whatsappText: "Hello, I need to review a civil matter: debt, contract, lease, interest, or limitation period.",
-        panelTitle: "Numbers with legal reading",
-        panelBody: "We do more than calculate: we identify the legal basis, risks, and best route forward.",
-        stats: {
-          item1: { value: "CPI", label: "Leases" },
-          item2: { value: "Interest", label: "Civil default" },
-          item3: { value: "Time", label: "Limitation" },
+        {
+                tag: 'Civil Law',
+                pill: 'Contracts & Obligations',
+                title: 'Civil Law',
+                subtitle: 'Evidentiary strategy in asset disputes, enforcement of obligations, and contracts.',
+                cta: 'Schedule Advice',
+                href: '/servicios/civil',
+                whatsappText: 'Hello, I need advice on civil law.',
+                panelTitle: 'Civil Advice',
+                panelBody: 'Comprehensive asset defense and compensation for damages.',
+                stats: {
+                        item1: {
+                                label: 'Approach',
+                                value: 'Evidentiary'
+                        },
+                        item2: {
+                                label: 'Contracts',
+                                value: 'Airtight'
+                        },
+                        item3: {
+                                label: 'Litigation',
+                                value: 'Strategic'
+                        }
+                }
         },
-      },
-      {
-        tag: "Legal tools",
-        pill: "UVT · costs · deadlines",
-        title: "Costs, UVT, and action deadlines",
-        subtitle: "We convert values, estimate procedural costs, and verify limitation deadlines so decisions are made on time.",
-        cta: "Request review",
-        href: "/contacto",
-        whatsappText: "Hello, I need to review UVT, procedural costs, or the deadline for a legal action.",
-        panelTitle: "Decisions with dates and figures",
-        panelBody: "Useful for anticipating risks, preparing claims, and avoiding missed procedural opportunities.",
-        stats: {
-          item1: { value: "UVT", label: "DIAN conversion" },
-          item2: { value: "Costs", label: "Estimate" },
-          item3: { value: "Deadline", label: "Term control" },
+        {
+                tag: 'Labor Law',
+                pill: 'Defense & Benefits',
+                title: 'Labor Law',
+                subtitle: 'Defense and prevention in labor disputes. Technical calculation of settlements and compensation.',
+                cta: 'Consult Settlement',
+                href: '/servicios/laboral',
+                whatsappText: 'Hello, I need help calculating my settlement.',
+                panelTitle: 'Exact Settlements',
+                panelBody: 'Compensation, overtime, and late-payment penalties.',
+                stats: {
+                        item1: {
+                                label: 'Late penalty',
+                                value: '1 day/day'
+                        },
+                        item2: {
+                                label: 'Limitation',
+                                value: '3 years'
+                        },
+                        item3: {
+                                label: 'Advice',
+                                value: 'Immediate'
+                        }
+                }
         },
-      },
-    ],
+        {
+                tag: 'Administrative Law',
+                pill: 'State Lawsuits',
+                title: 'Administrative Law',
+                subtitle: 'Technical actions and remedies before public entities and the administrative courts.',
+                cta: 'View Details',
+                href: '/servicios/administrativo',
+                whatsappText: 'Hello, I want to start a case against the state.',
+                panelTitle: 'Public Defense',
+                panelBody: 'Nullity, right restoration, direct repair, and contractual disputes.',
+                stats: {
+                        item1: {
+                                label: 'Litigation',
+                                value: 'Public'
+                        },
+                        item2: {
+                                label: 'Remedies',
+                                value: 'Effective'
+                        },
+                        item3: {
+                                label: 'Claims',
+                                value: 'State'
+                        }
+                }
+        }
+],
     contactNow: "Contact us now",
   },
   contact: {

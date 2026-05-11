@@ -24,110 +24,29 @@ export default function HeroCarrusel() {
   const [paused, setPaused] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  const SLIDES = [
-    {
-      tag: 'Divorcios',
-      pill: 'Protección Patrimonial',
-      title: 'Divorcios',
-      body: 'Trámite ágil, estratégico y con total discreción para proteger su patrimonio y tranquilidad familiar.',
-      cta: 'Consultar Caso',
-      ctaHref: '/servicios/familia',
-      ctaWa: WA + '?text=Hola%2C%20necesito%20asesor%C3%ADa%20para%20un%20divorcio.',
-      ctaWaLabel: PHONE_DISPLAY,
-      panelTitle: 'Asesoría Discreta',
-      panelBody: 'Evaluamos su caso sin compromiso, cuidando sus bienes e intereses familiares.',
-      stats: [
-        { label: 'Enfoque', value: 'Estratégico' },
-        { label: 'Procesos', value: 'Ágiles' },
-        { label: 'Protección', value: 'Patrimonial' },
-      ],
-    },
-    {
-      tag: 'Derecho Penal',
-      pill: 'Gestión de Beneficios',
-      title: 'Ejecución de Penas',
-      body: 'Expertos en gestión de beneficios, redenciones y seguimiento riguroso de términos ante los juzgados.',
-      cta: 'Revisar Expediente',
-      ctaHref: '/servicios/ejecucion-penas',
-      ctaWa: WA + '?text=Hola%2C%20requiero%20apoyo%20con%20ejecuci%C3%B3n%20de%20penas.',
-      ctaWaLabel: PHONE_DISPLAY,
-      panelTitle: 'Vigilancia de Penas',
-      panelBody: 'Seguimiento técnico y solicitud oportuna de libertades y redenciones.',
-      stats: [
-        { label: 'Acompañamiento', value: 'Técnico' },
-        { label: 'Términos', value: 'Estrictos' },
-        { label: 'Defensa', value: 'Estratégica' },
-      ],
-    },
-    {
-      tag: 'Derecho de Familia',
-      pill: 'Custodia y Alimentos',
-      title: 'Derecho de Familia',
-      body: 'Asesoría en custodia, fijación de cuotas alimentarias, sucesiones y medidas de protección.',
-      cta: 'Hablar con un Abogado',
-      ctaHref: '/servicios/familia',
-      ctaWa: WA + '?text=Hola%2C%20necesito%20ayuda%20con%20un%20caso%20de%20familia.',
-      ctaWaLabel: PHONE_DISPLAY,
-      panelTitle: 'Protección Familiar',
-      panelBody: 'Trámites de custodia, alimentos y regulación de visitas con enfoque humano.',
-      stats: [
-        { label: 'Resolución', value: 'Pacífica' },
-        { label: 'Atención', value: 'Prioritaria' },
-        { label: 'Enfoque', value: 'Integral' },
-      ],
-    },
-    {
-      tag: 'Derecho Civil',
-      pill: 'Contratos y Obligaciones',
-      title: 'Derecho Civil',
-      body: 'Estrategia probatoria en conflictos patrimoniales, exigibilidad de obligaciones y contratos.',
-      cta: 'Agendar Asesoría',
-      ctaHref: '/servicios/civil',
-      ctaWa: WA + '?text=Hola%2C%20necesito%20asesor%C3%ADa%20en%20derecho%20civil.',
-      ctaWaLabel: PHONE_DISPLAY,
-      panelTitle: 'Asesoría Civil',
-      panelBody: 'Defensa patrimonial integral e indemnización de perjuicios.',
-      stats: [
-        { label: 'Enfoque', value: 'Probatorio' },
-        { label: 'Contratos', value: 'Blindados' },
-        { label: 'Litigio', value: 'Estratégico' },
-      ],
-    },
-    {
-      tag: 'Derecho Laboral',
-      pill: 'Defensa y Prestaciones',
-      title: 'Derecho Laboral',
-      body: 'Defensa y prevención en controversias laborales. Cálculo técnico de liquidaciones e indemnizaciones.',
-      cta: 'Consultar Liquidación',
-      ctaHref: '/servicios/laboral',
-      ctaWa: WA + '?text=Hola%2C%20necesito%20que%20calculen%20mi%20liquidaci%C3%B3n.',
-      ctaWaLabel: PHONE_DISPLAY,
-      panelTitle: 'Liquidaciones Exactas',
-      panelBody: 'Indemnizaciones, horas extras y cobro de sanciones moratorias.',
-      stats: [
-        { label: 'Sanción moratoria', value: '1 día/día' },
-        { label: 'Prescripción', value: '3 años' },
-        { label: 'Asesoría', value: 'Inmediata' },
-      ],
-    },
-    {
-      tag: 'Derecho Administrativo',
-      pill: 'Demandas al Estado',
-      title: 'Derecho Administrativo',
-      body: 'Actuaciones y recursos técnicos ante entidades públicas y la jurisdicción contenciosa.',
-      cta: 'Ver Detalles',
-      ctaHref: '/servicios/administrativo',
-      ctaWa: WA + '?text=Hola%2C%20quiero%20iniciar%20un%20proceso%20contra%20el%20estado.',
-      ctaWaLabel: PHONE_DISPLAY,
-      panelTitle: 'Defensa Pública',
-      panelBody: 'Nulidad, restablecimiento del derecho, reparación directa y controversias contractuales.',
-      stats: [
-        { label: 'Litigio', value: 'Público' },
-        { label: 'Recursos', value: 'Efectivos' },
-        { label: 'Demandas', value: 'Estatales' },
-      ],
-    }
-  ];
+  const SLIDES = ((t.hero as any).serviceSlides as Array<{
+    tag: string; pill: string; title: string; subtitle: string;
+    cta: string; href: string; whatsappText: string;
+    panelTitle: string; panelBody: string;
+    stats: { item1: { label: string; value: string }; item2: { label: string; value: string }; item3: { label: string; value: string } };
+  }>).map((s) => ({
+    tag: s.tag,
+    pill: s.pill,
+    title: s.title,
+    body: s.subtitle,
+    cta: s.cta,
+    ctaHref: s.href,
+    ctaWa: `${WA}?text=${encodeURIComponent(s.whatsappText)}`,
+    ctaWaLabel: PHONE_DISPLAY,
+    panelTitle: s.panelTitle,
+    panelBody: s.panelBody,
+    stats: [
+      { label: s.stats.item1.label, value: s.stats.item1.value },
+      { label: s.stats.item2.label, value: s.stats.item2.value },
+      { label: s.stats.item3.label, value: s.stats.item3.value },
+    ],
+  }));
+
 
   const goTo = useCallback((idx: number) => {
     setCurrent(idx);

@@ -38,87 +38,157 @@ export const fr = {
       },
     },
     serviceSlides: [
-      {
-        tag: "Décomptes du travail",
-        pill: "Indemnité · prestations · retard",
-        title: "Décomptes du travail avec calcul technique",
-        subtitle: "Nous calculons indemnités de licenciement, prestations, indemnités chômage, intérêts et pénalités de retard avec un support juridique clair.",
-        cta: "Consulter le décompte",
-        href: "/servicios/laboral",
-        whatsappText: "Bonjour, je dois revoir un décompte du travail et calculer ce qui peut m'être dû.",
-        panelTitle: "Calcul du travail documenté",
-        panelBody: "Nous examinons dates, salaire, type de contrat et paiements en attente pour orienter réclamation ou défense.",
-        stats: {
-          item1: { value: "Art. 64", label: "Indemnité CST" },
-          item2: { value: "Art. 65", label: "Pénalité de retard" },
-          item3: { value: "COP", label: "Calcul détaillé" },
+        {
+                tag: 'Divorces',
+                pill: 'Protection du Patrimoine',
+                title: 'Divorces',
+                subtitle: 'Procédure agile et stratégique, avec toute la discrétion nécessaire pour protéger votre patrimoine et la paix de votre famille.',
+                cta: 'Consulter le Cas',
+                href: '/servicios/familia',
+                whatsappText: "Bonjour, j'ai besoin de conseils pour un divorce.",
+                panelTitle: 'Conseil Discret',
+                panelBody: 'Nous évaluons votre situation sans engagement, en préservant vos biens et intérêts familiaux.',
+                stats: {
+                        item1: {
+                                label: 'Approche',
+                                value: 'Stratégique'
+                        },
+                        item2: {
+                                label: 'Processus',
+                                value: 'Agile'
+                        },
+                        item3: {
+                                label: 'Protection',
+                                value: 'Patrimoniale'
+                        }
+                }
         },
-      },
-      {
-        tag: "Exécution des peines",
-        pill: "Réductions · délais · liberté",
-        title: "Réductions de peine et bénéfices pénaux",
-        subtitle: "Nous examinons le temps purgé, le travail, les études, l'enseignement et les conditions de réduction ou de liberté conditionnelle.",
-        cta: "Revoir l'exécution",
-        href: "/servicios/ejecucion-penas",
-        whatsappText: "Bonjour, je dois revoir des réductions de peine, des délais ou une liberté conditionnelle.",
-        panelTitle: "Contrôle de peine et bénéfices",
-        panelBody: "Nous organisons le calcul et les justificatifs pour identifier les voies viables devant les juges d'exécution.",
-        stats: {
-          item1: { value: "Réduction", label: "Travail et études" },
-          item2: { value: "3/5", label: "Liberté conditionnelle" },
-          item3: { value: "Délais", label: "Suivi technique" },
+        {
+                tag: 'Droit Pénal',
+                pill: 'Gestion des Avantages',
+                title: 'Exécution des Peines',
+                subtitle: 'Experts en gestion des avantages, réductions de peine et suivi rigoureux des délais devant les tribunaux.',
+                cta: 'Examiner le Dossier',
+                href: '/servicios/ejecucion-penas',
+                whatsappText: "Bonjour, j'ai besoin d'aide pour l'exécution d'une peine.",
+                panelTitle: 'Suivi des Peines',
+                panelBody: 'Suivi technique et demandes opportunes de libertés et de réductions.',
+                stats: {
+                        item1: {
+                                label: 'Accompagnement',
+                                value: 'Technique'
+                        },
+                        item2: {
+                                label: 'Délais',
+                                value: 'Stricts'
+                        },
+                        item3: {
+                                label: 'Défense',
+                                value: 'Stratégique'
+                        }
+                }
         },
-      },
-      {
-        tag: "Famille",
-        pill: "Aliments · arriérés · garde",
-        title: "Pensions alimentaires et dettes familiales",
-        subtitle: "Nous estimons pensions alimentaires, arriérés impayés et voies d'action dans les conflits familiaux sensibles.",
-        cta: "Consulter famille",
-        href: "/servicios/familia",
-        whatsappText: "Bonjour, j'ai besoin d'orientation sur une pension alimentaire, des arriérés ou une affaire familiale.",
-        panelTitle: "Approche humaine et technique",
-        panelBody: "Nous travaillons avec les données financières, le contexte familial et les mesures nécessaires à la protection des droits.",
-        stats: {
-          item1: { value: "20-50%", label: "Fourchette indicative" },
-          item2: { value: "Arriérés", label: "Échéances impayées" },
-          item3: { value: "Garde", label: "Protection familiale" },
+        {
+                tag: 'Droit de la Famille',
+                pill: 'Garde et Pension',
+                title: 'Droit de la Famille',
+                subtitle: 'Conseil en matière de garde, pension alimentaire, successions et mesures de protection.',
+                cta: 'Parler à un Avocat',
+                href: '/servicios/familia',
+                whatsappText: "Bonjour, j'ai besoin d'aide pour un dossier familial.",
+                panelTitle: 'Protection Familiale',
+                panelBody: 'Procédures de garde, pension alimentaire et visites avec une approche humaine.',
+                stats: {
+                        item1: {
+                                label: 'Résolution',
+                                value: 'Pacifique'
+                        },
+                        item2: {
+                                label: 'Attention',
+                                value: 'Prioritaire'
+                        },
+                        item3: {
+                                label: 'Approche',
+                                value: 'Intégrale'
+                        }
+                }
         },
-      },
-      {
-        tag: "Droit civil",
-        pill: "Baux · intérêts · prescription",
-        title: "Calculs civils pour dettes et contrats",
-        subtitle: "Nous analysons augmentations de loyer, intérêts moratoires, prescription, indexation et obligations patrimoniales.",
-        cta: "Consulter civil",
-        href: "/servicios/civil",
-        whatsappText: "Bonjour, je dois revoir une affaire civile : dette, contrat, bail, intérêts ou prescription.",
-        panelTitle: "Des chiffres avec lecture juridique",
-        panelBody: "Nous ne faisons pas que calculer : nous identifions la base juridique, les risques et la meilleure action.",
-        stats: {
-          item1: { value: "IPC", label: "Baux" },
-          item2: { value: "Intérêt", label: "Retard civil" },
-          item3: { value: "Temps", label: "Prescription" },
+        {
+                tag: 'Droit Civil',
+                pill: 'Contrats et Obligations',
+                title: 'Droit Civil',
+                subtitle: 'Stratégie probatoire dans les conflits patrimoniaux, exigibilité des obligations et contrats.',
+                cta: 'Planifier Conseil',
+                href: '/servicios/civil',
+                whatsappText: "Bonjour, j'ai besoin de conseils en droit civil.",
+                panelTitle: 'Conseil Civil',
+                panelBody: 'Défense patrimoniale complète et indemnisation des dommages.',
+                stats: {
+                        item1: {
+                                label: 'Approche',
+                                value: 'Probatoire'
+                        },
+                        item2: {
+                                label: 'Contrats',
+                                value: 'Solides'
+                        },
+                        item3: {
+                                label: 'Litige',
+                                value: 'Stratégique'
+                        }
+                }
         },
-      },
-      {
-        tag: "Outils juridiques",
-        pill: "UVT · frais · caducité",
-        title: "Frais, UVT et caducité des actions",
-        subtitle: "Nous convertissons des valeurs, estimons les frais procéduraux et vérifions les délais de caducité pour agir à temps.",
-        cta: "Demander une révision",
-        href: "/contacto",
-        whatsappText: "Bonjour, je dois revoir l'UVT, les frais procéduraux ou la caducité d'une action judiciaire.",
-        panelTitle: "Décisions avec date et chiffre",
-        panelBody: "Utile pour anticiper les risques, préparer les réclamations et éviter de perdre des opportunités procédurales.",
-        stats: {
-          item1: { value: "UVT", label: "Conversion DIAN" },
-          item2: { value: "Frais", label: "Estimation" },
-          item3: { value: "Caducité", label: "Contrôle du délai" },
+        {
+                tag: 'Droit du Travail',
+                pill: 'Défense et Prestations',
+                title: 'Droit du Travail',
+                subtitle: 'Défense et prévention des litiges du travail. Calcul technique des règlements et indemnités.',
+                cta: 'Consulter Règlement',
+                href: '/servicios/laboral',
+                whatsappText: "Bonjour, j'ai besoin d'aide pour calculer mon règlement.",
+                panelTitle: 'Règlements Exacts',
+                panelBody: 'Indemnités, heures supplémentaires et pénalités de retard.',
+                stats: {
+                        item1: {
+                                label: 'Pénalité',
+                                value: '1 jour/jour'
+                        },
+                        item2: {
+                                label: 'Prescription',
+                                value: '3 ans'
+                        },
+                        item3: {
+                                label: 'Conseil',
+                                value: 'Immédiat'
+                        }
+                }
         },
-      },
-    ],
+        {
+                tag: 'Droit Administratif',
+                pill: "Poursuites contre l'État",
+                title: 'Droit Administratif',
+                subtitle: 'Actions et recours techniques devant les entités publiques et la juridiction administrative.',
+                cta: 'Voir les Détails',
+                href: '/servicios/administrativo',
+                whatsappText: "Bonjour, je souhaite engager une procédure contre l'État.",
+                panelTitle: 'Défense Publique',
+                panelBody: 'Nullité, rétablissement du droit, réparation directe et litiges contractuels.',
+                stats: {
+                        item1: {
+                                label: 'Litige',
+                                value: 'Public'
+                        },
+                        item2: {
+                                label: 'Recours',
+                                value: 'Efficaces'
+                        },
+                        item3: {
+                                label: 'Demandes',
+                                value: 'Étatiques'
+                        }
+                }
+        }
+],
     contactNow: "Contactez-nous maintenant",
   },
   contact: {
