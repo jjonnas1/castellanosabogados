@@ -16,7 +16,10 @@ export async function POST(req: NextRequest) {
   const { data: profile, error: profileError } = await getSupabaseServer({ serviceRole: true })
     .from('client_profiles')
     .select('id,auth_user_id,can_access_portal')
-    .eq('email', email)
+    .ilike('email', email)
+    .order('can_access_portal', { ascending: false })
+    .order('created_at', { ascending: false })
+    .limit(1)
     .maybeSingle();
 
   if (profileError || !profile) return NextResponse.json({ ok: true, linked: false });

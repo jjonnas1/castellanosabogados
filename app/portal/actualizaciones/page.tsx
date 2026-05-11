@@ -10,26 +10,47 @@ type Update = { id: string; title: string; update_text?: string; body?: string; 
 export default function ClienteActualizacionesPage() {
   const router = useRouter();
   const [items, setItems] = useState<Update[]>([]);
+  const [message, setMessage] = useState('Cargando actualizaciones...');
 
   useEffect(() => {
     (async () => {
       const { data: s } = await supabase.auth.getSession();
-      if (!s.session) {
+      const token = s.session?.access_token;
+      if (!token) {
         router.push('/cliente/login');
         return;
       }
 
-      const { data: p } = await supabase.from('client_profiles').select('id').maybeSingle();
-      if (!p?.id) return;
+      const response = await fetch('/api/client/updates', {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      const payload = await response.json().catch(() => ({})) as {
+        ok?: boolean;
+        error?: string;
+        linked?: boolean;
+        canAccessPortal?: boolean;
+        updates?: Update[];
+      };
 
-      const { data } = await supabase
-        .from('client_case_updates')
-        .select('id,title,update_text,status,created_at')
-        .eq('client_profile_id', p.id)
-        .eq('visible_to_client', true)
-        .order('created_at', { ascending: false });
+      if (!response.ok || payload.ok === false) {
+        setMessage(payload.error ?? 'No se pudieron cargar las actualizaciones.');
+        return;
+      }
 
-      setItems((data ?? []) as Update[]);
+      if (payload.linked === false) {
+        setMessage('No encontramos un perfil de cliente asociado a este correo.');
+        setItems([]);
+        return;
+      }
+
+      if (payload.canAccessPortal === false) {
+        setMessage('Tu acceso al portal aún no está habilitado.');
+        setItems([]);
+        return;
+      }
+
+      setItems(payload.updates ?? []);
+      setMessage('No hay actualizaciones disponibles aún.');
     })();
   }, [router]);
 
@@ -62,7 +83,7 @@ export default function ClienteActualizacionesPage() {
                 <p className="mt-2 text-xs text-muted">Estado: {it.status} · {new Date(it.created_at).toLocaleString('es-CO')}</p>
               </article>
             ))}
-            {items.length === 0 && <p className="text-sm text-muted">No hay actualizaciones disponibles aún.</p>}
+            {items.length === 0 && <p className="text-sm text-muted">{message}</p>}
           </div>
         </article>
       </section>

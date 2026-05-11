@@ -33,14 +33,9 @@ export default function ClienteDashboardPage() {
       setProfile((p as ClientProfile) ?? null);
 
       if (p?.id) {
-        const [{ data: a }, { data: u }, { data: d }] = await Promise.all([
+        const [updatesResponse, { data: a }, { data: d }] = await Promise.all([
+          fetch('/api/client/updates', { headers: { authorization: `Bearer ${token}` } }),
           supabase.from('appointments').select('id,start_at').eq('client_profile_id', p.id),
-          supabase
-            .from('client_case_updates')
-            .select('id,title,update_text,status,created_at,visible_to_client')
-            .eq('visible_to_client', true)
-            .eq('client_profile_id', p.id)
-            .order('created_at', { ascending: false }),
           supabase
             .from('client_documents')
             .select('id,file_name,storage_path,created_at')
@@ -51,7 +46,8 @@ export default function ClienteDashboardPage() {
         ]);
 
         setAppointments((a ?? []) as Appointment[]);
-        setUpdates((u ?? []) as Update[]);
+        const updatesPayload = await updatesResponse.json().catch(() => ({})) as { updates?: Update[] };
+        setUpdates((updatesPayload.updates ?? []) as Update[]);
         setDocuments((d ?? []) as ClientDocument[]);
       }
     })();
@@ -230,4 +226,3 @@ export default function ClienteDashboardPage() {
     </main>
   );
 }
-
