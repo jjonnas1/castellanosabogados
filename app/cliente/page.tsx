@@ -17,6 +17,7 @@ export default function ClienteDashboardPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [updates, setUpdates] = useState<Update[]>([]);
   const [documents, setDocuments] = useState<ClientDocument[]>([]);
+  const [debug, setDebug] = useState<{ profileId?: string; error?: string; count?: number } | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -33,7 +34,7 @@ export default function ClienteDashboardPage() {
       setProfile((p as ClientProfile) ?? null);
 
       if (p?.id) {
-        const [{ data: a }, { data: u }, { data: d }] = await Promise.all([
+        const [{ data: a }, { data: u, error: uErr }, { data: d }] = await Promise.all([
           supabase.from('appointments').select('id,start_at').eq('client_profile_id', p.id),
           supabase
             .from('client_case_updates')
@@ -49,6 +50,7 @@ export default function ClienteDashboardPage() {
             .limit(5),
         ]);
 
+        setDebug({ profileId: p.id, error: uErr?.message, count: u?.length ?? 0 });
         setAppointments((a ?? []) as Appointment[]);
         setUpdates((u ?? []) as Update[]);
         setDocuments((d ?? []) as ClientDocument[]);
@@ -161,9 +163,16 @@ export default function ClienteDashboardPage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12">
+                <div className="text-center py-10">
                   <Activity size={32} className="mx-auto text-white/20 mb-4" />
                   <p className="text-white/60">Aún no hay actuaciones registradas en el expediente.</p>
+                  {debug && (
+                    <div className="mt-4 text-left text-xs bg-white/5 border border-white/10 rounded-xl p-4 space-y-1 max-w-sm mx-auto">
+                      <p className="text-white/40 font-mono">profile_id: <span className="text-yellow-300">{debug.profileId}</span></p>
+                      <p className="text-white/40 font-mono">registros devueltos: <span className="text-yellow-300">{debug.count}</span></p>
+                      {debug.error && <p className="text-white/40 font-mono">error: <span className="text-red-400">{debug.error}</span></p>}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
