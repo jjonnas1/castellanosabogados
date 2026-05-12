@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import { contactConfig } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -21,6 +22,11 @@ const HIDDEN = ["/admin", "/cliente", "/portal", "/panel", "/login", "/registro"
 export default function SiteFooter() {
   const pathname = usePathname();
   const { t } = useLanguage();
+  const [visibleEmail, setVisibleEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    setVisibleEmail(atob('am9uYXRhbmNhc3RlbGxhbm9zYWJvZ2Fkb0BnbWFpbC5jb20='));
+  }, []);
 
   if (HIDDEN.some((p) => pathname.startsWith(p))) return null;
 
@@ -95,12 +101,16 @@ export default function SiteFooter() {
               </a>
             </li>
             <li>
-              <a
-                href={`mailto:${contactConfig.email}`}
-                className="break-all text-white/70 transition hover:text-white"
-              >
-                {contactConfig.email}
-              </a>
+              {visibleEmail ? (
+                <a
+                  href={`mailto:${visibleEmail}`}
+                  className="break-all text-white/70 transition hover:text-white"
+                >
+                  {visibleEmail}
+                </a>
+              ) : (
+                <span className="text-white/70">✉ Correo electrónico</span>
+              )}
             </li>
           </ul>
           <div className="border-t border-white/10 pt-4 text-xs text-white/40">
