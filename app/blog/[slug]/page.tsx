@@ -546,7 +546,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description,
       publishedTime: article.date,
       authors: ['Jonatan Castellanos'],
-      images: [{ url: '/logo.png', width: 1024, height: 1536, alt: article.title }],
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: article.title }],
     },
     twitter: {
       card: 'summary_large_image',

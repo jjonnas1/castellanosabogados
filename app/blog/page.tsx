@@ -10,7 +10,7 @@ export const metadata = {
     url: 'https://jonatancastellanosabogado.com/blog',
     title: 'Blog jurídico | Castellanos Abogados',
     description: 'Artículos sobre derecho penal, tutelas, ejecución de penas, familia y laboral para Colombia.',
-    images: [{ url: '/logo.png', width: 1024, height: 1536, alt: 'Blog jurídico — Castellanos Abogados' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Blog jurídico — Castellanos Abogados' }],
   },
   twitter: {
     card: 'summary_large_image',
