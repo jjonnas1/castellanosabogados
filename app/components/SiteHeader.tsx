@@ -209,7 +209,7 @@ export default function SiteHeader(){
       {open&&(
         <div className="border-t border-border/60 bg-white/98 backdrop-blur-md dark:bg-canvas/97 md:hidden">
           <div className="container flex flex-col gap-1 py-4">
-            <button type="button" onClick={()=>setMobileServicesOpen(v=>!v)} aria-expanded={mobileServicesOpen} aria-controls={mobileServicesId} className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-muted transition hover:bg-subtle hover:text-ink">
+            <button type="button" onClick={()=>setMobileServicesOpen(v=>!v)} aria-expanded={mobileServicesOpen} aria-controls={mobileServicesId} className="flex w-full items-center justify-between rounded-xl px-3 py-3.5 text-sm font-medium text-muted transition hover:bg-subtle hover:text-ink">
               <span className={isServicesActive()?"text-ink":""}>{t.nav.services}</span>
               <svg className={`h-3 w-3 transition-transform ${mobileServicesOpen?"rotate-180":""}`} viewBox="0 0 12 8" fill="none" aria-hidden><path d="M1 1.5 6 6.5 11 1.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
             </button>
@@ -220,7 +220,7 @@ export default function SiteHeader(){
                   <div key={group.label}>
                     <p className="mb-1 px-1 text-[10px] font-bold uppercase tracking-[0.14em] text-muted">{group.label}</p>
                     {group.slugs.map(slug=>(
-                      <Link key={slug} href={`/servicios/${slug}`} onClick={()=>{setOpen(false);setMobileServicesOpen(false);}} className={`block rounded-xl px-3 py-2 text-sm transition hover:bg-subtle hover:text-ink ${isActive(`/servicios/${slug}`)?"bg-subtle text-ink":"text-muted"}`}>{h.serviceNames[slug]}</Link>
+                      <Link key={slug} href={`/servicios/${slug}`} onClick={()=>{setOpen(false);setMobileServicesOpen(false);}} className={`block rounded-xl px-3 py-3 text-sm transition hover:bg-subtle hover:text-ink ${isActive(`/servicios/${slug}`)?"bg-subtle text-ink":"text-muted"}`}>{h.serviceNames[slug]}</Link>
                     ))}
                   </div>
                 ))}
@@ -228,17 +228,17 @@ export default function SiteHeader(){
             )}
 
             {PLAIN_NAV.map(item=>(
-              <Link key={item.href} href={item.href} onClick={()=>setOpen(false)} className={item.highlight?"mx-0 mt-1 rounded-xl bg-[#7b1e2b] px-3 py-2.5 text-sm font-semibold text-white":`rounded-xl px-3 py-2.5 text-sm font-medium transition hover:bg-subtle hover:text-ink ${isActive(item.href)?"bg-subtle text-ink":"text-muted"}`}>{item.label}</Link>
+              <Link key={item.href} href={item.href} onClick={()=>setOpen(false)} className={item.highlight?"mx-0 mt-1 rounded-xl bg-[#7b1e2b] px-3 py-3.5 text-sm font-semibold text-white text-center":`rounded-xl px-3 py-3.5 text-sm font-medium transition hover:bg-subtle hover:text-ink ${isActive(item.href)?"bg-subtle text-ink":"text-muted"}`}>{item.label}</Link>
             ))}
 
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-3">
               {loggedIn?(
                 <>
-                  <Link href={panelHref} onClick={()=>setOpen(false)} className="rounded-xl bg-ink px-4 py-2.5 text-center text-sm font-semibold text-white">{role==="admin"?h.adminPanel:h.clientArea}</Link>
-                  <button type="button" onClick={async()=>{setOpen(false);await logout();}} className="rounded-xl border border-border px-4 py-2.5 text-sm font-semibold text-muted">{h.logout}</button>
+                  <Link href={panelHref} onClick={()=>setOpen(false)} className="rounded-xl bg-ink px-4 py-3.5 text-center text-sm font-semibold text-white">{role==="admin"?h.adminPanel:h.clientArea}</Link>
+                  <button type="button" onClick={async()=>{setOpen(false);await logout();}} className="rounded-xl border border-border px-4 py-3.5 text-sm font-semibold text-muted text-center">{h.logout}</button>
                 </>
               ):(
-                <Link href="/cliente/login" onClick={()=>setOpen(false)} className="rounded-xl bg-ink px-4 py-2.5 text-center text-sm font-semibold text-white">{h.clientArea}</Link>
+                <Link href="/cliente/login" onClick={()=>setOpen(false)} className="rounded-xl bg-ink px-4 py-3.5 text-center text-sm font-semibold text-white">{h.clientArea}</Link>
               )}
             </div>
           </div>

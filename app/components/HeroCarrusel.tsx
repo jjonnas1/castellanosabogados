@@ -104,7 +104,7 @@ export default function HeroCarrusel() {
 
       <div
         key={current}
-        className="container section-shell relative z-10 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
+        className="container section-shell relative z-10 grid gap-8 lg:gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
         style={{ animation: 'fadeSlideUp 0.45s ease forwards' }}
       >
         <div className="space-y-7">
@@ -118,10 +118,10 @@ export default function HeroCarrusel() {
           <h1 className="text-white leading-tight max-w-xl">{slide.title}</h1>
           <p className="max-w-lg text-lg text-slate-200 leading-relaxed">{slide.body}</p>
 
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <Link
               href={slide.ctaHref}
-              className="btn-primary bg-white !text-[#0d1528] shadow-hover hover:bg-slate-100"
+              className="btn-primary w-full justify-center bg-white !text-[#0d1528] shadow-hover hover:bg-slate-100 sm:w-auto sm:justify-start"
             >
               {slide.cta}
             </Link>
@@ -129,7 +129,7 @@ export default function HeroCarrusel() {
               href={slide.ctaWa}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-secondary border-white/40 bg-white/10 text-white hover:bg-white/18 hover:text-white flex items-center gap-2"
+              className="btn-secondary w-full justify-center border-white/40 bg-white/10 text-white hover:bg-white/18 hover:text-white flex items-center gap-2 sm:w-auto"
             >
               <WhatsAppIcon size={16} />
               {slide.ctaWaLabel}
