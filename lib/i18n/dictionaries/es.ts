@@ -316,6 +316,9 @@ export const es = {
     emailLabel: "Correo electrónico",
     phoneLabel: "Teléfono",
     quickLinks: "Accesos rápidos",
+    hoursLabel: "Horario de atención",
+    hours: "Lun – Vie · 7:00 a. m. – 4:00 p. m.",
+    hoursNote: "Atención virtual",
   },
   pages: {
     home: {

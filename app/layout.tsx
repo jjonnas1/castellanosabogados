@@ -52,6 +52,14 @@ const organizationSchema = {
     ],
     knowsLanguage: ["es", "en", "fr", "it"],
   },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "07:00",
+      closes: "16:00",
+    },
+  ],
   sameAs: [
     "https://wa.me/573148309306",
   ],

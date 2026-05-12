@@ -188,6 +188,12 @@ export default function SiteFooter() {
                 <WhatsAppIcon size={14} />
                 {t.footer.whatsappCta}
               </a>
+
+              <div className="pt-1 border-t border-white/[0.07] space-y-1">
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/25">{t.footer.hoursLabel}</p>
+                <p className="text-[13px] text-white/55">{t.footer.hours}</p>
+                <p className="text-[11px] text-white/25">{t.footer.hoursNote}</p>
+              </div>
             </div>
           </div>
 

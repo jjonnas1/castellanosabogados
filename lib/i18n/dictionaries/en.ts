@@ -291,6 +291,9 @@ export const en = {
     emailLabel: "Email",
     phoneLabel: "Phone",
     quickLinks: "Quick links",
+    hoursLabel: "Office hours",
+    hours: "Mon – Fri · 7:00 a.m. – 4:00 p.m.",
+    hoursNote: "Virtual service",
   },
   pages: {
     home: {

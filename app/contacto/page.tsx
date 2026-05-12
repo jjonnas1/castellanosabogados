@@ -73,6 +73,11 @@ export default function ContactoPage() {
               </Link>
             </div>
             <p className="mt-4 text-sm text-muted">Teléfono: 314 830 9306</p>
+            <div className="mt-3 rounded-xl border border-border bg-surface px-4 py-3">
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">Horario de atención</p>
+              <p className="mt-1 text-sm font-medium text-ink">Lun – Vie · 7:00 a. m. – 4:00 p. m.</p>
+              <p className="mt-0.5 text-xs text-muted">Atención virtual · Sin oficina física</p>
+            </div>
           </div>
         </div>
 
