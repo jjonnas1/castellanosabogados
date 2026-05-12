@@ -15,6 +15,27 @@ const controlPoints = [
   "Cierre",
 ];
 
+const principles = [
+  {
+    title: "Claridad antes de actuar",
+    detail: "Primero se entiende el problema, la etapa y el riesgo. Después se decide si conviene negociar, radicar, responder o esperar.",
+  },
+  {
+    title: "Evidencia organizada",
+    detail: "Cada documento, fecha y comunicación se ubica dentro de una ruta probatoria para evitar decisiones improvisadas.",
+  },
+  {
+    title: "Seguimiento visible",
+    detail: "El cliente conoce qué se hizo, qué falta y cuál es el siguiente movimiento relevante del caso.",
+  },
+];
+
+const operatingMetrics = [
+  ["24-48 h", "Lectura inicial y clasificación del asunto"],
+  ["6 áreas", "Civil, familia, penal, ejecución, laboral y administrativo"],
+  ["1 ruta", "Plan de actuación con responsables y soportes"],
+];
+
 export default function MetodologiaClient() {
   const { t } = useLanguage();
   const p = t.pages.metodologia;
@@ -27,7 +48,7 @@ export default function MetodologiaClient() {
         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,17,31,0.98),rgba(23,42,70,0.88))]" aria-hidden />
         <div className="absolute inset-x-0 top-0 h-px bg-white/20" aria-hidden />
 
-        <div className="container section-shell relative grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+        <div className="container section-shell relative grid gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
           <div className="max-w-2xl space-y-6">
             <p className="inline-flex w-fit rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white ring-1 ring-white/25">
               {p.badge}
@@ -35,6 +56,14 @@ export default function MetodologiaClient() {
             <div className="space-y-4">
               <h1 className="text-white">{p.heroTitle}</h1>
               <p className="text-lg leading-relaxed text-slate-200">{p.heroParagraph}</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {operatingMetrics.map(([value, label]) => (
+                <div key={value} className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+                  <p className="text-xl font-bold text-white">{value}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-slate-300">{label}</p>
+                </div>
+              ))}
             </div>
             <div className="flex flex-wrap gap-3">
               <a
@@ -66,15 +95,34 @@ export default function MetodologiaClient() {
                 </span>
               </div>
 
-              <div className="grid gap-3 p-5 sm:grid-cols-2">
-                {controlPoints.map((item, index) => (
-                  <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-blue-200/70">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <p className="mt-2 text-sm font-semibold text-white">{item}</p>
+              <div className="grid gap-3 p-5">
+                <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+                  <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">
+                    <span>Ruta del caso</span>
+                    <span>67%</span>
                   </div>
-                ))}
+                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full w-2/3 rounded-full bg-white/70" />
+                  </div>
+                  <div className="mt-4 grid gap-2 sm:grid-cols-3">
+                    {["Revisión", "Estrategia", "Actuación"].map((item) => (
+                      <div key={item} className="rounded-xl bg-white/[0.06] px-3 py-2 text-xs font-semibold text-slate-200">
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {controlPoints.map((item, index) => (
+                    <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-blue-200/70">
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
+                      <p className="mt-2 text-sm font-semibold text-white">{item}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="border-t border-white/10 px-5 py-4">
@@ -83,6 +131,27 @@ export default function MetodologiaClient() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell bg-canvas">
+        <div className="container grid gap-8 lg:grid-cols-[0.42fr_0.58fr] lg:items-end">
+          <div className="space-y-3">
+            <p className="pill w-fit">Criterio de trabajo</p>
+            <h2>Una metodología jurídica no es una lista de pasos</h2>
+            <p className="text-muted">
+              Es una forma de tomar decisiones: saber qué probar, qué priorizar, qué documentar y cuándo actuar.
+            </p>
+          </div>
+          <div className="grid gap-4 md:grid-cols-3">
+            {principles.map((item) => (
+              <article key={item.title} className="rounded-2xl border border-border bg-card p-5 shadow-soft/20">
+                <span className="block h-1 w-10 rounded-full bg-accent-700" aria-hidden />
+                <h3 className="mt-4 text-base leading-snug text-ink">{item.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted">{item.detail}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
@@ -100,7 +169,7 @@ export default function MetodologiaClient() {
 
           <div className="grid gap-4 md:grid-cols-2">
             {p.steps.map((hito, index) => (
-              <article key={hito.when} className="card-shell bg-white p-6">
+              <article key={hito.when} className={`card-shell bg-white p-6 ${index === 0 ? "md:row-span-2" : ""}`}>
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-accent-700">{hito.when}</p>
@@ -111,6 +180,14 @@ export default function MetodologiaClient() {
                   </span>
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-muted">{hito.desc}</p>
+                {index === 0 && (
+                  <div className="mt-6 rounded-2xl border border-border bg-surface p-4">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Punto de partida</p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted">
+                      Sin diagnóstico no hay estrategia: esta fase evita promesas genéricas y define el alcance real del trabajo.
+                    </p>
+                  </div>
+                )}
               </article>
             ))}
           </div>

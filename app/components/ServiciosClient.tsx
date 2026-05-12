@@ -17,7 +17,7 @@ type Service = {
 const headerBackground =
   "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
-export default function ServiciosClient({ services, error }: { services: Service[]; error: boolean }) {
+export default function ServiciosClient({ services }: { services: Service[]; error: boolean }) {
   const { t } = useLanguage();
   const p = t.pages.servicios;
 
@@ -48,12 +48,6 @@ export default function ServiciosClient({ services, error }: { services: Service
       </header>
 
       <section className="container section-shell space-y-8">
-        {error && (
-          <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-            {p.errorMsg}
-          </div>
-        )}
-
         {services.length === 0 ? (
           <div className="card-shell bg-white px-6 py-10 text-center text-muted">
             <p className="text-lg font-semibold text-ink">{p.empty}</p>
