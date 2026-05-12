@@ -78,6 +78,10 @@ type WhatsAppLead = {
   status?: string | null;
   notes: string | null;
   contacted_at: string | null;
+  lead_score?: number | null;
+  follow_up_due_at?: string | null;
+  conversion_source?: string | null;
+  urgency?: string | null;
   created_at: string;
 };
 
@@ -332,8 +336,17 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
         (lead.service_interest ?? '').toLowerCase().includes(term) ||
         (lead.source_path ?? '').toLowerCase().includes(term);
       return matchStatus && matchSearch;
+    }).sort((a, b) => {
+      const scoreDelta = (b.lead_score ?? 0) - (a.lead_score ?? 0);
+      if (scoreDelta !== 0) return scoreDelta;
+      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
     });
   }, [whatsappLeads, consultationStatusFilter, consultationSearch]);
+
+  const overdueWhatsAppLeads = useMemo(() => whatsappLeads.filter((lead) => {
+    if ((lead.status ?? 'nuevo') !== 'nuevo' || !lead.follow_up_due_at) return false;
+    return new Date(lead.follow_up_due_at).getTime() <= Date.now();
+  }), [whatsappLeads]);
 
   // ── CRUD helpers ─────────────────────────────────────────────────────────────
 
@@ -923,6 +936,12 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
         <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5">
           <h2 className="text-lg font-semibold text-slate-100">Leads y consultas</h2>
           <p className="mt-1 text-sm text-slate-500">Seguimiento de personas que dejaron datos por WhatsApp o que contactaron pero aún no son clientes.</p>
+          {overdueWhatsAppLeads.length > 0 && (
+            <div className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-950/25 p-4 text-sm text-amber-200">
+              <p className="font-semibold">Hay {overdueWhatsAppLeads.length} lead(s) nuevo(s) con seguimiento vencido.</p>
+              <p className="mt-1 text-amber-200/80">Prioriza los que tengan puntaje alto o urgencia crítica antes de revisar leads recientes de baja intención.</p>
+            </div>
+          )}
           <div className="mt-4 grid gap-2 sm:grid-cols-2">
             <input className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none" placeholder="Buscar por nombre, teléfono, correo, servicio u origen" value={consultationSearch} onChange={(e) => setConsultationSearch(e.target.value)} />
             <select className="rounded-xl border border-[#1e3a6e]/50 bg-[#0a1120] px-4 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none" value={consultationStatusFilter} onChange={(e) => setConsultationStatusFilter(e.target.value)}>
@@ -945,21 +964,28 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
               {filteredWhatsAppLeads.length === 0 && <p className="text-sm text-slate-500">No hay leads de WhatsApp con este filtro.</p>}
               {filteredWhatsAppLeads.map((lead) => {
                 const waHref = lead.wa_url || `https://wa.me/57${lead.telefono.replace(/\D/g, '')}`;
+                const isOverdue = (lead.status ?? 'nuevo') === 'nuevo' && lead.follow_up_due_at && new Date(lead.follow_up_due_at).getTime() <= Date.now();
                 const statusClass =
                   lead.status === 'convertido' ? 'bg-green-900/40 text-green-300'
                   : lead.status === 'contactado' ? 'bg-blue-900/40 text-blue-300'
                   : lead.status === 'descartado' ? 'bg-slate-800/60 text-slate-400'
                   : 'bg-emerald-900/40 text-emerald-300';
                 return (
-                  <div key={lead.id} className="rounded-2xl border border-emerald-900/30 bg-[#071723] p-4 text-sm">
+                  <div key={lead.id} className={`rounded-2xl border p-4 text-sm ${isOverdue ? 'border-amber-500/40 bg-[#1c1608]' : 'border-emerald-900/30 bg-[#071723]'}`}>
                     <div className="flex items-start justify-between gap-3">
                       <div className="min-w-0">
                         <p className="font-semibold text-slate-100">{lead.nombre}</p>
                         <p className="text-slate-400">{lead.telefono}</p>
                         <p className="mt-1 text-slate-300">{lead.service_interest ?? 'Consulta general'}</p>
+                        <div className="mt-2 flex flex-wrap gap-2">
+                          <span className="rounded-full bg-cyan-900/30 px-2 py-0.5 text-[11px] font-semibold text-cyan-300">Score {lead.lead_score ?? 0}</span>
+                          <span className="rounded-full bg-violet-900/30 px-2 py-0.5 text-[11px] font-semibold text-violet-300">{lead.urgency ?? 'normal'}</span>
+                          {isOverdue && <span className="rounded-full bg-amber-900/40 px-2 py-0.5 text-[11px] font-semibold text-amber-200">Seguimiento vencido</span>}
+                        </div>
                         <p className="mt-1 text-xs text-slate-600">
                           {new Date(lead.created_at).toLocaleString('es-CO')} · {lead.source_path ?? 'sin origen'} · {lead.language?.toUpperCase() ?? 'IDIOMA N/D'}
                         </p>
+                        {lead.follow_up_due_at && <p className="mt-1 text-xs text-slate-500">Contactar antes de: {new Date(lead.follow_up_due_at).toLocaleString('es-CO')}</p>}
                         {lead.link_text && <p className="mt-1 text-xs text-slate-500">CTA: {lead.link_text}</p>}
                         {lead.notes && <p className="mt-2 italic text-slate-500">{lead.notes}</p>}
                       </div>

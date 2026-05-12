@@ -44,6 +44,30 @@ export const metadata: Metadata = {
   title: 'Castellanos Abogados',
   description:
     'Acompañamiento estratégico y preventivo del riesgo penal asociado a decisiones sensibles en contratación estatal.',
+  openGraph: {
+    title: 'Castellanos Abogados | Firma jurídica en Pereira',
+    description:
+      'Asesoría y representación jurídica en derecho civil, familia, penal, ejecución de penas, laboral y administrativo.',
+    url: '/',
+    siteName: 'Castellanos Abogados',
+    locale: 'es_CO',
+    type: 'website',
+    images: [
+      {
+        url: '/jonatan-castellanos-1200.jpg',
+        width: 1200,
+        height: 906,
+        alt: 'Castellanos Abogados',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira',
+    description:
+      'Asesoría jurídica integral para personas, familias y empresas en Pereira y el Eje Cafetero.',
+    images: ['/jonatan-castellanos-1200.jpg'],
+  },
   manifest: '/manifest.webmanifest',
   icons: {
     icon: '/icons/icon.svg',

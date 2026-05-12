@@ -39,6 +39,31 @@ export const es = {
     },
     serviceSlides: [
         {
+                tag: 'Firma jurídica integral',
+                pill: 'Pereira · Eje Cafetero · Atención virtual',
+                title: 'Asesoría y representación jurídica en varias áreas del derecho',
+                subtitle: 'Acompañamos procesos civiles, de familia, penales, ejecución de penas, laborales y administrativos con estrategia clara y seguimiento del caso.',
+                cta: 'Agendar evaluación',
+                href: '/contacto?area=Evaluaci%C3%B3n%20jur%C3%ADdica%20integral&intent=ingreso-evaluacion&source=hero',
+                whatsappText: 'Hola, quiero agendar una evaluación jurídica.',
+                panelTitle: 'Ruta jurídica clara',
+                panelBody: 'Revisamos el caso, definimos el área competente y priorizamos los pasos urgentes antes de iniciar.',
+                stats: {
+                        item1: {
+                                label: 'Áreas',
+                                value: '6'
+                        },
+                        item2: {
+                                label: 'Seguimiento',
+                                value: 'Portal'
+                        },
+                        item3: {
+                                label: 'Contacto',
+                                value: 'Directo'
+                        }
+                }
+        },
+        {
                 tag: 'Divorcios',
                 pill: 'Protección Patrimonial',
                 title: 'Divorcios',

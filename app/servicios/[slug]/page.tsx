@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getServiceDetail, serviceDetailList } from "@/lib/serviceDetails";
 import ServiceDetailClient from "@/app/components/ServiceDetailClient";
 
@@ -15,6 +16,29 @@ const backgrounds: Record<string, string> = {
 
 export async function generateStaticParams() {
   return serviceDetailList.map((service) => ({ slug: service.slug }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const detail = getServiceDetail(slug);
+
+  if (!detail) {
+    return {
+      title: 'Servicio legal | Castellanos Abogados',
+    };
+  }
+
+  return {
+    title: `${detail.title} en Pereira | Castellanos Abogados`,
+    description: `${detail.summary} Atención jurídica en Pereira, el Eje Cafetero y modalidad virtual.`,
+    alternates: { canonical: `/servicios/${detail.slug}` },
+    openGraph: {
+      title: `${detail.title} en Pereira | Castellanos Abogados`,
+      description: detail.summary,
+      url: `/servicios/${detail.slug}`,
+      type: 'website',
+    },
+  };
 }
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {

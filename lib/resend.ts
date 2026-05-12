@@ -112,6 +112,59 @@ export async function sendLeadNotificationEmail(params: {
   });
 }
 
+export async function sendLeadFollowUpDigestEmail(leads: Array<{
+  id: string;
+  nombre: string;
+  telefono: string;
+  service_interest?: string | null;
+  source_path?: string | null;
+  lead_score?: number | null;
+  urgency?: string | null;
+  follow_up_due_at?: string | null;
+  wa_url?: string | null;
+}>) {
+  if (!resend) {
+    throw new Error("Falta la variable de entorno RESEND_API_KEY en Vercel.");
+  }
+
+  const rows = leads.map((lead) => `
+    <tr>
+      <td style="padding:10px;border-bottom:1px solid #e5e7eb;">
+        <strong>${escapeHtml(lead.nombre)}</strong><br/>
+        <span style="color:#4b5563">${escapeHtml(lead.telefono)}</span>
+      </td>
+      <td style="padding:10px;border-bottom:1px solid #e5e7eb;">${escapeHtml(lead.service_interest || 'Consulta general')}</td>
+      <td style="padding:10px;border-bottom:1px solid #e5e7eb;">${escapeHtml(String(lead.lead_score ?? 0))} · ${escapeHtml(lead.urgency || 'normal')}</td>
+      <td style="padding:10px;border-bottom:1px solid #e5e7eb;">
+        ${lead.wa_url ? `<a href="${escapeHtml(lead.wa_url)}" style="color:#166534;font-weight:700;">Abrir WhatsApp</a>` : escapeHtml(lead.source_path || 'Sin origen')}
+      </td>
+    </tr>
+  `).join('');
+
+  return await resend.emails.send({
+    from: 'Castellanos Abogados <onboarding@resend.dev>',
+    to: ['jonatancastellanosabogado@gmail.com'],
+    subject: `Seguimiento pendiente: ${leads.length} lead(s) por contactar`,
+    html: `
+      <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;max-width:720px;margin:0 auto;padding:28px;background:#fff;">
+        <h2 style="margin:0 0 8px;color:#0f172a;">Leads pendientes de seguimiento</h2>
+        <p style="margin:0 0 20px;color:#4b5563;">Estos contactos siguen en estado nuevo y superaron su hora recomendada de respuesta.</p>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+          <thead>
+            <tr style="text-align:left;background:#f8fafc;color:#475569;">
+              <th style="padding:10px;">Lead</th>
+              <th style="padding:10px;">Área</th>
+              <th style="padding:10px;">Prioridad</th>
+              <th style="padding:10px;">Acción</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `,
+  });
+}
+
 // Utilidad simple para evitar HTML injection
 function escapeHtml(s: string) {
   return s

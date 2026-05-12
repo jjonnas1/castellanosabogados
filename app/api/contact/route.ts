@@ -1,6 +1,7 @@
 // app/api/contact/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import { sendContactEmail } from "@/lib/resend";
+import { getSupabaseServer } from "@/lib/supabase-server";
 
 export async function POST(req: NextRequest) {
   try {
@@ -70,6 +71,20 @@ export async function POST(req: NextRequest) {
       message: messageWithContext,
       subject: subject || `Solicitud de contacto – ${resolvedArea}`,
     });
+
+    try {
+      const supabase = getSupabaseServer({ serviceRole: true });
+      const { error } = await supabase.from("consultations").insert({
+        name: name || "Sin nombre",
+        email,
+        subject: subject || `Solicitud de contacto – ${resolvedArea}`,
+        notes: messageWithContext,
+        status: "pendiente",
+      });
+      if (error) console.error("[contact] consultation insert error:", error.message);
+    } catch (dbError: any) {
+      console.error("[contact] consultation insert failed:", dbError?.message);
+    }
 
     return NextResponse.json({ ok: true });
   } catch (e: any) {

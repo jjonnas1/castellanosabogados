@@ -39,7 +39,7 @@ export default function NosotrosClient() {
               <div className="relative overflow-hidden rounded-2xl" style={{ minHeight: '320px', height: '100%' }}>
                 <Image
                   fill
-                  src="/jonatan-castellanos.png"
+                  src="/jonatan-castellanos-1200.jpg"
                   alt="Jonatan Castellanos"
                   className="object-cover object-top"
                   sizes="(max-width: 1024px) 100vw, 45vw"

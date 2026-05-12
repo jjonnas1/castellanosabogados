@@ -13,6 +13,31 @@ const schema = z.object({
   language: z.string().max(12).optional(),
 });
 
+function scoreLead(input: {
+  source_path?: string;
+  link_text?: string;
+  service_interest?: string;
+}) {
+  const haystack = `${input.source_path ?? ''} ${input.link_text ?? ''} ${input.service_interest ?? ''}`.toLowerCase();
+  let score = 35;
+
+  if (haystack.includes('whatsapp') || haystack.includes('contactar') || haystack.includes('agendar')) score += 20;
+  if (haystack.includes('/contacto') || haystack.includes('consulta')) score += 12;
+  if (haystack.includes('penal') || haystack.includes('captur') || haystack.includes('imput') || haystack.includes('pena')) score += 25;
+  if (haystack.includes('tutela') || haystack.includes('eps') || haystack.includes('derecho fundamental')) score += 22;
+  if (haystack.includes('familia') || haystack.includes('alimento') || haystack.includes('custodia') || haystack.includes('divorcio')) score += 16;
+  if (haystack.includes('laboral') || haystack.includes('despido') || haystack.includes('liquidaci')) score += 14;
+  if (haystack.includes('administrativo') || haystack.includes('estado') || haystack.includes('sanci')) score += 14;
+  if (haystack.includes('civil') || haystack.includes('contrato') || haystack.includes('deuda')) score += 12;
+
+  const boundedScore = Math.min(score, 100);
+  const urgency = boundedScore >= 80 ? 'critica' : boundedScore >= 65 ? 'alta' : boundedScore >= 45 ? 'normal' : 'baja';
+  const hours = urgency === 'critica' ? 1 : urgency === 'alta' ? 3 : urgency === 'normal' ? 8 : 24;
+  const followUpDueAt = new Date(Date.now() + hours * 60 * 60 * 1000).toISOString();
+
+  return { lead_score: boundedScore, urgency, follow_up_due_at: followUpDueAt };
+}
+
 export async function POST(req: NextRequest) {
   let body: unknown;
   try {
@@ -27,6 +52,7 @@ export async function POST(req: NextRequest) {
   }
 
   const { nombre, telefono, wa_url, source_path, link_text, service_interest, language } = parsed.data;
+  const leadPriority = scoreLead({ source_path, link_text, service_interest });
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -41,6 +67,8 @@ export async function POST(req: NextRequest) {
     link_text: link_text ?? null,
     service_interest: service_interest ?? null,
     language: language ?? null,
+    conversion_source: 'whatsapp_modal',
+    ...leadPriority,
   };
 
   async function insertLead() {

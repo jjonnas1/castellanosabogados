@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { serviceDetailList } from '@/lib/serviceDetails';
 
 const BASE = 'https://jonatancastellanosabogado.com';
 
@@ -34,5 +35,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly' as const,
   }));
 
-  return [...staticPages, ...blogPages];
+  const servicePages: MetadataRoute.Sitemap = serviceDetailList.map((service) => ({
+    url: `${BASE}/servicios/${service.slug}`,
+    priority: 0.85,
+    changeFrequency: 'monthly' as const,
+  }));
+
+  return [...staticPages, ...servicePages, ...blogPages];
 }
