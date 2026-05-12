@@ -72,7 +72,7 @@ export default function ContactoPage() {
                 Ver áreas
               </Link>
             </div>
-            <p className="mt-4 text-sm text-muted">Teléfono: 314 830 9306 · Correo: jonatancastellanosabogado@gmail.com</p>
+            <p className="mt-4 text-sm text-muted">Teléfono: 314 830 9306</p>
           </div>
         </div>
 

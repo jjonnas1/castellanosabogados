@@ -111,17 +111,19 @@ export default function ServiceDetailClient({
             >
               {p.scheduleSession}
             </a>
-            <a
-              href={buildMailtoUrl({
-                area: detail.title,
-                source: `/servicios/${detail.slug}`,
-                subject: `Solicitud de coordinación con junta – ${detail.title}`,
-                message: "Hola, necesito coordinar una sesión con junta o comité.",
-              })}
-              className="btn-secondary"
-            >
-              {p.coordinateBoard}
-            </a>
+            {['responsabilidad-penal-pj', 'capacitaciones-penal-pj'].includes(detail.slug) && (
+              <a
+                href={buildMailtoUrl({
+                  area: detail.title,
+                  source: `/servicios/${detail.slug}`,
+                  subject: `Solicitud de coordinación con junta – ${detail.title}`,
+                  message: "Hola, necesito coordinar una sesión con junta o comité.",
+                })}
+                className="btn-secondary"
+              >
+                {p.coordinateBoard}
+              </a>
+            )}
           </div>
         </div>
       </section>

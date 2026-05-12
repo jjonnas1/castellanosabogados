@@ -44,11 +44,11 @@ export default function MetodologiaClient() {
           <div className="relative overflow-hidden rounded-[1.5rem] border border-border bg-card shadow-soft">
             <div className="relative aspect-[16/11] min-h-[320px]">
               <Image
-                src="/jonatan-castellanos.png"
-                alt="Jonatan Castellanos — Castellanos Abogados"
+                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80"
+                alt="Reunión de asesoría jurídica — Castellanos Abogados"
                 fill
                 priority
-                className="object-cover object-top"
+                className="object-cover object-center"
                 sizes="(max-width: 1024px) 100vw, 52vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#07111f]/92 via-[#07111f]/25 to-transparent" aria-hidden />

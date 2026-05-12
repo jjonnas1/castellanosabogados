@@ -44,32 +44,32 @@ const googleReviewsUrl = "https://www.google.com/search?q=Castellanos+Abogados&h
 const curatedGoogleReviews: Array<{ author: string; date: string; text: string }> = [
   {
     author: "Felipe León",
-    date: "Hace 19 horas",
+    date: "Mayo 2026",
     text: "Excelente profesional, recomendado al 100% para confiar en él cualquier proceso en las diferentes áreas del derecho.",
   },
   {
     author: "Stefanía Hernández",
-    date: "Hace 4 semanas",
+    date: "Abril 2026",
     text: "Excelente abogado, responsable, dedicado y muy profesional.",
   },
   {
     author: "Idaly Arrubla Melo",
-    date: "Hace 5 semanas",
+    date: "Abril 2026",
     text: "Genial la atención y la diligencia en los trámites. Super recomendado.",
   },
   {
     author: "Alejo Santa",
-    date: "Hace 5 semanas",
+    date: "Abril 2026",
     text: "Excelente persona con calidad humana muy profesional, con experiencia, hábil, capaz, sincero y diligente.",
   },
   {
     author: "Christian Camilo Ceballos",
-    date: "Hace 5 semanas",
+    date: "Abril 2026",
     text: "Muy profesional, buen servicio. Muchas gracias.",
   },
   {
     author: "Esperanza Inés Isaza Maya",
-    date: "Hace 5 semanas",
+    date: "Abril 2026",
     text: "Excelente atención. La asesoría brindada fue clara, oportuna y precisa. Da la confianza de ser atendido por una persona altamente calificada.",
   },
 ];
