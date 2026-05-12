@@ -310,6 +310,12 @@ export const es = {
     services: "Servicios",
     contact: "Contacto",
     rights: "Todos los derechos reservados.",
+    followUs: "Síguenos",
+    location: "Pereira, Risaralda · Colombia",
+    whatsappCta: "Escríbenos por WhatsApp",
+    emailLabel: "Correo electrónico",
+    phoneLabel: "Teléfono",
+    quickLinks: "Accesos rápidos",
   },
   pages: {
     home: {

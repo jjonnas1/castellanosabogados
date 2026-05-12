@@ -1,6 +1,5 @@
 'use client';
 
-import Image from "next/image";
 import Link from "next/link";
 import SiteHeader from "@/app/components/SiteHeader";
 import { serviceDetailList } from "@/lib/serviceDetails";
@@ -41,29 +40,23 @@ export default function MetodologiaClient() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-[1.5rem] border border-border bg-card shadow-soft">
-            <div className="relative aspect-[16/11] min-h-[320px]">
-              <Image
-                src="https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=80"
-                alt="Reunión de asesoría jurídica — Castellanos Abogados"
-                fill
-                priority
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 52vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#07111f]/92 via-[#07111f]/25 to-transparent" aria-hidden />
-              <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
-                <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-white/70">{p.visualEyebrow}</p>
-                <h2 className="mt-2 max-w-lg text-2xl leading-tight text-white sm:text-3xl">{p.visualTitle}</h2>
+          <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0c111d] shadow-soft">
+            <div className="p-7 space-y-6">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/35">{p.visualEyebrow}</p>
+                <p className="mt-3 text-xl font-semibold leading-snug text-white sm:text-2xl">{p.visualTitle}</p>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                {p.heroKpis.map((item) => (
+                  <div key={item.value} className="rounded-2xl bg-white/[0.06] border border-white/10 p-4 text-center">
+                    <p className="text-base font-bold text-white leading-tight sm:text-lg">{item.value}</p>
+                    <p className="mt-1.5 text-[10px] text-white/40 leading-tight">{item.label}</p>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="grid border-t border-border bg-card sm:grid-cols-3">
-              {p.heroKpis.map((item) => (
-                <div key={item.value} className="border-border px-5 py-4 sm:border-r last:border-r-0">
-                  <p className="text-lg font-bold text-ink">{item.value}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted">{item.label}</p>
-                </div>
-              ))}
+            <div className="border-t border-white/10 px-7 py-5">
+              <p className="text-xs text-white/25 leading-relaxed">Castellanos Abogados · Pereira, Risaralda</p>
             </div>
           </div>
         </div>

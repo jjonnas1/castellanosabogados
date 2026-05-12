@@ -285,6 +285,12 @@ export const fr = {
     services: "Services",
     contact: "Contact",
     rights: "Tous droits réservés.",
+    followUs: "Suivez-nous",
+    location: "Pereira, Risaralda · Colombie",
+    whatsappCta: "Écrivez-nous sur WhatsApp",
+    emailLabel: "Courriel",
+    phoneLabel: "Téléphone",
+    quickLinks: "Liens rapides",
   },
   pages: {
     home: {
