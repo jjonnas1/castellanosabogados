@@ -286,7 +286,7 @@ export const it = {
     contact: "Contatto",
     rights: "Tutti i diritti riservati.",
     followUs: "Seguici",
-    location: "Pereira, Risaralda · Colombia",
+    location: "Pereira · Eje Cafetero · Colombia",
     whatsappCta: "Scrivici su WhatsApp",
     emailLabel: "Email",
     phoneLabel: "Telefono",

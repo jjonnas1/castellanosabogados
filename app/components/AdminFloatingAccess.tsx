@@ -7,7 +7,7 @@ export default function AdminFloatingAccess() {
     <Link
       href="/admin/login"
       aria-label="Acceso administrativo"
-      className="fixed bottom-3 left-3 z-50 hidden select-none text-[14px] text-[#999] transition-opacity hover:opacity-60 sm:block"
+      className="fixed bottom-3 left-3 z-50 block select-none text-[14px] text-[#999] transition-opacity hover:opacity-60"
       style={{ opacity: 0.3 }}
     >
       ·

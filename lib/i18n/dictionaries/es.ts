@@ -311,7 +311,7 @@ export const es = {
     contact: "Contacto",
     rights: "Todos los derechos reservados.",
     followUs: "Síguenos",
-    location: "Pereira, Risaralda · Colombia",
+    location: "Pereira · Eje Cafetero · Colombia",
     whatsappCta: "Escríbenos por WhatsApp",
     emailLabel: "Correo electrónico",
     phoneLabel: "Teléfono",
