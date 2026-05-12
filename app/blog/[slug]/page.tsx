@@ -512,14 +512,47 @@ export async function generateStaticParams() {
   return Object.keys(articles).map((slug) => ({ slug }));
 }
 
+const ARTICLE_DESCRIPTIONS: Record<string, string> = {
+  'cuando-interponer-una-tutela':        'La acción de tutela protege derechos fundamentales en Colombia. Aprende cuándo procede, sus requisitos y los términos del proceso. Asesoría en Pereira y Eje Cafetero.',
+  'derechos-del-imputado-proceso-penal': 'Presunción de inocencia, derecho a guardar silencio y defensa técnica: conoce los derechos del imputado en el proceso penal colombiano. Abogados penalistas en Pereira.',
+  'responsabilidad-penal-empresarial':   'La Ley 2195 de 2022 permite sancionar penalmente a empresas en Colombia. Delitos, sanciones y cómo proteger tu organización. Castellanos Abogados, Pereira.',
+  'beneficios-ejecucion-penas':          'Prisión domiciliaria, libertad condicional y redención de pena en Colombia: requisitos y cómo tramitarlos ante el Juez de Ejecución de Penas en el Eje Cafetero.',
+  'abogado-penalista-pereira':           '¿Cuándo necesitas un abogado penalista en Pereira? Guía completa sobre captura, imputación, medidas de aseguramiento y ejecución de penas en el Eje Cafetero.',
+  'que-hacer-si-te-detienen-colombia':   'Guía paso a paso: derechos si te detienen en Colombia, qué no hacer y cómo actúa tu abogado en la audiencia de legalización de captura. Atención urgente en Pereira.',
+  'detencion-domiciliaria-colombia':     'Requisitos de la detención domiciliaria preventiva y prisión domiciliaria en Colombia. Cómo solicitar este beneficio ante el Juez de Ejecución de Penas en el Eje Cafetero.',
+  'divorcio-colombia':                   'Tipos de divorcio en Colombia, tiempos estimados y proceso paso a paso. Mutuo acuerdo, contencioso y cesación de efectos civiles. Abogados de familia en Pereira.',
+  'acoso-laboral-colombia':              'Qué es el acoso laboral según la Ley 1010 de 2006, cómo reconocerlo y cómo denunciarlo ante el Comité de Convivencia o el Ministerio de Trabajo. Abogados en Pereira.',
+  'medida-de-aseguramiento-colombia':    'Tipos, requisitos y cómo impugnar una medida de aseguramiento en Colombia. Detención preventiva, apelación y sustitución. Abogados penalistas en Pereira.',
+  'libertad-condicional-colombia':       'Requisitos del artículo 64 del Código Penal para la libertad condicional: tiempo cumplido, conducta y arraigo. Trámite ante el Juez de Ejecución de Penas en el Eje Cafetero.',
+  'preacuerdo-penal-colombia':           'Preacuerdo penal en Colombia: ventajas, riesgos y cuándo conviene aceptarlo. Diferencias con el allanamiento a cargos. Abogados penalistas en Pereira y Eje Cafetero.',
+};
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = articles[slug];
   if (!article) return {};
+
+  const description = ARTICLE_DESCRIPTIONS[slug] ?? article.content.trim().split('\n')[0].slice(0, 160);
+  const title = `${article.title} | Castellanos Abogados`;
+
   return {
-    title: `${article.title} | Castellanos Abogados`,
-    description: article.content.trim().split('\n')[0].slice(0, 160),
+    title,
+    description,
     alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      type: 'article',
+      url: `https://jonatancastellanosabogado.com/blog/${slug}`,
+      title,
+      description,
+      publishedTime: article.date,
+      authors: ['Jonatan Castellanos'],
+      images: [{ url: '/logo.png', width: 1024, height: 1536, alt: article.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   };
 }
 
@@ -529,9 +562,35 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   if (!article) notFound();
 
   const paragraphs = article.content.trim().split('\n\n');
+  const description = ARTICLE_DESCRIPTIONS[slug] ?? article.content.trim().split('\n')[0].slice(0, 160);
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description,
+    datePublished: article.date,
+    dateModified: article.date,
+    author: {
+      "@type": "Person",
+      name: "Jonatan Castellanos",
+      url: "https://jonatancastellanosabogado.com/nosotros",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Castellanos Abogados",
+      url: "https://jonatancastellanosabogado.com",
+      logo: { "@type": "ImageObject", url: "https://jonatancastellanosabogado.com/logo.png" },
+    },
+    mainEntityOfPage: `https://jonatancastellanosabogado.com/blog/${slug}`,
+  };
 
   return (
     <main className="min-h-screen bg-canvas text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <SiteHeader />
 
       <section className="section-shell">

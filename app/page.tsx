@@ -6,6 +6,18 @@ export const metadata: Metadata = {
   title: 'Castellanos Abogados | Firma jurídica en Pereira',
   description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
   alternates: { canonical: '/' },
+  openGraph: {
+    type: 'website',
+    url: 'https://jonatancastellanosabogado.com',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira',
+    description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
+    images: [{ url: '/logo.png', width: 1024, height: 1536, alt: 'Castellanos Abogados' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira',
+    description: 'Asesoría jurídica en derecho penal, tutelas, ejecución de penas, familia y laboral. Pereira, Eje Cafetero.',
+  },
 };
 
 const faqSchema = {

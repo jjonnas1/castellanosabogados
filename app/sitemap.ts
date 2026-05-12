@@ -18,27 +18,44 @@ const BLOG_SLUGS = [
   'preacuerdo-penal-colombia',
 ];
 
+const BLOG_DATES: Record<string, string> = {
+  'cuando-interponer-una-tutela':        '2026-03-10',
+  'derechos-del-imputado-proceso-penal': '2026-03-18',
+  'responsabilidad-penal-empresarial':   '2026-04-01',
+  'beneficios-ejecucion-penas':          '2026-04-05',
+  'abogado-penalista-pereira':           '2026-05-05',
+  'que-hacer-si-te-detienen-colombia':   '2026-05-05',
+  'detencion-domiciliaria-colombia':     '2026-05-05',
+  'divorcio-colombia':                   '2026-05-12',
+  'acoso-laboral-colombia':              '2026-05-12',
+  'medida-de-aseguramiento-colombia':    '2026-05-19',
+  'libertad-condicional-colombia':       '2026-05-19',
+  'preacuerdo-penal-colombia':           '2026-05-19',
+};
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
-    { url: `${BASE}/`,            priority: 1.0,  changeFrequency: 'weekly' },
-    { url: `${BASE}/servicios`,   priority: 0.9,  changeFrequency: 'monthly' },
-    { url: `${BASE}/tutela`,      priority: 0.9,  changeFrequency: 'monthly' },
-    { url: `${BASE}/metodologia`, priority: 0.8,  changeFrequency: 'monthly' },
-    { url: `${BASE}/blog`,        priority: 0.8,  changeFrequency: 'weekly' },
-    { url: `${BASE}/nosotros`,    priority: 0.7,  changeFrequency: 'monthly' },
-    { url: `${BASE}/contacto`,    priority: 0.7,  changeFrequency: 'yearly' },
+    { url: `${BASE}/`,            priority: 1.0, changeFrequency: 'weekly',  lastModified: '2026-05-12' },
+    { url: `${BASE}/servicios`,   priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-05-01' },
+    { url: `${BASE}/tutela`,      priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-05-01' },
+    { url: `${BASE}/metodologia`, priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-05-01' },
+    { url: `${BASE}/blog`,        priority: 0.8, changeFrequency: 'weekly',  lastModified: '2026-05-19' },
+    { url: `${BASE}/nosotros`,    priority: 0.7, changeFrequency: 'monthly', lastModified: '2026-05-07' },
+    { url: `${BASE}/contacto`,    priority: 0.7, changeFrequency: 'yearly',  lastModified: '2026-01-01' },
   ];
-
-  const blogPages: MetadataRoute.Sitemap = BLOG_SLUGS.map((slug) => ({
-    url: `${BASE}/blog/${slug}`,
-    priority: 0.7,
-    changeFrequency: 'monthly' as const,
-  }));
 
   const servicePages: MetadataRoute.Sitemap = serviceDetailList.map((service) => ({
     url: `${BASE}/servicios/${service.slug}`,
     priority: 0.85,
     changeFrequency: 'monthly' as const,
+    lastModified: '2026-05-01',
+  }));
+
+  const blogPages: MetadataRoute.Sitemap = BLOG_SLUGS.map((slug) => ({
+    url: `${BASE}/blog/${slug}`,
+    priority: 0.7,
+    changeFrequency: 'monthly' as const,
+    lastModified: BLOG_DATES[slug] ?? '2026-05-01',
   }));
 
   return [...staticPages, ...servicePages, ...blogPages];

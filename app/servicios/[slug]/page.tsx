@@ -1,5 +1,5 @@
+import type { Metadata } from 'next';
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
 import { getServiceDetail, serviceDetailList } from "@/lib/serviceDetails";
 import ServiceDetailClient from "@/app/components/ServiceDetailClient";
 
@@ -14,31 +14,46 @@ const backgrounds: Record<string, string> = {
   administrativo: "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1562564055-71e051d33c19?auto=format&fit=crop&w=1200&q=75&fm=webp')",
 };
 
-export async function generateStaticParams() {
-  return serviceDetailList.map((service) => ({ slug: service.slug }));
-}
+const SERVICE_DESCRIPTIONS: Record<string, string> = {
+  'penal-personas':          'Defensa penal para personas naturales en Pereira y el Eje Cafetero. Acompañamiento desde la indagación preliminar hasta el juicio oral y la ejecución de penas.',
+  'ejecucion-penas':         'Gestión de libertad condicional, prisión domiciliaria, permisos y beneficios administrativos ante jueces de ejecución de penas en el Eje Cafetero.',
+  'responsabilidad-penal-pj':'Prevención y defensa frente a la responsabilidad penal de personas jurídicas en Colombia. Ley 2195 de 2022, compliance y defensa corporativa.',
+  'capacitaciones-penal-pj': 'Formación ejecutiva para juntas directivas y equipos en prevención de riesgo penal corporativo. Metodología práctica orientada a decisiones reales.',
+  'civil':                   'Asesoría y litigio en contratos, obligaciones y conflictos patrimoniales en Pereira y el Eje Cafetero. Conciliación y estrategia probatoria.',
+  'familia':                 'Custodia, alimentos, divorcio y medidas de protección familiar en Pereira. Acompañamiento técnico y humano en cada etapa del proceso.',
+  'laboral':                 'Defensa en conflictos laborales, despidos, reclamaciones y acoso laboral en Pereira. Asesoría para trabajadores y empleadores en el Eje Cafetero.',
+  'administrativo':          'Representación ante autoridades administrativas y jurisdicción contenciosa en Pereira. Recursos, demandas y defensa estratégica frente al Estado.',
+};
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const detail = getServiceDetail(slug);
+  if (!detail) return {};
 
-  if (!detail) {
-    return {
-      title: 'Servicio legal | Castellanos Abogados',
-    };
-  }
+  const description = SERVICE_DESCRIPTIONS[slug] ?? detail.summary;
+  const title = `${detail.headline} | Castellanos Abogados`;
 
   return {
-    title: `${detail.title} en Pereira | Castellanos Abogados`,
-    description: `${detail.summary} Atención jurídica en Pereira, el Eje Cafetero y modalidad virtual.`,
-    alternates: { canonical: `/servicios/${detail.slug}` },
+    title,
+    description,
+    alternates: { canonical: `/servicios/${slug}` },
     openGraph: {
-      title: `${detail.title} en Pereira | Castellanos Abogados`,
-      description: detail.summary,
-      url: `/servicios/${detail.slug}`,
       type: 'website',
+      url: `https://jonatancastellanosabogado.com/servicios/${slug}`,
+      title,
+      description,
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: `${detail.title} — Castellanos Abogados` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
     },
   };
+}
+
+export async function generateStaticParams() {
+  return serviceDetailList.map((service) => ({ slug: service.slug }));
 }
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {

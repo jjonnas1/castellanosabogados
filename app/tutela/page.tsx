@@ -5,6 +5,18 @@ export const metadata: Metadata = {
   title: 'Tutelas | Castellanos Abogados',
   description: 'Interponemos acciones de tutela para proteger tus derechos fundamentales. Evaluación gratuita y acompañamiento en todo el proceso.',
   alternates: { canonical: '/tutela' },
+  openGraph: {
+    type: 'website',
+    url: 'https://jonatancastellanosabogado.com/tutela',
+    title: 'Acciones de Tutela en Pereira | Castellanos Abogados',
+    description: 'Interponemos acciones de tutela para proteger tus derechos fundamentales. Evaluación gratuita y acompañamiento en todo el proceso.',
+    images: [{ url: '/logo.png', width: 1024, height: 1536, alt: 'Castellanos Abogados — Tutelas' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Acciones de Tutela en Pereira | Castellanos Abogados',
+    description: 'Interponemos acciones de tutela para proteger tus derechos fundamentales. Evaluación gratuita.',
+  },
 };
 
 export default function TutelaPage() {
