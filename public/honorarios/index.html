@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Honorarios CA">
+<meta name="theme-color" content="#1a2744">
+<title>Calculador de Honorarios</title>
+<style>
+:root{--navy:#1a2744;--navy2:#243354;--gold:#c9a04a;--bg:#f0f2f5;--sur:#fff;--sur2:#f8f9fb;--bdr:#e2e6ed;--tx:#1a2332;--tx2:#5a6478;--tx3:#8a96a8;--r:12px;--rs:8px;--sh:0 2px 12px rgba(0,0,0,.08)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+.hdr{background:var(--navy);color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.hdr-logo{display:flex;align-items:center;gap:10px}
+.hdr-icon{width:36px;height:36px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.hdr-txt strong{display:block;font-size:15px}
+.hdr-txt span{font-size:11px;opacity:.6}
+.btn-cfg{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;padding:8px 13px;border-radius:8px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:5px}
+.main{max-width:920px;margin:0 auto;padding:18px}
+.search-wrap{position:relative;margin-bottom:14px}
+.search-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--tx3);pointer-events:none}
+.search-inp{width:100%;padding:11px 14px 11px 40px;border:1.5px solid var(--bdr);border-radius:var(--r);font-size:15px;background:var(--sur);color:var(--tx);outline:none}
+.search-inp:focus{border-color:var(--navy)}
+.tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:6px 13px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid var(--bdr);background:var(--sur);color:var(--tx2);white-space:nowrap;transition:all .2s}
+.tab.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:10px}
+.svc-card{background:var(--sur);border:1.5px solid var(--bdr);border-radius:var(--r);padding:14px 15px;cursor:pointer;display:flex;align-items:flex-start;gap:11px;transition:all .2s}
+.svc-card:hover{border-color:var(--navy);box-shadow:var(--sh);transform:translateY(-1px)}
+.dot{width:10px;height:10px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.svc-card-info{flex:1}
+.svc-nm{font-size:14px;font-weight:600;line-height:1.3;margin-bottom:2px}
+.svc-rng{font-size:12px;color:var(--tx3)}
+.svc-arr{color:var(--tx3);font-size:15px;margin-top:2px}
+.calc{display:none}
+.calc.on{display:block}
+.back{display:flex;align-items:center;gap:7px;color:var(--navy);font-size:14px;font-weight:500;cursor:pointer;margin-bottom:15px;padding:6px 0}
+.svc-hdr{display:flex;align-items:center;gap:11px;margin-bottom:18px}
+.svc-hdr-dot{width:13px;height:13px;border-radius:50%;flex-shrink:0}
+.svc-hdr-nm{font-size:20px;font-weight:700;line-height:1.2}
+.svc-hdr-area{font-size:12px;color:var(--tx3)}
+.layout{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:680px){.layout{grid-template-columns:1fr 1fr}}
+.card{background:var(--sur);border:1.5px solid var(--bdr);border-radius:var(--r);padding:18px}
+.ctitle{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--tx3);margin-bottom:14px}
+.fg{margin-bottom:13px}
+.flbl{display:block;font-size:13px;font-weight:500;color:var(--tx);margin-bottom:5px}
+.finfo{font-size:11px;color:var(--tx3);margin-top:3px}
+.finp{width:100%;padding:10px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:14px;color:var(--tx);background:var(--sur);outline:none;transition:border-color .2s}
+.finp:focus{border-color:var(--navy)}
+.fsel{width:100%;padding:10px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);font-size:14px;color:var(--tx);background:var(--sur);outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a6478' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;cursor:pointer}
+.fchk{display:flex;align-items:center;gap:10px;cursor:pointer;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:var(--rs);transition:all .2s}
+.fchk:hover{border-color:var(--navy);background:var(--sur2)}
+.fchk.on{border-color:var(--navy);background:rgba(26,39,68,.04)}
+.fchk input{display:none}
+.chkbox{width:20px;height:20px;border:2px solid var(--bdr);border-radius:5px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:12px}
+.fchk.on .chkbox{background:var(--navy);border-color:var(--navy);color:#fff}
+.chk-lbl{font-size:13px;font-weight:500;color:var(--tx);flex:1}
+.range-val{font-size:15px;font-weight:700;color:var(--navy);text-align:center;margin:5px 0}
+.range-row{display:flex;justify-content:space-between;font-size:11px;color:var(--tx3)}
+input[type=range]{width:100%;-webkit-appearance:none;background:transparent;margin:4px 0}
+input[type=range]::-webkit-slider-track{height:4px;background:var(--bdr);border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;background:var(--navy);border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2);cursor:pointer;margin-top:-9px}
+.res-amt{text-align:center;padding:18px 0;border-bottom:1.5px solid var(--bdr);margin-bottom:14px}
+.res-lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--tx3);margin-bottom:7px}
+.res-num{font-size:36px;font-weight:700;color:var(--navy);line-height:1}
+.res-forma{font-size:12px;color:var(--tx3);margin-top:4px}
+.mbar-hdr{display:flex;justify-content:space-between;font-size:11px;color:var(--tx3);margin-bottom:6px}
+.mbar-track{height:8px;background:var(--bdr);border-radius:4px;position:relative;overflow:visible;margin-bottom:10px}
+.mbar-fill{height:100%;background:linear-gradient(90deg,#27ae60,#e67e22);border-radius:4px;transition:width .4s}
+.mbar-mk{position:absolute;top:-5px;width:18px;height:18px;background:var(--navy);border:3px solid #fff;border-radius:50%;transform:translateX(-50%);box-shadow:0 2px 6px rgba(0,0,0,.25);transition:left .4s}
+.mpos{font-size:12px;color:var(--tx2);text-align:center;margin-bottom:14px}
+.alert-box{background:#fef9ec;border:1.5px solid #f5d87a;border-radius:var(--rs);padding:9px 12px;font-size:12px;color:#856404;display:flex;gap:7px;margin-bottom:12px}
+.dsg-item{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--bdr);font-size:13px}
+.dsg-item:last-child{border-bottom:none}
+.dsg-c{color:var(--tx2)}
+.dsg-v{font-weight:600;color:var(--tx)}
+.dsg-item.tot .dsg-c{font-weight:700;color:var(--tx)}
+.dsg-item.tot .dsg-v{font-size:16px;color:var(--navy)}
+.btn-p{width:100%;padding:13px;background:var(--gold);border:none;border-radius:var(--r);font-size:15px;font-weight:600;color:#fff;cursor:pointer;margin-top:10px}
+.btn-s{width:100%;padding:11px;background:transparent;border:1.5px solid var(--bdr);border-radius:var(--r);font-size:14px;font-weight:500;color:var(--tx2);cursor:pointer;margin-top:8px;transition:all .2s}
+.btn-s:hover{border-color:var(--navy);color:var(--navy)}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.modal-ov.on{display:flex}
+@media(min-width:600px){.modal-ov{align-items:center}}
+.modal{background:var(--sur);width:100%;max-width:520px;max-height:88vh;border-radius:var(--r) var(--r) 0 0;overflow-y:auto;padding:22px}
+@media(min-width:600px){.modal{border-radius:var(--r)}}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.modal-title{font-size:18px;font-weight:700}
+.modal-sub{font-size:13px;color:var(--tx3);margin-bottom:18px}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--tx2);line-height:1}
+.cfg-item{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--bdr)}
+.cfg-item:last-child{border-bottom:none}
+.cfg-nm{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:2px}
+.cfg-area{font-size:11px;color:var(--tx3);margin-bottom:6px}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:11px 20px;border-radius:8px;font-size:14px;z-index:999;transition:transform .3s;white-space:nowrap;pointer-events:none}
+.toast.on{transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;padding:40px 20px;color:var(--tx3)}
+.empty-ic{font-size:36px;margin-bottom:8px}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-logo">
+    <div class="hdr-icon">⚖️</div>
+    <div class="hdr-txt">
+      <strong>Calculador de Honorarios</strong>
+      <span>Castellanos Abogados</span>
+    </div>
+  </div>
+  <button class="btn-cfg" onclick="openCfg()">⚙️ Mis tarifas</button>
+</header>
+
+<main class="main">
+  <div id="sel">
+    <div class="search-wrap">
+      <span class="search-ico">🔍</span>
+      <input class="search-inp" type="search" placeholder="Buscar servicio..." id="srch" oninput="renderGrid()">
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="calc" id="calc">
+    <div class="back" onclick="goBack()">← Volver a servicios</div>
+    <div id="svc-hdr" class="svc-hdr"></div>
+    <div class="layout">
+      <div>
+        <div class="card">
+          <div class="ctitle">Variables del caso</div>
+          <div id="vars-form"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="res-amt">
+            <div class="res-lbl">Honorario calculado</div>
+            <div class="res-num" id="res-num">$0</div>
+            <div class="res-forma" id="res-forma"></div>
+          </div>
+          <div id="mbar-wrap">
+            <div class="mbar-hdr">
+              <span id="mbar-min"></span>
+              <span style="color:var(--tx);font-weight:600;font-size:12px">Rango de mercado</span>
+              <span id="mbar-max"></span>
+            </div>
+            <div class="mbar-track">
+              <div class="mbar-fill" id="mbar-fill" style="width:100%"></div>
+              <div class="mbar-mk" id="mbar-mk" style="left:50%"></div>
+            </div>
+            <div class="mpos" id="mpos"></div>
+          </div>
+          <div id="alert-box"></div>
+          <div class="ctitle">Desglose</div>
+          <div id="dsg"></div>
+          <button class="btn-p" onclick="copiar()">📋 Copiar cotización</button>
+          <button class="btn-s" onclick="openAjuste()">✏️ Ajustar manualmente</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Modal tarifas base -->
+<div class="modal-ov" id="cfgModal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title">⚙️ Mis tarifas base</div>
+      <button class="modal-close" onclick="closeCfg()">✕</button>
+    </div>
+    <div class="modal-sub">Ajuste sus honorarios base por servicio. Se guardan automáticamente en este dispositivo.</div>
+    <div id="cfg-items"></div>
+    <button class="btn-p" onclick="saveCfg()">Guardar cambios</button>
+  </div>
+</div>
+
+<!-- Modal ajuste manual -->
+<div class="modal-ov" id="ajusteModal">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title">✏️ Ajuste manual</div>
+      <button class="modal-close" onclick="closeAjuste()">✕</button>
+    </div>
+    <div class="modal-sub">Modifique el honorario final antes de copiar la cotización.</div>
+    <div class="fg">
+      <label class="flbl">Honorario final (COP)</label>
+      <input type="number" class="finp" id="ajuste-inp" step="10000" min="0">
+    </div>
+    <button class="btn-p" onclick="aplicarAjuste()">Aplicar</button>
+    <button class="btn-s" onclick="closeAjuste()">Cancelar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SMMLV = 1423500;
+
+const COLORES = {
+  familia:'#e74c3c', penal:'#8e44ad', consultas:'#27ae60',
+  tributario:'#e67e22', empresarial:'#2980b9', laboral:'#16a085', ejecutivo:'#7f8c8d'
+};
+const AREAS = {
+  familia:'Derecho de Familia', penal:'Derecho Penal', consultas:'Consultas',
+  tributario:'Tributario', empresarial:'Empresarial', laboral:'Laboral', ejecutivo:'Ejecutivo'
+};
+
+function fmt(n){
+  if(n===undefined||n===null) return '—';
+  return '$'+Math.round(n).toLocaleString('es-CO');
+}
+
+const CIUDAD_OPS = [
+  {v:'intermedia',l:'Ciudad intermedia (base)'},
+  {v:'bogota',l:'Bogotá (+10%)'},
+  {v:'medellin',l:'Medellín (+5%)'},
+  {v:'pequena',l:'Ciudad pequeña (−15%)'},
+];
+const CIUDAD_PCT = {bogota:.10, medellin:.05, intermedia:0, pequena:-.15};
+
+function ajCiudad(base, ciudad){
+  return base * (CIUDAD_PCT[ciudad||'intermedia']||0);
+}
+
+const SERVICIOS = [
+// ═══ FAMILIA ═══
+{id:'divorcio_mutuo', nombre:'Divorcio mutuo acuerdo (notarial)', area:'familia',
+ mercado:{min:500000,max:4000000,med:1200000}, forma:'Por proceso', base_def:900000,
+ alerta:'Verificar si incluye liquidación de sociedad conyugal',
+ vars:[
+  {id:'tiene_bienes',t:'chk',lbl:'Hay bienes para liquidar'},
+  {id:'valor_bienes',t:'cur',lbl:'Valor total de los bienes (COP)',info:'Se cobra 0.5% del valor',si:'tiene_bienes'},
+  {id:'num_hijos',t:'num',lbl:'Hijos menores de edad',info:'+$200.000 por hijo',min:0,def:0},
+  {id:'ciudad',t:'sel',lbl:'Ciudad del proceso',ops:CIUDAD_OPS},
+  {id:'liq_sociedad',t:'chk',lbl:'Incluye liquidación de sociedad conyugal',info:'+$500.000'},
+ ],
+ calc(v,b){
+  b=b||this.base_def; const d=[{c:'Base honorario',v:b}];
+  const bienes=v.tiene_bienes&&v.valor_bienes?v.valor_bienes*.005:0;
+  if(bienes) d.push({c:'Bienes 0.5% de '+fmt(v.valor_bienes),v:bienes});
+  const hijos=(v.num_hijos||0)*200000;
+  if(hijos) d.push({c:`Hijos menores (${v.num_hijos}×$200k)`,v:hijos});
+  let sub=b+bienes+hijos;
+  const ac=ajCiudad(sub,v.ciudad);
+  if(ac) d.push({c:`Ajuste ciudad ${v.ciudad} (${ac>0?'+':''}${Math.round(CIUDAD_PCT[v.ciudad||'intermedia']*100)}%)`,v:ac});
+  const liq=v.liq_sociedad?500000:0;
+  if(liq) d.push({c:'Liquidación sociedad conyugal',v:500000});
+  const t=sub+ac+liq; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'divorcio_contencioso', nombre:'Divorcio contencioso (judicial)', area:'familia',
+ mercado:{min:2000000,max:15000000,med:4500000}, forma:'Por proceso', base_def:2000000,
+ alerta:'No incluye peritajes ni costas judiciales',
+ vars:[
+  {id:'tiene_bienes',t:'chk',lbl:'Hay bienes en disputa'},
+  {id:'valor_bienes',t:'cur',lbl:'Valor de los bienes en disputa (COP)',info:'Se cobra 5% del valor',si:'tiene_bienes'},
+  {id:'num_hijos',t:'num',lbl:'Hijos menores de edad',info:'+$200.000 por hijo',min:0,def:0},
+  {id:'ciudad',t:'sel',lbl:'Ciudad del proceso',ops:CIUDAD_OPS},
+  {id:'boutique',t:'chk',lbl:'Tarifa firma boutique / especializada',info:'+20%'},
+ ],
+ calc(v,b){
+  b=b||this.base_def; const d=[{c:'Base honorario',v:b}];
+  const bienes=v.tiene_bienes&&v.valor_bienes?v.valor_bienes*.05:0;
+  if(bienes) d.push({c:'Bienes 5% de '+fmt(v.valor_bienes),v:bienes});
+  const hijos=(v.num_hijos||0)*200000;
+  if(hijos) d.push({c:`Hijos menores (${v.num_hijos}×$200k)`,v:hijos});
+  let sub=b+bienes+hijos;
+  const ac=ajCiudad(sub,v.ciudad);
+  if(ac) d.push({c:`Ajuste ciudad ${v.ciudad||'intermedia'}`,v:ac});
+  sub+=ac;
+  const bout=v.boutique?sub*.20:0;
+  if(bout) d.push({c:'Tarifa boutique +20%',v:bout});
+  const t=sub+bout; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'divorcio_express', nombre:'Divorcio express (sin bienes ni hijos)', area:'familia',
+ mercado:{min:900000,max:2700000,med:1800000}, forma:'Por proceso', base_def:1200000,
+ alerta:null,
+ vars:[
+  {id:'ciudad',t:'sel',lbl:'Ciudad del proceso',ops:CIUDAD_OPS},
+  {id:'urgencia',t:'chk',lbl:'Urgencia / trámite rápido',info:'+15%'},
+ ],
+ calc(v,b){
+  b=b||this.base_def; const d=[{c:'Base honorario',v:b}];
+  const ac=ajCiudad(b,v.ciudad);
+  if(ac) d.push({c:`Ajuste ciudad ${v.ciudad||'intermedia'}`,v:ac});
+  let sub=b+ac;
+  const urg=v.urgencia?sub*.15:0;
+  if(urg) d.push({c:'Urgencia +15%',v:urg});
+  const t=sub+urg; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'custodia_alimentos', nombre:'Custodia / visitas / alimentos', area:'familia',
+ mercado:{min:1000000,max:1500000,med:1250000}, forma:'Por proceso', base_def:1000000,
+ alerta:'Distinguir entre pensión alimentaria y gastos de crianza',
+ vars:[
+  {id:'complejidad',t:'rng',lbl:'Complejidad del caso (1–10)',info:'$100.000 adicional por punto',min:1,max:10,step:1,def:3},
+  {id:'num_menores',t:'num',lbl:'Número de menores',min:1,def:1},
+  {id:'medidas',t:'chk',lbl:'Incluye medidas cautelares',info:'+$300.000'},
+  {id:'ciudad',t:'sel',lbl:'Ciudad del proceso',ops:CIUDAD_OPS},
+ ],
+ calc(v,b){
+  b=b||this.base_def;
+  const comp=v.complejidad||3;
+  const ajComp=(comp-1)*100000;
+  const d=[{c:'Base honorario',v:b},{c:`Complejidad nivel ${comp}`,v:ajComp}];
+  let sub=b+ajComp;
+  const med=v.medidas?300000:0;
+  if(med) d.push({c:'Medidas cautelares',v:300000});
+  sub+=med;
+  const ac=ajCiudad(sub,v.ciudad);
+  if(ac) d.push({c:`Ajuste ciudad ${v.ciudad||'intermedia'}`,v:ac});
+  const t=sub+ac; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'sucesion_notarial', nombre:'Sucesión notarial', area:'familia',
+ mercado:{min:3000000,max:10000000,med:6500000}, forma:'Por proceso', base_def:2000000,
+ alerta:'La notaría cobra 0.36% + IVA y registro 1% adicional (no incluidos)',
+ vars:[
+  {id:'patrimonio',t:'cur',lbl:'Valor del patrimonio a repartir (COP)'},
+  {id:'pct',t:'sel',lbl:'Porcentaje sobre patrimonio',ops:[
+    {v:2,l:'2% — caso simple, pocos bienes'},{v:3,l:'3% — moderado'},{v:4,l:'4% — con deudas / complejidad'},
+    {v:5,l:'5% — múltiples herederos'},{v:6,l:'6% — alta complejidad / litigio'},
+  ]},
+  {id:'num_herederos',t:'num',lbl:'Número de herederos',min:1,def:2},
+ ],
+ calc(v,b){
+  b=b||this.base_def;
+  const pct=parseFloat(v.pct)||2;
+  const porPct=(v.patrimonio||0)*(pct/100);
+  const d=[{c:'Base honorario',v:b},{c:`${pct}% sobre patrimonio ${fmt(v.patrimonio||0)}`,v:porPct}];
+  const t=b+porPct; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'liquidacion_sociedad', nombre:'Liquidación de sociedad conyugal', area:'familia',
+ mercado:{min:1300000,max:3000000,med:1400000}, forma:'Por proceso', base_def:1300000,
+ alerta:null,
+ vars:[
+  {id:'patrimonio',t:'cur',lbl:'Valor total del patrimonio (COP)'},
+  {id:'ciudad',t:'sel',lbl:'Ciudad del proceso',ops:CIUDAD_OPS},
+ ],
+ calc(v,b){
+  b=b||this.base_def; const d=[{c:'Base honorario',v:b}];
+  const extra=v.patrimonio>50000000?v.patrimonio*.015:0;
+  if(extra) d.push({c:'1.5% sobre patrimonio mayor a $50M',v:extra});
+  let sub=b+extra;
+  const ac=ajCiudad(sub,v.ciudad);
+  if(ac) d.push({c:`Ajuste ciudad ${v.ciudad||'intermedia'}`,v:ac});
+  const t=sub+ac; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+// ═══ PENAL ═══
+{id:'penal_simple', nombre:'Proceso penal — caso simple', area:'penal',
+ mercado:{min:5000000,max:15000000,med:10000000}, forma:'Por proceso / etapas', base_def:5000000,
+ alerta:'No incluye gastos de investigación ni peritajes',
+ vars:[
+  {id:'ciudad',t:'sel',lbl:'Ciudad del proceso',ops:CIUDAD_OPS},
+  {id:'preacuerdo',t:'chk',lbl:'Preacuerdo con Fiscalía (acuerdo temprano)',info:'−20%'},
+  {id:'etapas',t:'chk',lbl:'Dividir en etapas',info:'Muestra honorario por etapa'},
+ ],
+ calc(v,b){
+  b=b||this.base_def; const d=[{c:'Base honorario',v:b}];
+  const ac=ajCiudad(b,v.ciudad);
+  if(ac) d.push({c:`Ajuste ciudad ${v.ciudad||'intermedia'}`,v:ac});
+  let sub=b+ac;
+  const prec=v.preacuerdo?-sub*.20:0;
+  if(prec) d.push({c:'Descuento preacuerdo −20%',v:prec});
+  const t=sub+prec; d.push({c:'TOTAL',v:t,tot:true});
+  if(v.etapas) d.push({c:'Aprox. por etapa (÷3)',v:Math.round(t/3)});
+  return{t,d};
+ }
+},
+{id:'penal_medio', nombre:'Proceso penal — caso mediano', area:'penal',
+ mercado:{min:15000000,max:50000000,med:32500000}, forma:'Por proceso / etapas', base_def:15000000,
+ alerta:'No incluye gastos de investigación ni peritajes',
+ vars:[
+  {id:'ciudad',t:'sel',lbl:'Ciudad del proceso',ops:CIUDAD_OPS},
+  {id:'num_imp',t:'num',lbl:'Personas a representar',info:'+30% por cada adicional',min:1,def:1},
+  {id:'preacuerdo',t:'chk',lbl:'Preacuerdo con Fiscalía',info:'−20%'},
+ ],
+ calc(v,b){
+  b=b||this.base_def;
+  const extra=((v.num_imp||1)-1)*b*.30;
+  const d=[{c:'Base honorario',v:b}];
+  if(extra) d.push({c:`${(v.num_imp||1)-1} persona(s) adicional(es) +30%`,v:extra});
+  const ac=ajCiudad(b+extra,v.ciudad);
+  if(ac) d.push({c:`Ajuste ciudad ${v.ciudad||'intermedia'}`,v:ac});
+  let sub=b+extra+ac;
+  const prec=v.preacuerdo?-sub*.20:0;
+  if(prec) d.push({c:'Descuento preacuerdo −20%',v:prec});
+  const t=sub+prec; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'penal_complejo', nombre:'Proceso penal — caso complejo', area:'penal',
+ mercado:{min:30000000,max:200000000,med:115000000}, forma:'Por etapas + cuota de éxito', base_def:30000000,
+ alerta:'No incluye peritajes ni investigaciones privadas. Considerar cuota litis parcial.',
+ vars:[
+  {id:'ciudad',t:'sel',lbl:'Ciudad del proceso',ops:CIUDAD_OPS},
+  {id:'cuota_litis',t:'chk',lbl:'Agregar cuota litis',info:'+10% adicional en caso de éxito'},
+ ],
+ calc(v,b){
+  b=b||this.base_def; const d=[{c:'Base honorario',v:b}];
+  const ac=ajCiudad(b,v.ciudad);
+  if(ac) d.push({c:`Ajuste ciudad ${v.ciudad||'intermedia'}`,v:ac});
+  const sub=b+ac;
+  if(v.cuota_litis) d.push({c:'Cuota litis 10% (si hay éxito)',v:sub*.10});
+  d.push({c:'TOTAL (sin cuota litis)',v:sub,tot:true}); return{t:sub,d};
+ }
+},
+{id:'hora_penalista', nombre:'Hora de abogado penalista', area:'penal',
+ mercado:{min:200000,max:500000,med:350000}, forma:'Por hora', base_def:300000,
+ alerta:'Acordar mínimo de horas comprometidas',
+ vars:[
+  {id:'num_horas',t:'num',lbl:'Número de horas',min:1,def:1},
+  {id:'nocturno',t:'chk',lbl:'Trabajo nocturno / urgente',info:'+20%'},
+ ],
+ calc(v,b){
+  b=b||this.base_def;
+  const h=v.num_horas||1;
+  const noc=v.nocturno?b*.20:0;
+  const tarifa=b+noc;
+  const d=[{c:'Tarifa por hora',v:b}];
+  if(noc) d.push({c:'Recargo nocturno +20%',v:noc});
+  const t=tarifa*h; d.push({c:`${h} hora(s) × ${fmt(tarifa)}`,v:t,tot:true}); return{t,d};
+ }
+},
+{id:'habeas_corpus', nombre:'Habeas corpus', area:'penal',
+ mercado:{min:500000,max:2000000,med:1250000}, forma:'Por actuación', base_def:700000,
+ alerta:null,
+ vars:[
+  {id:'ciudad',t:'sel',lbl:'Ciudad',ops:CIUDAD_OPS},
+  {id:'urgencia',t:'chk',lbl:'Urgencia / presentación inmediata',info:'+$300.000'},
+ ],
+ calc(v,b){
+  b=b||this.base_def; const d=[{c:'Base honorario',v:b}];
+  const urg=v.urgencia?300000:0;
+  if(urg) d.push({c:'Urgencia',v:300000});
+  let sub=b+urg;
+  const ac=ajCiudad(sub,v.ciudad);
+  if(ac) d.push({c:`Ajuste ciudad ${v.ciudad||'intermedia'}`,v:ac});
+  const t=sub+ac; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'tutela_penal', nombre:'Acción de tutela (penal)', area:'penal',
+ mercado:{min:500000,max:3000000,med:1750000}, forma:'Por actuación', base_def:700000,
+ alerta:null,
+ vars:[
+  {id:'complejidad',t:'sel',lbl:'Complejidad del caso',ops:[
+    {v:0,l:'Simple'},{v:.5,l:'Media (+50%)'},{v:1,l:'Compleja (+100%)'},
+  ]},
+  {id:'urgencia',t:'chk',lbl:'Presentación urgente',info:'+$200.000'},
+ ],
+ calc(v,b){
+  b=b||this.base_def;
+  const pct=parseFloat(v.complejidad)||0;
+  const ajComp=b*pct;
+  const d=[{c:'Base honorario',v:b}];
+  if(ajComp) d.push({c:`Complejidad +${pct*100}%`,v:ajComp});
+  const urg=v.urgencia?200000:0;
+  if(urg) d.push({c:'Urgencia',v:200000});
+  const t=b+ajComp+urg; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+// ═══ CONSULTAS ═══
+{id:'consulta_general', nombre:'Consulta jurídica general', area:'consultas',
+ mercado:{min:100000,max:300000,med:200000}, forma:'Por hora', base_def:150000,
+ alerta:null,
+ vars:[
+  {id:'horas',t:'num',lbl:'Duración (horas)',min:0.5,step:0.5,def:1},
+  {id:'fds',t:'chk',lbl:'Fin de semana / festivo',info:'+50%'},
+  {id:'gratis',t:'chk',lbl:'Primera consulta (cortesía)',info:'Honorario = $0'},
+ ],
+ calc(v,b){
+  if(v.gratis) return{t:0,d:[{c:'Primera consulta cortesía',v:0,tot:true}]};
+  b=b||this.base_def;
+  const fds=v.fds?b*.50:0;
+  const tarifa=b+fds;
+  const h=v.horas||1;
+  const d=[{c:'Tarifa por hora',v:b}];
+  if(fds) d.push({c:'Recargo fin de semana +50%',v:fds});
+  const t=tarifa*h; d.push({c:`${h} hora(s) × ${fmt(tarifa)}`,v:t,tot:true}); return{t,d};
+ }
+},
+{id:'consulta_especializada', nombre:'Consulta especializada', area:'consultas',
+ mercado:{min:300000,max:400000,med:350000}, forma:'Por hora', base_def:300000,
+ alerta:null,
+ vars:[
+  {id:'horas',t:'num',lbl:'Duración (horas)',min:0.5,step:0.5,def:1},
+ ],
+ calc(v,b){
+  b=b||this.base_def; const h=v.horas||1;
+  const t=b*h;
+  return{t,d:[{c:`${h} hora(s) × ${fmt(b)}`,v:t,tot:true}]};
+ }
+},
+{id:'consulta_penal', nombre:'Consulta penal', area:'consultas',
+ mercado:{min:300000,max:800000,med:550000}, forma:'Por hora', base_def:300000,
+ alerta:null,
+ vars:[
+  {id:'horas',t:'num',lbl:'Duración (horas)',min:0.5,step:0.5,def:1},
+  {id:'ciudad',t:'sel',lbl:'Ciudad',ops:CIUDAD_OPS},
+ ],
+ calc(v,b){
+  b=b||this.base_def;
+  const ac=ajCiudad(b,v.ciudad);
+  const tarifa=b+ac;
+  const h=v.horas||1;
+  const d=[{c:'Tarifa por hora',v:b}];
+  if(ac) d.push({c:`Ajuste ciudad ${v.ciudad||'intermedia'}`,v:ac});
+  const t=tarifa*h; d.push({c:`${h} hora(s) × ${fmt(tarifa)}`,v:t,tot:true}); return{t,d};
+ }
+},
+// ═══ TRIBUTARIO ═══
+{id:'renta_pn', nombre:'Declaración de renta — Persona natural', area:'tributario',
+ mercado:{min:300000,max:800000,med:550000}, forma:'Por declaración', base_def:400000,
+ alerta:'No incluye impuestos, sanciones ni correcciones posteriores',
+ vars:[
+  {id:'complejidad',t:'sel',lbl:'Complejidad',ops:[
+    {v:300000,l:'Simple — un ingreso, sin activos externos'},
+    {v:500000,l:'Media — múltiples ingresos, CDT, inversiones'},
+    {v:800000,l:'Compleja — activos en exterior, rentas especiales'},
+  ]},
+  {id:'exogena',t:'chk',lbl:'Incluye información exógena',info:'+$150.000'},
+ ],
+ calc(v,b){
+  const base=parseFloat(v.complejidad)||(b||this.base_def);
+  const d=[{c:'Honorario según complejidad',v:base}];
+  const exo=v.exogena?150000:0;
+  if(exo) d.push({c:'Información exógena',v:150000});
+  const t=base+exo; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'renta_empresa', nombre:'Declaración de renta — Empresa', area:'tributario',
+ mercado:{min:1000000,max:30000000,med:5500000}, forma:'Por declaración', base_def:2000000,
+ alerta:'No incluye impuestos, sanciones ni correcciones',
+ vars:[
+  {id:'tamano',t:'sel',lbl:'Tamaño de la empresa',ops:[
+    {v:'p',l:'Pequeña — hasta 10 empleados ($1M–$3M)'},
+    {v:'m',l:'Mediana — 10–50 empleados ($3M–$8M)'},
+    {v:'g',l:'Grande — más de 50 empleados ($8M–$30M)'},
+  ]},
+  {id:'iva',t:'chk',lbl:'Declarante de IVA',info:'+$300.000'},
+  {id:'retefuente',t:'chk',lbl:'Agente de retención en la fuente',info:'+$200.000'},
+ ],
+ calc(v,b){
+  const bases={p:1500000,m:4000000,g:12000000};
+  const base=bases[v.tamano||'p']||(b||this.base_def);
+  const d=[{c:`Base empresa ${v.tamano==='g'?'grande':v.tamano==='m'?'mediana':'pequeña'}`,v:base}];
+  const iva=v.iva?300000:0; if(iva) d.push({c:'Declarante de IVA',v:300000});
+  const ret=v.retefuente?200000:0; if(ret) d.push({c:'Agente de retención',v:200000});
+  const t=base+iva+ret; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'iguala_mensual', nombre:'Iguala mensual contable / tributaria', area:'tributario',
+ mercado:{min:2000000,max:15000000,med:8500000}, forma:'Mensual', base_def:2000000,
+ alerta:'Definir alcance de horas incluidas. Litigios no incluidos por defecto.',
+ vars:[
+  {id:'tamano',t:'sel',lbl:'Tamaño de la empresa',ops:[
+    {v:'p',l:'Pequeña ($2M/mes)'},{v:'m',l:'Mediana ($4.5M/mes)'},{v:'g',l:'Grande ($9M/mes)'},
+  ]},
+  {id:'litigio',t:'chk',lbl:'Incluye acompañamiento en litigio',info:'+$2.000.000/mes'},
+  {id:'pyme',t:'chk',lbl:'PYME — aplicar descuento',info:'−20%'},
+ ],
+ calc(v,b){
+  const bases={p:2000000,m:4500000,g:9000000};
+  let base=bases[v.tamano||'p']||(b||this.base_def);
+  const d=[{c:`Base ${v.tamano==='g'?'grande':v.tamano==='m'?'mediana':'pequeña'}`,v:base}];
+  if(v.pyme){const desc=-base*.20; d.push({c:'Descuento PYME −20%',v:desc}); base+=desc;}
+  const lit=v.litigio?2000000:0; if(lit) d.push({c:'Acompañamiento litigio',v:2000000});
+  const t=base+lit; d.push({c:'TOTAL mensual',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'defensa_dian', nombre:'Defensa ante DIAN', area:'tributario',
+ mercado:{min:3000000,max:200000000,med:19000000}, forma:'Por proceso', base_def:4000000,
+ alerta:null,
+ vars:[
+  {id:'nivel',t:'sel',lbl:'Monto en discusión con la DIAN',ops:[
+    {v:'p',l:'Hasta $100M — honorario $3M–$8M'},
+    {v:'m',l:'$100M – $1.000M — honorario $8M–$30M'},
+    {v:'g',l:'Más de $1.000M — honorario $30M–$200M'},
+  ]},
+ ],
+ calc(v,b){
+  const bases={p:4000000,m:15000000,g:50000000};
+  const t=bases[v.nivel||'p']||(b||this.base_def);
+  return{t,d:[{c:`Defensa DIAN (${v.nivel==='g'?'grande':v.nivel==='m'?'mediana':'pequeña'})`,v:t,tot:true}]};
+ }
+},
+// ═══ EMPRESARIAL ═══
+{id:'constitucion_sas', nombre:'Constitución de SAS', area:'empresarial',
+ mercado:{min:800000,max:5000000,med:2900000}, forma:'Por proceso', base_def:1200000,
+ alerta:'No olvidar pago de formularios RUES y firma digital (costos externos al honorario)',
+ vars:[
+  {id:'capital',t:'cur',lbl:'Capital social (COP)',info:'+0.7% sobre el capital'},
+  {id:'socios',t:'num',lbl:'Número de socios',min:1,def:1,info:'Más de 2 socios: +$300.000'},
+  {id:'clausulas',t:'chk',lbl:'Cláusulas especiales en estatutos',info:'+$500.000'},
+  {id:'estandar',t:'chk',lbl:'Estatutos estándar (sin personalización)',info:'−$300.000'},
+ ],
+ calc(v,b){
+  b=b||this.base_def; const d=[{c:'Base honorario',v:b}];
+  const porCap=(v.capital||0)*.007;
+  if(porCap) d.push({c:`0.7% sobre capital ${fmt(v.capital||0)}`,v:porCap});
+  const exSocios=(v.socios||1)>2?300000:0;
+  if(exSocios) d.push({c:`${v.socios} socios (>2)`,v:300000});
+  const claus=v.clausulas?500000:0; if(claus) d.push({c:'Cláusulas especiales',v:500000});
+  const est=v.estandar?-300000:0; if(est) d.push({c:'Estatutos estándar (descuento)',v:-300000});
+  const t=b+porCap+exSocios+claus+est; d.push({c:'TOTAL',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'asesoria_empresarial', nombre:'Plan de asesoría empresarial', area:'empresarial',
+ mercado:{min:550000,max:950000,med:750000}, forma:'Mensual', base_def:550000,
+ alerta:'Litigios no incluidos en el plan base',
+ vars:[
+  {id:'plan',t:'sel',lbl:'Plan',ops:[
+    {v:550000,l:'Plan Operativo — $550.000/mes'},
+    {v:950000,l:'Plan Integral — $950.000/mes'},
+  ]},
+  {id:'anual',t:'chk',lbl:'Pago anticipado anual',info:'−10%'},
+ ],
+ calc(v,b){
+  const plan=parseFloat(v.plan)||(b||this.base_def);
+  const d=[{c:'Plan mensual',v:plan}];
+  const desc=v.anual?-plan*.10:0;
+  if(desc) d.push({c:'Descuento pago anual −10%',v:desc});
+  const mensual=plan+desc;
+  d.push({c:'Mensual a cobrar',v:mensual,tot:true});
+  if(v.anual) d.push({c:'Total anual (×12)',v:mensual*12});
+  return{t:mensual,d};
+ }
+},
+// ═══ EJECUTIVO ═══
+{id:'proceso_ejecutivo', nombre:'Proceso ejecutivo (cobro de pagaré / letra)', area:'ejecutivo',
+ mercado:{min:1300000,max:5000000,med:2000000}, forma:'Base + % sobre recuperado', base_def:SMMLV,
+ alerta:'El porcentaje de éxito aplica sobre el monto efectivamente recuperado',
+ vars:[
+  {id:'monto',t:'cur',lbl:'Monto a cobrar (COP)'},
+  {id:'pct',t:'sel',lbl:'Porcentaje de éxito',ops:[
+    {v:10,l:'10% — caso estándar'},{v:12,l:'12% — dificultad media'},{v:15,l:'15% — alta dificultad'},
+  ]},
+  {id:'oposicion',t:'chk',lbl:'El deudor opone excepciones',info:'+$500.000'},
+ ],
+ calc(v,b){
+  b=b||this.base_def;
+  const pct=parseFloat(v.pct)||10;
+  const porExito=(v.monto||0)*(pct/100);
+  const d=[{c:`Base (1 SMMLV = ${fmt(SMMLV)})`,v:b},{c:`${pct}% sobre ${fmt(v.monto||0)}`,v:porExito}];
+  const op=v.oposicion?500000:0; if(op) d.push({c:'Excepciones del deudor',v:500000});
+  const t=b+porExito+op; d.push({c:'TOTAL estimado',v:t,tot:true}); return{t,d};
+ }
+},
+{id:'cobro_cartera', nombre:'Cobro de cartera (PH / empresas)', area:'ejecutivo',
+ mercado:{min:0,max:0,med:0}, forma:'% sobre lo recuperado', base_def:0,
+ alerta:'Sin cuota fija. Acordar mínimo garantizado de recaudación.',
+ vars:[
+  {id:'cartera',t:'cur',lbl:'Valor total de la cartera (COP)'},
+  {id:'pct',t:'sel',lbl:'Porcentaje sobre recuperado',ops:[
+    {v:8,l:'8% — pago voluntario / cartera reciente'},{v:10,l:'10% — dificultad media'},
+    {v:12,l:'12% — cartera antigua'},{v:15,l:'15% — múltiples deudores / difícil'},
+  ]},
+ ],
+ calc(v,b){
+  const pct=parseFloat(v.pct)||10;
+  const t=(v.cartera||0)*(pct/100);
+  return{t,d:[
+    {c:`${pct}% sobre cartera ${fmt(v.cartera||0)}`,v:t},
+    {c:'TOTAL estimado (si se recupera 100%)',v:t,tot:true},
+  ]};
+ }
+},
+// ═══ LABORAL ═══
+{id:'consulta_laboral', nombre:'Consulta laboral', area:'laboral',
+ mercado:{min:90000,max:800000,med:500000}, forma:'Por hora', base_def:200000,
+ alerta:'No incluye representación judicial',
+ vars:[
+  {id:'horas',t:'num',lbl:'Horas de consulta',min:0.5,step:0.5,def:1},
+  {id:'complejidad',t:'sel',lbl:'Complejidad',ops:[
+    {v:1,l:'Simple — consulta general'},{v:1.3,l:'Media — fuero, despido, liquidaciones'},{v:1.7,l:'Alta — indemnizaciones, acciones colectivas'},
+  ]},
+ ],
+ calc(v,b){
+  b=b||this.base_def;
+  const mult=parseFloat(v.complejidad)||1;
+  const h=v.horas||1;
+  const tarifa=b*mult;
+  const d=[{c:`Tarifa hora ${fmt(b)}`,v:b}];
+  if(mult>1) d.push({c:`Ajuste complejidad ×${mult}`,v:b*(mult-1)});
+  const t=tarifa*h; d.push({c:`${h} hora(s) × ${fmt(tarifa)}`,v:t,tot:true}); return{t,d};
+ }
+},
+];
+
+// ─── STATE ───
+let estado={area:'all', svc:null, vars:{}, ajuste:null};
+let bases={};
+
+function loadBases(){
+  try{bases=JSON.parse(localStorage.getItem('hon_bases')||'{}')}catch(e){bases={}}
+}
+function saveBases(){localStorage.setItem('hon_bases',JSON.stringify(bases));}
+function getBase(id){return bases[id]||null;}
+
+loadBases();
+
+// ─── RENDER TABS ───
+function renderTabs(){
+  const el=document.getElementById('tabs');
+  const all=[['all','Todos'],...Object.entries(AREAS)];
+  el.innerHTML=all.map(([k,v])=>`<button class="tab${estado.area===k?' on':''}" onclick="setArea('${k}')">${v}</button>`).join('');
+}
+
+// ─── RENDER GRID ───
+function setArea(a){estado.area=a; renderTabs(); renderGrid();}
+
+function renderGrid(){
+  const q=(document.getElementById('srch').value||'').toLowerCase();
+  const filtered=SERVICIOS.filter(s=>{
+    if(estado.area!=='all'&&s.area!==estado.area) return false;
+    if(q&&!s.nombre.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const el=document.getElementById('grid');
+  if(!filtered.length){
+    el.innerHTML='<div class="empty"><div class="empty-ic">🔍</div><div>Sin resultados para "'+q+'"</div></div>';
+    return;
+  }
+  el.innerHTML=filtered.map(s=>`
+    <div class="svc-card" onclick="openSvc('${s.id}')">
+      <div class="dot" style="background:${COLORES[s.area]}"></div>
+      <div class="svc-card-info">
+        <div class="svc-nm">${s.nombre}</div>
+        <div class="svc-rng">${s.mercado.min?fmt(s.mercado.min)+' – '+fmt(s.mercado.max):'Por porcentaje'}</div>
+      </div>
+      <div class="svc-arr">›</div>
+    </div>`).join('');
+}
+
+// ─── OPEN SERVICE ───
+function openSvc(id){
+  const svc=SERVICIOS.find(s=>s.id===id);
+  if(!svc) return;
+  estado.svc=id; estado.vars={}; estado.ajuste=null;
+  // init default vars
+  svc.vars.forEach(v=>{
+    if(v.def!==undefined) estado.vars[v.id]=v.def;
+    if(v.t==='sel'&&v.ops&&v.ops.length) estado.vars[v.id]=v.ops[0].v;
+    if(v.t==='rng') estado.vars[v.id]=v.def||v.min||1;
+  });
+  document.getElementById('sel').style.display='none';
+  const calc=document.getElementById('calc');
+  calc.classList.add('on');
+  // header
+  document.getElementById('svc-hdr').innerHTML=`
+    <div class="svc-hdr-dot" style="background:${COLORES[svc.area]}"></div>
+    <div>
+      <div class="svc-hdr-nm">${svc.nombre}</div>
+      <div class="svc-hdr-area">${AREAS[svc.area]} · ${svc.forma}</div>
+    </div>`;
+  document.getElementById('res-forma').textContent=svc.forma;
+  renderVars(svc);
+  calcular();
+  window.scrollTo(0,0);
+}
+
+function goBack(){
+  document.getElementById('sel').style.display='';
+  document.getElementById('calc').classList.remove('on');
+  estado.svc=null;
+}
+
+// ─── RENDER VARIABLES ───
+function renderVars(svc){
+  const el=document.getElementById('vars-form');
+  el.innerHTML=svc.vars.map(v=>renderVar(v)).join('');
+}
+
+function renderVar(v){
+  const val=estado.vars[v.id];
+  if(v.si&&!estado.vars[v.si]) return `<div id="fg-${v.id}" class="fg" style="display:none">${varInner(v,val)}</div>`;
+  return `<div id="fg-${v.id}" class="fg">${varInner(v,val)}</div>`;
+}
+
+function varInner(v,val){
+  const info=v.info?`<div class="finfo">${v.info}</div>`:'';
+  switch(v.t){
+    case 'chk':
+      return `<label class="fchk${val?' on':''}" id="chk-${v.id}" onclick="toggleChk('${v.id}')">
+        <input type="checkbox" ${val?'checked':''}>
+        <div class="chkbox">${val?'✓':''}</div>
+        <span class="chk-lbl">${v.lbl}</span>
+        ${v.info?`<span style="font-size:11px;color:var(--tx3)">${v.info}</span>`:''}
+      </label>`;
+    case 'num':
+      return `<label class="flbl">${v.lbl}</label>
+        <input class="finp" type="number" id="inp-${v.id}" value="${val||v.def||0}"
+          min="${v.min||0}" step="${v.step||1}"
+          oninput="setVar('${v.id}',parseFloat(this.value)||0)">
+        ${info}`;
+    case 'cur':
+      return `<label class="flbl">${v.lbl}</label>
+        <input class="finp" type="number" id="inp-${v.id}" value="${val||''}"
+          min="0" step="100000" placeholder="0"
+          oninput="setVar('${v.id}',parseFloat(this.value)||0)">
+        ${info}`;
+    case 'sel':
+      return `<label class="flbl">${v.lbl}</label>
+        <select class="fsel" id="inp-${v.id}" onchange="setVar('${v.id}',this.value)">
+          ${(v.ops||[]).map(o=>`<option value="${o.v}"${String(val)===String(o.v)?' selected':''}>${o.l}</option>`).join('')}
+        </select>
+        ${info}`;
+    case 'rng':
+      return `<label class="flbl">${v.lbl}</label>
+        <div class="range-val" id="rng-val-${v.id}">${val||v.def||v.min||1}</div>
+        <input type="range" id="inp-${v.id}" min="${v.min||1}" max="${v.max||10}" step="${v.step||1}"
+          value="${val||v.def||v.min||1}"
+          oninput="setRng('${v.id}',this.value)">
+        <div class="range-row"><span>${v.min||1}</span><span>${v.max||10}</span></div>
+        ${info}`;
+    default: return '';
+  }
+}
+
+function toggleChk(id){
+  const svc=SERVICIOS.find(s=>s.id===estado.svc);
+  const vDef=svc.vars.find(v=>v.id===id);
+  estado.vars[id]=!estado.vars[id];
+  // re-render this var and any that depend on it
+  renderVars(svc);
+  calcular();
+}
+
+function setVar(id,val){
+  estado.vars[id]=val;
+  const svc=SERVICIOS.find(s=>s.id===estado.svc);
+  // update visibility of dependent vars
+  svc.vars.forEach(v=>{
+    if(v.si){
+      const fg=document.getElementById('fg-'+v.id);
+      if(fg) fg.style.display=estado.vars[v.si]?'':'none';
+    }
+  });
+  calcular();
+}
+
+function setRng(id,val){
+  estado.vars[id]=parseFloat(val);
+  const el=document.getElementById('rng-val-'+id);
+  if(el) el.textContent=val;
+  calcular();
+}
+
+// ─── CALCULATE ───
+function calcular(){
+  const svc=SERVICIOS.find(s=>s.id===estado.svc);
+  if(!svc) return;
+  const base=getBase(svc.id);
+  const res=svc.calc(estado.vars,base);
+  const total=estado.ajuste!==null?estado.ajuste:res.t;
+  // result number
+  document.getElementById('res-num').textContent=fmt(total);
+  // market bar
+  const {min,max,med}=svc.mercado;
+  const mbarWrap=document.getElementById('mbar-wrap');
+  if(min||max){
+    mbarWrap.style.display='';
+    document.getElementById('mbar-min').textContent=fmt(min);
+    document.getElementById('mbar-max').textContent=fmt(max);
+    let pct=max>min?Math.max(0,Math.min(100,(total-min)/(max-min)*100)):50;
+    document.getElementById('mbar-fill').style.width='100%';
+    document.getElementById('mbar-mk').style.left=pct+'%';
+    // position label
+    let pos='';
+    if(total<min) pos='⬇️ Por debajo del mercado';
+    else if(total<=min+(max-min)*.30) pos='↙️ Precio bajo del mercado';
+    else if(total<=min+(max-min)*.55) pos='✅ Precio competitivo';
+    else if(total<=min+(max-min)*.80) pos='↗️ Precio medio-alto';
+    else if(total<=max) pos='⭐ Precio premium';
+    else pos='⬆️ Por encima del mercado';
+    document.getElementById('mpos').textContent=pos;
+  } else {
+    mbarWrap.style.display='none';
+  }
+  // alert
+  const ab=document.getElementById('alert-box');
+  ab.innerHTML=svc.alerta?`<div class="alert-box">⚠️ <span>${svc.alerta}</span></div>`:'';
+  // desglose
+  const dsg=document.getElementById('dsg');
+  dsg.innerHTML=res.d.map(item=>`
+    <div class="dsg-item${item.tot?' tot':''}">
+      <span class="dsg-c">${item.c}</span>
+      <span class="dsg-v">${fmt(item.v)}</span>
+    </div>`).join('');
+}
+
+// ─── COPY ───
+function copiar(){
+  const svc=SERVICIOS.find(s=>s.id===estado.svc);
+  const base=getBase(svc.id);
+  const res=svc.calc(estado.vars,base);
+  const total=estado.ajuste!==null?estado.ajuste:res.t;
+  const fecha=new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'long',year:'numeric'});
+  let txt=`CASTELLANOS ABOGADOS\nCotización de honorarios — ${fecha}\n`;
+  txt+=`${'─'.repeat(40)}\n`;
+  txt+=`Servicio: ${svc.nombre}\n`;
+  txt+=`Área: ${AREAS[svc.area]}\n`;
+  txt+=`Forma de cobro: ${svc.forma}\n\n`;
+  txt+=`Desglose:\n`;
+  res.d.forEach(item=>{ txt+=`  ${item.c}: ${fmt(item.v)}\n`; });
+  if(estado.ajuste!==null) txt+=`\n  (Ajuste manual aplicado)\n`;
+  txt+=`\nHONORARIO TOTAL: ${fmt(total)}\n`;
+  txt+=`${'─'.repeat(40)}\n`;
+  if(svc.alerta) txt+=`Nota: ${svc.alerta}\n`;
+  txt+=`\nRango de mercado observado: ${fmt(svc.mercado.min)} – ${fmt(svc.mercado.max)}\n`;
+  navigator.clipboard.writeText(txt).then(()=>showToast('✅ Cotización copiada')).catch(()=>{
+    // fallback
+    const ta=document.createElement('textarea');
+    ta.value=txt; document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    showToast('✅ Cotización copiada');
+  });
+}
+
+// ─── AJUSTE MANUAL ───
+function openAjuste(){
+  const svc=SERVICIOS.find(s=>s.id===estado.svc);
+  const base=getBase(svc.id);
+  const res=svc.calc(estado.vars,base);
+  document.getElementById('ajuste-inp').value=Math.round(estado.ajuste!==null?estado.ajuste:res.t);
+  document.getElementById('ajusteModal').classList.add('on');
+}
+function closeAjuste(){document.getElementById('ajusteModal').classList.remove('on');}
+function aplicarAjuste(){
+  const val=parseFloat(document.getElementById('ajuste-inp').value)||0;
+  estado.ajuste=val;
+  closeAjuste(); calcular();
+}
+
+// ─── CONFIG ───
+function openCfg(){
+  const el=document.getElementById('cfg-items');
+  el.innerHTML=SERVICIOS.map(s=>`
+    <div class="cfg-item">
+      <div class="cfg-nm">${s.nombre}</div>
+      <div class="cfg-area" style="color:${COLORES[s.area]}">${AREAS[s.area]}</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <input class="finp" type="number" id="cfg-${s.id}"
+          value="${getBase(s.id)||s.base_def||''}"
+          placeholder="${fmt(s.base_def||0)} (por defecto)"
+          min="0" step="50000" style="flex:1">
+        <button onclick="resetBase('${s.id}')" style="background:none;border:1.5px solid var(--bdr);border-radius:6px;padding:8px 10px;cursor:pointer;font-size:12px;color:var(--tx3)">↩ Reset</button>
+      </div>
+    </div>`).join('');
+  document.getElementById('cfgModal').classList.add('on');
+}
+function closeCfg(){document.getElementById('cfgModal').classList.remove('on');}
+function resetBase(id){
+  const svc=SERVICIOS.find(s=>s.id===id);
+  const inp=document.getElementById('cfg-'+id);
+  if(inp) inp.value=svc.base_def||'';
+  delete bases[id]; saveBases();
+}
+function saveCfg(){
+  SERVICIOS.forEach(s=>{
+    const inp=document.getElementById('cfg-'+s.id);
+    if(inp&&inp.value) bases[s.id]=parseFloat(inp.value);
+    else delete bases[s.id];
+  });
+  saveBases(); closeCfg();
+  if(estado.svc) calcular();
+  showToast('✅ Tarifas guardadas');
+}
+
+// ─── TOAST ───
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2500);
+}
+
+// ─── INIT ───
+renderTabs();
+renderGrid();
+</script>
+</body>
+</html>
