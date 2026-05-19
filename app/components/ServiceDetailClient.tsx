@@ -15,6 +15,8 @@ export default function ServiceDetailClient({
 }) {
   const { t } = useLanguage();
   const p = t.pages.servicioDetalle;
+  const localizedDetail = (p.serviceCopy as Record<string, Partial<ServiceDetail>>)[detail.slug] ?? {};
+  const displayDetail = { ...detail, ...localizedDetail };
 
   return (
     <main className="bg-canvas text-ink">
@@ -30,12 +32,12 @@ export default function ServiceDetailClient({
             <Link href="/servicios" className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">
               {p.backToServices}
             </Link>
-            {detail.chips.map((chip) => (
+            {displayDetail.chips.map((chip) => (
               <span key={chip} className="rounded-full bg-white/10 px-3 py-1 font-semibold ring-1 ring-white/20">{chip}</span>
             ))}
           </div>
-          <h1 className="text-white max-w-3xl">{detail.headline}</h1>
-          <p className="max-w-3xl text-slate-100 text-lg">{detail.summary}</p>
+          <h1 className="text-white max-w-3xl">{displayDetail.headline}</h1>
+          <p className="max-w-3xl text-slate-100 text-lg">{displayDetail.summary}</p>
           <div className="flex flex-wrap gap-3">
             <a
               href={buildMailtoUrl({
@@ -54,7 +56,7 @@ export default function ServiceDetailClient({
             </Link>
           </div>
           <div className="grid gap-3 text-sm text-slate-100 md:grid-cols-3">
-            {detail.heroStats.map((stat) => (
+            {displayDetail.heroStats.map((stat) => (
               <div key={stat} className="rounded-2xl bg-white/10 px-4 py-3 ring-1 ring-white/15">{stat}</div>
             ))}
           </div>
@@ -66,7 +68,7 @@ export default function ServiceDetailClient({
           <div className="card-shell bg-white p-6">
             <p className="pill w-fit">{p.whenBadge}</p>
             <ul className="mt-4 space-y-3 text-sm text-muted">
-              {detail.activation.map((item) => (
+              {displayDetail.activation.map((item) => (
                 <li key={item} className="flex gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
                   {item}
@@ -78,7 +80,7 @@ export default function ServiceDetailClient({
           <div className="card-shell bg-white p-6">
             <p className="pill w-fit">{p.forWhomBadge}</p>
             <ul className="mt-4 space-y-3 text-sm text-muted">
-              {detail.audience.map((item) => (
+              {displayDetail.audience.map((item) => (
                 <li key={item} className="flex gap-3">
                   <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
                   {item}
@@ -91,9 +93,9 @@ export default function ServiceDetailClient({
         <div className="card-shell bg-white p-8 shadow-soft/40">
           <p className="pill w-fit">{p.deliverablesBadge}</p>
           <h2 className="mt-3 text-ink">{p.deliverablesTitle}</h2>
-          <p className="mt-2 text-muted">{detail.deliverablesIntro}</p>
+          <p className="mt-2 text-muted">{displayDetail.deliverablesIntro}</p>
           <ul className="mt-5 space-y-3 text-sm text-muted">
-            {detail.deliverables.map((item) => (
+            {displayDetail.deliverables.map((item) => (
               <li key={item} className="flex gap-3">
                 <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
                 {item}
