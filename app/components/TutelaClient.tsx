@@ -41,7 +41,7 @@ export default function TutelaClient() {
                 data-wa-lead
                 className="btn-primary bg-white text-ink hover:bg-slate-100"
               >
-                {t.common.requestInfo}
+                {p.evaluateCase}
               </a>
               <Link href="/contacto" className="btn-secondary border-white/60 bg-white/10 text-white hover:bg-white/15 hover:text-white">
                 {t.common.goContact}
@@ -160,7 +160,7 @@ export default function TutelaClient() {
                 })}
                 className="btn-primary"
               >
-                {t.common.contactEmail}
+                {p.evaluateCase}
               </a>
               <a
                 href={buildWhatsAppUrl({
@@ -170,7 +170,7 @@ export default function TutelaClient() {
                 })}
                 className="btn-secondary"
               >
-                {t.common.contactWhatsApp}
+                {p.evaluateCase}
               </a>
             </div>
           </article>

@@ -381,6 +381,7 @@ export const fr = {
       ctaBadge: "Contact",
       ctaTitle: "L'entité ne répond pas ou l'assureur santé continue de retarder ?",
       ctaSubtitle: "Examinez votre situation avant de perdre plus de temps ou de déposer un recours incomplet.",
+      evaluateCase: "Évaluer mon cas",
     },
     nosotros: {
       formationBadge: "Formation académique",
@@ -544,7 +545,7 @@ export const fr = {
       forWhomBadge: "Pour qui",
       deliverablesBadge: "Livrables",
       deliverablesTitle: "Ce que nous livrons",
-      scheduleSession: "Planifier une session",
+      scheduleSession: "Évaluer mon cas",
       coordinateBoard: "Coordonner avec le conseil",
       serviceCopy: {
         "penal-personas": {

@@ -381,6 +381,7 @@ export const en = {
       ctaBadge: "Contact",
       ctaTitle: "Is the entity not responding or is the health insurer still delaying?",
       ctaSubtitle: "Review your situation before losing more time or filing an incomplete writ.",
+      evaluateCase: "Evaluate my case",
     },
     nosotros: {
       formationBadge: "Academic background",
@@ -544,7 +545,7 @@ export const en = {
       forWhomBadge: "For whom",
       deliverablesBadge: "Deliverables",
       deliverablesTitle: "What we deliver",
-      scheduleSession: "Schedule session",
+      scheduleSession: "Evaluate my case",
       coordinateBoard: "Coordinate with board",
       serviceCopy: {
         "penal-personas": {

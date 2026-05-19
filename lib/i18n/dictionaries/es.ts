@@ -406,6 +406,7 @@ export const es = {
       ctaBadge: "Contacto",
       ctaTitle: "¿La entidad no responde o la EPS sigue dilatando?",
       ctaSubtitle: "Revise su situación antes de perder más tiempo o presentar una tutela incompleta.",
+      evaluateCase: "Evaluar mi caso",
     },
     nosotros: {
       formationBadge: "Formación académica",
@@ -569,7 +570,7 @@ export const es = {
       forWhomBadge: "Para quién",
       deliverablesBadge: "Entregables",
       deliverablesTitle: "Lo que entregamos",
-      scheduleSession: "Programar sesión",
+      scheduleSession: "Evaluar mi caso",
       coordinateBoard: "Coordinar con junta",
       serviceCopy: {
         "penal-personas": {
