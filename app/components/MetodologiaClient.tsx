@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import SiteHeader from "@/app/components/SiteHeader";
+import WaIcon from "@/app/components/WaIcon";
 import { serviceDetailList } from "@/lib/serviceDetails";
-import { buildMailtoUrl } from "@/lib/contactLinks";
+import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function MetodologiaClient() {
@@ -14,24 +15,27 @@ export default function MetodologiaClient() {
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      <section className="section-shell bg-surface">
-        <div className="container grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-          <div className="max-w-2xl space-y-6">
+      {/* Hero */}
+      <section className="section-shell bg-surface border-b border-border/60">
+        <div className="container grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+          <div className="max-w-2xl space-y-6" data-reveal>
             <p className="pill w-fit">{p.badge}</p>
             <div className="space-y-4">
-              <h1>{p.heroTitle}</h1>
+              <h1 className="text-ink">{p.heroTitle}</h1>
               <p className="text-lg leading-relaxed text-muted">{p.heroParagraph}</p>
             </div>
             <div className="flex flex-wrap gap-3">
               <a
-                href={buildMailtoUrl({
+                href={buildWhatsAppUrl({
                   area: "Metodología",
                   source: "/metodologia",
-                  subject: "Solicitud de consulta inicial",
                   message: "Hola, quisiera agendar una consulta inicial.",
                 })}
-                className="btn-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#20bd5a] active:scale-95"
               >
+                <WaIcon size={16} />
                 {p.ctaBtn}
               </a>
               <Link href="/servicios" className="btn-secondary">
@@ -40,7 +44,11 @@ export default function MetodologiaClient() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0c111d] shadow-soft">
+          <div
+            className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0c111d] shadow-soft"
+            data-reveal
+            data-reveal-delay="2"
+          >
             <div className="p-7 space-y-6">
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/35">{p.visualEyebrow}</p>
@@ -62,9 +70,10 @@ export default function MetodologiaClient() {
         </div>
       </section>
 
+      {/* Process */}
       <section className="section-shell bg-canvas">
-        <div className="container space-y-7">
-          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div className="container space-y-10">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between" data-reveal>
             <div className="max-w-2xl space-y-2">
               <p className="pill w-fit">{p.processBadge}</p>
               <h2>{p.processTitle}</h2>
@@ -72,62 +81,102 @@ export default function MetodologiaClient() {
             <p className="max-w-md text-sm leading-relaxed text-muted">{p.processIntro}</p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-4">
+          <div className="grid gap-6 md:grid-cols-2">
             {p.steps.map((step, index) => (
-              <article key={step.title} className="rounded-2xl border border-border bg-card p-5 shadow-soft/20">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-accent-700">{step.when}</p>
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-surface text-xs font-bold text-ink">
-                    {index + 1}
+              <article
+                key={step.title}
+                className="flex flex-col gap-5 rounded-2xl bg-white border border-border p-8 shadow-[0_2px_16px_rgba(15,23,42,0.07)]"
+                data-reveal
+                data-reveal-delay={String((index % 2) + 1)}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <span className="inline-flex items-center rounded-full bg-accent/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
+                    {step.when}
+                  </span>
+                  <span className="text-5xl font-bold text-border tabular-nums leading-none select-none">
+                    {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>
-                <h3 className="mt-5 text-lg leading-snug text-ink">{step.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{step.desc}</p>
+                <div className="space-y-2">
+                  <h3 className="text-xl font-semibold text-ink leading-snug">{step.title}</h3>
+                  <p className="text-sm text-muted leading-relaxed">{step.desc}</p>
+                </div>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-shell bg-surface">
-        <div className="container grid gap-8 lg:grid-cols-[0.38fr_0.62fr] lg:items-start">
-          <div className="space-y-3">
+      {/* Modality */}
+      <section className="section-shell bg-surface border-y border-border/60">
+        <div className="container grid gap-10 lg:grid-cols-[0.42fr_0.58fr] lg:items-start">
+          <div className="space-y-3" data-reveal>
+            <p className="pill w-fit">{p.modalityTitle}</p>
+            <h2 className="text-ink leading-snug">Cómo nos coordinamos con usted</h2>
+            <p className="text-muted text-sm leading-relaxed">
+              Sin intermediarios, sin demoras. Un sistema de trabajo directo y documentado.
+            </p>
+          </div>
+          <ul className="divide-y divide-border" data-reveal data-reveal-delay="2">
+            {p.modalityItems.map((item, idx) => (
+              <li key={item} className="flex items-start gap-4 py-5 first:pt-0 last:pb-0">
+                <span className="shrink-0 pt-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-accent/60 w-6">
+                  {String(idx + 1).padStart(2, '0')}
+                </span>
+                <span className="text-sm text-ink leading-relaxed">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Principles */}
+      <section className="section-shell bg-canvas">
+        <div className="container space-y-10">
+          <div className="space-y-3" data-reveal>
             <p className="pill w-fit">{p.principlesBadge}</p>
             <h2>{p.principlesTitle}</h2>
-            <p className="text-muted">{p.principlesSubtitle}</p>
+            <p className="max-w-2xl text-muted">{p.principlesSubtitle}</p>
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {p.principles.map((item) => (
-              <article key={item.title} className="rounded-2xl border border-border bg-card p-5 shadow-soft/20">
-                <span className="block h-1 w-10 rounded-full bg-ink" aria-hidden />
-                <h3 className="mt-4 text-base leading-snug text-ink">{item.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{item.detail}</p>
-              </article>
+          <div className="divide-y divide-border max-w-3xl" data-reveal data-reveal-delay="1">
+            {p.principles.map((item, idx) => (
+              <div key={item.title} className="flex gap-8 py-8 first:pt-0 last:pb-0">
+                <span className="shrink-0 text-4xl font-bold text-border tabular-nums leading-none select-none">
+                  {String(idx + 1).padStart(2, '0')}
+                </span>
+                <div className="space-y-1.5">
+                  <h3 className="text-xl font-semibold text-ink">{item.title}</h3>
+                  <p className="text-muted">{item.detail}</p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-shell bg-canvas">
+      {/* Services */}
+      <section className="section-shell bg-surface border-t border-border/60">
         <div className="container space-y-8">
-          <div className="max-w-2xl space-y-2">
+          <div className="max-w-2xl space-y-2" data-reveal>
             <p className="pill w-fit">{p.servicesBadge}</p>
             <h2>{p.servicesTitle}</h2>
             <p className="text-muted">{p.servicesSubtitle}</p>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-            {serviceDetailList.slice(0, 8).map((svc) => (
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {serviceDetailList.slice(0, 8).map((svc, idx) => (
               <Link
                 key={svc.slug}
                 href={`/servicios/${svc.slug}`}
-                className="group rounded-2xl border border-border bg-card p-5 shadow-soft/20 transition hover:-translate-y-0.5 hover:border-ink/30 hover:shadow-hover"
+                className="group flex flex-col rounded-2xl border border-border bg-white p-6 shadow-[0_2px_12px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-[0_8px_24px_rgba(15,23,42,0.10)]"
+                data-reveal
+                data-reveal-delay={String((idx % 3) + 1)}
               >
                 <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">{svc.title}</p>
-                <h3 className="mt-3 text-base leading-snug text-ink">{svc.headline}</h3>
-                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted">{svc.summary}</p>
-                <span className="mt-5 inline-flex text-xs font-semibold text-accent-700 group-hover:text-ink">
-                  {p.viewService}
+                <h3 className="mt-3 text-base font-semibold leading-snug text-ink">{svc.headline}</h3>
+                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted flex-1">{svc.summary}</p>
+                <span className="mt-5 inline-flex text-xs font-semibold text-accent group-hover:text-ink transition-colors">
+                  {p.viewService} →
                 </span>
               </Link>
             ))}
@@ -135,22 +184,25 @@ export default function MetodologiaClient() {
         </div>
       </section>
 
+      {/* CTA */}
       <section className="section-shell bg-ink text-white dark:bg-[#0c111d]">
         <div className="container grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-          <div className="max-w-2xl space-y-3">
+          <div className="max-w-2xl space-y-3" data-reveal>
             <h2 className="text-white">{p.ctaTitle}</h2>
-            <p className="text-slate-200">{p.ctaSubtitle}</p>
+            <p className="text-slate-300">{p.ctaSubtitle}</p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3" data-reveal data-reveal-delay="2">
             <a
-              href={buildMailtoUrl({
+              href={buildWhatsAppUrl({
                 area: "Metodología",
                 source: "/metodologia",
-                subject: "Solicitud de consulta inicial",
-                message: "Hola, quisiera agendar una consulta inicial.",
+                message: "Hola, quisiera agendar una consulta.",
               })}
-              className="btn-primary bg-white text-ink hover:bg-slate-100"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#20bd5a] active:scale-95"
             >
+              <WaIcon size={16} />
               {p.ctaBtn}
             </a>
             <Link href="/servicios" className="btn-secondary border-white/50 text-white hover:bg-white/10">

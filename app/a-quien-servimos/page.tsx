@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import SiteHeader from "@/app/components/SiteHeader";
+import WaIcon from "@/app/components/WaIcon";
 import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -76,7 +77,7 @@ export default function AQuienServimosPage() {
 
       <section className="border-t border-border bg-surface/70">
         <div className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="space-y-3">
+          <div className="space-y-3" data-reveal>
             <p className="pill w-fit">{p.contextsBadge}</p>
             <h2>{p.contextsTitle}</h2>
             <ul className="divide-y divide-border mt-4" data-reveal data-reveal-delay="2">
@@ -99,8 +100,11 @@ export default function AQuienServimosPage() {
                   source: "/a-quien-servimos",
                   message: "Hola, quisiera programar una sesión.",
                 })}
-                className="btn-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#20bd5a] active:scale-95"
               >
+                <WaIcon size={16} />
                 {t.common.scheduleSession}
               </a>
               <Link href="/servicios" className="btn-secondary">
