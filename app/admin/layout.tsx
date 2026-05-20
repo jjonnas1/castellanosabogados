@@ -5,10 +5,12 @@ import type { Session } from '@supabase/supabase-js';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
 import { AdminAuthContext } from '@/contexts/admin-auth';
-import { getProfileRoleByUserId } from '@/lib/profile-role';
+import { verifyAdminSession } from '@/lib/admin-auth-client';
 
 const PUBLIC_ADMIN_PATHS = ['/admin/login'];
-const AUTH_RETRY_MS = 600;
+const ADMIN_CACHE_KEY = 'ca_admin_user_id';
+const AUTH_RETRY_MS = 700;
+const AUTH_MAX_ATTEMPTS = 3;
 
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -40,39 +42,41 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       window.location.replace(`/admin/login?next=${next}${suffix}`);
     }
 
-    async function acceptSession(session: Session | null) {
-      if (!mounted || !session?.access_token) return false;
+    async function acceptSession(session: Session | null): Promise<'accepted' | 'forbidden' | 'retry'> {
+      if (!mounted || !session?.access_token) return 'retry';
 
-      const cachedAdminId = window.sessionStorage.getItem('ca_admin_user_id');
-      const role = cachedAdminId === session.user.id ? 'admin' : await getProfileRoleByUserId(session.user.id);
-      if (!mounted) return false;
+      const cachedAdminId = window.sessionStorage.getItem(ADMIN_CACHE_KEY);
+      const status = cachedAdminId === session.user.id ? 'admin' : await verifyAdminSession(session);
+      if (!mounted) return 'retry';
 
-      if (role !== 'admin') {
-        window.sessionStorage.removeItem('ca_admin_user_id');
+      if (status === 'unknown') return 'retry';
+
+      if (status !== 'admin') {
+        window.sessionStorage.removeItem(ADMIN_CACHE_KEY);
         setToken(null);
         setUserId(null);
         setChecking(false);
         redirectTimer = setTimeout(() => redirectToLogin('admin_required'), 50);
-        return false;
+        return 'forbidden';
       }
 
       setToken(session.access_token);
       setUserId(session.user.id);
-      window.sessionStorage.setItem('ca_admin_user_id', session.user.id);
+      window.sessionStorage.setItem(ADMIN_CACHE_KEY, session.user.id);
       setChecking(false);
-      return true;
+      return 'accepted';
     }
 
     async function checkSession() {
       setChecking(true);
 
       try {
-        const first = await supabase.auth.getSession();
-        if (await acceptSession(first.data.session)) return;
-
-        await wait(AUTH_RETRY_MS);
-        const second = await supabase.auth.getSession();
-        if (await acceptSession(second.data.session)) return;
+        for (let attempt = 0; attempt < AUTH_MAX_ATTEMPTS; attempt += 1) {
+          const { data } = await supabase.auth.getSession();
+          const status = await acceptSession(data.session);
+          if (status === 'accepted' || status === 'forbidden') return;
+          if (attempt < AUTH_MAX_ATTEMPTS - 1) await wait(AUTH_RETRY_MS * (attempt + 1));
+        }
       } catch {
         // La UI queda en verificación y redirige abajo si no hay sesión válida.
       }
@@ -89,7 +93,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       if (session?.access_token) {
         void acceptSession(session);
       } else if (event === 'SIGNED_OUT') {
-        window.sessionStorage.removeItem('ca_admin_user_id');
+        window.sessionStorage.removeItem(ADMIN_CACHE_KEY);
         setToken(null);
         setUserId(null);
         setChecking(false);
