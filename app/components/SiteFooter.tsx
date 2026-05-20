@@ -70,7 +70,7 @@ export default function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer style={{ background: "linear-gradient(180deg, #08101e 0%, #0d1829 100%)" }}>
+    <footer style={{ background: "#0d1528" }}>
       {/* Accent line */}
       <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
 

@@ -31,7 +31,7 @@ export default function BlogClient() {
     <main className="min-h-screen bg-canvas text-ink">
       <SiteHeader />
 
-      <section className="section-shell bg-surface/80">
+      <section className="section-shell bg-canvas">
         <div className="container space-y-8">
           <div className="space-y-2">
             <p className="pill w-fit">{p.badge}</p>
@@ -42,12 +42,6 @@ export default function BlogClient() {
           <BlogList articles={articles} />
         </div>
       </section>
-
-      <footer className="border-t border-border bg-white/90 py-8">
-        <div className="container text-center text-sm text-muted">
-          <p>© {new Date().getFullYear()} Castellanos Abogados · {t.footer.rights}</p>
-        </div>
-      </footer>
     </main>
   );
 }

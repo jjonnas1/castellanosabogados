@@ -7,6 +7,8 @@ import { serviceDetailList } from "@/lib/serviceDetails";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+const DARK_GLOW = "radial-gradient(ellipse at 15% 0%, rgba(37,99,235,0.18) 0%, transparent 55%), #0d1528";
+
 export default function MetodologiaClient() {
   const { t } = useLanguage();
   const p = t.pages.metodologia;
@@ -16,7 +18,7 @@ export default function MetodologiaClient() {
       <SiteHeader />
 
       {/* Hero */}
-      <section className="section-shell bg-surface border-b border-border/60">
+      <section className="section-shell bg-canvas border-b border-border/50">
         <div className="container grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <div className="max-w-2xl space-y-6" data-reveal>
             <p className="pill w-fit">{p.badge}</p>
@@ -45,7 +47,8 @@ export default function MetodologiaClient() {
           </div>
 
           <div
-            className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0c111d] shadow-soft"
+            className="overflow-hidden rounded-[1.5rem] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
+            style={{ background: "#0d1528" }}
             data-reveal
             data-reveal-delay="2"
           >
@@ -71,7 +74,7 @@ export default function MetodologiaClient() {
       </section>
 
       {/* Process */}
-      <section className="section-shell bg-canvas">
+      <section className="section-shell bg-white border-b border-border/50">
         <div className="container space-y-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between" data-reveal>
             <div className="max-w-2xl space-y-2">
@@ -85,7 +88,7 @@ export default function MetodologiaClient() {
             {p.steps.map((step, index) => (
               <article
                 key={step.title}
-                className="flex flex-col gap-5 rounded-2xl bg-white border border-border p-8 shadow-[0_2px_16px_rgba(15,23,42,0.07)]"
+                className="flex flex-col gap-5 rounded-2xl bg-canvas border border-border p-8 shadow-[0_2px_12px_rgba(15,23,42,0.06)]"
                 data-reveal
                 data-reveal-delay={String((index % 2) + 1)}
               >
@@ -108,7 +111,7 @@ export default function MetodologiaClient() {
       </section>
 
       {/* Modality */}
-      <section className="section-shell bg-surface border-y border-border/60">
+      <section className="section-shell bg-canvas border-b border-border/50">
         <div className="container grid gap-10 lg:grid-cols-[0.42fr_0.58fr] lg:items-start">
           <div className="space-y-3" data-reveal>
             <p className="pill w-fit">{p.modalityTitle}</p>
@@ -131,7 +134,7 @@ export default function MetodologiaClient() {
       </section>
 
       {/* Principles */}
-      <section className="section-shell bg-canvas">
+      <section className="section-shell bg-white border-b border-border/50">
         <div className="container space-y-10">
           <div className="space-y-3" data-reveal>
             <p className="pill w-fit">{p.principlesBadge}</p>
@@ -155,7 +158,7 @@ export default function MetodologiaClient() {
       </section>
 
       {/* Services */}
-      <section className="section-shell bg-surface border-t border-border/60">
+      <section className="section-shell bg-canvas">
         <div className="container space-y-8">
           <div className="max-w-2xl space-y-2" data-reveal>
             <p className="pill w-fit">{p.servicesBadge}</p>
@@ -185,13 +188,14 @@ export default function MetodologiaClient() {
       </section>
 
       {/* CTA */}
-      <section className="section-shell bg-ink text-white dark:bg-[#0c111d]">
+      <section className="section-shell text-white" style={{ background: DARK_GLOW }} data-reveal>
         <div className="container grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-          <div className="max-w-2xl space-y-3" data-reveal>
+          <div className="max-w-2xl space-y-3">
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-blue-300/60">Castellanos Abogados</p>
             <h2 className="text-white">{p.ctaTitle}</h2>
             <p className="text-slate-300">{p.ctaSubtitle}</p>
           </div>
-          <div className="flex flex-wrap gap-3" data-reveal data-reveal-delay="2">
+          <div className="flex flex-wrap gap-3">
             <a
               href={buildWhatsAppUrl({
                 area: "Metodología",
@@ -205,7 +209,7 @@ export default function MetodologiaClient() {
               <WaIcon size={16} />
               {p.ctaBtn}
             </a>
-            <Link href="/servicios" className="btn-secondary border-white/50 text-white hover:bg-white/10">
+            <Link href="/servicios" className="btn-secondary border-white/25 bg-white/8 text-white hover:bg-white/14 hover:text-white">
               {p.viewAllServices}
             </Link>
           </div>
