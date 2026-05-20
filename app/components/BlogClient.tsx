@@ -2,7 +2,6 @@
 
 import SiteHeader from '@/app/components/SiteHeader';
 import BlogList from '@/app/components/BlogList';
-import { FadeUp } from '@/app/components/Animate';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const articles = [
@@ -34,11 +33,11 @@ export default function BlogClient() {
 
       <section className="section-shell bg-surface/80">
         <div className="container space-y-8">
-          <FadeUp className="space-y-2">
+          <div className="space-y-2">
             <p className="pill w-fit">{p.badge}</p>
             <h1>{p.heroTitle}</h1>
             <p className="max-w-2xl text-muted">{p.heroSubtitle}</p>
-          </FadeUp>
+          </div>
 
           <BlogList articles={articles} />
         </div>
