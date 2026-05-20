@@ -7,7 +7,7 @@ import { serviceDetailList } from "@/lib/serviceDetails";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const DARK_GLOW = "radial-gradient(ellipse at 15% 0%, rgba(37,99,235,0.18) 0%, transparent 55%), #0d1528";
+const DARK_GLOW = "radial-gradient(ellipse at 15% 0%, rgba(180,195,220,0.12) 0%, transparent 55%), #121622";
 
 export default function MetodologiaClient() {
   const { t } = useLanguage();
@@ -48,7 +48,7 @@ export default function MetodologiaClient() {
 
           <div
             className="overflow-hidden rounded-[1.5rem] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
-            style={{ background: "#0d1528" }}
+            style={{ background: "#121622" }}
             data-reveal
             data-reveal-delay="2"
           >

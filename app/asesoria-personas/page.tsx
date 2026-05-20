@@ -8,7 +8,7 @@ import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const personalBackground =
-  "linear-gradient(140deg, rgba(10,16,28,0.9), rgba(20,32,52,0.82)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=75&fm=webp')";
+  "linear-gradient(140deg, rgba(18,22,34,0.92), rgba(40,48,58,0.84)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
 export default function AsesoriaPersonasPage() {
   const { t } = useLanguage();
@@ -22,7 +22,7 @@ export default function AsesoriaPersonasPage() {
         className="relative overflow-hidden border-b border-border/70 text-white"
         style={{ backgroundImage: personalBackground, backgroundSize: "cover", backgroundPosition: "center" }}
       >
-        <div className="absolute inset-0 bg-[#0d1528]/80" aria-hidden />
+        <div className="absolute inset-0 bg-[#121622]/80" aria-hidden />
         <div className="container section-shell relative space-y-5">
           <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{p.badge}</p>
           <h1 className="max-w-3xl text-white">{p.heroTitle}</h1>

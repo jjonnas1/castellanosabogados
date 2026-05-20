@@ -7,8 +7,8 @@ import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { ServiceDetail } from "@/lib/serviceDetails";
 
-const DARK = "#0d1528";
-const DARK_GLOW = `radial-gradient(ellipse at 15% 0%, rgba(37,99,235,0.18) 0%, transparent 55%), ${DARK}`;
+const DARK = "#121622";
+const DARK_GLOW = `radial-gradient(ellipse at 15% 0%, rgba(180,195,220,0.12) 0%, transparent 55%), ${DARK}`;
 
 export default function ServiceDetailClient({
   detail,
@@ -146,7 +146,7 @@ export default function ServiceDetailClient({
       <section className="section-shell text-white" style={{ background: DARK_GLOW }} data-reveal>
         <div className="container grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
           <div className="max-w-2xl space-y-2">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-blue-300/60">Castellanos Abogados</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400/60">Castellanos Abogados</p>
             <h2 className="text-white">¿Necesita asesoría en {displayDetail.title}?</h2>
             <p className="text-slate-300 text-lg">Cuéntenos su caso y definimos la ruta más adecuada para usted.</p>
           </div>

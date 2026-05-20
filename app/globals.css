@@ -39,16 +39,16 @@ animation: gradient 15s ease infinite;
 /* Scroll reveal */
 [data-reveal] {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+  transform: translateY(14px);
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 [data-reveal].is-revealed {
   opacity: 1;
   transform: none;
 }
-[data-reveal][data-reveal-delay="1"] { transition-delay: 80ms; }
-[data-reveal][data-reveal-delay="2"] { transition-delay: 180ms; }
-[data-reveal][data-reveal-delay="3"] { transition-delay: 280ms; }
+[data-reveal][data-reveal-delay="1"] { transition-delay: 100ms; }
+[data-reveal][data-reveal-delay="2"] { transition-delay: 200ms; }
+[data-reveal][data-reveal-delay="3"] { transition-delay: 300ms; }
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] { opacity: 1; transform: none; transition: none; }
 }
@@ -66,21 +66,21 @@ color-scheme: light;
 --font-inter: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", Times, serif;
 
-/* Direction A: Gamma minimal premium (default) */
-  --color-canvas: 244 246 251;
-  --color-surface: 249 251 255;
-  --color-panel: 238 242 248;
+/* Acero y Platino — Paleta Premium Metalizada */
+  --color-canvas: 245 246 248;
+  --color-surface: 250 251 253;
+  --color-panel: 232 234 238;
   --color-card: 255 255 255;
-  --color-ink: 13 21 40;
-  --color-muted: 58 67 86;
-  --color-border: 212 222 236;
-  --color-subtle: 230 237 247;
-  --color-accent: 31 54 93;
-  --color-accent-strong: 19 35 56;
-  --color-accent-soft: 231 237 248;
+  --color-ink: 26 29 36;
+  --color-muted: 90 98 110;
+  --color-border: 212 216 222;
+  --color-subtle: 228 232 238;
+  --color-accent: 44 53 64;
+  --color-accent-strong: 28 35 44;
+  --color-accent-soft: 222 226 232;
 
---shadow-soft: 0 22px 60px rgba(15, 23, 42, 0.12);
---shadow-hover: 0 18px 48px rgba(15, 23, 42, 0.14);
+--shadow-soft: 0 22px 60px rgba(26, 29, 36, 0.10);
+--shadow-hover: 0 18px 48px rgba(26, 29, 36, 0.13);
 
 --radius-lg: 18px;
 --radius-xl: 22px;
@@ -90,54 +90,54 @@ color-scheme: light;
 --section-space-mobile: 4rem;
 }
 
-/* Direction A alias */
+/* Acero alias */
 .theme-a {
-  --color-canvas: 244 246 251;
-  --color-surface: 249 251 255;
-  --color-panel: 238 242 248;
+  --color-canvas: 245 246 248;
+  --color-surface: 250 251 253;
+  --color-panel: 232 234 238;
   --color-card: 255 255 255;
-  --color-ink: 13 21 40;
-  --color-muted: 58 67 86;
-  --color-border: 212 222 236;
-  --color-subtle: 230 237 247;
-  --color-accent: 31 54 93;
-  --color-accent-strong: 19 35 56;
-  --color-accent-soft: 231 237 248;
+  --color-ink: 26 29 36;
+  --color-muted: 90 98 110;
+  --color-border: 212 216 222;
+  --color-subtle: 228 232 238;
+  --color-accent: 44 53 64;
+  --color-accent-strong: 28 35 44;
+  --color-accent-soft: 222 226 232;
 }
 
-/* Direction B: Editorial sobria */
+/* Platino editorial */
 .theme-editorial {
-  --color-canvas: 247 246 242;
+  --color-canvas: 246 246 244;
   --color-surface: 255 255 255;
-  --color-panel: 239 238 233;
+  --color-panel: 236 236 234;
   --color-card: 255 255 255;
-  --color-ink: 15 19 34;
-  --color-muted: 63 69 87;
-  --color-border: 216 213 204;
-  --color-subtle: 235 232 223;
-  --color-accent: 37 45 71;
-  --color-accent-strong: 23 30 48;
-  --color-accent-soft: 234 235 242;
---shadow-soft: 0 18px 42px rgba(17, 24, 39, 0.12);
---shadow-hover: 0 16px 36px rgba(17, 24, 39, 0.16);
+  --color-ink: 26 29 36;
+  --color-muted: 88 94 106;
+  --color-border: 210 212 216;
+  --color-subtle: 230 232 236;
+  --color-accent: 44 53 64;
+  --color-accent-strong: 28 35 44;
+  --color-accent-soft: 224 228 234;
+--shadow-soft: 0 18px 42px rgba(26, 29, 36, 0.10);
+--shadow-hover: 0 16px 36px rgba(26, 29, 36, 0.14);
 }
 
 /* Dark Mode Executive */
 .dark {
   color-scheme: dark;
-  --color-canvas: 12 17 29;
-  --color-surface: 17 24 39;
-  --color-panel: 15 23 42;
-  --color-card: 19 27 47;
-  --color-ink: 230 236 248;
-  --color-muted: 164 178 204;
-  --color-border: 31 42 61;
-  --color-subtle: 22 33 56;
-  --color-accent: 62 107 216;
-  --color-accent-strong: 96 165 250;
-  --color-accent-soft: 30 58 138;
-  --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.45);
-  --shadow-hover: 0 18px 48px rgba(0, 0, 0, 0.5);
+  --color-canvas: 16 18 22;
+  --color-surface: 24 27 34;
+  --color-panel: 30 34 42;
+  --color-card: 26 30 38;
+  --color-ink: 240 242 245;
+  --color-muted: 156 163 175;
+  --color-border: 46 52 64;
+  --color-subtle: 36 42 52;
+  --color-accent: 180 188 200;
+  --color-accent-strong: 243 244 246;
+  --color-accent-soft: 55 65 81;
+  --shadow-soft: 0 24px 70px rgba(0, 0, 0, 0.40);
+  --shadow-hover: 0 18px 48px rgba(0, 0, 0, 0.45);
 }
 
 
@@ -147,8 +147,8 @@ height: 100%;
 }
 
 body {
-background: radial-gradient(circle at 12% 10%, rgba(34, 56, 104, 0.06), transparent 26%),
-radial-gradient(circle at 88% 12%, rgba(15, 23, 42, 0.08), transparent 32%),
+background: radial-gradient(circle at 12% 10%, rgba(120, 130, 145, 0.05), transparent 26%),
+radial-gradient(circle at 88% 12%, rgba(90, 98, 110, 0.06), transparent 32%),
 linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.8)),
 var(--color-canvas);
 color: var(--color-ink);
@@ -159,8 +159,8 @@ text-rendering: optimizeLegibility;
 
 .dark body {
 background:
-radial-gradient(circle at 12% 10%, rgba(62, 107, 216, 0.07), transparent 28%),
-radial-gradient(circle at 88% 12%, rgba(15, 23, 42, 0.18), transparent 34%),
+radial-gradient(circle at 12% 10%, rgba(226, 232, 240, 0.04), transparent 28%),
+radial-gradient(circle at 88% 12%, rgba(120, 130, 145, 0.06), transparent 34%),
 rgb(var(--color-canvas));
 }
 
@@ -263,7 +263,7 @@ backdrop-filter: blur(12px);
 -webkit-backdrop-filter: blur(12px);
 }
 .dark .header-bg {
-background-color: rgba(12, 17, 29, 0.93);
+background-color: rgba(16, 18, 22, 0.93);
 }
 
 .mobile-menu-bg {
@@ -272,7 +272,7 @@ backdrop-filter: blur(12px);
 -webkit-backdrop-filter: blur(12px);
 }
 .dark .mobile-menu-bg {
-background-color: rgba(12, 17, 29, 0.97);
+background-color: rgba(16, 18, 22, 0.97);
 }
 
 .mega-panel {

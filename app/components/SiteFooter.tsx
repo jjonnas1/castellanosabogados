@@ -70,9 +70,9 @@ export default function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer style={{ background: "#0d1528" }}>
+    <footer style={{ background: "#121622" }}>
       {/* Accent line */}
-      <div className="h-px bg-gradient-to-r from-transparent via-amber-500/30 to-transparent" />
+      <div className="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
       <div className="container py-14">
         <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">

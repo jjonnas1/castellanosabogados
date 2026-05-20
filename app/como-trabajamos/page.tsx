@@ -7,7 +7,7 @@ import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const background =
-  "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1450101215322-bf5cd27642fc?auto=format&fit=crop&w=1200&q=75&fm=webp')";
+  "linear-gradient(140deg, rgba(18,22,34,0.92), rgba(40,48,58,0.80)), url('https://images.unsplash.com/photo-1450101215322-bf5cd27642fc?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
 export default function ComoTrabajamosPage() {
   const { t } = useLanguage();
@@ -21,7 +21,7 @@ export default function ComoTrabajamosPage() {
         className="relative overflow-hidden text-white"
         style={{ backgroundImage: background, backgroundSize: "cover", backgroundPosition: "center" }}
       >
-        <div className="absolute inset-0 bg-[#0d1528]/80" aria-hidden />
+        <div className="absolute inset-0 bg-[#121622]/80" aria-hidden />
         <div className="container section-shell relative space-y-5">
           <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{p.badge}</p>
           <h1 className="max-w-3xl text-white">{p.heroTitle}</h1>

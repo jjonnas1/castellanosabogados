@@ -63,8 +63,8 @@ const curatedGoogleReviews: Array<{ author: string; date: string; text: string }
   },
 ];
 
-const DARK = "#0d1528";
-const DARK_GLOW = `radial-gradient(ellipse at 15% 0%, rgba(37,99,235,0.18) 0%, transparent 55%), ${DARK}`;
+const DARK = "#121622";
+const DARK_GLOW = `radial-gradient(ellipse at 15% 0%, rgba(180,195,220,0.12) 0%, transparent 55%), ${DARK}`;
 
 export default function HomeClient() {
   const { t } = useLanguage();
@@ -117,7 +117,7 @@ export default function HomeClient() {
               <div className="grid gap-3">
                 {[p.portalFeature1, p.portalFeature2, p.portalFeature3].map((feature) => (
                   <div key={feature} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.05] px-4 py-3">
-                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-[#0d1528]">
+                    <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-[#121622]">
                       <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5" aria-hidden>
                         <path d="M4 10.5 8 14l8-8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
@@ -129,7 +129,7 @@ export default function HomeClient() {
 
               <Link
                 href="/cliente/login"
-                className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-[#0d1528] shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition hover:-translate-y-0.5 hover:bg-slate-100 sm:w-auto"
+                className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-[#121622] shadow-[0_8px_24px_rgba(255,255,255,0.12)] transition hover:-translate-y-0.5 hover:bg-slate-100 sm:w-auto"
               >
                 {p.portalLink}
               </Link>
@@ -137,10 +137,10 @@ export default function HomeClient() {
 
             <div className="relative">
               <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.05] p-3 shadow-[0_24px_64px_rgba(0,0,0,0.4)]">
-                <div className="rounded-[1.45rem] border border-white/[0.08] bg-[#0a1020]">
+                <div className="rounded-[1.45rem] border border-white/[0.08] bg-[#0f1218]">
                   <div className="flex items-center justify-between border-b border-white/[0.08] px-4 py-3">
                     <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-200/60">Panel del cliente</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-300/60">Panel del cliente</p>
                       <p className="mt-0.5 text-sm font-semibold text-white">Expediente activo</p>
                     </div>
                     <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-[11px] font-bold text-emerald-300 ring-1 ring-emerald-400/20">
@@ -160,7 +160,7 @@ export default function HomeClient() {
                           {['Poder firmado', 'Soportes del caso', 'Actuación reciente'].map((item) => (
                             <div key={item} className="flex items-center justify-between rounded-xl bg-white/[0.04] px-3 py-2 text-xs text-slate-300">
                               <span>{item}</span>
-                              <span className="h-2 w-2 rounded-full bg-blue-400/60" />
+                              <span className="h-2 w-2 rounded-full bg-slate-400/60" />
                             </div>
                           ))}
                         </div>
@@ -175,8 +175,8 @@ export default function HomeClient() {
                           ['Próximo', 'Cita agendada para seguimiento'],
                         ].map(([date, text]) => (
                           <div key={text} className="relative pl-5">
-                            <span className="absolute left-0 top-1.5 h-2.5 w-2.5 rounded-full bg-blue-400/50 ring-4 ring-blue-400/10" />
-                            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-blue-300/70">{date}</p>
+                            <span className="absolute left-0 top-1.5 h-2.5 w-2.5 rounded-full bg-slate-400/50 ring-4 ring-slate-400/10" />
+                            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-300/70">{date}</p>
                             <p className="mt-1 text-sm leading-relaxed text-slate-300">{text}</p>
                           </div>
                         ))}
@@ -275,7 +275,7 @@ export default function HomeClient() {
       <section className="section-shell text-white" style={{ background: DARK_GLOW }} data-reveal>
         <div className="container grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
           <div className="max-w-2xl space-y-2">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-blue-300/60">Castellanos Abogados</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400/60">Castellanos Abogados</p>
             <h2 className="text-white">¿Listo para empezar?</h2>
             <p className="text-slate-300 text-lg">Cuéntenos su caso y definimos la ruta en 24-48 horas.</p>
           </div>

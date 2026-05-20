@@ -6,7 +6,7 @@ import WaIcon from "@/app/components/WaIcon";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const DARK_GLOW = "radial-gradient(ellipse at 15% 0%, rgba(37,99,235,0.18) 0%, transparent 55%), #0d1528";
+const DARK_GLOW = "radial-gradient(ellipse at 15% 0%, rgba(180,195,220,0.12) 0%, transparent 55%), #121622";
 
 export default function AQuienServimosPage() {
   const { t } = useLanguage();

@@ -97,8 +97,8 @@ export default function HeroCarrusel() {
         aria-hidden="true"
       />
 
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(12,17,29,0.92),rgba(17,37,68,0.86))]" aria-hidden />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.10),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.12),transparent_36%)]" aria-hidden />
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(18,22,34,0.93),rgba(40,48,58,0.87))]" aria-hidden />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.08),transparent_30%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.10),transparent_36%)]" aria-hidden />
 
       <div className="absolute top-0 left-0 right-0 h-[3px] bg-white/10 z-20">
         <div className="h-full bg-white/60" style={{ width: `${progress}%`, transition: 'width 60ms linear' }} />
@@ -123,7 +123,7 @@ export default function HeroCarrusel() {
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <Link
               href={slide.ctaHref}
-              className="btn-primary w-full justify-center bg-white !text-[#0d1528] shadow-hover hover:bg-slate-100 sm:w-auto sm:justify-start"
+              className="btn-primary w-full justify-center bg-white !text-[#121622] shadow-hover hover:bg-slate-100 sm:w-auto sm:justify-start"
             >
               {slide.cta}
             </Link>

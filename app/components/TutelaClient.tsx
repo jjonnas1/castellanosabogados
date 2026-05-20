@@ -7,7 +7,7 @@ import { buildMailtoUrl, buildWhatsAppUrl } from '@/lib/contactLinks';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const tutelaHeroBackground =
-  "linear-gradient(120deg, rgba(13,21,40,0.92), rgba(31,54,93,0.84)), url('https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=1200&q=75&fm=webp')";
+  "linear-gradient(120deg, rgba(18,22,34,0.93), rgba(44,53,64,0.85)), url('https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
 export default function TutelaClient() {
   const { t } = useLanguage();
@@ -50,7 +50,7 @@ export default function TutelaClient() {
           </div>
 
           <article className="card-shell relative overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-7 text-white">
-            <div className="absolute inset-0 bg-gradient-to-b from-[#0d1528]/60 via-[#0d1528]/70 to-[#0d1528]/80" aria-hidden />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#121622]/60 via-[#121622]/70 to-[#121622]/80" aria-hidden />
             <div className="relative space-y-4">
               <p className="text-[11px] uppercase tracking-[0.16em] text-slate-200">{p.strategicBadge}</p>
               <h2 className="text-2xl text-white">{p.strategicTitle}</h2>

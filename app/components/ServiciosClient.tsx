@@ -15,7 +15,7 @@ type Service = {
 };
 
 const headerBackground =
-  "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1200&q=75&fm=webp')";
+  "linear-gradient(140deg, rgba(18,22,34,0.92), rgba(40,48,58,0.80)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
 export default function ServiciosClient({ services }: { services: Service[]; error: boolean }) {
   const { t } = useLanguage();
@@ -29,7 +29,7 @@ export default function ServiciosClient({ services }: { services: Service[]; err
         className="relative overflow-hidden text-white"
         style={{ backgroundImage: headerBackground, backgroundSize: "cover", backgroundPosition: "center" }}
       >
-        <div className="absolute inset-0 bg-[#0d1528]/80" aria-hidden />
+        <div className="absolute inset-0 bg-[#121622]/80" aria-hidden />
         <div className="container section-shell relative space-y-6">
           <div className="space-y-3">
             <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{p.badge}</p>
