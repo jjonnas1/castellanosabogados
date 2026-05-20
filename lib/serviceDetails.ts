@@ -51,7 +51,7 @@ export const serviceDetails: Record<ServiceDetail['slug'], ServiceDetail> = {
     title: 'Ejecución de Penas',
     headline: 'Gestión técnica de beneficios y trámites ante jueces de ejecución',
     summary:
-      'Seguimiento integral de requisitos, términos, redenciones, subrogados y beneficios para proteger derechos y acelerar decisiones.',
+      'Seguimiento estratégico de requisitos, términos, redenciones, subrogados y beneficios para proteger derechos y acelerar decisiones.',
     chips: ['EJECUCIÓN DE PENAS', 'BENEFICIOS Y SUBROGADOS'],
     heroStats: [
       'Libertad condicional, domiciliaria y beneficios administrativos.',
@@ -129,7 +129,7 @@ export const serviceDetails: Record<ServiceDetail['slug'], ServiceDetail> = {
     title: 'Civil',
     headline: 'Asesoría y litigio civil con enfoque estratégico',
     summary:
-      'Atención integral de conflictos patrimoniales y obligaciones civiles con estrategia procesal, negociación y soporte documental sólido.',
+      'Atención estratégica de conflictos patrimoniales y obligaciones civiles con estrategia procesal, negociación y soporte documental sólido.',
     chips: ['DERECHO CIVIL', 'CONFLICTOS PATRIMONIALES'],
     heroStats: [
       'Contratos, obligaciones y conflictos patrimoniales.',

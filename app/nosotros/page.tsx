@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Jonatan Castellanos — Abogado en Pereira',
-    description: 'Universidad Libre de Pereira. Derecho penal, ejecución de penas y asesoría jurídica integral en el Eje Cafetero.',
+    description: 'Universidad Libre de Pereira. Derecho penal, ejecución de penas y asesoría jurídica estratégica en el Eje Cafetero.',
   },
 };
 

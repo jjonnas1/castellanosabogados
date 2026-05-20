@@ -39,12 +39,12 @@ export const es = {
     },
     serviceSlides: [
         {
-                tag: 'Firma jurídica integral',
+                tag: 'Firma jurídica estratégica',
                 pill: 'Pereira · Eje Cafetero · Atención virtual',
-                title: 'Asesoría y representación jurídica integral',
+                title: 'Asesoría y representación jurídica estratégica',
                 subtitle: 'Acompañamos procesos civiles, de familia, penales, ejecución de penas, laborales y administrativos con estrategia clara y seguimiento del caso.',
                 cta: 'Agendar evaluación',
-                href: '/contacto?area=Evaluaci%C3%B3n%20jur%C3%ADdica%20integral&intent=ingreso-evaluacion&source=hero',
+                href: '/contacto?area=Evaluaci%C3%B3n%20jur%C3%ADdica%20estrat%C3%A9gica&intent=ingreso-evaluacion&source=hero',
                 whatsappText: 'Hola, quiero agendar una evaluación jurídica.',
                 panelTitle: 'Ruta jurídica clara',
                 panelBody: 'Revisamos el caso, definimos el área competente y priorizamos los pasos urgentes antes de iniciar.',
@@ -134,7 +134,7 @@ export const es = {
                         },
                         item3: {
                                 label: 'Enfoque',
-                                value: 'Integral'
+                                value: 'Estratégico'
                         }
                 }
         },
@@ -147,7 +147,7 @@ export const es = {
                 href: '/servicios/civil',
                 whatsappText: 'Hola, necesito asesoría en derecho civil.',
                 panelTitle: 'Asesoría Civil',
-                panelBody: 'Defensa patrimonial integral e indemnización de perjuicios.',
+                panelBody: 'Defensa patrimonial estratégica e indemnización de perjuicios.',
                 stats: {
                         item1: {
                                 label: 'Enfoque',
@@ -305,7 +305,7 @@ export const es = {
     } as Record<string, string>,
   },
   footer: {
-    tagline: "Firma · Asesoría jurídica estratégica integral",
+    tagline: "Firma · Asesoría jurídica estratégica",
     motto: "Criterio · Control · Tranquilidad",
     services: "Servicios",
     contact: "Contacto",
@@ -323,7 +323,7 @@ export const es = {
   pages: {
     home: {
       practiceBadge: "Áreas de práctica",
-      practiceTitle: "Servicios jurídicos con cobertura integral",
+      practiceTitle: "Servicios jurídicos con cobertura estratégica",
       portalBadge: "Portal del cliente",
       portalTitle: "Tu caso, siempre a la mano",
       portalSubtitle: "Cuando nos contratas, tienes acceso en tiempo real a tu expediente desde tu celular.",
