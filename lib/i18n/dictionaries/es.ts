@@ -39,9 +39,9 @@ export const es = {
     },
     serviceSlides: [
         {
-                tag: 'Firma jurídica integral',
+                tag: 'Castellanos Abogados',
                 pill: 'Pereira · Eje Cafetero · Atención virtual',
-                title: 'Asesoría y representación jurídica integral',
+                title: 'Asesoría y representación jurídica',
                 subtitle: 'Acompañamos procesos civiles, de familia, penales, ejecución de penas, laborales y administrativos con estrategia clara y seguimiento del caso.',
                 cta: 'Agendar evaluación',
                 href: '/contacto?area=Evaluaci%C3%B3n%20jur%C3%ADdica%20integral&intent=ingreso-evaluacion&source=hero',

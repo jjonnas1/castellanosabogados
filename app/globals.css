@@ -36,6 +36,23 @@ animation: gradient 15s ease infinite;
 .delay-400 { animation-delay: 400ms; }
 .delay-500 { animation-delay: 500ms; }
 
+/* Scroll reveal */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+[data-reveal][data-reveal-delay="1"] { transition-delay: 80ms; }
+[data-reveal][data-reveal-delay="2"] { transition-delay: 180ms; }
+[data-reveal][data-reveal-delay="3"] { transition-delay: 280ms; }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
+}
+
 .scale-102 { transform: scale(1.02); }
 .scale-105 { transform: scale(1.05); }
 

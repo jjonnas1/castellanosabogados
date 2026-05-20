@@ -46,21 +46,33 @@ export default function ComoTrabajamosPage() {
         </div>
       </header>
 
-      <section className="container section-shell space-y-8">
-        <div className="space-y-3">
+      <section className="container section-shell space-y-10">
+        <div className="space-y-3" data-reveal>
           <p className="pill w-fit">{p.routeBadge}</p>
           <h2>{p.routeTitle}</h2>
           <p className="max-w-3xl text-muted">{p.routeSubtitle}</p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="relative max-w-2xl">
           {p.steps.map((step, idx) => (
-            <div key={step.title} className="rounded-2xl border border-border bg-white p-6 shadow-soft/30">
-              <div className="flex items-center gap-3 text-xs uppercase tracking-[0.16em] text-muted">
-                <span className="rounded-full bg-subtle px-3 py-1 text-ink">{p.stepLabel} {idx + 1}</span>
-                <span>{p.stepControl}</span>
+            <div
+              key={step.title}
+              className="flex gap-6 pb-12 last:pb-0"
+              data-reveal
+              data-reveal-delay={String(Math.min((idx % 3) + 1, 3))}
+            >
+              <div className="flex flex-col items-center shrink-0">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white text-sm font-bold shrink-0">
+                  {idx + 1}
+                </div>
+                {idx < p.steps.length - 1 && (
+                  <div className="mt-3 w-px flex-1 bg-border min-h-[3rem]" />
+                )}
               </div>
-              <h3 className="mt-3 text-ink">{step.title}</h3>
-              <p className="mt-2 text-sm text-muted leading-relaxed">{step.detail}</p>
+              <div className="pt-1.5 pb-4 space-y-2">
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted">{p.stepLabel} {idx + 1}</p>
+                <h3 className="text-ink leading-snug">{step.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{step.detail}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -72,15 +84,16 @@ export default function ComoTrabajamosPage() {
             <p className="pill w-fit">{p.scopeBadge}</p>
             <h2>{p.scopeTitle}</h2>
             <p className="max-w-2xl text-muted">{p.scopeSubtitle}</p>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <ul className="divide-y divide-border mt-4" data-reveal data-reveal-delay="2">
               {p.scopeItems.map((item) => (
-                <div key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-ink shadow-soft/30">
-                  {item}
-                </div>
+                <li key={item} className="flex items-center gap-3 py-3.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
+                  <span className="text-sm font-medium text-ink">{item}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
-          <div className="card-shell bg-white p-8 shadow-soft/40">
+          <div className="rounded-2xl border border-border bg-white p-8 shadow-[0_4px_24px_rgba(15,23,42,0.07)]" data-reveal data-reveal-delay="3">
             <p className="pill w-fit">{p.ctaBadge}</p>
             <h3 className="mt-3 text-ink">{p.ctaTitle}</h3>
             <p className="mt-2 text-sm text-muted">{p.ctaSubtitle}</p>

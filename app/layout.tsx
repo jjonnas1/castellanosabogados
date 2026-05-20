@@ -5,6 +5,7 @@ import { GoogleTagManager } from '@next/third-parties/google';
 import AdminFloatingAccess from '@/app/components/AdminFloatingAccess';
 import SiteFooter from '@/app/components/SiteFooter';
 import ClientWidgets from '@/app/components/ClientWidgets';
+import ScrollReveal from '@/app/components/ScrollReveal';
 import { ThemeProvider } from '@/components/theme-provider';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 
@@ -142,6 +143,7 @@ export default function RootLayout({
               type="application/ld+json"
               dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
             />
+            <ScrollReveal />
             {children}
             <SiteFooter />
             <AdminFloatingAccess />

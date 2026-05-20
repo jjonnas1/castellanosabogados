@@ -48,17 +48,27 @@ export default function AQuienServimosPage() {
         </div>
       </header>
 
-      <section className="container section-shell space-y-6">
-        <div className="space-y-3">
+      <section className="container section-shell space-y-8">
+        <div className="space-y-3" data-reveal>
           <p className="pill w-fit">{p.rolesBadge}</p>
           <h2>{p.rolesTitle}</h2>
           <p className="max-w-3xl text-muted">{p.rolesSubtitle}</p>
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          {p.roles.map((role) => (
-            <div key={role.title} className="rounded-2xl border border-border bg-white p-6 shadow-soft/30">
-              <h3 className="text-ink">{role.title}</h3>
-              <p className="mt-2 text-sm text-muted leading-relaxed">{role.detail}</p>
+        <div className="divide-y divide-border">
+          {p.roles.map((role, idx) => (
+            <div
+              key={role.title}
+              className="flex gap-6 py-8 first:pt-2 last:pb-0"
+              data-reveal
+              data-reveal-delay={String(Math.min((idx % 3) + 1, 3))}
+            >
+              <span className="shrink-0 pt-0.5 text-2xl font-bold text-border tabular-nums leading-none select-none">
+                {String(idx + 1).padStart(2, '0')}
+              </span>
+              <div className="space-y-1.5">
+                <h3 className="text-ink leading-snug">{role.title}</h3>
+                <p className="text-sm text-muted leading-relaxed">{role.detail}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -69,15 +79,16 @@ export default function AQuienServimosPage() {
           <div className="space-y-3">
             <p className="pill w-fit">{p.contextsBadge}</p>
             <h2>{p.contextsTitle}</h2>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <ul className="divide-y divide-border mt-4" data-reveal data-reveal-delay="2">
               {p.contexts.map((item) => (
-                <div key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-semibold text-ink shadow-soft/30">
-                  {item}
-                </div>
+                <li key={item} className="flex items-center gap-3 py-3.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
+                  <span className="text-sm font-medium text-ink">{item}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
-          <div className="card-shell bg-white p-8 shadow-soft/40">
+          <div className="rounded-2xl border border-border bg-white p-8 shadow-[0_4px_24px_rgba(15,23,42,0.07)]" data-reveal data-reveal-delay="3">
             <p className="pill w-fit">{p.ctaBadge}</p>
             <h3 className="mt-3 text-ink">{p.ctaTitle}</h3>
             <p className="mt-2 text-sm text-muted">{p.ctaSubtitle}</p>
