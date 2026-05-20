@@ -58,6 +58,7 @@ const TOTAL = STEPS.length + 1; // +1 for contact step
 export default function EvaluadorTutela() {
   const [stepIdx, setStepIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [customSummary, setCustomSummary] = useState("");
   const [contact, setContact] = useState({ nombre: "", contacto: "", via: "whatsapp" as "whatsapp" | "email" });
   const [done, setDone] = useState(false);
   const [sending, setSending] = useState(false);
@@ -65,9 +66,35 @@ export default function EvaluadorTutela() {
 
   const isContactStep = stepIdx === STEPS.length;
 
+  const buildSummaryText = (currentAnswers: Record<string, string>) => {
+    const parts: string[] = [];
+    STEPS.forEach((step) => {
+      const selectedVal = currentAnswers[step.id];
+      if (selectedVal) {
+        const option = step.options.find((opt) => opt.value === selectedVal);
+        if (option) {
+          if (step.id === "entidad") {
+            parts.push(`Entidad responsable: ${option.label}.`);
+          } else if (step.id === "derecho") {
+            parts.push(`Derecho/Servicio vulnerado: ${option.label}.`);
+          } else if (step.id === "respuesta") {
+            parts.push(`Estado de respuesta: ${option.label}.`);
+          } else if (step.id === "tiempo") {
+            parts.push(`Tiempo de afectación: ${option.label}.`);
+          }
+        }
+      }
+    });
+    return parts.join(" ") + " Necesito asesoría estratégica para interponer una acción de tutela.";
+  };
+
   const handleOption = (value: string) => {
     const stepId = STEPS[stepIdx].id;
-    setAnswers((prev) => ({ ...prev, [stepId]: value }));
+    const nextAnswers = { ...answers, [stepId]: value };
+    setAnswers(nextAnswers);
+    if (stepIdx === STEPS.length - 1) {
+      setCustomSummary(buildSummaryText(nextAnswers));
+    }
     setStepIdx((i) => i + 1);
   };
 
@@ -76,7 +103,7 @@ export default function EvaluadorTutela() {
     setSending(true);
     setError(null);
     try {
-      const summary = Object.entries(answers)
+      const summary = customSummary.trim() || Object.entries(answers)
         .map(([k, v]) => `${k}: ${v}`)
         .join(" | ");
 
@@ -89,7 +116,7 @@ export default function EvaluadorTutela() {
           subject: "Evaluación preliminar de tutela",
           name: contact.nombre || (contact.via === "whatsapp" ? `WhatsApp: ${contact.contacto}` : contact.contacto),
           email: contact.via === "email" ? contact.contacto : "sin-email@evaluador-tutela.web",
-          message: `Evaluación preliminar de tutela.\nRespuestas: ${summary}`,
+          message: `Evaluación preliminar de tutela.\nRespuestas preclasificadas:\n${summary}`,
           intent: "evaluador-tutela",
         }),
       });
@@ -97,7 +124,7 @@ export default function EvaluadorTutela() {
 
       if (contact.via === "whatsapp") {
         const text = encodeURIComponent(
-          `Hola, realicé la evaluación de tutela en su sitio web. Mi caso involucra: ${summary}. Quisiera orientación.`
+          `Hola, realicé la evaluación de tutela en su sitio web. Resumen de mi caso:\n${summary}`
         );
         window.open(`https://wa.me/573148309306?text=${text}`, "_blank");
       }
@@ -112,6 +139,7 @@ export default function EvaluadorTutela() {
   const handleReset = () => {
     setStepIdx(0);
     setAnswers({});
+    setCustomSummary("");
     setContact({ nombre: "", contacto: "", via: "whatsapp" });
     setDone(false);
     setError(null);
@@ -211,6 +239,17 @@ export default function EvaluadorTutela() {
           </div>
 
           <div className="space-y-3">
+            <label className="block text-sm font-semibold text-ink">
+              Resumen de su caso (Preclasificado dinámicamente)
+              <textarea
+                value={customSummary}
+                onChange={(e) => setCustomSummary(e.target.value)}
+                rows={4}
+                placeholder="Ej. detalles específicos del medicamento, EPS, o fechas de peticiones..."
+                className="mt-1.5 w-full rounded-xl border border-border bg-white px-4 py-2.5 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-soft resize-none"
+              />
+            </label>
+
             <label className="block text-sm font-semibold text-ink">
               Nombre (opcional)
               <input

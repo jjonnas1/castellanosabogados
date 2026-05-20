@@ -110,7 +110,7 @@ export const translations: Record<Lang, UI> = {
       logout: 'Cerrar sesión',
     },
     footer: {
-      tagline: 'Firma · Asesoría jurídica estratégica integral',
+      tagline: 'Firma · Asesoría jurídica estratégica',
       motto: 'Criterio · Control · Tranquilidad',
       services: 'Servicios',
       contact: 'Contacto',
@@ -311,7 +311,7 @@ export const translations: Record<Lang, UI> = {
       logout: 'Esci',
     },
     footer: {
-      tagline: 'Studio · Consulenza legale strategica integrale',
+      tagline: 'Studio · Consulenza legale strategica',
       motto: 'Criterio · Controllo · Tranquillità',
       services: 'Servizi',
       contact: 'Contatto',

@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getProfileRoleByUserId } from '@/lib/profile-role';
+import type { Session } from '@supabase/supabase-js';
+import { getSafeAdminNext, verifyAdminSession } from '@/lib/admin-auth-client';
 import { supabase } from '@/lib/supabase-browser';
 
-async function resolveAdminRole(userId: string) {
-  const role = await getProfileRoleByUserId(userId);
-  return role === 'admin';
+async function resolveAdminRole(session: Session | null) {
+  const status = await verifyAdminSession(session);
+  return status === 'admin';
 }
 
 export default function AdminLoginPage() {
@@ -35,10 +36,10 @@ export default function AdminLoginPage() {
           return;
         }
 
-        const isAdmin = await resolveAdminRole(user.id);
+        const isAdmin = await resolveAdminRole(s.session);
         if (!mounted) return;
         if (isAdmin) {
-          router.replace('/admin');
+          router.replace(getSafeAdminNext());
           return;
         }
 
@@ -78,14 +79,14 @@ export default function AdminLoginPage() {
       return;
     }
 
-    const isAdmin = await resolveAdminRole(user.id);
+    const isAdmin = await resolveAdminRole(s.session);
     if (!isAdmin) {
       setError('Tu cuenta no tiene rol admin.');
       setLoading(false);
       return;
     }
 
-    router.replace('/admin');
+    router.replace(getSafeAdminNext());
     setLoading(false);
   }
 

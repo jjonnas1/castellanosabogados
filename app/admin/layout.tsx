@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
 import { AdminAuthContext } from '@/contexts/admin-auth';
-
 const PUBLIC_ADMIN_PATHS = ['/admin/login'];
 
 export default function AdminLayout({ children }: { children: ReactNode }) {

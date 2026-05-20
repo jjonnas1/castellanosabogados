@@ -17,7 +17,7 @@ const organizationSchema = {
   "@type": ["LegalService", "Attorney"],
   name: "Castellanos Abogados",
   description:
-    "Firma jurídica integral con enfoque en derecho penal, ejecución de penas, tutelas y asesoría jurídica estratégica en Pereira y el Eje Cafetero.",
+    "Firma jurídica con enfoque en derecho penal, ejecución de penas, tutelas y asesoría jurídica estratégica en Pereira y el Eje Cafetero.",
   url: "https://jonatancastellanosabogado.com",
   telephone: "+573148309306",
   email: "jonatancastellanosabogado@gmail.com",
