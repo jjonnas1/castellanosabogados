@@ -1,118 +1,79 @@
 'use client';
 
-import { useEffect, useState, type ReactNode } from 'react';
-import type { Session } from '@supabase/supabase-js';
-import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
 import { AdminAuthContext } from '@/contexts/admin-auth';
-import { getProfileRoleByUserId } from '@/lib/profile-role';
 
 const PUBLIC_ADMIN_PATHS = ['/admin/login'];
-const AUTH_RETRY_MS = 600;
-
-function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
+  const router   = useRouter();
   const pathname = usePathname();
   const isPublic = PUBLIC_ADMIN_PATHS.includes(pathname);
 
   const [token,  setToken]  = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
-  const [checking, setChecking] = useState(!isPublic);
+  const [ready,  setReady]  = useState(isPublic);
+  const redirected = useRef(false);
 
   useEffect(() => {
-    if (isPublic) {
-      setToken(null);
-      setUserId(null);
-      setChecking(false);
-      return;
-    }
+    if (isPublic) return;
 
     let mounted = true;
-    let redirectTimer: ReturnType<typeof setTimeout> | null = null;
 
-    function redirectToLogin(error?: string) {
-      const currentPath = window.location.pathname || '/admin';
-      const next = encodeURIComponent(currentPath === '/admin/login' ? '/admin' : currentPath);
-      const suffix = error ? `&error=${encodeURIComponent(error)}` : '';
-      window.location.replace(`/admin/login?next=${next}${suffix}`);
-    }
-
-    async function acceptSession(session: Session | null) {
-      if (!mounted || !session?.access_token) return false;
-
-      const cachedAdminId = window.sessionStorage.getItem('ca_admin_user_id');
-      const role = cachedAdminId === session.user.id ? 'admin' : await getProfileRoleByUserId(session.user.id);
-      if (!mounted) return false;
-
-      if (role !== 'admin') {
-        window.sessionStorage.removeItem('ca_admin_user_id');
-        setToken(null);
-        setUserId(null);
-        setChecking(false);
-        redirectTimer = setTimeout(() => redirectToLogin('admin_required'), 50);
-        return false;
-      }
-
-      setToken(session.access_token);
-      setUserId(session.user.id);
-      window.sessionStorage.setItem('ca_admin_user_id', session.user.id);
-      setChecking(false);
-      return true;
-    }
-
-    async function checkSession() {
-      setChecking(true);
-
-      try {
-        const first = await supabase.auth.getSession();
-        if (await acceptSession(first.data.session)) return;
-
-        await wait(AUTH_RETRY_MS);
-        const second = await supabase.auth.getSession();
-        if (await acceptSession(second.data.session)) return;
-      } catch {
-        // La UI queda en verificación y redirige abajo si no hay sesión válida.
-      }
-
-      if (!mounted) return;
-      setToken(null);
-      setUserId(null);
-      setChecking(false);
-      redirectTimer = setTimeout(() => redirectToLogin(), 50);
-    }
-
-    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
+    // onAuthStateChange: SOLO actualiza el token cuando llega sesión válida.
+    // NUNCA redirige desde aquí — INITIAL_SESSION puede disparar null antes
+    // de que las cookies estén disponibles (falso negativo).
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!mounted) return;
       if (session?.access_token) {
-        void acceptSession(session);
-      } else if (event === 'SIGNED_OUT') {
-        window.sessionStorage.removeItem('ca_admin_user_id');
-        setToken(null);
-        setUserId(null);
-        setChecking(false);
-        redirectTimer = setTimeout(() => redirectToLogin(), 50);
+        setToken(session.access_token);
+        setUserId(session.user.id);
+        setReady(true);
       }
     });
 
-    void checkSession();
+    // getSession() ES el único trigger de redirect.
+    // Lee directamente las cookies y es autoritativo.
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        if (!mounted) return;
+        if (session?.access_token) {
+          setToken(session.access_token);
+          setUserId(session.user.id);
+          setReady(true);
+        } else if (!redirected.current) {
+          redirected.current = true;
+          router.replace('/admin/login');
+        }
+      })
+      .catch(() => {
+        if (mounted && !redirected.current) {
+          redirected.current = true;
+          router.replace('/admin/login');
+        }
+      });
+
+    // Fallback: si en 6 s getSession() no resolvió, desbloquear igual
+    // (el middleware ya protegió la ruta en el servidor)
+    const timeout = setTimeout(() => {
+      if (mounted) setReady(true);
+    }, 6000);
 
     return () => {
       mounted = false;
-      if (redirectTimer) clearTimeout(redirectTimer);
+      clearTimeout(timeout);
       sub.subscription.unsubscribe();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPublic]);
 
-  if (!isPublic && (checking || !token)) {
+  if (!ready) {
     return (
-      <AdminAuthContext.Provider value={{ token, userId }}>
-        <div className="flex min-h-screen items-center justify-center bg-[#0d1626]">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
-        </div>
-      </AdminAuthContext.Provider>
+      <div className="flex items-center justify-center min-h-screen bg-[#0d1626]">
+        <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+      </div>
     );
   }
 
