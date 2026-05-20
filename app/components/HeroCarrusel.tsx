@@ -129,7 +129,7 @@ export default function HeroCarrusel() {
               href={slide.ctaWa}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-secondary w-full justify-center border-white/40 bg-white/10 text-white hover:bg-white/18 hover:text-white flex items-center gap-2 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#25d366] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#20bd5a] active:scale-95 sm:w-auto"
             >
               <WhatsAppIcon size={16} />
               {slide.ctaWaLabel}
@@ -160,7 +160,7 @@ export default function HeroCarrusel() {
                 href={slide.ctaWa}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary w-full bg-white hover:bg-slate-50 flex items-center justify-center gap-2.5 !text-[#0d1528]"
+                className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#25d366] py-3 text-[15px] font-semibold text-white shadow-lg transition hover:bg-[#20bd5a] active:scale-[0.98]"
               >
                 <WhatsAppIcon size={18} />
                 <span className="font-bold">{PHONE_DISPLAY}</span>
