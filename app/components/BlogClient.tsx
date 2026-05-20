@@ -2,6 +2,7 @@
 
 import SiteHeader from '@/app/components/SiteHeader';
 import BlogList from '@/app/components/BlogList';
+import { FadeUp } from '@/app/components/Animate';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const articles = [
@@ -14,9 +15,13 @@ const articles = [
   { slug: 'detencion-domiciliaria-colombia', title: 'Detención domiciliaria en Colombia: requisitos y cómo solicitarla', summary: 'Muchos condenados pueden cumplir su pena fuera de la cárcel. Explicamos los dos tipos de detención domiciliaria en Colombia y cómo tramitarlos.', date: '2026-05-05', category: 'Ejecución de Penas' },
   { slug: 'divorcio-colombia', title: 'Divorcio en Colombia: tipos, proceso y tiempos', summary: 'En Colombia existen varias vías para disolver el matrimonio. Conoce cuál aplica a tu caso y qué esperar del proceso judicial o notarial.', date: '2026-05-12', category: 'Familia' },
   { slug: 'acoso-laboral-colombia', title: 'Acoso laboral en Colombia: qué es, cómo reconocerlo y cómo denunciarlo', summary: 'El acoso laboral tiene nombre legal en Colombia y un proceso claro para denunciarlo. Te explicamos qué dice la Ley 1010 de 2006 y cómo actuar.', date: '2026-05-12', category: 'Laboral' },
+  { slug: 'cuota-alimentaria-colombia', title: 'Cuota de alimentos en Colombia: cómo se fija, cómo se revisa y qué pasa si no la pagan', summary: 'Si hay menores de edad o una persona que dependa económicamente de otra, la obligación alimentaria es irrenunciable. Le explicamos cómo funciona y cómo hacerla cumplir.', date: '2026-03-25', category: 'Familia' },
+  { slug: 'violencia-intrafamiliar-medidas-proteccion', title: 'Violencia intrafamiliar en Colombia: medidas de protección urgentes y cómo solicitarlas', summary: 'Existen medidas de protección que se pueden activar de manera inmediata, sin necesidad de prueba plena. Conozca cómo solicitar protección urgente ante la comisaría de familia.', date: '2026-04-22', category: 'Familia' },
   { slug: 'medida-de-aseguramiento-colombia', title: 'Medida de aseguramiento en Colombia: tipos, requisitos y cómo impugnarla', summary: 'La medida de aseguramiento puede privarte de la libertad antes de una condena. Conoce sus requisitos y las vías para impugnarla o sustituirla.', date: '2026-05-19', category: 'Penal' },
+  { slug: 'ley-2466-2025-redenciones-pena', title: 'Ley 2466 de 2025: cómo cambiaron las redenciones de pena en Colombia', summary: 'La Ley 2466 de 2025 modificó el régimen de redenciones por trabajo y estudio en el INPEC. Le explicamos qué cambió y por qué revisar los cómputos puede marcar la diferencia.', date: '2026-05-15', category: 'Ejecución de Penas' },
   { slug: 'libertad-condicional-colombia', title: 'Libertad condicional en Colombia: requisitos del artículo 64 del Código Penal', summary: 'La libertad condicional permite recuperar la libertad antes de cumplir toda la condena. Conoce los 4 requisitos del artículo 64 del Código Penal y el proceso.', date: '2026-05-19', category: 'Ejecución de Penas' },
   { slug: 'preacuerdo-penal-colombia', title: 'Preacuerdo penal en Colombia: ventajas, riesgos y cuándo conviene', summary: 'Un preacuerdo bien negociado puede reducir significativamente tu pena. Uno mal manejado puede ser un error grave. Te explicamos cuándo conviene y cuándo no.', date: '2026-05-19', category: 'Penal' },
+  { slug: 'prescripcion-titulos-valores-colombia', title: 'Prescripción de títulos valores en Colombia: letras de cambio, cheques y pagarés', summary: '¿Cuánto tiempo tiene para cobrar una letra de cambio, un cheque o un pagaré? Le explicamos los plazos legales, desde cuándo cuentan y qué pasa si el título ya prescribió.', date: '2026-05-20', category: 'Civil' },
 ];
 
 export default function BlogClient() {
@@ -29,11 +34,11 @@ export default function BlogClient() {
 
       <section className="section-shell bg-surface/80">
         <div className="container space-y-8">
-          <div className="space-y-2">
+          <FadeUp className="space-y-2">
             <p className="pill w-fit">{p.badge}</p>
             <h1>{p.heroTitle}</h1>
             <p className="max-w-2xl text-muted">{p.heroSubtitle}</p>
-          </div>
+          </FadeUp>
 
           <BlogList articles={articles} />
         </div>

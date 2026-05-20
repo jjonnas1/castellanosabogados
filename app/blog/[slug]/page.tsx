@@ -418,6 +418,42 @@ En los juzgados de control de garantías de Pereira, Manizales y Armenia, la exp
 ¿Te impusieron o le impusieron a un familiar una medida de aseguramiento en el Eje Cafetero? El tiempo importa. Llámanos al 314 830 9306 o escríbenos por WhatsApp para analizar las opciones de impugnación o sustitución.
     `,
   },
+  'ley-2466-2025-redenciones-pena': {
+    title: 'Ley 2466 de 2025: cómo cambiaron las redenciones de pena en Colombia',
+    category: 'Ejecución de Penas',
+    date: '2026-05-15',
+    content: `
+En febrero de 2025 Colombia promulgó la Ley 2466, una reforma que modificó de manera importante el régimen de redenciones de pena para personas privadas de la libertad. Si tiene un familiar condenado en un establecimiento del INPEC, entender este cambio puede significar semanas o incluso meses de diferencia en su fecha de acceso a beneficios como la libertad condicional o la prisión domiciliaria.
+
+**¿Qué son las redenciones de pena?**
+
+Las redenciones de pena son un mecanismo legal que permite a los internos descontar días de su condena a través del trabajo, el estudio y la enseñanza dentro del establecimiento penitenciario. Están reguladas en el Código Penitenciario y Carcelario (Ley 65 de 1993) y han sido objeto de varias modificaciones a lo largo de los años. Su importancia práctica es enorme: los días redimidos se descuentan del total de la pena y aceleran el momento en que el condenado puede solicitar beneficios como la libertad condicional.
+
+**¿Qué cambió con la Ley 2466 de 2025?**
+
+La ley establece que se abonarán dos días de reclusión por cada tres días efectivos de trabajo o estudio dentro del establecimiento. Esta relación (2 por cada 3 días) busca incentivar la participación activa de los internos en actividades productivas y educativas, reconociendo que estas actividades tienen un impacto real en la reducción de la reincidencia.
+
+Uno de los aspectos más relevantes de la norma es el reconocimiento de las actividades laborales desarrolladas dentro del penal como experiencia laboral válida. El Ministerio de Trabajo tiene un plazo de seis meses desde la promulgación de la ley para reglamentar cómo se certifica y reconoce esta experiencia, con el objetivo de facilitar la inserción laboral al momento de la libertad. Esto representa un cambio significativo frente al estigma que históricamente ha enfrentado la población pospenada en el mercado laboral.
+
+El INPEC y la USPEC (Unidad de Servicios Penitenciarios y Carcelarios) quedan encargados de consolidar y reportar la información sobre participación de los internos en actividades productivas, para que el Ministerio de Trabajo pueda llevar estadísticas actualizadas sobre inserción laboral.
+
+**Por qué importa la exactitud en los cómputos del INPEC**
+
+El registro de las actividades de trabajo y estudio es responsabilidad del INPEC, pero en la práctica los errores en los cómputos son frecuentes. Días trabajados que no quedaron registrados, períodos de estudio que no fueron certificados a tiempo o redenciones calculadas con la norma equivocada son situaciones que se presentan con más regularidad de lo que debería. Cada error en el cómputo puede retrasar semanas o meses la fecha en que el condenado alcanza el 60% de la pena necesario para solicitar la libertad condicional.
+
+Por eso, la revisión técnica y oportuna de los cómputos del INPEC no es un lujo: es una necesidad para cualquier persona privada de la libertad y para su familia. La diferencia entre un cómputo correcto y uno erróneo puede ser determinante en la estrategia de ejecución de penas.
+
+**¿Cómo se tramita el reconocimiento de las redenciones ante el Juez de Ejecución?**
+
+Las redenciones no se reconocen automáticamente. El INPEC debe certificarlas y el abogado o el condenado deben presentar esa certificación ante el Juez de Ejecución de Penas y Medidas de Seguridad para que queden formalmente reconocidas en el expediente. Si hay discrepancias entre lo que certifica el INPEC y lo que el abogado calcula, se puede controvertir ante el juez con la documentación de respaldo de las actividades realizadas.
+
+**Lo que debe revisar si tiene un familiar condenado**
+
+Si tiene un familiar privado de la libertad en un establecimiento del INPEC, hay tres cosas que vale la pena verificar: primero, si las actividades de trabajo o estudio que realiza están siendo registradas correctamente por el INPEC; segundo, si los cómputos que lleva el juzgado de ejecución de penas coinciden con los que reporta el INPEC; y tercero, cuándo —con los cómputos correctos y las redenciones reconocidas— se alcanza el 60% de la pena para solicitar la libertad condicional o los demás beneficios aplicables.
+
+¿Tiene dudas sobre los cómputos de pena o las redenciones de su familiar en el Eje Cafetero? Revisamos el expediente y le explicamos con exactitud a qué tiene derecho y cuándo. Contáctenos por WhatsApp o llámenos al 314 830 9306.
+    `,
+  },
   'libertad-condicional-colombia': {
     title: 'Libertad condicional en Colombia: requisitos del artículo 64 del Código Penal',
     category: 'Ejecución de Penas',
@@ -458,6 +494,162 @@ Técnicamente, un condenado puede presentar la solicitud por sí mismo. Pero en 
 Un abogado penalista con experiencia en ejecución de penas conoce los criterios que aplican los jueces del Eje Cafetero, sabe qué documentos son realmente relevantes y puede construir un expediente que maximice las posibilidades de éxito.
 
 ¿Tienes un familiar privado de la libertad en el Eje Cafetero que podría tener derecho a la libertad condicional? Podemos revisar su caso sin costo. Llámanos al 314 830 9306 o escríbenos por WhatsApp.
+    `,
+  },
+  'cuota-alimentaria-colombia': {
+    title: 'Cuota de alimentos en Colombia: cómo se fija, cómo se revisa y qué pasa si no la pagan',
+    category: 'Familia',
+    date: '2026-03-25',
+    content: `
+La obligación alimentaria es uno de los temas de derecho de familia que más consultas genera en Colombia. Afecta a padres separados, parejas en proceso de divorcio y cualquier familia donde exista un menor de edad o una persona que dependa económicamente de otra. Conocer cómo funciona este proceso puede marcar una diferencia enorme en el bienestar de los hijos.
+
+**¿Qué son los alimentos en el derecho colombiano?**
+
+Los alimentos son la obligación legal de una persona de suministrar a otra lo necesario para su subsistencia: alimentación, vivienda, vestido, salud y educación. En Colombia, esta obligación está consagrada en el artículo 411 del Código Civil, norma que ha sido actualizada más recientemente por la Ley 2388 de 2024, la cual amplió los titulares del derecho de alimentos para incluir expresamente a los hijos y padres de crianza en los numerales 11 y 12 del artículo.
+
+**¿Quiénes tienen derecho a alimentos?**
+
+El artículo 411 del Código Civil establece que tienen derecho a alimentos, entre otros: el cónyuge o compañero permanente, los hijos legítimos o extramatrimoniales, los padres, los hermanos en condición de vulnerabilidad, y ahora también los hijos y padres de crianza. Los menores de edad tienen una protección reforzada: su derecho a los alimentos es de orden público y no puede renunciarse.
+
+**Requisitos para que proceda la obligación alimentaria**
+
+La Corte Constitucional ha establecido que para que nazca la obligación alimentaria deben concurrir tres elementos: que el solicitante no tenga los recursos suficientes para cubrir sus necesidades básicas, que el obligado tenga capacidad económica para suministrar los alimentos, y que exista entre las partes un vínculo de parentesco, matrimonio, unión marital o el supuesto legal que origina la obligación.
+
+**¿Cómo se fija la cuota alimentaria?**
+
+Existen dos vías principales. La primera es la conciliación extrajudicial: ante un centro de conciliación, una comisaría de familia o la Defensoría del Pueblo, las partes acuerdan el monto de la cuota sin necesidad de proceso judicial. El acta de conciliación tiene los mismos efectos de una sentencia y presta mérito ejecutivo. La segunda es el proceso judicial: cuando no hay acuerdo, se presenta una demanda ante el Juez de Familia del circuito. El juez puede decretar alimentos provisionales desde el inicio del proceso si existe prueba siquiera sumaria de la capacidad económica del demandado y de las necesidades del alimentario.
+
+El juez fija la cuota considerando las necesidades del alimentario (edad, salud, educación, gastos de vida), la capacidad económica del obligado (ingresos, patrimonio, otras obligaciones) y el interés superior del menor cuando están involucrados hijos.
+
+**¿Cuándo y cómo se puede revisar la cuota?**
+
+La cuota de alimentos no es permanente ni inmutable. Puede revisarse cuando cambien las condiciones económicas del obligado (perdió su empleo o su ingreso disminuyó), cuando aumenten las necesidades del alimentario (enfermedad, cambio de ciclo educativo), o cuando el obligado mejore notoriamente su capacidad económica. El proceso de revisión se tramita ante el mismo juez que fijó la cuota inicial o ante el juez de familia del domicilio del alimentario.
+
+**¿Qué pasa si el obligado no paga?**
+
+El incumplimiento de la cuota alimentaria tiene consecuencias jurídicas en dos frentes. En el civil, puede iniciarse un proceso ejecutivo de alimentos ante el juez de familia. En este proceso pueden embargarse los salarios, cuentas bancarias y bienes del deudor. La ley permite embargar hasta el 50% del salario cuando se trata de alimentos para menores de edad. En el penal, el artículo 233 del Código Penal tipifica el delito de inasistencia alimentaria. El obligado que dolosamente no suministre los medios para la subsistencia del alimentario puede ser sancionado con prisión de dos a cuatro años, sin perjuicio de lo cual persiste la obligación de pagar.
+
+**La importancia de actuar desde el inicio**
+
+Muchas personas esperan meses antes de iniciar el proceso de fijación de alimentos, y ese tiempo no se recupera fácilmente. La cuota no opera de manera retroactiva salvo en casos excepcionales: se empieza a contar desde la notificación de la demanda. Iniciar el trámite a tiempo protege mejor los intereses del menor o del alimentario.
+
+¿Necesita fijar, revisar o hacer cumplir una cuota de alimentos en Pereira, Manizales o Armenia? En Castellanos Abogados acompañamos todo el proceso. Contáctenos por WhatsApp o llámenos al 314 830 9306.
+    `,
+  },
+  'violencia-intrafamiliar-medidas-proteccion': {
+    title: 'Violencia intrafamiliar en Colombia: medidas de protección urgentes y cómo solicitarlas',
+    category: 'Familia',
+    date: '2026-04-22',
+    content: `
+La violencia intrafamiliar es una de las situaciones más urgentes que puede enfrentar una familia. En Colombia existe un marco legal robusto que permite actuar con rapidez para proteger a las víctimas, incluso antes de que haya una investigación penal formal. El problema es que muchas personas desconocen estos mecanismos o no saben cómo activarlos.
+
+**Marco legal de la violencia intrafamiliar en Colombia**
+
+El sistema de protección frente a la violencia intrafamiliar en Colombia está construido sobre varias normas que se complementan: la Ley 294 de 1996, que desarrolló el artículo 42 de la Constitución y estableció los primeros mecanismos de protección; la Ley 575 de 2000, que trasladó la competencia de los jueces de familia a los comisarios de familia; la Ley 1257 de 2008, que amplió el concepto de violencia para incluir el daño a la integridad sexual y psicológica; y la Ley 2126 de 2021, que reglamentó las comisarías de familia y fortaleció la respuesta institucional.
+
+**¿Qué se entiende por violencia intrafamiliar?**
+
+La ley protege a quienes sufren daño físico, psicológico, sexual o económico por parte de un miembro de su grupo familiar. El daño no requiere ser visible o haberse producido con violencia directa: las amenazas, la intimidación sistemática, el control económico y el maltrato verbal reiterado también constituyen violencia en los términos de la ley. No es necesario que exista una denuncia penal previa para solicitar medidas de protección.
+
+**¿Qué son las medidas de protección?**
+
+Las medidas de protección son órdenes que puede dictar el comisario de familia (o el juez civil municipal si no hay comisaría) para detener la violencia y prevenir nuevas agresiones. Pueden decretarse de manera inmediata, sin necesidad de prueba plena: basta con indicios serios de que ha ocurrido o puede ocurrir una situación de violencia. Las medidas más importantes incluyen: ordenar al agresor retirarse del hogar de la víctima, prohibir al agresor acercarse a la víctima, a sus hijos u otros miembros de la familia, ordenar al agresor abstenerse de todo acto de perturbación o intimidación, fijar provisionalmente la custodia y alimentos cuando hay menores en riesgo, y ordenar tratamiento reeducativo o terapéutico para el agresor.
+
+**¿Dónde y cómo se solicita una medida de protección?**
+
+La solicitud puede presentarse ante la comisaría de familia del municipio donde ocurrieron los hechos o donde reside la víctima. Si no hay comisaría, ante el juez civil municipal o promiscuo municipal. No se requiere abogado para presentar la solicitud, aunque contar con orientación jurídica mejora la presentación de los hechos y la solicitud de medidas específicas. La solicitud puede hacerla la propia víctima, cualquier miembro del grupo familiar, el defensor de familia, el agente del ministerio público o la Policía Nacional. El funcionario debe actuar de manera inmediata cuando hay urgencia y riesgo grave.
+
+**¿Qué pasa si el agresor incumple la medida de protección?**
+
+El incumplimiento de una medida de protección es una falta grave. La víctima debe denunciarlo de inmediato ante la comisaría que la impuso. El funcionario puede imponer multas de uno a diez salarios mínimos al agresor y arresto hasta por treinta días. El incumplimiento también puede fundar una denuncia penal por violación de medidas de protección, configurando además una agravante en eventuales investigaciones penales relacionadas.
+
+**Violencia intrafamiliar y proceso penal**
+
+La violencia intrafamiliar también puede ser constitutiva del delito tipificado en el artículo 229 del Código Penal, con penas de prisión de cuatro a ocho años. El proceso penal corre en paralelo al proceso de medidas de protección ante la comisaría: son mecanismos independientes que se complementan. Para el proceso penal, la víctima puede denunciar ante la Fiscalía General de la Nación o ante cualquier estación de Policía.
+
+**Cuándo buscar orientación jurídica urgente**
+
+Cuando hay violencia física o amenaza grave, el primer paso es ponerse a salvo. El segundo, activar la comisaría de familia con los hechos documentados: fotos de lesiones, capturas de mensajes amenazantes, llamadas recibidas, testigos. Un abogado de familia puede acompañar este proceso para garantizar que las medidas solicitadas sean las más adecuadas al caso y que se cumplan efectivamente.
+
+¿Usted o alguien de su familia necesita medidas de protección urgentes en Pereira, Manizales o Armenia? Contáctenos por WhatsApp o llámenos al 314 830 9306. Atendemos con reserva y urgencia.
+    `,
+  },
+  'prescripcion-titulos-valores-colombia': {
+    title: 'Prescripción de títulos valores en Colombia: letras de cambio, cheques y pagarés',
+    category: 'Civil',
+    date: '2026-05-20',
+    content: `
+Los títulos valores —letras de cambio, cheques y pagarés— son documentos que incorporan una obligación de pago y que circulan con reglas propias dentro del tráfico comercial. Una de las más importantes es la prescripción: el plazo máximo durante el cual el tenedor puede exigir judicialmente el pago. Vencido ese término sin que se haya ejercido la acción, el derecho cambiario se extingue.
+
+Conocer estos plazos es fundamental tanto para quien tiene un título en su poder como para quien lo firmó. Un acreedor que espera demasiado pierde el derecho a cobrar; un deudor que no sabe que el título prescribió puede pagar una obligación que ya no era exigible judicialmente.
+
+**Fundamento legal**
+
+La prescripción de los títulos valores está regulada en el Código de Comercio colombiano, principalmente en los artículos 789 a 793 para las letras de cambio y los pagarés, y en el artículo 730 para los cheques. Estas normas establecen plazos distintos según el tipo de título y según la posición que ocupa cada obligado dentro de la cadena cambiaria.
+
+**Prescripción de la letra de cambio**
+
+La letra de cambio es el título valor más complejo desde el punto de vista cambiario, porque en ella intervienen varios obligados con responsabilidades distintas: el aceptante (obligado principal), los endosantes y los avalistas.
+
+El artículo 789 del Código de Comercio establece tres plazos de prescripción según la acción que se ejerza.
+
+La acción cambiaria directa —la que se dirige contra el aceptante de la letra— prescribe en tres (3) años contados desde la fecha de vencimiento del título. Esta es la acción más sólida porque se dirige contra quien aceptó pagar.
+
+La acción cambiaria de regreso del último tenedor —dirigida contra los endosantes, el girador o sus avalistas— prescribe en un (1) año, contado desde la fecha del protesto o, si el título fue girado con la cláusula "sin protesto", desde la fecha de vencimiento.
+
+La acción de regreso entre obligados de regreso —por ejemplo, cuando un endosante ya pagó y quiere recuperar lo pagado de endosantes anteriores— prescribe en seis (6) meses contados desde la fecha en que ese obligado realizó el pago voluntario o desde la fecha en que fue notificado de la demanda en su contra.
+
+**Prescripción del pagaré**
+
+El pagaré se rige por las mismas normas de la letra de cambio en materia de prescripción, de conformidad con el artículo 793 del Código de Comercio. Los plazos son idénticos: tres años para la acción directa contra el suscriptor del pagaré (que equivale al aceptante en la letra), un año para la acción de regreso del último tenedor, y seis meses para las acciones entre obligados de regreso.
+
+En la práctica, el pagaré es el título valor más utilizado en Colombia para documentar obligaciones de crédito entre personas naturales y empresas. Su prescripción de tres años desde el vencimiento es el plazo que con más frecuencia debe vigilarse.
+
+**Prescripción del cheque**
+
+El cheque tiene reglas propias y plazos más cortos. El artículo 730 del Código de Comercio establece que las acciones cambiarias derivadas del cheque prescriben en seis (6) meses.
+
+Para el último tenedor del cheque, ese término se cuenta desde la fecha de presentación del título al banco, es decir, desde el momento en que el cheque fue cobrado o rechazado. Para los endosantes y sus avalistas, el término de seis meses se cuenta desde el día siguiente a aquel en que cada uno de ellos pagó el cheque.
+
+Es importante tener en cuenta que el cheque también tiene un plazo de presentación al banco —quince días si fue expedido en el mismo lugar de pago y un mes si fue expedido en lugar distinto— y que la caducidad de ese plazo, aunque no extingue la acción, puede afectar las acciones de regreso.
+
+**¿Desde cuándo se cuentan los plazos?**
+
+La regla general es que los plazos de prescripción empiezan a correr desde el momento en que la obligación se hizo exigible: para la letra de cambio y el pagaré, desde el vencimiento; para el cheque, desde la presentación.
+
+Si el título no tiene fecha de vencimiento o vence a la vista, el plazo empieza a correr desde la fecha de creación del documento o desde el momento de la presentación, según el tipo de título.
+
+**Interrupción de la prescripción**
+
+La prescripción no opera de manera automática si el acreedor toma acciones oportunas. El término se interrumpe —es decir, el conteo se reinicia— cuando el tenedor presenta una demanda ante el juez competente. También puede interrumpirse mediante la notificación formal del proceso al deudor o por el reconocimiento expreso que hace el deudor de la deuda.
+
+Si la prescripción se interrumpe, el término empieza a correr nuevamente desde cero. Por eso, cuando se acercan los plazos, la presentación oportuna de la demanda es la herramienta más eficaz para conservar el derecho.
+
+**¿Qué pasa cuando el título ya prescribió?**
+
+La prescripción cambiaria no significa que el acreedor pierda todo. El ordenamiento colombiano conserva dos vías alternativas cuando el título ha prescrito.
+
+La acción de enriquecimiento sin causa permite reclamar el pago cuando el deudor se ha enriquecido injustificadamente con la prescripción del título. Esta acción tiene un plazo de un (1) año contado desde la fecha en que operó la prescripción, y permite recuperar el valor del título aunque ya no sea posible ejercer la acción cambiaria directa.
+
+La acción causal permite al acreedor volver al negocio jurídico que dio origen al título y exigir el cumplimiento por esa vía, con los plazos de prescripción del contrato subyacente, que en materia civil son generalmente de diez años.
+
+**Resumen de plazos**
+
+Letra de cambio — acción directa contra el aceptante: 3 años desde el vencimiento. Letra de cambio — acción de regreso del último tenedor: 1 año desde el protesto o el vencimiento. Letra de cambio — acción entre obligados de regreso: 6 meses desde el pago o notificación.
+
+Pagaré — acción directa contra el suscriptor: 3 años desde el vencimiento. Pagaré — acción de regreso del último tenedor: 1 año desde el protesto o el vencimiento. Pagaré — acción entre obligados de regreso: 6 meses desde el pago o notificación.
+
+Cheque — acción del último tenedor: 6 meses desde la presentación. Cheque — acción de endosantes y avalistas: 6 meses desde el pago.
+
+Acción de enriquecimiento sin causa (para cualquier título prescrito): 1 año desde que operó la prescripción.
+
+**Recomendación práctica**
+
+Si tiene en su poder una letra de cambio, un cheque o un pagaré que no ha podido cobrar, no espere. Los plazos de prescripción son fatales y, una vez vencidos, la única alternativa es la acción de enriquecimiento, que tiene condiciones más estrictas y un plazo aún más corto.
+
+Si usted firmó un título valor hace años y le están cobrando una deuda que podría estar prescrita, es igualmente importante verificar los términos antes de pagar, porque podría estar asumiendo una obligación que ya no era judicialmente exigible.
+
+¿Tiene dudas sobre si un título valor que le deben o que firmó ya prescribió? En Castellanos Abogados revisamos la situación de su título y le explicamos las opciones disponibles. Contáctenos por WhatsApp o llámenos al 314 830 9306.
     `,
   },
   'preacuerdo-penal-colombia': {
@@ -523,8 +715,12 @@ const ARTICLE_DESCRIPTIONS: Record<string, string> = {
   'divorcio-colombia':                   'Tipos de divorcio en Colombia, tiempos estimados y proceso paso a paso. Mutuo acuerdo, contencioso y cesación de efectos civiles. Abogados de familia en Pereira.',
   'acoso-laboral-colombia':              'Qué es el acoso laboral según la Ley 1010 de 2006, cómo reconocerlo y cómo denunciarlo ante el Comité de Convivencia o el Ministerio de Trabajo. Abogados en Pereira.',
   'medida-de-aseguramiento-colombia':    'Tipos, requisitos y cómo impugnar una medida de aseguramiento en Colombia. Detención preventiva, apelación y sustitución. Abogados penalistas en Pereira.',
+  'cuota-alimentaria-colombia':          'Cómo se fija, revisa y hace cumplir la cuota de alimentos en Colombia. Requisitos del artículo 411 del Código Civil y Ley 2388 de 2024. Abogados de familia en Pereira y Eje Cafetero.',
+  'violencia-intrafamiliar-medidas-proteccion': 'Medidas de protección urgentes ante violencia intrafamiliar en Colombia. Comisaría de familia, Ley 294/1996, Ley 1257/2008 y Ley 2126/2021. Abogados de familia en Pereira.',
+  'ley-2466-2025-redenciones-pena':      'Ley 2466 de 2025 y redenciones de pena en Colombia: qué cambió, cómo se calculan y por qué revisar los cómputos del INPEC. Ejecución de penas en Pereira y Eje Cafetero.',
   'libertad-condicional-colombia':       'Requisitos del artículo 64 del Código Penal para la libertad condicional: tiempo cumplido, conducta y arraigo. Trámite ante el Juez de Ejecución de Penas en el Eje Cafetero.',
   'preacuerdo-penal-colombia':           'Preacuerdo penal en Colombia: ventajas, riesgos y cuándo conviene aceptarlo. Diferencias con el allanamiento a cargos. Abogados penalistas en Pereira y Eje Cafetero.',
+  'prescripcion-titulos-valores-colombia': 'Plazos de prescripción de letras de cambio, cheques y pagarés en Colombia según el Código de Comercio. Desde cuándo cuentan, cómo interrumpirlos y qué hacer cuando el título ya prescribió.',
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
