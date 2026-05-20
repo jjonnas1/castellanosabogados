@@ -173,76 +173,75 @@ export default function HomeClient() {
 
       {/* PORTAL DEL CLIENTE */}
       <section
-        className="section-shell overflow-hidden text-white"
-        style={{ background: "radial-gradient(circle at 20% 10%, rgba(44,83,148,0.5), transparent 28%), linear-gradient(135deg, #08111f 0%, #162842 52%, #0b1322 100%)" }}
+        className="section-shell overflow-hidden bg-gradient-to-br from-panel via-surface to-panel border-y border-border/70 text-ink dark:bg-gradient-to-br dark:from-[#08111f] dark:via-[#162842] dark:to-[#0b1322] dark:border-slate-800 dark:text-white"
       >
         <div className="container grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div className="max-w-xl space-y-6">
             <div className="space-y-3">
-              <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ring-1 ring-white/25">
+              <span className="inline-flex rounded-full bg-accent-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-700 ring-1 ring-accent-700/20 dark:bg-white/10 dark:text-white dark:ring-white/25">
                 {p.portalBadge}
               </span>
-              <h2 className="text-balance text-white">{p.portalTitle}</h2>
-              <p className="text-lg leading-relaxed text-slate-300">{p.portalSubtitle}</p>
+              <h2 className="text-balance text-ink dark:text-white">{p.portalTitle}</h2>
+              <p className="text-lg leading-relaxed text-muted dark:text-slate-300">{p.portalSubtitle}</p>
             </div>
 
             <div className="grid gap-3">
               {[p.portalFeature1, p.portalFeature2, p.portalFeature3].map((feature) => (
-                <div key={feature} className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 backdrop-blur">
-                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-[#13233b]">
+                <div key={feature} className="flex items-start gap-3 rounded-2xl border border-border bg-card px-4 py-3 dark:border-white/10 dark:bg-white/[0.06] backdrop-blur">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ink text-white dark:bg-white dark:text-[#13233b]">
                     <svg viewBox="0 0 20 20" fill="none" className="h-3.5 w-3.5" aria-hidden>
                       <path d="M4 10.5 8 14l8-8" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
-                  <p className="text-sm leading-relaxed text-slate-200">{feature}</p>
+                  <p className="text-sm leading-relaxed text-muted dark:text-slate-200">{feature}</p>
                 </div>
               ))}
             </div>
 
             <Link
               href="/cliente/login"
-              className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-[#101a2d] shadow-[0_18px_45px_rgba(255,255,255,0.16)] transition hover:-translate-y-0.5 hover:bg-slate-100 sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-3 text-sm font-bold text-white transition hover:-translate-y-0.5 hover:bg-accent-700 sm:w-auto dark:bg-white dark:text-[#101a2d] dark:shadow-[0_18px_45px_rgba(255,255,255,0.16)] dark:hover:bg-slate-100"
             >
               {p.portalLink}
             </Link>
           </div>
 
           <div className="relative">
-            <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-blue-400/15 blur-3xl" aria-hidden />
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/[0.08] p-3 shadow-[0_30px_90px_rgba(0,0,0,0.35)] backdrop-blur">
-              <div className="rounded-[1.45rem] border border-white/10 bg-[#07111f]">
-                <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+            <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-blue-400/10 dark:bg-blue-400/15 blur-3xl" aria-hidden />
+            <div className="relative overflow-hidden rounded-[2rem] border border-border bg-panel p-3 shadow-soft dark:border-white/15 dark:bg-white/[0.08] dark:shadow-[0_30px_90px_rgba(0,0,0,0.35)] backdrop-blur">
+              <div className="rounded-[1.45rem] border border-border bg-card dark:border-white/10 dark:bg-[#07111f]">
+                <div className="flex items-center justify-between border-b border-border dark:border-white/10 px-4 py-3">
                   <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-200/70">Panel del cliente</p>
-                    <p className="mt-0.5 text-sm font-semibold text-white">Expediente activo</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-700 dark:text-blue-200/70">Panel del cliente</p>
+                    <p className="mt-0.5 text-sm font-semibold text-ink dark:text-white">Expediente activo</p>
                   </div>
-                  <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-[11px] font-bold text-emerald-200 ring-1 ring-emerald-300/25">
+                  <span className="rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-bold text-emerald-800 ring-1 ring-emerald-700/20 dark:bg-emerald-400/15 dark:text-emerald-200 dark:ring-emerald-300/25">
                     En seguimiento
                   </span>
                 </div>
 
                 <div className="grid gap-3 p-4 sm:grid-cols-[0.95fr_1.05fr]">
                   <div className="space-y-3">
-                    <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Próxima cita</p>
-                      <p className="mt-2 text-2xl font-bold text-white">10:30 a. m.</p>
-                      <p className="mt-1 text-xs text-slate-400">Revisión de estrategia</p>
+                    <div className="rounded-2xl border border-border bg-panel p-4 dark:border-white/10 dark:bg-white/[0.06]">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">Próxima cita</p>
+                      <p className="mt-2 text-2xl font-bold text-ink dark:text-white">10:30 a. m.</p>
+                      <p className="mt-1 text-xs text-muted dark:text-slate-400">Revisión de estrategia</p>
                     </div>
-                    <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Documentos</p>
+                    <div className="rounded-2xl border border-border bg-panel p-4 dark:border-white/10 dark:bg-white/[0.06]">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">Documentos</p>
                       <div className="mt-3 space-y-2">
                         {['Poder firmado', 'Soportes del caso', 'Actuación reciente'].map((item) => (
-                          <div key={item} className="flex items-center justify-between rounded-xl bg-white/[0.06] px-3 py-2 text-xs text-slate-200">
+                          <div key={item} className="flex items-center justify-between rounded-xl bg-card border border-border/50 px-3 py-2 text-xs text-muted dark:border-0 dark:bg-white/[0.06] dark:text-slate-200">
                             <span>{item}</span>
-                            <span className="h-2 w-2 rounded-full bg-blue-300" />
+                            <span className="h-2 w-2 rounded-full bg-accent-500 dark:bg-blue-300" />
                           </div>
                         ))}
                       </div>
                     </div>
                   </div>
 
-                  <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Línea de tiempo</p>
+                  <div className="rounded-2xl border border-border bg-panel p-4 dark:border-white/10 dark:bg-white/[0.06]">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500 dark:text-slate-400">Línea de tiempo</p>
                     <div className="mt-4 space-y-4">
                       {[
                         ['Hoy', 'Actualización cargada en el expediente'],
@@ -250,9 +249,9 @@ export default function HomeClient() {
                         ['Próximo', 'Cita agendada para seguimiento'],
                       ].map(([date, text]) => (
                         <div key={text} className="relative pl-5">
-                          <span className="absolute left-0 top-1.5 h-2.5 w-2.5 rounded-full bg-blue-300 ring-4 ring-blue-300/10" />
-                          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-blue-200">{date}</p>
-                          <p className="mt-1 text-sm leading-relaxed text-slate-200">{text}</p>
+                          <span className="absolute left-0 top-1.5 h-2.5 w-2.5 rounded-full bg-accent-500 ring-4 ring-accent-500/10 dark:bg-blue-300 dark:ring-blue-300/10" />
+                          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-accent-700 dark:text-blue-200">{date}</p>
+                          <p className="mt-1 text-sm leading-relaxed text-muted dark:text-slate-200">{text}</p>
                         </div>
                       ))}
                     </div>

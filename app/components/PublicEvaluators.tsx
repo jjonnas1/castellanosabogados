@@ -71,7 +71,12 @@ export default function PublicEvaluators() {
   const [topic, setTopic] = useState(EVALUATORS[0].prompts[0]);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [summary, setSummary] = useState('');
+
+  const getDefaultTemplate = (areaName: string, topicName: string) => {
+    return `Solicito una evaluación estratégica preliminar en el área de ${areaName} relacionado con el tema de "${topicName}". `;
+  };
+
+  const [summary, setSummary] = useState(getDefaultTemplate(EVALUATORS[0].area, EVALUATORS[0].prompts[0]));
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -80,11 +85,32 @@ export default function PublicEvaluators() {
     [activeId],
   );
 
+  const isTemplateActive = (currentVal: string) => {
+    return !currentVal.trim() || EVALUATORS.some(ev => 
+      ev.prompts.some(p => 
+        currentVal === getDefaultTemplate(ev.area, p) || 
+        currentVal.trim() === getDefaultTemplate(ev.area, p).trim()
+      )
+    );
+  };
+
   function selectEvaluator(id: string) {
     const next = EVALUATORS.find((item) => item.id === id) ?? EVALUATORS[0];
     setActiveId(next.id);
-    setTopic(next.prompts[0]);
+    const nextTopic = next.prompts[0];
+    setTopic(nextTopic);
     setError('');
+    
+    if (isTemplateActive(summary)) {
+      setSummary(getDefaultTemplate(next.area, nextTopic));
+    }
+  }
+
+  function handleTopicChange(newTopic: string) {
+    setTopic(newTopic);
+    if (isTemplateActive(summary)) {
+      setSummary(getDefaultTemplate(active.area, newTopic));
+    }
   }
 
   const waMessage = encodeURIComponent([
@@ -175,7 +201,7 @@ export default function PublicEvaluators() {
               </label>
               <label className="text-xs font-semibold text-slate-400">
                 Tema
-                <select value={topic} onChange={(event) => setTopic(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-700 bg-[#071223] px-3 py-2.5 text-sm text-white outline-none">
+                <select value={topic} onChange={(event) => handleTopicChange(event.target.value)} className="mt-1 w-full rounded-xl border border-slate-700 bg-[#071223] px-3 py-2.5 text-sm text-white outline-none">
                   {active.prompts.map((item) => <option key={item}>{item}</option>)}
                 </select>
               </label>
@@ -197,7 +223,7 @@ export default function PublicEvaluators() {
                 type="button"
                 onClick={sendEvaluatorLead}
                 disabled={submitting}
-                className="rounded-xl bg-[#25D366] px-5 py-3 text-sm font-bold text-[#062313] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-[0_12px_32px_rgba(16,185,129,0.18)] border border-emerald-500/20 px-5 py-3 text-sm font-bold transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {submitting ? 'Enviando...' : 'Enviar contexto por WhatsApp'}
               </button>

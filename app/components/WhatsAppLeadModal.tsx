@@ -264,8 +264,7 @@ export default function WhatsAppLeadModal() {
           <button
             type="submit"
             disabled={isLoading || !canSubmit}
-            className="w-full flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold text-white transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ background: '#25D366' }}
+            className="w-full flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-[0_12px_32px_rgba(16,185,129,0.18)] border border-emerald-500/20 px-4 py-3 text-sm font-semibold transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <>
