@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import SiteHeader from '@/app/components/SiteHeader';
+import WaIcon from '@/app/components/WaIcon';
 import EvaluadorTutela from '@/app/components/EvaluadorTutela';
 import { buildMailtoUrl, buildWhatsAppUrl } from '@/lib/contactLinks';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -32,20 +33,29 @@ export default function TutelaClient() {
             <p className="max-w-3xl text-lg text-slate-100">{p.heroParagraph}</p>
             <div className="flex flex-wrap gap-3">
               <a
+                href={buildWhatsAppUrl({
+                  area: 'Tutelas',
+                  source: '/tutela',
+                  message: 'Hola, necesito orientación para preparar o presentar una tutela.',
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-wa"
+              >
+                <WaIcon size={18} />
+                {p.evaluateCase}
+              </a>
+              <a
                 href={buildMailtoUrl({
                   area: 'Tutelas',
                   source: '/tutela',
                   subject: 'Solicitud de orientación – Tutelas',
                   message: 'Hola, necesito orientación para preparar o presentar una tutela.',
                 })}
-                data-wa-lead
-                className="btn-primary bg-white text-ink hover:bg-slate-100"
+                className="btn-secondary border-white/60 bg-white/10 text-white hover:bg-white/15 hover:text-white"
               >
-                {p.evaluateCase}
-              </a>
-              <Link href="/contacto" className="btn-secondary border-white/60 bg-white/10 text-white hover:bg-white/15 hover:text-white">
                 {t.common.goContact}
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -152,25 +162,28 @@ export default function TutelaClient() {
             <p className="mt-3 text-muted">{p.ctaSubtitle}</p>
             <div className="mt-5 flex flex-wrap justify-center gap-3">
               <a
+                href={buildWhatsAppUrl({
+                  area: 'Tutelas',
+                  source: '/tutela#cta-tutelas',
+                  message: 'Hola, necesito orientación para una tutela por incumplimiento de EPS o entidad.',
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-wa"
+              >
+                <WaIcon size={18} />
+                {p.evaluateCase}
+              </a>
+              <a
                 href={buildMailtoUrl({
                   area: 'Tutelas',
                   source: '/tutela#cta-tutelas',
                   subject: 'Solicitud de contacto – Tutelas',
                   message: 'Hola, quiero agendar una revisión para un caso de tutela.',
                 })}
-                className="btn-primary"
-              >
-                {p.evaluateCase}
-              </a>
-              <a
-                href={buildWhatsAppUrl({
-                  area: 'Tutelas',
-                  source: '/tutela#cta-tutelas',
-                  message: 'Hola, necesito orientación para una tutela por incumplimiento de EPS o entidad.',
-                })}
                 className="btn-secondary"
               >
-                {p.evaluateCase}
+                Enviar correo
               </a>
             </div>
           </article>

@@ -1,11 +1,52 @@
 'use client';
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import SiteHeader from "./SiteHeader";
 import HeroCarrusel from "./HeroCarrusel";
 import WaIcon from "@/app/components/WaIcon";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+function CountUp({ target = 5.0, decimals = 1, duration = 1400 }: { target?: number; decimals?: number; duration?: number }) {
+  const [value, setValue] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const triggered = useRef(false);
+
+  function animate() {
+    triggered.current = true;
+    setValue(0);
+    const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setValue(parseFloat((eased * target).toFixed(decimals)));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting && !triggered.current) animate(); },
+      { threshold: 0.6 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <span
+      ref={ref}
+      className="text-5xl font-bold leading-none text-ink cursor-default"
+      onMouseEnter={animate}
+    >
+      {value.toFixed(decimals)}
+    </span>
+  );
+}
 
 const serviceHrefs = [
   "/servicios/penal-personas",
@@ -92,10 +133,12 @@ export default function HomeClient() {
                 <Link
                   key={area}
                   href={serviceHrefs[idx]}
-                  className="group flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-white/[0.12] hover:border-white/20"
+                  data-reveal
+                  data-reveal-delay={String((idx % 4) + 1)}
+                  className="group flex items-center justify-between gap-3 rounded-xl border border-white/20 bg-white/[0.10] px-4 py-4 text-sm font-semibold text-white transition-all duration-200 hover:bg-white/[0.22] hover:border-white/40 hover:shadow-[0_6px_20px_rgba(255,255,255,0.09)] hover:-translate-y-0.5 hover:scale-[1.02] active:bg-white/[0.22] active:scale-[0.98]"
                 >
-                  {area}
-                  <span className="shrink-0 text-white/30 transition group-hover:text-white/70 group-hover:translate-x-0.5">→</span>
+                  <span className="group-hover:text-white transition-colors">{area}</span>
+                  <span className="shrink-0 text-white/60 text-base transition-all duration-200 group-hover:text-white group-hover:translate-x-1.5">→</span>
                 </Link>
               ))}
             </div>
@@ -203,7 +246,7 @@ export default function HomeClient() {
             <div className="shrink-0 rounded-2xl border border-border bg-white p-5 shadow-[0_2px_16px_rgba(15,23,42,0.07)]">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted">{p.googleReviews.ratingLabel}</p>
               <div className="mt-2 flex items-baseline gap-2.5">
-                <span className="text-5xl font-bold leading-none text-ink">5.0</span>
+                <CountUp target={5.0} />
                 <span className="flex text-xl text-amber-400 leading-none" aria-label="5 estrellas">★★★★★</span>
               </div>
               <div className="mt-3 border-t border-border/60 pt-3">
@@ -284,12 +327,12 @@ export default function HomeClient() {
               href={buildWhatsAppUrl({ message: "Hola, necesito orientación jurídica." })}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#20bd5a] active:scale-95"
+              className="btn-wa"
             >
               <WaIcon size={16} />
               Contactar por WhatsApp
             </a>
-            <Link href="/contacto" className="btn-secondary border-white/25 bg-white/8 text-white hover:bg-white/14 hover:text-white">
+            <Link href="/contacto" className="inline-flex items-center justify-center rounded-full border-2 border-white/50 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 hover:border-white active:scale-95">
               Formulario de contacto
             </Link>
           </div>

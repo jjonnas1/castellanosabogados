@@ -7,6 +7,9 @@ import { serviceDetailList } from "@/lib/serviceDetails";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+const heroBackground =
+  "linear-gradient(140deg, rgba(12,17,29,0.93), rgba(28,42,60,0.84)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=75&fm=webp')";
+
 const DARK_GLOW = "radial-gradient(ellipse at 15% 0%, rgba(180,195,220,0.12) 0%, transparent 55%), #121622";
 
 export default function MetodologiaClient() {
@@ -17,64 +20,69 @@ export default function MetodologiaClient() {
     <main className="bg-canvas text-ink">
       <SiteHeader />
 
-      {/* Hero */}
-      <section className="section-shell bg-canvas border-b border-border/50">
-        <div className="container grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-          <div className="max-w-2xl space-y-6" data-reveal>
-            <p className="pill w-fit">{p.badge}</p>
-            <div className="space-y-4">
-              <h1 className="text-ink">{p.heroTitle}</h1>
-              <p className="text-lg leading-relaxed text-muted">{p.heroParagraph}</p>
+      {/* Hero — oscuro con foto */}
+      <header
+        className="relative overflow-hidden border-b border-border/70 text-white"
+        style={{ backgroundImage: heroBackground, backgroundSize: "cover", backgroundPosition: "center" }}
+      >
+        <div className="absolute inset-0 bg-[#0d1520]/60" aria-hidden />
+        <div className="container section-shell relative">
+          <div className="grid gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+            <div className="max-w-2xl space-y-6" data-reveal>
+              <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{p.badge}</p>
+              <div className="space-y-4">
+                <h1 className="text-white">{p.heroTitle}</h1>
+                <p className="text-lg leading-relaxed text-slate-200">{p.heroParagraph}</p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <a
+                  href={buildWhatsAppUrl({
+                    area: "Metodología",
+                    source: "/metodologia",
+                    message: "Hola, quisiera agendar una consulta inicial.",
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-wa"
+                >
+                  <WaIcon size={16} />
+                  {p.ctaBtn}
+                </a>
+                <Link href="/servicios" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
+                  {p.viewAllServices}
+                </Link>
+              </div>
             </div>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={buildWhatsAppUrl({
-                  area: "Metodología",
-                  source: "/metodologia",
-                  message: "Hola, quisiera agendar una consulta inicial.",
-                })}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#20bd5a] active:scale-95"
-              >
-                <WaIcon size={16} />
-                {p.ctaBtn}
-              </a>
-              <Link href="/servicios" className="btn-secondary">
-                {p.viewAllServices}
-              </Link>
-            </div>
-          </div>
 
-          <div
-            className="overflow-hidden rounded-[1.5rem] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
-            style={{ background: "#121622" }}
-            data-reveal
-            data-reveal-delay="2"
-          >
-            <div className="p-7 space-y-6">
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/35">{p.visualEyebrow}</p>
-                <p className="mt-3 text-xl font-semibold leading-snug text-white sm:text-2xl">{p.visualTitle}</p>
+            <div
+              className="overflow-hidden rounded-[1.5rem] border border-white/15 bg-white/8 shadow-[0_8px_32px_rgba(0,0,0,0.35)] backdrop-blur-sm"
+              data-reveal
+              data-reveal-delay="2"
+            >
+              <div className="p-7 space-y-6">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/35">{p.visualEyebrow}</p>
+                  <p className="mt-3 text-xl font-semibold leading-snug text-white sm:text-2xl">{p.visualTitle}</p>
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  {p.heroKpis.map((item) => (
+                    <div key={item.value} className="rounded-2xl bg-white/[0.08] border border-white/15 p-4 text-center">
+                      <p className="text-base font-bold text-white leading-tight sm:text-lg">{item.value}</p>
+                      <p className="mt-1.5 text-[10px] text-white/45 leading-tight">{item.label}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className="grid grid-cols-3 gap-3">
-                {p.heroKpis.map((item) => (
-                  <div key={item.value} className="rounded-2xl bg-white/[0.06] border border-white/10 p-4 text-center">
-                    <p className="text-base font-bold text-white leading-tight sm:text-lg">{item.value}</p>
-                    <p className="mt-1.5 text-[10px] text-white/40 leading-tight">{item.label}</p>
-                  </div>
-                ))}
+              <div className="border-t border-white/10 px-7 py-5">
+                <p className="text-xs text-white/30 leading-relaxed">Castellanos Abogados · Pereira, Risaralda</p>
               </div>
-            </div>
-            <div className="border-t border-white/10 px-7 py-5">
-              <p className="text-xs text-white/25 leading-relaxed">Castellanos Abogados · Pereira, Risaralda</p>
             </div>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* Process */}
-      <section className="section-shell bg-white border-b border-border/50">
+      <section className="border-y border-border/70 bg-white">
         <div className="container space-y-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between" data-reveal>
             <div className="max-w-2xl space-y-2">
@@ -111,7 +119,7 @@ export default function MetodologiaClient() {
       </section>
 
       {/* Modality */}
-      <section className="section-shell bg-canvas border-b border-border/50">
+      <section className="section-shell border-b border-border/70 bg-surface/70">
         <div className="container grid gap-10 lg:grid-cols-[0.42fr_0.58fr] lg:items-start">
           <div className="space-y-3" data-reveal>
             <p className="pill w-fit">{p.modalityTitle}</p>
@@ -134,7 +142,7 @@ export default function MetodologiaClient() {
       </section>
 
       {/* Principles */}
-      <section className="section-shell bg-white border-b border-border/50">
+      <section className="border-y border-border/70 bg-white">
         <div className="container space-y-10">
           <div className="space-y-3" data-reveal>
             <p className="pill w-fit">{p.principlesBadge}</p>
@@ -158,7 +166,7 @@ export default function MetodologiaClient() {
       </section>
 
       {/* Services */}
-      <section className="section-shell bg-canvas">
+      <section className="section-shell bg-surface/70">
         <div className="container space-y-8">
           <div className="max-w-2xl space-y-2" data-reveal>
             <p className="pill w-fit">{p.servicesBadge}</p>
@@ -204,7 +212,7 @@ export default function MetodologiaClient() {
               })}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#20bd5a] active:scale-95"
+              className="btn-wa"
             >
               <WaIcon size={16} />
               {p.ctaBtn}
