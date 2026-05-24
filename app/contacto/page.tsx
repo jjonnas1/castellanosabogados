@@ -1,8 +1,7 @@
-import { Suspense } from 'react';
 import Link from 'next/link';
 
 import SiteHeader from '@/app/components/SiteHeader';
-import ContactFormClient from './ContactFormClient';
+import WaIcon from '@/app/components/WaIcon';
 
 const serviceAreas = [
   'Derecho civil',
@@ -41,69 +40,71 @@ export default function ContactoPage() {
       </header>
 
       <section className="bg-canvas">
-        <div className="container section-shell grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-          <div className="space-y-6">
-            <div className="space-y-3">
-              <p className="pill w-fit">Evaluación inicial</p>
-              <h2>Cuéntanos qué ocurrió y revisamos la ruta jurídica más conveniente</h2>
-              <p className="text-muted">
-                La información que envíes se trata con reserva profesional. Entre más claro sea el contexto,
-                más rápido podremos orientar el siguiente paso.
+        <div className="container section-shell max-w-2xl space-y-8">
+
+          <div className="space-y-3">
+            <p className="pill w-fit">Evaluación inicial</p>
+            <h2>Cuéntanos qué ocurrió y revisamos la ruta jurídica más conveniente</h2>
+            <p className="text-muted">
+              La información que envíes se trata con reserva profesional. Entre más claro sea el contexto,
+              más rápido podremos orientar el siguiente paso.
+            </p>
+          </div>
+
+          <div className="grid gap-3 text-sm text-muted">
+            {[
+              'Respuesta prioritaria por WhatsApp en minutos.',
+              'Clasificación del caso por área jurídica y urgencia.',
+              'Posibilidad de seguimiento desde el portal del cliente cuando el caso avance.',
+            ].map((item) => (
+              <div key={item} className="flex gap-3 rounded-2xl border border-border bg-white p-4">
+                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-accent shrink-0" aria-hidden />
+                <p>{item}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* WhatsApp — acción principal */}
+          <div className="rounded-2xl border border-[#25d366]/30 bg-green-50 p-7 shadow-[0_6px_28px_rgba(37,211,102,0.14)]">
+            <div className="flex items-center gap-2 mb-1">
+              <WaIcon size={16} />
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-green-700">
+                Respuesta inmediata
               </p>
             </div>
+            <p className="mt-1 text-sm text-green-700/70 mb-5">
+              Escríbenos y respondemos en minutos. Sin trámites ni formularios.
+            </p>
 
-            <div className="grid gap-3 text-sm text-muted">
-              {[
-                'Respuesta prioritaria por WhatsApp o correo.',
-                'Clasificación del caso por área jurídica y urgencia.',
-                'Posibilidad de seguimiento desde el portal del cliente cuando el caso avance.',
-              ].map((item) => (
-                <div key={item} className="flex gap-3 rounded-2xl border border-border bg-white p-4">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-accent shrink-0" aria-hidden />
-                  <p>{item}</p>
-                </div>
-              ))}
-            </div>
+            <a
+              href="https://wa.me/573148309306?text=Hola%2C%20quiero%20agendar%20una%20evaluaci%C3%B3n%20jur%C3%ADdica."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-wa w-full justify-center py-4 text-base"
+            >
+              <WaIcon size={22} />
+              Escribir a Castellanos Abogados
+            </a>
 
-            <div className="rounded-2xl border border-border bg-white p-5 shadow-[0_2px_12px_rgba(15,23,42,0.06)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Contacto rápido</p>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <a className="btn-primary justify-center" href="https://wa.me/573148309306?text=Hola%2C%20quiero%20agendar%20una%20evaluaci%C3%B3n%20jur%C3%ADdica.">
-                  WhatsApp
-                </a>
-                <Link className="btn-secondary justify-center" href="/servicios">
-                  Ver áreas
-                </Link>
+            <div className="mt-5 grid grid-cols-2 gap-3 text-center text-sm border-t border-[#25d366]/20 pt-5">
+              <div>
+                <p className="font-semibold text-ink">314 830 9306</p>
+                <p className="text-xs text-muted">Número de WhatsApp</p>
               </div>
-              <p className="mt-4 text-sm text-muted">Teléfono: 314 830 9306</p>
-              <div className="mt-3 rounded-xl border border-border bg-canvas px-4 py-3">
-                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">Horario de atención</p>
-                <p className="mt-1 text-sm font-medium text-ink">Lun – Vie · 7:00 a. m. – 4:00 p. m.</p>
-                <p className="mt-0.5 text-xs text-muted">Atención virtual · Sin oficina física</p>
+              <div>
+                <p className="font-semibold text-ink">Lun – Vie · 7:00–16:00</p>
+                <p className="text-xs text-muted">Horario de atención</p>
               </div>
             </div>
           </div>
 
-          <Suspense fallback={<ContactoFallback />}>
-            <ContactFormClient />
-          </Suspense>
+          <div className="text-center">
+            <Link href="/servicios" className="btn-secondary">
+              Ver todas las áreas de práctica
+            </Link>
+          </div>
         </div>
       </section>
     </main>
-  );
-}
-
-function ContactoFallback() {
-  return (
-    <div className="rounded-2xl border border-border bg-white p-6 shadow-[0_2px_12px_rgba(15,23,42,0.06)]">
-      <p className="pill w-fit">Formulario</p>
-      <h3 className="mt-3 text-ink">Solicitud de contacto</h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted">
-        Cargando el formulario seguro. También puedes escribir directamente por WhatsApp para iniciar la evaluación.
-      </p>
-      <a className="btn-primary mt-5 w-full justify-center" href="https://wa.me/573148309306?text=Hola%2C%20quiero%20agendar%20una%20evaluaci%C3%B3n%20jur%C3%ADdica.">
-        Contactar por WhatsApp
-      </a>
-    </div>
   );
 }
