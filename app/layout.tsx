@@ -17,7 +17,7 @@ const organizationSchema = {
   "@type": ["LegalService", "Attorney"],
   name: "Castellanos Abogados",
   description:
-    "Firma jurídica con enfoque en derecho penal, ejecución de penas, tutelas y asesoría jurídica estratégica en Pereira y el Eje Cafetero.",
+    "Firma jurídica con enfoque en derecho penal, ejecución de penas, tutelas y asesoría jurídica estratégica en Pereira, Manizales y Armenia (Eje Cafetero).",
   url: "https://jonatancastellanosabogado.com",
   telephone: "+573148309306",
   email: "jonatancastellanosabogado@gmail.com",
@@ -38,7 +38,11 @@ const organizationSchema = {
   },
   areaServed: [
     { "@type": "City", name: "Pereira" },
+    { "@type": "City", name: "Manizales" },
+    { "@type": "City", name: "Armenia" },
     { "@type": "AdministrativeArea", name: "Risaralda" },
+    { "@type": "AdministrativeArea", name: "Caldas" },
+    { "@type": "AdministrativeArea", name: "Quindío" },
     { "@type": "AdministrativeArea", name: "Eje Cafetero" },
     { "@type": "Country", name: "Colombia" },
   ],
@@ -71,7 +75,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://jonatancastellanosabogado.com'),
   title: 'Castellanos Abogados',
   description:
-    'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
+    'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira, Manizales y Armenia (Eje Cafetero).',
   manifest: '/manifest.webmanifest',
   icons: {
     icon: '/icons/icon.svg',
@@ -87,23 +91,23 @@ export const metadata: Metadata = {
     locale: 'es_CO',
     url: 'https://jonatancastellanosabogado.com',
     siteName: 'Castellanos Abogados',
-    title: 'Castellanos Abogados | Firma jurídica en Pereira',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira, Manizales y Armenia',
     description:
-      'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
+      'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira, Manizales y Armenia (Eje Cafetero).',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Castellanos Abogados — Firma jurídica en Pereira',
+        alt: 'Castellanos Abogados — Firma jurídica en Pereira, Manizales y Armenia',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Castellanos Abogados | Firma jurídica en Pereira',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira, Manizales y Armenia',
     description:
-      'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Pereira, Eje Cafetero.',
+      'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Pereira, Manizales y Armenia.',
   },
 };
 

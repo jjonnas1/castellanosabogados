@@ -3,20 +3,20 @@ import type { Metadata } from 'next';
 import HomeClient from "./components/HomeClient";
 
 export const metadata: Metadata = {
-  title: 'Castellanos Abogados | Firma jurídica en Pereira',
-  description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
+  title: 'Castellanos Abogados | Firma jurídica en Pereira, Manizales y Armenia',
+  description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira, Manizales y Armenia (Eje Cafetero).',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     url: 'https://jonatancastellanosabogado.com',
-    title: 'Castellanos Abogados | Firma jurídica en Pereira',
-    description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira, Manizales y Armenia',
+    description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira, Manizales y Armenia (Eje Cafetero).',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Castellanos Abogados' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Castellanos Abogados | Firma jurídica en Pereira',
-    description: 'Asesoría jurídica en derecho penal, tutelas, ejecución de penas, familia y laboral. Pereira, Eje Cafetero.',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira, Manizales y Armenia',
+    description: 'Asesoría jurídica en derecho penal, tutelas, ejecución de penas, familia y laboral. Pereira, Manizales y Armenia.',
   },
 };
 
@@ -41,6 +41,8 @@ const legalServiceSchema = {
   priceRange: "$$",
   areaServed: [
     { "@type": "City", name: "Pereira" },
+    { "@type": "City", name: "Manizales" },
+    { "@type": "City", name: "Armenia" },
     { "@type": "AdministrativeArea", name: "Eje Cafetero" },
   ],
   knowsLanguage: ["es", "en"],
