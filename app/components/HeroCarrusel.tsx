@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -80,16 +81,56 @@ export default function HeroCarrusel() {
 
   const slide = SLIDES[current];
 
-  const [heroNombre, setHeroNombre] = useState('');
-  const [heroCaso, setHeroCaso]     = useState('');
+  const router = useRouter();
+  const [heroNombre, setHeroNombre]     = useState('');
+  const [heroTelefono, setHeroTelefono] = useState('');
+  const [heroCaso, setHeroCaso]         = useState('');
+  const [heroSending, setHeroSending]   = useState(false);
   const heroFormRef = useRef<HTMLFormElement>(null);
 
-  function handleHeroSubmit(e: React.FormEvent) {
+  const heroCanSubmit =
+    heroNombre.trim().length >= 2 && heroTelefono.trim().length >= 6 && !heroSending;
+
+  async function handleHeroSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const text = `Hola, soy ${heroNombre.trim() || 'un visitante de su página'}. Mi situación: ${heroCaso.trim() || '...'}`;
-    window.open(`https://wa.me/573148309306?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    if (!heroCanSubmit) return;
+
+    const nombre   = heroNombre.trim();
+    const telefono = heroTelefono.trim();
+    const caso     = heroCaso.trim();
+    const text  = `Hola, soy ${nombre}. Mi situación: ${caso || '...'}`;
+    const waUrl = `https://wa.me/573148309306?text=${encodeURIComponent(text)}`;
+
+    setHeroSending(true);
+
+    // Registrar el lead en Supabase + notificación antes de abrir WhatsApp,
+    // para no perderlo si el usuario no completa el envío en WhatsApp.
+    try {
+      await fetch('/api/leads/whatsapp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre,
+          telefono,
+          wa_url: waUrl,
+          source_path: '/',
+          link_text: 'hero-consulta-gratuita',
+          service_interest: caso || slide?.tag || slide?.pill || '',
+        }),
+      });
+    } catch {
+      // Si falla el registro, igual continuamos: el cliente no debe quedar bloqueado.
+    }
+
     setHeroNombre('');
+    setHeroTelefono('');
     setHeroCaso('');
+    setHeroSending(false);
+
+    // /gracias-legal dispara la conversión de Google Ads y abre WhatsApp.
+    router.push(
+      `/gracias-legal?wa=${encodeURIComponent(waUrl)}&nombre=${encodeURIComponent(nombre)}`,
+    );
   }
 
   return (
@@ -170,10 +211,19 @@ export default function HeroCarrusel() {
               href={slide.ctaWa}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-white/25 bg-white/[0.10] px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/[0.18] hover:border-white/40 active:scale-95 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-white/25 bg-white/[0.10] px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/[0.18] hover:border-white/40 active:scale-95 sm:w-auto"
             >
               <WhatsAppIcon size={15} color="#4ade80" />
               {slide.ctaWaLabel}
+            </a>
+            <a
+              href="tel:+573148309306"
+              className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-white/25 bg-white/[0.10] px-5 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/[0.18] hover:border-white/40 active:scale-95 sm:hidden"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.33.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.24.2 2.45.57 3.57a1 1 0 0 1-.24 1.02l-2.21 2.2z" fill="#fbbf24"/>
+              </svg>
+              Llamar ahora
             </a>
           </div>
         </div>
@@ -202,6 +252,15 @@ export default function HeroCarrusel() {
               className="w-full rounded-xl bg-gray-50 border border-gray-200/80 px-3.5 py-2.5 text-[16px] sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300/50 focus:border-slate-400 transition"
             />
             <input
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+              placeholder="Tu teléfono / WhatsApp"
+              value={heroTelefono}
+              onChange={e => setHeroTelefono(e.target.value)}
+              className="w-full rounded-xl bg-gray-50 border border-gray-200/80 px-3.5 py-2.5 text-[16px] sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300/50 focus:border-slate-400 transition"
+            />
+            <input
               type="text"
               placeholder="¿Cuál es tu situación legal?"
               value={heroCaso}
@@ -210,10 +269,11 @@ export default function HeroCarrusel() {
             />
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#128c7e] hover:bg-[#0e7a6e] py-3 text-[14.5px] font-semibold text-white shadow-sm transition-all duration-200 active:scale-[0.98]"
+              disabled={!heroCanSubmit}
+              className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#128c7e] hover:bg-[#0e7a6e] py-3 text-[14.5px] font-semibold text-white shadow-sm transition-all duration-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-[#128c7e]"
             >
               <WhatsAppIcon size={16} />
-              Escribir por WhatsApp
+              {heroSending ? 'Enviando…' : 'Escribir por WhatsApp'}
             </button>
             <p className="text-center text-[10.5px] text-gray-400">Sin compromiso · Respuesta en minutos</p>
           </form>

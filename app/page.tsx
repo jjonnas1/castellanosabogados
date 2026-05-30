@@ -31,12 +31,47 @@ const faqSchema = {
   ],
 };
 
+const legalServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  name: "Castellanos Abogados",
+  url: "https://jonatancastellanosabogado.com",
+  image: "https://jonatancastellanosabogado.com/og-image.png",
+  telephone: "+573148309306",
+  priceRange: "$$",
+  areaServed: [
+    { "@type": "City", name: "Pereira" },
+    { "@type": "AdministrativeArea", name: "Eje Cafetero" },
+  ],
+  knowsLanguage: ["es", "en"],
+  serviceType: [
+    "Derecho penal",
+    "Tutelas",
+    "Ejecución de penas",
+    "Derecho de familia",
+    "Derecho laboral",
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5.0",
+    reviewCount: "6",
+    bestRating: "5",
+  },
+  sameAs: [
+    "https://www.google.com/search?q=Castellanos+Abogados",
+  ],
+};
+
 export default function Home() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(legalServiceSchema) }}
       />
       <HomeClient />
     </>
