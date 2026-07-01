@@ -38,6 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/`,            priority: 1.0, changeFrequency: 'weekly',  lastModified: '2026-05-12' },
     { url: `${BASE}/servicios`,   priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-05-01' },
     { url: `${BASE}/tutela`,      priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-05-01' },
+    { url: `${BASE}/abogado-a-domicilio`, priority: 0.85, changeFrequency: 'monthly', lastModified: '2026-07-01' },
     { url: `${BASE}/metodologia`, priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-05-01' },
     { url: `${BASE}/blog`,        priority: 0.8, changeFrequency: 'weekly',  lastModified: '2026-05-19' },
     { url: `${BASE}/nosotros`,    priority: 0.7, changeFrequency: 'monthly', lastModified: '2026-05-07' },

@@ -18,6 +18,10 @@ type Language = "es"|"en"|"fr"|"it";
 const LANG_LABELS:Record<Language,string>={es:"ES",en:"EN",fr:"FR",it:"IT"};
 const LANG_NAMES:Record<Language,string>={es:"Español",en:"English",fr:"Français",it:"Italiano"};
 
+const DOMICILIO_HREF="/abogado-a-domicilio";
+const DOMICILIO_LABELS:Record<Language,string>={es:"Abogados a domicilio",en:"Lawyer at home",fr:"Avocat à domicile",it:"Avvocato a domicilio"};
+const NUEVO_LABELS:Record<Language,string>={es:"Nuevo",en:"New",fr:"Nouveau",it:"Nuovo"};
+
 function SunIcon(){return(<svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>);}
 function MoonIcon(){return(<svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>);}
 function GlobeIcon(){return(<svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" aria-hidden><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6"/><path d="M12 3c-2.5 3-4 5.5-4 9s1.5 6 4 9M12 3c2.5 3 4 5.5 4 9s-1.5 6-4 9M3 12h18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>);}
@@ -162,6 +166,11 @@ export default function SiteHeader(){
             {megaOpen&&<MegaMenuPanel id={megaMenuId} onClose={()=>setMegaOpen(false)} mailtoHref={mailtoHref}/>}
           </div>
 
+          <Link href={DOMICILIO_HREF} className={`inline-flex items-center gap-1.5 rounded-full bg-accent-50 px-3.5 py-1.5 text-[13px] font-semibold text-accent-700 transition hover:bg-accent-500 hover:text-white ${isActive(DOMICILIO_HREF)?"bg-accent-500 text-white":""}`}>
+            {DOMICILIO_LABELS[language as Language]}
+            <span className="rounded-full bg-[#7b1e2b] px-1.5 py-[3px] text-[8px] font-bold uppercase leading-none tracking-wide text-white">{NUEVO_LABELS[language as Language]}</span>
+          </Link>
+
           {PLAIN_NAV.map(item=>item.highlight?(
             <Link key={item.href} href={item.href} className="rounded-full bg-[#7b1e2b] px-3.5 py-1.5 text-[13px] font-semibold text-white transition hover:bg-[#6a1624]">{item.label}</Link>
           ):(
@@ -226,6 +235,11 @@ export default function SiteHeader(){
                 ))}
               </div>
             )}
+
+            <Link href={DOMICILIO_HREF} onClick={()=>setOpen(false)} className={`flex items-center justify-between gap-2 rounded-xl px-3 py-3.5 text-sm font-semibold transition hover:bg-subtle ${isActive(DOMICILIO_HREF)?"bg-subtle text-ink":"text-accent-700"}`}>
+              <span>{DOMICILIO_LABELS[language as Language]}</span>
+              <span className="rounded-full bg-[#7b1e2b] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide text-white">{NUEVO_LABELS[language as Language]}</span>
+            </Link>
 
             {PLAIN_NAV.map(item=>(
               <Link key={item.href} href={item.href} onClick={()=>setOpen(false)} className={item.highlight?"mx-0 mt-1 rounded-xl bg-[#7b1e2b] px-3 py-3.5 text-sm font-semibold text-white text-center":`rounded-xl px-3 py-3.5 text-sm font-medium transition hover:bg-subtle hover:text-ink ${isActive(item.href)?"bg-subtle text-ink":"text-muted"}`}>{item.label}</Link>
