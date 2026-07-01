@@ -79,7 +79,7 @@ export default function MarketingPopup() {
       style={{ background: 'rgba(10,18,35,0.65)', backdropFilter: 'blur(5px)' }}
     >
       <div
-        className="relative w-full max-w-[400px] rounded-2xl overflow-hidden shadow-2xl"
+        className="relative w-full max-w-[400px] max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl"
         style={{
           background: 'linear-gradient(160deg, #0f1c2e 0%, #0d2117 100%)',
           border: '1px solid rgba(37,211,102,0.18)',

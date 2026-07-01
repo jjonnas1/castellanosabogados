@@ -238,7 +238,7 @@ export default function HomeClient() {
       <section className="section-shell bg-surface" data-reveal>
         <div className="container">
           <article
-            className="relative overflow-hidden rounded-3xl px-8 py-10 text-white shadow-[0_18px_50px_rgba(123,30,43,0.28)] sm:px-12 sm:py-12"
+            className="relative overflow-hidden rounded-3xl px-6 py-8 text-white shadow-[0_18px_50px_rgba(123,30,43,0.28)] sm:px-12 sm:py-12"
             style={{ background: "linear-gradient(135deg,#7b1e2b 0%,#5c141f 100%)" }}
           >
             <div
