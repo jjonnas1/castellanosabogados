@@ -26,7 +26,7 @@ function MoonIcon(){return(<svg viewBox="0 0 24 24" className="h-4 w-4" fill="no
 function GlobeIcon(){return(<svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" aria-hidden><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6"/><path d="M12 3c-2.5 3-4 5.5-4 9s1.5 6 4 9M12 3c2.5 3 4 5.5 4 9s-1.5 6-4 9M3 12h18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>);}
 
 function MegaMenuPanel({id,onClose,mailtoHref}:{id:string;onClose:()=>void;mailtoHref:string;}){
-  const{t}=useLanguage();const h=t.header;
+  const{t,language}=useLanguage();const h=t.header;
   const groups=[{label:h.forPeople,slugs:PEOPLE_SLUGS},{label:h.forCompanies,slugs:COMPANY_SLUGS}];
   return(
     <div id={id} role="region" aria-label="Menú de servicios" className="absolute left-1/2 top-full z-50 mt-2 w-[820px] -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_64px_rgba(13,21,40,.14)] dark:shadow-[0_24px_64px_rgba(0,0,0,.45)]">
@@ -42,6 +42,17 @@ function MegaMenuPanel({id,onClose,mailtoHref}:{id:string;onClose:()=>void;mailt
               </Link>))}
             </div>
           </div>))}
+          <Link href={DOMICILIO_HREF} onClick={onClose} className="flex items-center justify-between gap-3 rounded-xl bg-[#7b1e2b]/[0.06] px-3 py-2.5 ring-1 ring-[#7b1e2b]/20 transition hover:bg-[#7b1e2b]/[0.11]">
+            <span className="flex flex-col gap-0.5">
+              <span className="flex items-center gap-2 text-[13px] font-semibold text-[#7b1e2b]">
+                {DOMICILIO_LABELS[language as Language]}
+                <span className="rounded-full bg-[#7b1e2b] px-1.5 py-[3px] text-[8px] font-bold uppercase leading-none tracking-wide text-white">Nuevo</span>
+              </span>
+              <span className="text-[11px] leading-snug text-muted">Enviamos tu abogado a la dirección que necesites.</span>
+            </span>
+            <span className="shrink-0 text-[#7b1e2b]" aria-hidden>→</span>
+          </Link>
+
           <div className="border-t border-border px-2 pt-3">
             <p className="text-[12px] text-muted">{h.notFound}{" "}<a href={mailtoHref} onClick={onClose} className="font-semibold text-accent-500 underline underline-offset-2 hover:text-accent-700">{h.consultDirect}</a></p>
           </div>
