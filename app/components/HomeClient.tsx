@@ -238,42 +238,32 @@ export default function HomeClient() {
       <section className="section-shell bg-surface" data-reveal>
         <div className="container">
           <article className="relative overflow-hidden rounded-3xl border border-border bg-white p-8 shadow-[0_2px_16px_rgba(15,23,42,0.07)] sm:p-10">
-            <div className="grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-center">
-              <div className="space-y-4">
-                <span className="inline-flex items-center gap-2 rounded-full bg-[#7b1e2b] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white">
-                  Nuevo servicio
-                </span>
-                <h2 className="text-balance">Abogados a domicilio</h2>
-                <p className="max-w-xl text-lg text-muted">
-                  Enviamos tu abogado a la casa, oficina o el lugar donde lo requieras. Atención jurídica presencial y
-                  personalizada, sin que tengas que desplazarte.
-                </p>
-                <div className="flex flex-wrap gap-3 pt-1">
-                  <Link href="/abogado-a-domicilio" className="btn-primary">
-                    Conocer el servicio
-                  </Link>
-                  <a
-                    href={buildWhatsAppUrl({
-                      area: "Abogados a domicilio",
-                      source: "/#domicilio",
-                      message: "Hola, quisiera solicitar una visita de abogado a domicilio.",
-                    })}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-wa"
-                  >
-                    <WaIcon size={16} />
-                    Solicitar visita
-                  </a>
-                </div>
-              </div>
-              <div className="rounded-2xl border border-border bg-canvas p-6 text-center sm:text-left">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Desplazamiento desde</p>
-                <p className="mt-1 text-4xl font-bold text-ink">$250.000</p>
-                <p className="mt-2 text-sm leading-relaxed text-muted">
-                  El valor del desplazamiento presencial varía según el lugar donde lo requieras. Te confirmamos la
-                  tarifa exacta antes de agendar.
-                </p>
+            <div className="max-w-2xl space-y-4">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[#7b1e2b] px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white">
+                Nuevo servicio
+              </span>
+              <h2 className="text-balance">Abogados a domicilio</h2>
+              <p className="text-lg text-muted">
+                Enviamos tu abogado a la casa, oficina o el lugar donde lo requieras. Atención jurídica presencial y
+                personalizada, sin que tengas que desplazarte.
+              </p>
+              <div className="flex flex-wrap gap-3 pt-1">
+                <Link href="/abogado-a-domicilio" className="btn-primary">
+                  Conocer el servicio
+                </Link>
+                <a
+                  href={buildWhatsAppUrl({
+                    area: "Abogados a domicilio",
+                    source: "/#domicilio",
+                    message: "Hola, quisiera solicitar una visita de abogado a domicilio.",
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-wa"
+                >
+                  <WaIcon size={16} />
+                  Solicitar visita
+                </a>
               </div>
             </div>
           </article>
