@@ -134,7 +134,7 @@ export default function SiteHeader(){
   const mailtoHref=buildMailtoUrl({area:"Contacto general",source:"Header",subject:"Solicitud de evaluación",message:"Hola, quisiera solicitar una evaluación estratégica."});
 
   const PLAIN_NAV=[
-    {label:t.nav.tutelas,href:"/tutela",highlight:true},
+    {label:t.nav.tutelas,href:"/tutela",highlight:false},
     {label:t.nav.methodology,href:"/metodologia"},
     {label:t.nav.blog,href:"/blog"},
     {label:t.nav.about,href:"/nosotros"},
@@ -165,7 +165,7 @@ export default function SiteHeader(){
             {megaOpen&&<MegaMenuPanel id={megaMenuId} onClose={()=>setMegaOpen(false)} mailtoHref={mailtoHref}/>}
           </div>
 
-          <Link href={DOMICILIO_HREF} className={`whitespace-nowrap transition-colors hover:text-ink ${isActive(DOMICILIO_HREF)?"text-ink":""}`}>{DOMICILIO_LABELS[language as Language]}</Link>
+          <Link href={DOMICILIO_HREF} className="whitespace-nowrap rounded-full bg-[#7b1e2b] px-3.5 py-1.5 text-[13px] font-semibold text-white transition hover:bg-[#6a1624]">{DOMICILIO_LABELS[language as Language]}</Link>
 
           {PLAIN_NAV.map(item=>item.highlight?(
             <Link key={item.href} href={item.href} className="rounded-full bg-[#7b1e2b] px-3.5 py-1.5 text-[13px] font-semibold text-white transition hover:bg-[#6a1624]">{item.label}</Link>
@@ -232,7 +232,7 @@ export default function SiteHeader(){
               </div>
             )}
 
-            <Link href={DOMICILIO_HREF} onClick={()=>setOpen(false)} className={`rounded-xl px-3 py-3.5 text-sm font-medium transition hover:bg-subtle hover:text-ink ${isActive(DOMICILIO_HREF)?"bg-subtle text-ink":"text-muted"}`}>{DOMICILIO_LABELS[language as Language]}</Link>
+            <Link href={DOMICILIO_HREF} onClick={()=>setOpen(false)} className="mx-0 mt-1 rounded-xl bg-[#7b1e2b] px-3 py-3.5 text-center text-sm font-semibold text-white">{DOMICILIO_LABELS[language as Language]}</Link>
 
             {PLAIN_NAV.map(item=>(
               <Link key={item.href} href={item.href} onClick={()=>setOpen(false)} className={item.highlight?"mx-0 mt-1 rounded-xl bg-[#7b1e2b] px-3 py-3.5 text-sm font-semibold text-white text-center":`rounded-xl px-3 py-3.5 text-sm font-medium transition hover:bg-subtle hover:text-ink ${isActive(item.href)?"bg-subtle text-ink":"text-muted"}`}>{item.label}</Link>
