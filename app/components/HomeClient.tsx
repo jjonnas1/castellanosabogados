@@ -234,6 +234,55 @@ export default function HomeClient() {
         </div>
       </section>
 
+      {/* ── ABOGADOS A DOMICILIO (destacado) ──────────────────────── */}
+      <section className="section-shell bg-surface" data-reveal>
+        <div className="container">
+          <article
+            className="relative overflow-hidden rounded-3xl px-6 py-8 text-white shadow-[0_18px_50px_rgba(123,30,43,0.28)] sm:px-12 sm:py-12"
+            style={{ background: "linear-gradient(135deg,#7b1e2b 0%,#5c141f 100%)" }}
+          >
+            <div
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(255,255,255,0.14),transparent_45%),radial-gradient(circle_at_88%_0%,rgba(255,255,255,0.08),transparent_42%)]"
+              aria-hidden
+            />
+            <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+              <div className="max-w-2xl space-y-4">
+                <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-white ring-1 ring-white/25">
+                  <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                  Nuevo servicio
+                </span>
+                <h2 className="text-balance text-white">Abogados a domicilio</h2>
+                <p className="text-lg leading-relaxed text-white/85">
+                  Enviamos tu abogado a la casa, oficina o el lugar donde lo requieras. Atención jurídica presencial y
+                  personalizada, sin que tengas que desplazarte.
+                </p>
+              </div>
+              <div className="flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col">
+                <Link
+                  href="/abogado-a-domicilio"
+                  className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-bold text-[#7b1e2b] shadow-[0_8px_24px_rgba(0,0,0,0.18)] transition hover:-translate-y-0.5 hover:bg-white/90"
+                >
+                  Conocer el servicio
+                </Link>
+                <a
+                  href={buildWhatsAppUrl({
+                    area: "Abogados a domicilio",
+                    source: "/#domicilio",
+                    message: "Hola, quisiera solicitar una visita de abogado a domicilio.",
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/50 px-6 py-3 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
+                >
+                  <WaIcon size={16} />
+                  Solicitar visita
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
       {/* ── RESEÑAS (claro) ───────────────────────────────────────── */}
       <section className="section-shell bg-canvas" data-reveal>
         <div className="container space-y-10">

@@ -18,12 +18,15 @@ type Language = "es"|"en"|"fr"|"it";
 const LANG_LABELS:Record<Language,string>={es:"ES",en:"EN",fr:"FR",it:"IT"};
 const LANG_NAMES:Record<Language,string>={es:"Español",en:"English",fr:"Français",it:"Italiano"};
 
+const DOMICILIO_HREF="/abogado-a-domicilio";
+const DOMICILIO_LABELS:Record<Language,string>={es:"Abogados a domicilio",en:"Lawyer at home",fr:"Avocat à domicile",it:"Avvocato a domicilio"};
+
 function SunIcon(){return(<svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>);}
 function MoonIcon(){return(<svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>);}
 function GlobeIcon(){return(<svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" aria-hidden><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6"/><path d="M12 3c-2.5 3-4 5.5-4 9s1.5 6 4 9M12 3c2.5 3 4 5.5 4 9s-1.5 6-4 9M3 12h18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/></svg>);}
 
 function MegaMenuPanel({id,onClose,mailtoHref}:{id:string;onClose:()=>void;mailtoHref:string;}){
-  const{t}=useLanguage();const h=t.header;
+  const{t,language}=useLanguage();const h=t.header;
   const groups=[{label:h.forPeople,slugs:PEOPLE_SLUGS},{label:h.forCompanies,slugs:COMPANY_SLUGS}];
   return(
     <div id={id} role="region" aria-label="Menú de servicios" className="absolute left-1/2 top-full z-50 mt-2 w-[820px] -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_64px_rgba(13,21,40,.14)] dark:shadow-[0_24px_64px_rgba(0,0,0,.45)]">
@@ -39,6 +42,17 @@ function MegaMenuPanel({id,onClose,mailtoHref}:{id:string;onClose:()=>void;mailt
               </Link>))}
             </div>
           </div>))}
+          <Link href={DOMICILIO_HREF} onClick={onClose} className="flex items-center justify-between gap-3 rounded-xl bg-[#7b1e2b]/[0.06] px-3 py-2.5 ring-1 ring-[#7b1e2b]/20 transition hover:bg-[#7b1e2b]/[0.11]">
+            <span className="flex flex-col gap-0.5">
+              <span className="flex items-center gap-2 text-[13px] font-semibold text-[#7b1e2b]">
+                {DOMICILIO_LABELS[language as Language]}
+                <span className="rounded-full bg-[#7b1e2b] px-1.5 py-[3px] text-[8px] font-bold uppercase leading-none tracking-wide text-white">Nuevo</span>
+              </span>
+              <span className="text-[11px] leading-snug text-muted">Enviamos tu abogado a la dirección que necesites.</span>
+            </span>
+            <span className="shrink-0 text-[#7b1e2b]" aria-hidden>→</span>
+          </Link>
+
           <div className="border-t border-border px-2 pt-3">
             <p className="text-[12px] text-muted">{h.notFound}{" "}<a href={mailtoHref} onClick={onClose} className="font-semibold text-accent-500 underline underline-offset-2 hover:text-accent-700">{h.consultDirect}</a></p>
           </div>
@@ -131,7 +145,7 @@ export default function SiteHeader(){
   const mailtoHref=buildMailtoUrl({area:"Contacto general",source:"Header",subject:"Solicitud de evaluación",message:"Hola, quisiera solicitar una evaluación estratégica."});
 
   const PLAIN_NAV=[
-    {label:t.nav.tutelas,href:"/tutela",highlight:true},
+    {label:t.nav.tutelas,href:"/tutela",highlight:false},
     {label:t.nav.methodology,href:"/metodologia"},
     {label:t.nav.blog,href:"/blog"},
     {label:t.nav.about,href:"/nosotros"},
@@ -161,6 +175,8 @@ export default function SiteHeader(){
             </button>
             {megaOpen&&<MegaMenuPanel id={megaMenuId} onClose={()=>setMegaOpen(false)} mailtoHref={mailtoHref}/>}
           </div>
+
+          <Link href={DOMICILIO_HREF} className="whitespace-nowrap rounded-full bg-[#7b1e2b] px-3.5 py-1.5 text-[13px] font-semibold text-white transition hover:bg-[#6a1624]">{DOMICILIO_LABELS[language as Language]}</Link>
 
           {PLAIN_NAV.map(item=>item.highlight?(
             <Link key={item.href} href={item.href} className="rounded-full bg-[#7b1e2b] px-3.5 py-1.5 text-[13px] font-semibold text-white transition hover:bg-[#6a1624]">{item.label}</Link>
@@ -226,6 +242,8 @@ export default function SiteHeader(){
                 ))}
               </div>
             )}
+
+            <Link href={DOMICILIO_HREF} onClick={()=>setOpen(false)} className="mx-0 mt-1 rounded-xl bg-[#7b1e2b] px-3 py-3.5 text-center text-sm font-semibold text-white">{DOMICILIO_LABELS[language as Language]}</Link>
 
             {PLAIN_NAV.map(item=>(
               <Link key={item.href} href={item.href} onClick={()=>setOpen(false)} className={item.highlight?"mx-0 mt-1 rounded-xl bg-[#7b1e2b] px-3 py-3.5 text-sm font-semibold text-white text-center":`rounded-xl px-3 py-3.5 text-sm font-medium transition hover:bg-subtle hover:text-ink ${isActive(item.href)?"bg-subtle text-ink":"text-muted"}`}>{item.label}</Link>

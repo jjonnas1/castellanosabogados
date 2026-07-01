@@ -79,7 +79,7 @@ export default function MarketingPopup() {
       style={{ background: 'rgba(10,18,35,0.65)', backdropFilter: 'blur(5px)' }}
     >
       <div
-        className="relative w-full max-w-[400px] rounded-2xl overflow-hidden shadow-2xl"
+        className="relative w-full max-w-[400px] max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl"
         style={{
           background: 'linear-gradient(160deg, #0f1c2e 0%, #0d2117 100%)',
           border: '1px solid rgba(37,211,102,0.18)',
@@ -115,6 +115,27 @@ export default function MarketingPopup() {
             Un abogado te atenderá en este momento. Contáctanos ahora y recibe orientación jurídica de inmediato.
           </p>
         </div>
+
+        {/* Abogados a domicilio */}
+        <a
+          href="/abogado-a-domicilio"
+          onClick={close}
+          className="mx-6 mb-4 flex items-center justify-between gap-3 rounded-xl px-4 py-3 text-left transition-transform active:scale-[0.98]"
+          style={{ background: 'linear-gradient(135deg,#7b1e2b 0%,#5c141f 100%)', boxShadow: '0 8px 24px rgba(123,30,43,0.35)' }}
+        >
+          <span className="flex items-center gap-2.5">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8" className="h-5 w-5 shrink-0" aria-hidden>
+              <path d="M3 10.5 12 3l9 7.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M5 9.5V21h14V9.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M9.5 21v-6h5v6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <span className="leading-tight">
+              <span className="block text-[13px] font-bold text-white">¿Prefieres un abogado a domicilio?</span>
+              <span className="block text-[11px] text-white/80">Vamos hasta la dirección que necesites</span>
+            </span>
+          </span>
+          <span className="text-lg text-white" aria-hidden>→</span>
+        </a>
 
         {/* Formulario */}
         <form onSubmit={handleSubmit} noValidate className="px-6 pb-7 space-y-3">
