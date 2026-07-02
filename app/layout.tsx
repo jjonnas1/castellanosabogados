@@ -22,7 +22,7 @@ const organizationSchema = {
   telephone: "+573148309306",
   email: "jonatancastellanosabogado@gmail.com",
   priceRange: "$$",
-  image: "https://jonatancastellanosabogado.com/og-image.png",
+  image: "https://jonatancastellanosabogado.com/og-image.jpg",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Pereira",
@@ -36,6 +36,16 @@ const organizationSchema = {
     bestRating: "5",
     worstRating: "1",
   },
+  // Reseñas reales de Google, las mismas que se muestran en la sección
+  // "Reseñas" del home — respaldan el aggregateRating ante Google.
+  review: [
+    { "@type": "Review", author: { "@type": "Person", name: "Felipe León" }, datePublished: "2026-05", reviewRating: { "@type": "Rating", ratingValue: "5" }, reviewBody: "Excelente profesional, recomendado al 100% para confiar en él cualquier proceso en las diferentes áreas del derecho." },
+    { "@type": "Review", author: { "@type": "Person", name: "Stefanía Hernández" }, datePublished: "2026-04", reviewRating: { "@type": "Rating", ratingValue: "5" }, reviewBody: "Excelente abogado, responsable, dedicado y muy profesional." },
+    { "@type": "Review", author: { "@type": "Person", name: "Idaly Arrubla Melo" }, datePublished: "2026-04", reviewRating: { "@type": "Rating", ratingValue: "5" }, reviewBody: "Genial la atención y la diligencia en los trámites. Super recomendado." },
+    { "@type": "Review", author: { "@type": "Person", name: "Alejo Santa" }, datePublished: "2026-04", reviewRating: { "@type": "Rating", ratingValue: "5" }, reviewBody: "Excelente persona con calidad humana muy profesional, con experiencia, hábil, capaz, sincero y diligente." },
+    { "@type": "Review", author: { "@type": "Person", name: "Christian Camilo Ceballos" }, datePublished: "2026-04", reviewRating: { "@type": "Rating", ratingValue: "5" }, reviewBody: "Muy profesional, buen servicio. Muchas gracias." },
+    { "@type": "Review", author: { "@type": "Person", name: "Esperanza Inés Isaza Maya" }, datePublished: "2026-04", reviewRating: { "@type": "Rating", ratingValue: "5" }, reviewBody: "Excelente atención. La asesoría brindada fue clara, oportuna y precisa. Da la confianza de ser atendido por una persona altamente calificada." },
+  ],
   areaServed: [
     { "@type": "City", name: "Pereira" },
     { "@type": "AdministrativeArea", name: "Risaralda" },
@@ -92,7 +102,7 @@ export const metadata: Metadata = {
       'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
     images: [
       {
-        url: '/og-image.png',
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Castellanos Abogados — Firma jurídica en Pereira',

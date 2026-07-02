@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     url: 'https://jonatancastellanosabogado.com/servicios',
     title: 'Servicios jurídicos en Pereira | Castellanos Abogados',
     description: 'Penal, ejecución de penas, tutelas, civil, familia, laboral y administrativo. Asesoría estratégica en Pereira y el Eje Cafetero.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Servicios — Castellanos Abogados' }],
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Servicios — Castellanos Abogados' }],
   },
   twitter: {
     card: 'summary_large_image',

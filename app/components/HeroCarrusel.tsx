@@ -100,9 +100,10 @@ export default function HeroCarrusel() {
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      {/* Imagen de fondo */}
+      {/* Imagen de fondo — foto real del despacho, servida localmente
+          (antes: stock de Unsplash, dependencia externa en el LCP) */}
       <Image
-        src="https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1920&q=80"
+        src="/hero-despacho.jpg"
         alt=""
         fill
         priority

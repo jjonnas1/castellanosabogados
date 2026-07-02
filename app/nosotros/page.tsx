@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     url: 'https://jonatancastellanosabogado.com/nosotros',
     title: 'Jonatan Castellanos — Abogado en Pereira | Castellanos Abogados',
     description: 'Abogado de la Universidad Libre de Pereira. Especialista en derecho penal, ejecución de penas y asesoría jurídica estratégica en el Eje Cafetero.',
-    images: [{ url: '/jonatan-castellanos.png', width: 800, height: 800, alt: 'Jonatan Castellanos — Abogado en Pereira' }],
+    images: [{ url: '/jonatan-castellanos.jpg', width: 800, height: 800, alt: 'Jonatan Castellanos — Abogado en Pereira' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -25,7 +25,7 @@ const personSchema = {
   name: "Jonatan Castellanos",
   jobTitle: "Abogado",
   url: "https://jonatancastellanosabogado.com/nosotros",
-  image: "https://jonatancastellanosabogado.com/jonatan-castellanos.png",
+  image: "https://jonatancastellanosabogado.com/jonatan-castellanos.jpg",
   worksFor: {
     "@type": "LegalService",
     name: "Castellanos Abogados",
