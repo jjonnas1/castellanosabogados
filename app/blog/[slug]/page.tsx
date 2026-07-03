@@ -461,27 +461,35 @@ Si tiene un familiar privado de la libertad en un establecimiento del INPEC, hay
     content: `
 La libertad condicional es uno de los beneficios más importantes dentro del sistema de ejecución de penas en Colombia. Permite que una persona condenada recupere su libertad antes de terminar de cumplir la totalidad de la pena, siempre que cumpla con los requisitos que establece la ley.
 
+**¿Qué dice el artículo 64 del Código Penal colombiano?**
+
+El artículo 64 de la Ley 599 de 2000 (Código Penal), modificado por el artículo 30 de la Ley 1709 de 2014, es la norma que regula la libertad condicional en Colombia. Su texto vigente dispone:
+
+"El juez, previa valoración de la conducta punible, concederá la libertad condicional a la persona condenada a pena privativa de la libertad cuando haya cumplido con los siguientes requisitos: 1. Que la persona haya cumplido las tres quintas (3/5) partes de la pena. 2. Que su adecuado desempeño y comportamiento durante el tratamiento penitenciario en el centro de reclusión permita suponer fundadamente que no existe necesidad de continuar la ejecución de la pena. 3. Que demuestre arraigo familiar y social. [...] En todo caso su concesión estará supeditada a la reparación a la víctima o al aseguramiento del pago de la indemnización mediante garantía personal, real, bancaria o acuerdo de pago, salvo que se demuestre insolvencia del condenado. El tiempo que falte para el cumplimiento de la pena se tendrá como periodo de prueba."
+
+En palabras simples: quien haya cumplido el 60% de su pena, tenga buen comportamiento certificado por el INPEC y demuestre arraigo familiar y social puede pedirle al Juez de Ejecución de Penas que le conceda la libertad por el tiempo restante, bajo condiciones. Además, debe haber reparado a la víctima o asegurado el pago de la indemnización, salvo que demuestre insolvencia.
+
 **¿Qué es la libertad condicional?**
 
 La libertad condicional es un subrogado penal, es decir, un mecanismo alternativo al cumplimiento total de la pena privativa de libertad en un establecimiento carcelario. Está regulada en el artículo 64 del Código Penal colombiano (Ley 599 de 2000), modificado por la Ley 1709 de 2014. Su nombre lo dice todo: la libertad se concede condicionada al cumplimiento de ciertas obligaciones durante el tiempo restante de la pena.
 
 **Requisitos para obtener la libertad condicional**
 
-El artículo 64 del Código Penal establece cuatro requisitos que deben cumplirse simultáneamente.
+El artículo 64 del Código Penal establece tres requisitos que deben cumplirse simultáneamente, más una condición adicional relacionada con la víctima.
 
-Primer requisito — haber cumplido las tres quintas (3/5) partes de la pena: la persona debe haber cumplido efectivamente el 60% de su pena en prisión. Para ciertos delitos como terrorismo, secuestro o extorsión, la ley exige que se haya cumplido el 80% de la pena.
+Primer requisito — haber cumplido las tres quintas (3/5) partes de la pena: la persona debe haber cumplido el 60% de la pena. Para este cómputo cuentan tanto el tiempo físico de privación de la libertad como las redenciones de pena por trabajo, estudio o enseñanza certificadas por el INPEC. Tenga en cuenta que para ciertos delitos —como terrorismo, financiación del terrorismo, secuestro extorsivo y extorsión— la Ley 1121 de 2006 excluye este beneficio, por lo que cada caso debe revisarse de manera individual.
 
-Segundo requisito — buena conducta en el establecimiento carcelario: se acredita mediante el certificado de conducta expedido por el INPEC. Las faltas disciplinarias graves o muy graves dentro del establecimiento pueden cerrar la puerta a este beneficio.
+Segundo requisito — adecuado desempeño y comportamiento durante el tratamiento penitenciario: se acredita mediante el certificado de conducta expedido por el INPEC y debe permitir concluir que no es necesario continuar la ejecución de la pena en prisión. Las faltas disciplinarias graves o muy graves dentro del establecimiento pueden cerrar la puerta a este beneficio. El abogado debe argumentar que el condenado ya cumplió sus fines resocializadores y cuenta con condiciones para reintegrarse a la vida social.
 
-Tercer requisito — que no sea necesario mantener la privación de libertad: el Juez de Ejecución de Penas valora si la privación continua sigue siendo necesaria para los fines de prevención y resocialización. El abogado debe argumentar que el condenado ya cumplió sus fines resocializadores y cuenta con condiciones para reintegrarse a la vida social.
+Tercer requisito — demostrar arraigo familiar y social: el condenado debe acreditar vínculos familiares, laborales o comunitarios que respalden su reintegración. Corresponde al Juez de Ejecución de Penas establecer, con las pruebas del expediente, la existencia o inexistencia de ese arraigo.
 
-Cuarto requisito — pago de la multa o acuerdo de pago: si la sentencia impuso multa como pena accesoria, debe haberse pagado o acordado un plan de pago.
+Condición adicional — reparación a la víctima: la concesión está supeditada a la reparación a la víctima o al aseguramiento del pago de la indemnización mediante garantía personal, real, bancaria o acuerdo de pago, salvo que se demuestre la insolvencia del condenado. Desde la Ley 1709 de 2014, el pago de la multa dejó de ser un requisito de la libertad condicional: lo que la norma exige es la reparación o su aseguramiento.
 
 **El proceso para solicitar la libertad condicional**
 
 Paso 1: verificar el cumplimiento del requisito temporal considerando la fecha de inicio del cómputo de la pena, las rebajas por trabajo, estudio o enseñanza en el INPEC, y posibles acumulaciones de penas.
 
-Paso 2: reunir los documentos, que incluyen la sentencia condenatoria en firme, el certificado de conducta del INPEC, el certificado de redención de penas, documentos de arraigo familiar, y comprobante de pago de multa si aplica.
+Paso 2: reunir los documentos, que incluyen la sentencia condenatoria en firme, el certificado de conducta del INPEC, el certificado de redención de penas, documentos de arraigo familiar y social, y la constancia de reparación a la víctima o del acuerdo de pago de la indemnización — o la prueba de insolvencia, según el caso.
 
 Paso 3: presentar la solicitud ante el Juez de Ejecución de Penas del circuito donde la persona cumple condena. En el Eje Cafetero, estos despachos están en Pereira, Manizales y Armenia.
 
@@ -492,6 +500,28 @@ Paso 4: el juez puede citar a audiencia o resolver por escrito. Si concede la li
 Técnicamente, un condenado puede presentar la solicitud por sí mismo. Pero en la práctica, los errores en el cálculo del tiempo cumplido, la falta de documentos o la debilidad en la argumentación jurídica son las causas más frecuentes de que el beneficio sea negado, a veces cuando el condenado sí tiene derecho a él.
 
 Un abogado penalista con experiencia en ejecución de penas conoce los criterios que aplican los jueces del Eje Cafetero, sabe qué documentos son realmente relevantes y puede construir un expediente que maximice las posibilidades de éxito.
+
+**Preguntas frecuentes sobre la libertad condicional**
+
+**¿Qué es la libertad condicional en Colombia?**
+
+Es un subrogado penal: un mecanismo que permite a una persona condenada cumplir en libertad la parte final de su pena, bajo condiciones fijadas por el juez. Está regulada en el artículo 64 del Código Penal (Ley 599 de 2000, modificado por la Ley 1709 de 2014). No borra la condena: el tiempo que falte de pena se convierte en un período de prueba.
+
+**¿Cuánto tiempo de la pena hay que cumplir para pedir la libertad condicional?**
+
+Las tres quintas (3/5) partes de la pena, es decir, el 60%. Para ese cómputo cuentan tanto el tiempo físico en prisión como las redenciones de pena por trabajo, estudio o enseñanza certificadas por el INPEC, por lo que la fecha real suele llegar antes de lo que la familia cree.
+
+**¿Qué requisitos exige el artículo 64 del Código Penal?**
+
+Tres requisitos: haber cumplido las 3/5 partes de la pena, que el comportamiento durante el tratamiento penitenciario permita concluir que no es necesario seguir ejecutando la pena, y demostrar arraigo familiar y social. Además, la concesión está supeditada a la reparación de la víctima o al aseguramiento del pago de la indemnización, salvo insolvencia demostrada.
+
+**¿Quién concede la libertad condicional y dónde se solicita?**
+
+La concede el Juez de Ejecución de Penas y Medidas de Seguridad que vigila la condena. La solicitud se presenta ante ese despacho con los cómputos y el certificado de conducta del INPEC, los certificados de redención y las pruebas de arraigo. En el Eje Cafetero, estos juzgados funcionan en Pereira, Manizales y Armenia.
+
+**¿Qué pasa si se incumplen las condiciones durante el período de prueba?**
+
+El juez puede revocar la libertad condicional y ordenar el regreso a prisión para cumplir el tiempo restante de la pena. El período de prueba equivale al tiempo que faltaba de condena y, cuando es inferior a tres años, el juez puede aumentarlo hasta en otro tanto igual.
 
 ¿Tienes un familiar privado de la libertad en el Eje Cafetero que podría tener derecho a la libertad condicional? Podemos revisar su caso sin costo. Llámanos al 314 830 9306 o escríbenos por WhatsApp.
     `,
@@ -718,9 +748,13 @@ const ARTICLE_DESCRIPTIONS: Record<string, string> = {
   'cuota-alimentaria-colombia':          'Cómo se fija, revisa y hace cumplir la cuota de alimentos en Colombia. Requisitos del artículo 411 del Código Civil y Ley 2388 de 2024. Abogados de familia en Pereira y Eje Cafetero.',
   'violencia-intrafamiliar-medidas-proteccion': 'Medidas de protección urgentes ante violencia intrafamiliar en Colombia. Comisaría de familia, Ley 294/1996, Ley 1257/2008 y Ley 2126/2021. Abogados de familia en Pereira.',
   'ley-2466-2025-redenciones-pena':      'Ley 2466 de 2025 y redenciones de pena en Colombia: qué cambió, cómo se calculan y por qué revisar los cómputos del INPEC. Ejecución de penas en Pereira y Eje Cafetero.',
-  'libertad-condicional-colombia':       'Requisitos del artículo 64 del Código Penal para la libertad condicional: tiempo cumplido, conducta y arraigo. Trámite ante el Juez de Ejecución de Penas en el Eje Cafetero.',
+  'libertad-condicional-colombia':       'Texto vigente del artículo 64 del Código Penal colombiano y sus 3 requisitos: 3/5 de la pena, buena conducta y arraigo. Guía clara y actualizada a 2026.',
   'preacuerdo-penal-colombia':           'Preacuerdo penal en Colombia: ventajas, riesgos y cuándo conviene aceptarlo. Diferencias con el allanamiento a cargos. Abogados penalistas en Pereira y Eje Cafetero.',
   'prescripcion-titulos-valores-colombia': 'Plazos de prescripción de letras de cambio, cheques y pagarés en Colombia según el Código de Comercio. Desde cuándo cuentan, cómo interrumpirlos y qué hacer cuando el título ya prescribió.',
+};
+
+const ARTICLE_TITLES: Record<string, string> = {
+  'libertad-condicional-colombia': 'Artículo 64 del Código Penal: Libertad Condicional 2026',
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -729,7 +763,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!article) return {};
 
   const description = ARTICLE_DESCRIPTIONS[slug] ?? article.content.trim().split('\n')[0].slice(0, 160);
-  const title = `${article.title} | Castellanos Abogados`;
+  const title = ARTICLE_TITLES[slug] ?? `${article.title} | Castellanos Abogados`;
 
   return {
     title,
@@ -781,12 +815,65 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     mainEntityOfPage: `https://jonatancastellanosabogado.com/blog/${slug}`,
   };
 
+  const faqSchema = slug === 'libertad-condicional-colombia' ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "¿Qué es la libertad condicional en Colombia?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Es un subrogado penal: un mecanismo que permite a una persona condenada cumplir en libertad la parte final de su pena, bajo condiciones fijadas por el juez. Está regulada en el artículo 64 del Código Penal (Ley 599 de 2000, modificado por la Ley 1709 de 2014). No borra la condena: el tiempo que falte de pena se convierte en un período de prueba.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Cuánto tiempo de la pena hay que cumplir para pedir la libertad condicional?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Las tres quintas (3/5) partes de la pena, es decir, el 60%. Para ese cómputo cuentan tanto el tiempo físico en prisión como las redenciones de pena por trabajo, estudio o enseñanza certificadas por el INPEC, por lo que la fecha real suele llegar antes de lo que la familia cree.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Qué requisitos exige el artículo 64 del Código Penal?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Tres requisitos: haber cumplido las 3/5 partes de la pena, que el comportamiento durante el tratamiento penitenciario permita concluir que no es necesario seguir ejecutando la pena, y demostrar arraigo familiar y social. Además, la concesión está supeditada a la reparación de la víctima o al aseguramiento del pago de la indemnización, salvo insolvencia demostrada.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Quién concede la libertad condicional y dónde se solicita?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "La concede el Juez de Ejecución de Penas y Medidas de Seguridad que vigila la condena. La solicitud se presenta ante ese despacho con los cómputos y el certificado de conducta del INPEC, los certificados de redención y las pruebas de arraigo. En el Eje Cafetero, estos juzgados funcionan en Pereira, Manizales y Armenia.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Qué pasa si se incumplen las condiciones durante el período de prueba?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "El juez puede revocar la libertad condicional y ordenar el regreso a prisión para cumplir el tiempo restante de la pena. El período de prueba equivale al tiempo que faltaba de condena y, cuando es inferior a tres años, el juez puede aumentarlo hasta en otro tanto igual.",
+        },
+      },
+    ],
+  } : null;
+
   return (
     <main className="min-h-screen bg-canvas text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       <SiteHeader />
 
       <section className="section-shell">
