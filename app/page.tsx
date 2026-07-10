@@ -3,20 +3,20 @@ import type { Metadata } from 'next';
 import HomeClient from "./components/HomeClient";
 
 export const metadata: Metadata = {
-  title: 'Castellanos Abogados | Firma jurídica en Pereira',
-  description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
+  title: 'Castellanos Abogados | Firma jurídica en Pereira, Manizales y Armenia',
+  description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira, Manizales y Armenia (Eje Cafetero).',
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     url: 'https://jonatancastellanosabogado.com',
-    title: 'Castellanos Abogados | Firma jurídica en Pereira',
-    description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira, Manizales y Armenia',
+    description: 'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira, Manizales y Armenia (Eje Cafetero).',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Castellanos Abogados' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Castellanos Abogados | Firma jurídica en Pereira',
-    description: 'Asesoría jurídica en derecho penal, tutelas, ejecución de penas, familia y laboral. Pereira, Eje Cafetero.',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira, Manizales y Armenia',
+    description: 'Asesoría jurídica en derecho penal, tutelas, ejecución de penas, familia y laboral. Pereira, Manizales y Armenia.',
   },
 };
 
@@ -31,12 +31,49 @@ const faqSchema = {
   ],
 };
 
+const legalServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "LegalService",
+  name: "Castellanos Abogados",
+  url: "https://jonatancastellanosabogado.com",
+  image: "https://jonatancastellanosabogado.com/og-image.png",
+  telephone: "+573148309306",
+  priceRange: "$$",
+  areaServed: [
+    { "@type": "City", name: "Pereira" },
+    { "@type": "City", name: "Manizales" },
+    { "@type": "City", name: "Armenia" },
+    { "@type": "AdministrativeArea", name: "Eje Cafetero" },
+  ],
+  knowsLanguage: ["es", "en"],
+  serviceType: [
+    "Derecho penal",
+    "Tutelas",
+    "Ejecución de penas",
+    "Derecho de familia",
+    "Derecho laboral",
+  ],
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5.0",
+    reviewCount: "6",
+    bestRating: "5",
+  },
+  sameAs: [
+    "https://www.google.com/search?q=Castellanos+Abogados",
+  ],
+};
+
 export default function Home() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(legalServiceSchema) }}
       />
       <HomeClient />
     </>
