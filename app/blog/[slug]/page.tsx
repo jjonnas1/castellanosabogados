@@ -728,6 +728,98 @@ La decisión de aceptar o rechazar un preacuerdo es una de las más importantes 
 ¿Te ofrecieron un preacuerdo en Pereira, Manizales o Armenia y no sabes si conviene aceptarlo? Analizamos tu caso y te damos una opinión clara y honesta. Llámanos al 314 830 9306 o contáctanos por WhatsApp.
     `,
   },
+  'reforma-laboral-colombia-cambios-vigentes-2026': {
+    title: 'Reforma laboral en Colombia: cambios vigentes en 2026 para trabajadores y empleadores',
+    category: 'Laboral',
+    date: '2026-08-05',
+    content: `
+La Ley 2466 de 2025 introdujo una reforma laboral que modificó varias reglas del Código Sustantivo del Trabajo. En 2026 ya están vigentes medidas que afectan la forma de contratar, la jornada nocturna, el trabajo en días de descanso obligatorio y los procedimientos disciplinarios. Conocer la fecha de entrada en vigencia de cada cambio es importante para trabajadores y empleadores.
+
+**El contrato a término indefinido como regla general**
+
+La reforma establece que el contrato a término indefinido es la modalidad principal de vinculación laboral. Los contratos a término fijo, por obra o labor determinada y los ocasionales siguen siendo posibles, pero deben responder a una necesidad real y cumplir los requisitos legales. En los contratos por obra o labor, la actividad contratada debe quedar descrita de forma precisa y por escrito; si no se cumplen las condiciones, o si el trabajador continúa una vez termina la obra, puede surgir una discusión sobre la naturaleza indefinida de la relación.
+
+Para los contratos a término fijo, la ley fijó un límite máximo de cuatro años, incluidas sus prórrogas. Antes de firmar, renovar o terminar un contrato conviene revisar el texto concreto, la duración acumulada y las comunicaciones de preaviso.
+
+**Trabajo nocturno desde las 7:00 p. m.**
+
+Desde el 25 de diciembre de 2025, la jornada nocturna comprende el trabajo realizado entre las 7:00 p. m. y las 6:00 a. m. Antes de esa fecha, el período nocturno iniciaba a las 9:00 p. m. El cambio puede impactar la liquidación del recargo nocturno de quienes trabajan en comercio, restaurantes, seguridad, transporte, salud y otras actividades con turnos extendidos.
+
+**Recargo por trabajar en día de descanso obligatorio**
+
+La Ley 2466 dispuso una implementación gradual del recargo por laborar en día de descanso obligatorio. Desde el 1 de julio de 2026, el recargo es del 90% sobre el salario ordinario, en proporción a las horas trabajadas. La aplicación plena del 100% está prevista para el 1 de julio de 2027. La regla puede variar según la forma en que esté pactado el día de descanso y las condiciones particulares del vínculo laboral, por lo que una liquidación debe revisarse caso por caso.
+
+**Debido proceso en actuaciones disciplinarias**
+
+La reforma también reforzó el deber de respetar garantías mínimas al imponer sanciones laborales. Una sanción no debería convertirse en una decisión sorpresiva: el trabajador debe tener oportunidad real de conocer los hechos, dar su versión, controvertir las pruebas y ejercer su defensa. Para las empresas, esto implica revisar reglamentos internos y procedimientos; para los trabajadores, conservar citaciones, descargos, comunicaciones y soportes.
+
+**Qué hacer si existe una duda sobre el contrato o la nómina**
+
+El primer paso es reunir el contrato, comprobantes de pago, horarios, desprendibles de nómina y comunicaciones relevantes. No toda diferencia se resuelve de la misma manera: la fecha de los hechos, el tipo de contrato y el sector pueden modificar el análisis. Una asesoría laboral permite identificar si procede una reclamación directa, una conciliación o una acción judicial.
+
+¿Tiene dudas sobre la aplicación de la reforma laboral en Pereira, Manizales, Armenia o el Eje Cafetero? En Castellanos Abogados revisamos su caso y le explicamos las alternativas jurídicas disponibles.
+    `,
+  },
+  'nuevo-codigo-procesal-trabajo-colombia-2026': {
+    title: 'Nuevo Código Procesal del Trabajo: qué cambió desde abril de 2026',
+    category: 'Laboral',
+    date: '2026-08-12',
+    content: `
+Desde el 2 de abril de 2026 rige en Colombia el Código Procesal del Trabajo y de la Seguridad Social, expedido mediante la Ley 2452 de 2025. Esta norma reemplazó las reglas procesales laborales anteriores para los asuntos que comenzaron a partir de su entrada en vigencia. Su propósito es ordenar los trámites ante la jurisdicción laboral y de seguridad social, con énfasis en la oralidad, el uso de herramientas digitales y una gestión más concentrada de los procesos.
+
+**La fecha en que inició el proceso es decisiva**
+
+La Ley 2452 estableció un régimen de transición claro: los procesos iniciados antes del 2 de abril de 2026 continúan tramitándose con las normas anteriores. Los que se presenten desde esa fecha deben seguir el nuevo Código. Por eso, antes de definir términos, recursos o la estrategia de una demanda, es indispensable establecer cuándo se inició formalmente el asunto y en qué etapa se encuentra.
+
+**Qué asuntos conoce la jurisdicción laboral y de seguridad social**
+
+En esta jurisdicción se tramitan, entre otros, conflictos derivados de contratos de trabajo, discusiones sobre salarios, prestaciones, indemnizaciones y seguridad social. También existen controversias entre afiliados, beneficiarios, empleadores y entidades administradoras o prestadoras del sistema, dentro de los límites fijados por la ley.
+
+No todas las inconformidades laborales siguen el mismo camino. Algunas requieren reclamar primero ante el empleador o la entidad correspondiente; otras exigen identificar con precisión la autoridad competente y el procedimiento aplicable. Presentar una demanda sin revisar estos elementos puede generar demoras evitables.
+
+**Nuevas herramientas procesales**
+
+El Código regula actuaciones orales y virtuales en los casos permitidos por la ley y organiza mecanismos para tramitar determinadas obligaciones laborales o de seguridad social. Entre ellos se encuentra el proceso monitorio, diseñado para ciertos conflictos en los que se reclama una obligación y el demandado debe pagar o explicar de manera concreta las razones de su oposición.
+
+Esto no significa que todos los casos sean rápidos ni que el resultado esté asegurado. La procedencia del trámite depende de los hechos, las pruebas, la cuantía y las reglas específicas de cada asunto. Una demanda laboral requiere sustento documental y una lectura cuidadosa de las normas aplicables.
+
+**Recomendaciones antes de acudir a un juez laboral**
+
+Conserve contratos, desprendibles de nómina, certificaciones, incapacidades, comunicaciones, reportes de semanas cotizadas y cualquier prueba relacionada con el conflicto. Organice los hechos por fechas y no deje pasar el tiempo: algunas reclamaciones están sujetas a términos de prescripción. Si el caso ya está en curso, no asuma que el nuevo Código cambia automáticamente las reglas que lo gobiernan; primero debe verificarse el régimen de transición.
+
+¿Necesita revisar una reclamación laboral o de seguridad social en el Eje Cafetero? En Castellanos Abogados analizamos el estado del caso y la ruta jurídica que corresponda.
+    `,
+  },
+  'ley-2477-2025-reforma-procesal-penal': {
+    title: 'Ley 2477 de 2025: cambios recientes en el proceso penal colombiano',
+    category: 'Penal',
+    date: '2026-08-19',
+    content: `
+La Ley 2477 de 2025, vigente desde el 11 de julio de 2025, introdujo cambios a normas del Código Penal y del Código de Procedimiento Penal. La reforma busca promover decisiones más tempranas dentro del sistema penal acusatorio y modificó aspectos relacionados con la reparación integral, los preacuerdos, el principio de oportunidad y algunos términos procesales. Su aplicación siempre depende del delito investigado, la etapa del proceso y los derechos de las víctimas.
+
+**Reparación integral y consecuencias en el proceso**
+
+La reparación integral puede ser relevante en determinados casos, especialmente cuando la ley permite que tenga efectos sobre la acción penal. Sin embargo, no es una fórmula automática para terminar una investigación. Deben analizarse el tipo de conducta, la existencia de víctima, el alcance real de la reparación, los antecedentes y las exclusiones previstas por la ley. Un acuerdo económico sin el procedimiento adecuado puede no producir el efecto jurídico que las partes esperan.
+
+**Preacuerdos y allanamientos a cargos**
+
+La Ley 2477 modificó reglas relacionadas con los beneficios por allanamiento y preacuerdo. Estos mecanismos pueden evitar un juicio completo y, en algunos eventos, permitir una reducción punitiva, pero no son equivalentes ni aplican de igual manera en todos los delitos. La oportunidad procesal en que se toma una decisión, la calidad de la información de la Fiscalía, la reparación a la víctima y las limitaciones legales pueden cambiar por completo la conveniencia de aceptar una negociación.
+
+Antes de aceptar cargos o firmar un preacuerdo, la defensa debe calcular las consecuencias reales de la pena, las posibilidades de subrogados y los efectos para la vida laboral y familiar. La decisión debe ser libre, informada y con defensa técnica.
+
+**Principio de oportunidad**
+
+La reforma amplió y ajustó causales relacionadas con el principio de oportunidad. Este mecanismo permite a la Fiscalía, bajo controles y requisitos legales, suspender, interrumpir o renunciar a la persecución penal en supuestos determinados. No es un derecho automático del investigado: requiere revisar la causal concreta, las condiciones de procedencia y la protección de los derechos de las víctimas.
+
+**Libertad por vencimiento de términos**
+
+La Ley 2477 actualizó los términos del artículo 317 del Código de Procedimiento Penal. Como regla general, la libertad puede discutirse si transcurren 60 días desde la imputación sin que se presente escrito de acusación o se solicite preclusión; 120 días desde la acusación sin que inicie el juicio; o 150 días desde el inicio del juicio sin lectura de fallo o su equivalente. En algunos casos los términos se incrementan, por ejemplo, cuando intervienen tres o más imputados, se trata de justicia penal especializada, hechos de corrupción o ciertos delitos expresamente señalados por la ley.
+
+El simple paso del tiempo no basta para pedir la libertad. Debe verificarse qué actuaciones suspenden, restablecen o no permiten contabilizar los términos, incluyendo demoras atribuibles a la defensa. El análisis exige revisar el expediente y las fechas exactas de las audiencias.
+
+¿Usted o un familiar enfrenta una investigación penal en Pereira, Manizales, Armenia o el Eje Cafetero? Una revisión temprana del expediente ayuda a identificar las decisiones y términos relevantes para la defensa.
+    `,
+  },
 };
 
 export async function generateStaticParams() {
@@ -751,6 +843,9 @@ const ARTICLE_DESCRIPTIONS: Record<string, string> = {
   'libertad-condicional-colombia':       'Texto vigente del artículo 64 del Código Penal colombiano y sus 3 requisitos: 3/5 de la pena, buena conducta y arraigo. Guía clara y actualizada a 2026.',
   'preacuerdo-penal-colombia':           'Preacuerdo penal en Colombia: ventajas, riesgos y cuándo conviene aceptarlo. Diferencias con el allanamiento a cargos. Abogados penalistas en Pereira y Eje Cafetero.',
   'prescripcion-titulos-valores-colombia': 'Plazos de prescripción de letras de cambio, cheques y pagarés en Colombia según el Código de Comercio. Desde cuándo cuentan, cómo interrumpirlos y qué hacer cuando el título ya prescribió.',
+  'reforma-laboral-colombia-cambios-vigentes-2026': 'Reforma laboral en Colombia 2026: contrato indefinido, jornada nocturna desde las 7 p. m., recargo por descanso obligatorio y debido proceso disciplinario.',
+  'nuevo-codigo-procesal-trabajo-colombia-2026': 'Nuevo Código Procesal del Trabajo vigente desde el 2 de abril de 2026: transición, procesos laborales y seguridad social en Colombia.',
+  'ley-2477-2025-reforma-procesal-penal': 'Ley 2477 de 2025: cambios en reparación integral, preacuerdos, principio de oportunidad y vencimiento de términos en Colombia.',
 };
 
 const ARTICLE_TITLES: Record<string, string> = {

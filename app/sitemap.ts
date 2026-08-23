@@ -16,6 +16,9 @@ const BLOG_SLUGS = [
   'medida-de-aseguramiento-colombia',
   'libertad-condicional-colombia',
   'preacuerdo-penal-colombia',
+  'reforma-laboral-colombia-cambios-vigentes-2026',
+  'nuevo-codigo-procesal-trabajo-colombia-2026',
+  'ley-2477-2025-reforma-procesal-penal',
 ];
 
 const BLOG_DATES: Record<string, string> = {
@@ -31,6 +34,9 @@ const BLOG_DATES: Record<string, string> = {
   'medida-de-aseguramiento-colombia':    '2026-05-19',
   'libertad-condicional-colombia':       '2026-05-19',
   'preacuerdo-penal-colombia':           '2026-05-19',
+  'reforma-laboral-colombia-cambios-vigentes-2026': '2026-08-05',
+  'nuevo-codigo-procesal-trabajo-colombia-2026':     '2026-08-12',
+  'ley-2477-2025-reforma-procesal-penal':            '2026-08-19',
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -40,7 +46,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/tutela`,      priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-05-01' },
     { url: `${BASE}/abogado-a-domicilio`, priority: 0.85, changeFrequency: 'monthly', lastModified: '2026-07-01' },
     { url: `${BASE}/metodologia`, priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-05-01' },
-    { url: `${BASE}/blog`,        priority: 0.8, changeFrequency: 'weekly',  lastModified: '2026-05-19' },
+    { url: `${BASE}/blog`,        priority: 0.8, changeFrequency: 'weekly',  lastModified: '2026-08-19' },
     { url: `${BASE}/nosotros`,    priority: 0.7, changeFrequency: 'monthly', lastModified: '2026-05-07' },
     { url: `${BASE}/contacto`,    priority: 0.7, changeFrequency: 'yearly',  lastModified: '2026-01-01' },
   ];
