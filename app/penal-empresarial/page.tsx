@@ -1,8 +1,30 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 
 import SiteHeader from "@/app/components/SiteHeader";
 import { buildMailtoUrl, buildWhatsAppUrl } from "@/lib/contactLinks";
 import { enrichService, fetchServiceAreas } from "@/lib/serviceAreas";
+
+export const metadata: Metadata = {
+  title: 'Derecho penal empresarial | Castellanos Abogados',
+  description:
+    'Asesoría en derecho penal empresarial en Pereira y el Eje Cafetero: prevención de riesgos penales, defensa de empresas y representantes legales, y acompañamiento estratégico.',
+  alternates: { canonical: '/penal-empresarial' },
+  openGraph: {
+    type: 'website',
+    url: 'https://jonatancastellanosabogado.com/penal-empresarial',
+    title: 'Derecho penal empresarial | Castellanos Abogados',
+    description:
+      'Prevención de riesgos penales, defensa de empresas y representantes legales, y acompañamiento estratégico.',
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Penal empresarial' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Derecho penal empresarial | Castellanos Abogados',
+    description:
+      'Prevención de riesgos penales y defensa de empresas en Pereira y el Eje Cafetero.',
+  },
+};
 
 const heroBackground =
   "linear-gradient(120deg, rgba(12,17,29,0.9), rgba(17,37,68,0.82)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1200&q=75&fm=webp')";

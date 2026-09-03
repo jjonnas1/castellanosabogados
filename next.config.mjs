@@ -14,6 +14,12 @@ const nextConfig = {
         destination: 'https://jonatancastellanosabogado.com/:path*',
         permanent: true,
       },
+      {
+        // /personas duplicaba el contenido de /asesoria-personas (SEO)
+        source: '/personas',
+        destination: '/asesoria-personas',
+        permanent: true,
+      },
     ];
   },
 };
