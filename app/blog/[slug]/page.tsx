@@ -820,6 +820,58 @@ El simple paso del tiempo no basta para pedir la libertad. Debe verificarse qué
 ¿Usted o un familiar enfrenta una investigación penal en Pereira, Manizales, Armenia o el Eje Cafetero? Una revisión temprana del expediente ayuda a identificar las decisiones y términos relevantes para la defensa.
     `,
   },
+  'inasistencia-alimentaria-colombia': {
+    title: 'Inasistencia alimentaria en Colombia: cuándo el no pago de alimentos es delito',
+    category: 'Penal',
+    date: '2026-09-03',
+    content: `
+No pagar la cuota de alimentos no es únicamente un incumplimiento familiar: en Colombia puede constituir un delito. El artículo 233 del Código Penal (Ley 599 de 2000) tipifica la inasistencia alimentaria. Sin embargo, la ley exige que concurran requisitos precisos, y la Corte Suprema de Justicia ha sido clara en que no basta con demostrar que una persona dejó de pagar.
+
+**Qué sanciona el artículo 233 del Código Penal**
+
+La norma castiga a quien se sustraiga sin justa causa a la prestación de alimentos legalmente debidos a sus ascendientes, descendientes, adoptante, adoptivo, cónyuge o compañero permanente.
+
+La pena básica es de prisión de dieciséis (16) a cincuenta y cuatro (54) meses y multa de trece punto treinta y tres (13.33) a treinta (30) salarios mínimos legales mensuales vigentes.
+
+Cuando la inasistencia alimentaria se comete contra un menor de edad, la pena se agrava: prisión de treinta y dos (32) a setenta y dos (72) meses y multa de veinte (20) a treinta y siete punto cinco (37.5) salarios mínimos legales mensuales vigentes.
+
+El parágrafo 1º precisa que se tendrá por compañero y compañera permanente al hombre y la mujer que forman parte de la Unión Marital de Hecho durante un lapso no inferior a dos años, en los términos de la Ley 54 de 1990. El parágrafo 2º dispone que en estos eventos se podrá aplicar el principio de oportunidad.
+
+**Los tres elementos que deben probarse**
+
+Para que la conducta sea punible deben concurrir tres elementos: la existencia del vínculo familiar entre obligado y beneficiario; la sustracción total o parcial al deber alimentario; y que esa sustracción se produzca sin justa causa.
+
+El tercer elemento es el que realmente se discute en los procesos.
+
+**Retirar la denuncia no termina el proceso**
+
+Este es el punto que más desconocen quienes intervienen en estos casos. La Ley 1542 de 2012 eliminó el carácter de querellables y desistibles de los delitos de violencia intrafamiliar (artículo 229) e inasistencia alimentaria (artículo 233), suprimiéndolos del numeral 2 del artículo 74 de la Ley 906 de 2004, Código de Procedimiento Penal.
+
+La Corte Constitucional, en la Sentencia C-022 de 2015, declaró exequibles esas expresiones contenidas en los artículos 1 y 2 de la Ley 1542 de 2012.
+
+En la práctica esto significa que la investigación procede de oficio: quien denuncia no puede después retirar la denuncia para que el proceso termine, y un acuerdo de pago posterior no extingue automáticamente la acción penal. Es una consecuencia que sorprende tanto a quien denunció buscando presionar el pago como a quien resulta denunciado.
+
+**La justa causa: capacidad económica, no liquidez**
+
+Aquí está el aspecto técnico más relevante. La Corte Suprema de Justicia, Sala de Casación Penal, en la sentencia SP5130-2021 (radicado 58373, del 17 de noviembre de 2021, con ponencia del magistrado Gerson Chaverra Castro), precisó que para la configuración del delito de inasistencia alimentaria no se exige liquidez monetaria sino capacidad económica, y que la carga de probarla corresponde a la Fiscalía. De lo contrario, señaló la Corte, la justificación del incumplimiento se mantiene amparada por la presunción constitucional de inocencia del artículo 29 de la Constitución.
+
+En ese caso la Corte revocó la condena proferida en segunda instancia y confirmó la absolución, porque la Fiscalía no acreditó más allá de toda duda razonable la capacidad económica del procesado: los testimonios sobre los oficios que desempeñaba resultaron vagos, sin precisar períodos ni la fuente de ese conocimiento, y la labor investigativa sobre su situación financiera no llegó a incorporarse al juicio.
+
+De ahí se derivan dos consecuencias prácticas. Para la defensa: no basta afirmar que no había dinero, pero tampoco puede construirse una condena sobre suposiciones acerca de lo que la persona podría haber ganado; circunstancias como una enfermedad, una incapacidad o la pérdida del empleo, debidamente probadas, pueden configurar la justa causa. Para quien reclama: una denuncia sin material probatorio sobre la capacidad económica del obligado puede terminar en absolución, por lo que documentar ingresos, bienes y actividad laboral resulta determinante.
+
+**La vía penal no reemplaza la vía de familia**
+
+El proceso penal sanciona una conducta; no fija la cuota ni la cobra. Fijar, revisar o ejecutar la cuota alimentaria tiene su propio camino ante la comisaría de familia, la defensoría de familia o el juez de familia. En muchos casos la ruta adecuada combina ambas vías, y el orden en que se activan puede cambiar el resultado.
+
+**Qué hacer en cada situación**
+
+Si usted fue denunciado, reúna los soportes de los pagos realizados, su situación laboral y de salud durante el período investigado, y cualquier comunicación con la otra parte. No se limite a esperar la audiencia: la prueba de la justa causa se construye desde el inicio.
+
+Si usted necesita reclamar, verifique primero que exista una cuota fijada o un acuerdo, y documente el incumplimiento y la capacidad económica del obligado. Actuar con soporte probatorio es lo que diferencia una denuncia que prospera de una que se archiva.
+
+¿Enfrenta una investigación por inasistencia alimentaria o necesita hacer cumplir una cuota de alimentos en Pereira, Manizales, Armenia o el Eje Cafetero? En Castellanos Abogados analizamos su caso y le explicamos con claridad la ruta jurídica que corresponde. Llámenos al 314 830 9306 o escríbanos por WhatsApp.
+    `,
+  },
 };
 
 export async function generateStaticParams() {
@@ -846,6 +898,7 @@ const ARTICLE_DESCRIPTIONS: Record<string, string> = {
   'reforma-laboral-colombia-cambios-vigentes-2026': 'Reforma laboral en Colombia 2026: contrato indefinido, jornada nocturna desde las 7 p. m., recargo por descanso obligatorio y debido proceso disciplinario.',
   'nuevo-codigo-procesal-trabajo-colombia-2026': 'Nuevo Código Procesal del Trabajo vigente desde el 2 de abril de 2026: transición, procesos laborales y seguridad social en Colombia.',
   'ley-2477-2025-reforma-procesal-penal': 'Ley 2477 de 2025: cambios en reparación integral, preacuerdos, principio de oportunidad y vencimiento de términos en Colombia.',
+  'inasistencia-alimentaria-colombia':   'Inasistencia alimentaria en Colombia (art. 233 del Código Penal): penas, por qué no es querellable ni desistible desde la Ley 1542 de 2012 y qué debe probar la Fiscalía sobre la capacidad económica. Abogados penalistas en Pereira.',
 };
 
 const ARTICLE_TITLES: Record<string, string> = {

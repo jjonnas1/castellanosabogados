@@ -24,6 +24,7 @@ const articles = [
   { slug: 'reforma-laboral-colombia-cambios-vigentes-2026', title: 'Reforma laboral en Colombia: cambios vigentes en 2026 para trabajadores y empleadores', summary: 'La Ley 2466 de 2025 introdujo cambios en contratación, trabajo nocturno, recargos por días de descanso y procesos disciplinarios. Conozca qué está vigente.', date: '2026-08-05', category: 'Laboral' },
   { slug: 'nuevo-codigo-procesal-trabajo-colombia-2026', title: 'Nuevo Código Procesal del Trabajo: qué cambió desde abril de 2026', summary: 'La Ley 2452 de 2025 entró en vigencia el 2 de abril de 2026. Explicamos qué procesos se rigen por el nuevo Código y por qué importa revisar el régimen de transición.', date: '2026-08-12', category: 'Laboral' },
   { slug: 'ley-2477-2025-reforma-procesal-penal', title: 'Ley 2477 de 2025: cambios recientes en el proceso penal colombiano', summary: 'La reforma introdujo cambios en reparación integral, preacuerdos, principio de oportunidad y vencimiento de términos. Le explicamos su alcance general.', date: '2026-08-19', category: 'Penal' },
+  { slug: 'inasistencia-alimentaria-colombia', title: 'Inasistencia alimentaria en Colombia: cuándo el no pago de alimentos es delito', summary: 'El artículo 233 del Código Penal sanciona la inasistencia alimentaria, pero no basta con probar que alguien dejó de pagar. Explicamos las penas, por qué retirar la denuncia no termina el proceso y qué debe acreditar la Fiscalía.', date: '2026-09-03', category: 'Penal' },
 ];
 
 export default function BlogClient() {

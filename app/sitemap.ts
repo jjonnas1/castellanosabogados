@@ -19,6 +19,11 @@ const BLOG_SLUGS = [
   'reforma-laboral-colombia-cambios-vigentes-2026',
   'nuevo-codigo-procesal-trabajo-colombia-2026',
   'ley-2477-2025-reforma-procesal-penal',
+  'cuota-alimentaria-colombia',
+  'violencia-intrafamiliar-medidas-proteccion',
+  'ley-2466-2025-redenciones-pena',
+  'prescripcion-titulos-valores-colombia',
+  'inasistencia-alimentaria-colombia',
 ];
 
 const BLOG_DATES: Record<string, string> = {
@@ -37,6 +42,11 @@ const BLOG_DATES: Record<string, string> = {
   'reforma-laboral-colombia-cambios-vigentes-2026': '2026-08-05',
   'nuevo-codigo-procesal-trabajo-colombia-2026':     '2026-08-12',
   'ley-2477-2025-reforma-procesal-penal':            '2026-08-19',
+  'cuota-alimentaria-colombia':                      '2026-03-25',
+  'violencia-intrafamiliar-medidas-proteccion':      '2026-04-22',
+  'ley-2466-2025-redenciones-pena':                  '2026-05-15',
+  'prescripcion-titulos-valores-colombia':           '2026-05-20',
+  'inasistencia-alimentaria-colombia':               '2026-09-03',
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -51,7 +61,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/asesoria-personas`, priority: 0.75, changeFrequency: 'monthly', lastModified: '2026-09-03' },
     { url: `${BASE}/penal-empresarial`, priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-09-03' },
     { url: `${BASE}/trabaja`,           priority: 0.4, changeFrequency: 'yearly',  lastModified: '2026-09-03' },
-    { url: `${BASE}/blog`,        priority: 0.8, changeFrequency: 'weekly',  lastModified: '2026-08-19' },
+    { url: `${BASE}/blog`,        priority: 0.8, changeFrequency: 'weekly',  lastModified: '2026-09-03' },
     { url: `${BASE}/nosotros`,    priority: 0.7, changeFrequency: 'monthly', lastModified: '2026-05-07' },
     { url: `${BASE}/contacto`,    priority: 0.7, changeFrequency: 'yearly',  lastModified: '2026-01-01' },
   ];
