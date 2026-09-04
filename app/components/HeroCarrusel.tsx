@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 function WhatsAppIcon({ size = 18, color = 'white' }: { size?: number; color?: string }) {
@@ -79,18 +79,6 @@ export default function HeroCarrusel() {
   }, [progress, paused, next]);
 
   const slide = SLIDES[current];
-
-  const [heroNombre, setHeroNombre] = useState('');
-  const [heroCaso, setHeroCaso]     = useState('');
-  const heroFormRef = useRef<HTMLFormElement>(null);
-
-  function handleHeroSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const text = `Hola, soy ${heroNombre.trim() || 'un visitante de su página'}. Mi situación: ${heroCaso.trim() || '...'}`;
-    window.open(`https://wa.me/573148309306?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
-    setHeroNombre('');
-    setHeroCaso('');
-  }
 
   return (
     <section
@@ -179,45 +167,8 @@ export default function HeroCarrusel() {
           </div>
         </div>
 
-        {/* ── Columna derecha: formulario + panel ── */}
+        {/* ── Columna derecha: panel informativo ── */}
         <div className="flex flex-col gap-3">
-
-          {/* Formulario de captación — premium, sin ring verde */}
-          <form
-            ref={heroFormRef}
-            onSubmit={handleHeroSubmit}
-            className="rounded-2xl bg-white/[0.97] backdrop-blur-xl p-5 space-y-3 shadow-[0_28px_70px_rgba(0,0,0,0.55),0_0_0_1px_rgba(255,255,255,0.06)]"
-          >
-            <div className="flex items-center gap-2 pb-0.5">
-              <div className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-gray-400">
-                Consulta gratuita
-              </p>
-            </div>
-
-            <input
-              type="text"
-              placeholder="Tu nombre"
-              value={heroNombre}
-              onChange={e => setHeroNombre(e.target.value)}
-              className="w-full rounded-xl bg-gray-50 border border-gray-200/80 px-3.5 py-2.5 text-[16px] sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300/50 focus:border-slate-400 transition"
-            />
-            <input
-              type="text"
-              placeholder="¿Cuál es tu situación legal?"
-              value={heroCaso}
-              onChange={e => setHeroCaso(e.target.value)}
-              className="w-full rounded-xl bg-gray-50 border border-gray-200/80 px-3.5 py-2.5 text-[16px] sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300/50 focus:border-slate-400 transition"
-            />
-            <button
-              type="submit"
-              className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#128c7e] hover:bg-[#0e7a6e] py-3 text-[14.5px] font-semibold text-white shadow-sm transition-all duration-200 active:scale-[0.98]"
-            >
-              <WhatsAppIcon size={16} />
-              Escribir por WhatsApp
-            </button>
-            <p className="text-center text-[10.5px] text-gray-400">Sin compromiso · Respuesta en minutos</p>
-          </form>
 
           {/* Panel informativo — dark glass */}
           <div className="rounded-2xl border border-white/[0.12] bg-white/[0.06] backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 space-y-4">

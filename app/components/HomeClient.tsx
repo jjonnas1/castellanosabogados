@@ -131,54 +131,20 @@ export default function HomeClient() {
             </div>
 
             <div className="relative">
-              <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.05] p-3 shadow-[0_24px_64px_rgba(0,0,0,0.4)]">
-                <div className="rounded-[1.45rem] border border-white/[0.08] bg-[#0f1218]">
-                  <div className="flex items-center justify-between border-b border-white/[0.08] px-4 py-3">
-                    <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-300/60">Panel del cliente</p>
-                      <p className="mt-0.5 text-sm font-semibold text-white">Expediente activo</p>
-                    </div>
-                    <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-[11px] font-bold text-emerald-300 ring-1 ring-emerald-400/20">
-                      En seguimiento
-                    </span>
-                  </div>
-                  <div className="grid gap-3 p-4 sm:grid-cols-[0.95fr_1.05fr]">
-                    <div className="space-y-3">
-                      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Próxima cita</p>
-                        <p className="mt-2 text-2xl font-bold text-white">10:30 a. m.</p>
-                        <p className="mt-1 text-xs text-slate-500">Revisión de estrategia</p>
-                      </div>
-                      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Documentos</p>
-                        <div className="mt-3 space-y-2">
-                          {['Poder firmado', 'Soportes del caso', 'Actuación reciente'].map((item) => (
-                            <div key={item} className="flex items-center justify-between rounded-xl bg-white/[0.04] px-3 py-2 text-xs text-slate-300">
-                              <span>{item}</span>
-                              <span className="h-2 w-2 rounded-full bg-slate-400/60" />
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="rounded-2xl border border-white/[0.08] bg-white/[0.04] p-4">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">Línea de tiempo</p>
-                      <div className="mt-4 space-y-4">
-                        {[
-                          ['Hoy', 'Actualización cargada en el expediente'],
-                          ['Ayer', 'Documento revisado por el abogado'],
-                          ['Próximo', 'Cita agendada para seguimiento'],
-                        ].map(([date, text]) => (
-                          <div key={text} className="relative pl-5">
-                            <span className="absolute left-0 top-1.5 h-2.5 w-2.5 rounded-full bg-slate-400/50 ring-4 ring-slate-400/10" />
-                            <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-300/70">{date}</p>
-                            <p className="mt-1 text-sm leading-relaxed text-slate-300">{text}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+              <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.05] p-10 text-center shadow-[0_24px_64px_rgba(0,0,0,0.4)]">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20">
+                  <svg viewBox="0 0 24 24" fill="none" className="h-7 w-7 text-white" aria-hidden>
+                    <path d="M4 4h16v16H4z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" opacity="0.35" />
+                    <path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+                  </svg>
                 </div>
+                <p className="mt-5 text-lg font-semibold text-white">Tu expediente, siempre disponible</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                  Documentos, actuaciones y citas del proceso, accesibles desde tu celular las 24 horas.
+                </p>
+                <span className="mt-5 inline-flex rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1 text-[11px] font-bold text-emerald-300">
+                  Disponible 24/7
+                </span>
               </div>
             </div>
 
