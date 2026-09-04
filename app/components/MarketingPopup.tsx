@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const WA_NUMBER = '573148309306';
 const STORAGE_KEY = 'ca_mktpopup_shown';
-const DELAY_MS = 5000;
+const DELAY_MS = 8000;
 
 const WA_LOGO = (
   <svg viewBox="0 0 175.2 175.2" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className="h-12 w-12">

@@ -48,28 +48,6 @@ function CountUp({ target = 5.0, decimals = 1, duration = 1400 }: { target?: num
   );
 }
 
-const serviceHrefs = [
-  "/servicios/penal-personas",
-  "/servicios/ejecucion-penas",
-  "/servicios/responsabilidad-penal-pj",
-  "/servicios/capacitaciones-penal-pj",
-  "/servicios/civil",
-  "/servicios/familia",
-  "/servicios/laboral",
-  "/servicios/administrativo",
-];
-
-const serviceAreas = [
-  "Penal Personas",
-  "Ejecución de Penas",
-  "Responsabilidad Penal PJ",
-  "Capacitaciones Penal PJ",
-  "Civil",
-  "Familia",
-  "Laboral",
-  "Administrativo",
-];
-
 const googleReviewsUrl = "https://www.google.com/search?q=Castellanos+Abogados&hl=es-419#mpd=~18107842463722114174/customers/reviews";
 const curatedGoogleReviews: Array<{ author: string; date: string; text: string }> = [
   {
@@ -119,32 +97,6 @@ export default function HomeClient() {
       {/* ── SERVICIOS + PORTAL (oscuro) ───────────────────────────── */}
       <section className="section-shell overflow-hidden text-white" style={{ background: DARK_GLOW }}>
         <div className="container space-y-14">
-
-          {/* Servicios */}
-          <div className="space-y-6" data-reveal>
-            <div className="space-y-2">
-              <span className="inline-flex rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ring-1 ring-white/20">
-                {p.practiceBadge}
-              </span>
-              <h2 className="text-balance text-white">{p.practiceTitle}</h2>
-            </div>
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-              {serviceAreas.map((area, idx) => (
-                <Link
-                  key={area}
-                  href={serviceHrefs[idx]}
-                  data-reveal
-                  data-reveal-delay={String((idx % 4) + 1)}
-                  className="group flex items-center justify-between gap-3 rounded-xl border border-white/20 bg-white/[0.10] px-4 py-4 text-sm font-semibold text-white transition-all duration-200 hover:bg-white/[0.22] hover:border-white/40 hover:shadow-[0_6px_20px_rgba(255,255,255,0.09)] hover:-translate-y-0.5 hover:scale-[1.02] active:bg-white/[0.22] active:scale-[0.98]"
-                >
-                  <span className="group-hover:text-white transition-colors">{area}</span>
-                  <span className="shrink-0 text-white/60 text-base transition-all duration-200 group-hover:text-white group-hover:translate-x-1.5">→</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="border-t border-white/[0.08]" />
 
           {/* Portal del cliente */}
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center" data-reveal data-reveal-delay="1">

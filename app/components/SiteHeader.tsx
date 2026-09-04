@@ -29,7 +29,7 @@ function MegaMenuPanel({id,onClose,mailtoHref}:{id:string;onClose:()=>void;mailt
   const{t,language}=useLanguage();const h=t.header;
   const groups=[{label:h.forPeople,slugs:PEOPLE_SLUGS},{label:h.forCompanies,slugs:COMPANY_SLUGS}];
   return(
-    <div id={id} role="region" aria-label="Menú de servicios" className="absolute left-1/2 top-full z-50 mt-2 w-[820px] -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_64px_rgba(13,21,40,.14)] dark:shadow-[0_24px_64px_rgba(0,0,0,.45)]">
+    <div id={id} role="region" aria-label="Menú de servicios" className="absolute left-1/2 top-full z-50 mt-2 w-[min(820px,calc(100vw_-_2.5rem))] -translate-x-1/2 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_24px_64px_rgba(13,21,40,.14)] dark:shadow-[0_24px_64px_rgba(0,0,0,.45)]">
       <div className="flex">
         <div className="flex-1 space-y-5 p-5">
           {groups.map((group)=>(<div key={group.label}>
