@@ -1,7 +1,7 @@
 // app/trabaja/page.tsx
 export default function TrabajaPage() {
   return (
-    <main className="section">
+    <main className="motion-public motion-inner section">
       <div className="wrap" style={{ maxWidth: 780 }}>
         <h1 className="h1">Únete a Castellanos Abogados</h1>
         <p className="muted" style={{ fontSize: "1.1rem", marginBottom: 26 }}>

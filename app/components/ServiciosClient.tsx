@@ -22,7 +22,7 @@ export default function ServiciosClient({ services }: { services: Service[]; err
   const p = t.pages.servicios;
 
   return (
-    <main className="bg-canvas text-ink">
+    <main className="motion-public motion-inner bg-canvas text-ink">
       <SiteHeader />
 
       <header

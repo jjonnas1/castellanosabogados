@@ -70,7 +70,7 @@ export default function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer style={{ background: "#121622" }}>
+    <footer className="motion-footer" style={{ background: "#121622" }}>
       {/* Accent line */}
       <div className="h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 

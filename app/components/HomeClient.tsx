@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import SiteHeader from "./SiteHeader";
 import HeroCarrusel from "./HeroCarrusel";
+import PracticeShowcase from "./PracticeShowcase";
 import WaIcon from "@/app/components/WaIcon";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -90,12 +91,13 @@ export default function HomeClient() {
   const p = t.pages.home;
 
   return (
-    <main className="bg-canvas text-ink">
+    <main className="motion-public motion-home bg-canvas text-ink">
       <SiteHeader />
       <HeroCarrusel />
+      <PracticeShowcase />
 
       {/* ── SERVICIOS + PORTAL (oscuro) ───────────────────────────── */}
-      <section className="section-shell overflow-hidden text-white" style={{ background: DARK_GLOW }}>
+      <section className="motion-portal section-shell overflow-hidden text-white" style={{ background: DARK_GLOW }}>
         <div className="container space-y-14">
 
           {/* Portal del cliente */}
@@ -153,7 +155,7 @@ export default function HomeClient() {
       </section>
 
       {/* ── ABOGADOS A DOMICILIO (destacado) ──────────────────────── */}
-      <section className="section-shell bg-surface" data-reveal>
+      <section className="motion-domicilio section-shell bg-surface" data-reveal>
         <div className="container">
           <article
             className="relative overflow-hidden rounded-3xl px-6 py-8 text-white shadow-[0_18px_50px_rgba(123,30,43,0.28)] sm:px-12 sm:py-12"
@@ -202,7 +204,7 @@ export default function HomeClient() {
       </section>
 
       {/* ── RESEÑAS (claro) ───────────────────────────────────────── */}
-      <section className="section-shell bg-canvas" data-reveal>
+      <section className="motion-reviews section-shell bg-canvas" data-reveal>
         <div className="container space-y-10">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="space-y-2">
@@ -259,7 +261,7 @@ export default function HomeClient() {
       </section>
 
       {/* ── FAQ (blanco) ──────────────────────────────────────────── */}
-      <section className="section-shell bg-white border-y border-border/50">
+      <section className="motion-faq section-shell bg-white border-y border-border/50">
         <div className="container max-w-3xl space-y-6" data-reveal>
           <div className="space-y-2">
             <p className="pill w-fit">{p.faqBadge}</p>
@@ -282,7 +284,7 @@ export default function HomeClient() {
       </section>
 
       {/* ── CTA FINAL (oscuro — idéntico a sección servicios) ─────── */}
-      <section className="section-shell text-white" style={{ background: DARK_GLOW }} data-reveal>
+      <section className="motion-closing section-shell text-white" style={{ background: DARK_GLOW }} data-reveal>
         <div className="container grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
           <div className="max-w-2xl space-y-2">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400/60">Castellanos Abogados</p>

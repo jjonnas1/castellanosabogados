@@ -1011,7 +1011,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   } : null;
 
   return (
-    <main className="min-h-screen bg-canvas text-ink">
+    <main className="motion-public motion-inner motion-article min-h-screen bg-canvas text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}

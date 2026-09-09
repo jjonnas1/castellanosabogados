@@ -32,10 +32,10 @@ export default function BlogClient() {
   const p = t.pages.blog;
 
   return (
-    <main className="min-h-screen bg-canvas text-ink">
+    <main className="motion-public motion-inner min-h-screen bg-canvas text-ink">
       <SiteHeader />
 
-      <section className="section-shell bg-canvas">
+      <section className="motion-blog-hero section-shell">
         <div className="container space-y-8">
           <div className="space-y-2">
             <p className="pill w-fit">{p.badge}</p>
@@ -43,6 +43,9 @@ export default function BlogClient() {
             <p className="max-w-2xl text-muted">{p.heroSubtitle}</p>
           </div>
 
+        </div>
+      </section>
+      <section className="motion-blog-list section-shell"><div className="container">
           <BlogList articles={articles} />
         </div>
       </section>

@@ -15,7 +15,7 @@ export default function AsesoriaPersonasPage() {
   const p = t.pages.asesoriaPersonas;
 
   return (
-    <main className="bg-canvas text-ink">
+    <main className="motion-public motion-inner bg-canvas text-ink">
       <SiteHeader />
 
       <header

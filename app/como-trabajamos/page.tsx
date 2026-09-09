@@ -14,7 +14,7 @@ export default function ComoTrabajamosPage() {
   const p = t.pages.comoTrabajamos;
 
   return (
-    <main className="bg-canvas text-ink">
+    <main className="motion-public motion-inner bg-canvas text-ink">
       <SiteHeader />
 
       <header

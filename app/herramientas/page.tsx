@@ -86,7 +86,7 @@ const WA_MSG = encodeURIComponent('Hola, me interesa una consulta con Castellano
 
 export default function HerramientasPage() {
   return (
-    <main className="bg-canvas text-ink">
+    <main className="motion-public motion-inner bg-canvas text-ink">
       <SiteHeader />
 
       {/* Hero */}

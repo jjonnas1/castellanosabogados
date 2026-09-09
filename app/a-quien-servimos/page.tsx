@@ -13,7 +13,7 @@ export default function AQuienServimosPage() {
   const p = t.pages.aQuienServimos;
 
   return (
-    <main className="bg-canvas text-ink">
+    <main className="motion-public motion-inner bg-canvas text-ink">
       <SiteHeader />
 
       <header className="text-white" style={{ background: DARK_GLOW }}>

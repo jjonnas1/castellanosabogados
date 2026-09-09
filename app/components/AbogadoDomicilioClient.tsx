@@ -73,7 +73,7 @@ export default function AbogadoDomicilioClient() {
   });
 
   return (
-    <main className="min-h-screen bg-canvas text-ink">
+    <main className="motion-public motion-inner min-h-screen bg-canvas text-ink">
       <SiteHeader />
 
       {/* ── HERO ─────────────────────────────────────────────── */}

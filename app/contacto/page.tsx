@@ -16,7 +16,7 @@ const DARK_GLOW = "radial-gradient(ellipse at 15% 0%, rgba(180,195,220,0.12) 0%,
 
 export default function ContactoPage() {
   return (
-    <main className="bg-canvas text-ink">
+    <main className="motion-public motion-inner bg-canvas text-ink">
       <SiteHeader />
 
       <header className="text-white" style={{ background: DARK_GLOW }}>

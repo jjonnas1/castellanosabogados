@@ -23,7 +23,7 @@ export default function ServiceDetailClient({
   const displayDetail = { ...detail, ...localizedDetail };
 
   return (
-    <main className="bg-canvas text-ink">
+    <main className="motion-public motion-inner bg-canvas text-ink">
       <SiteHeader />
 
       {/* Header con imagen de fondo */}

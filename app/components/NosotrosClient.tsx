@@ -15,7 +15,7 @@ export default function NosotrosClient() {
   const p = t.pages.nosotros;
 
   return (
-    <main className="bg-canvas text-ink">
+    <main className="motion-public motion-inner bg-canvas text-ink">
       <SiteHeader />
 
       {/* Hero oscuro */}
