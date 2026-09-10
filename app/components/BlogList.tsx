@@ -22,7 +22,7 @@ export default function BlogList({ articles }: { articles: Article[] }) {
 
   const filtered = useMemo(() => {
     const q = query.toLowerCase().trim();
-    return articles.filter((a) => {
+    return [...articles].sort((a, b) => Date.parse(b.date) - Date.parse(a.date)).filter((a) => {
       const matchesQuery =
         !q ||
         a.title.toLowerCase().includes(q) ||
@@ -104,11 +104,11 @@ export default function BlogList({ articles }: { articles: Article[] }) {
           </button>
         </div>
       ) : (
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="blog-results-grid">
           {filtered.map((a) => (
             <article
               key={a.slug}
-              className="card-shell flex flex-col justify-between gap-4 bg-white p-6"
+              className="card-shell flex flex-col justify-between gap-3 bg-white p-5"
             >
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
@@ -121,14 +121,15 @@ export default function BlogList({ articles }: { articles: Article[] }) {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
+                      timeZone: "UTC",
                     })}
                   </time>
                 </div>
                 <h2 className="text-lg">{a.title}</h2>
-                <p className="text-sm text-muted">{a.summary}</p>
+                <p className="blog-summary text-sm text-muted">{a.summary}</p>
               </div>
-              <Link href={`/blog/${a.slug}`} className="btn-secondary w-fit">
-                Leer artículo
+              <Link href={`/blog/${a.slug}`} className="blog-read-link w-fit">
+                Leer artículo <span aria-hidden>→</span>
               </Link>
             </article>
           ))}

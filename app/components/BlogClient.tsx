@@ -5,6 +5,7 @@ import BlogList from '@/app/components/BlogList';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const articles = [
+  { slug: 'decreto-1368-2026-porte-armas', title: 'Decreto 1368 de 2026: qué cambia en el porte de armas en Colombia', summary: 'Permisos vigentes, autorización especial, tenencia y restricciones: los puntos clave del nuevo decreto y cuándo revisar su situación jurídica.', date: '2026-09-09T12:00:00-05:00', category: 'Penal' },
   { slug: 'cuando-interponer-una-tutela', title: '¿Cuándo interponer una acción de tutela?', summary: 'La tutela es el mecanismo más efectivo para proteger derechos fundamentales en Colombia. Conozca en qué casos procede y cómo presentarla correctamente.', date: '2026-03-10', category: 'Tutelas' },
   { slug: 'derechos-del-imputado-proceso-penal', title: 'Derechos del imputado en el proceso penal colombiano', summary: 'Si usted o un familiar ha sido imputado, es fundamental conocer los derechos que la ley garantiza desde el primer momento del proceso penal.', date: '2026-03-18', category: 'Penal' },
   { slug: 'responsabilidad-penal-empresarial', title: '¿Qué es la responsabilidad penal de las personas jurídicas?', summary: 'Desde la Ley 2195 de 2022, las empresas en Colombia pueden ser penalmente responsables. Sepa qué implica y cómo proteger su organización.', date: '2026-04-01', category: 'Penal Empresarial' },
