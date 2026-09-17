@@ -2023,6 +2023,45 @@
 .dark .motion-public.motion-article .text-muted {
   color: #d4e2f3 !important;
 }
+
+/* Circular 007: continuidad con la línea editorial cálida del estudio. */
+.motion-public.motion-inner.motion-article.circular-007-editorial > section:first-of-type:has(h1),
+.motion-public.motion-article.circular-007-editorial > section {
+  background: #f1ebe2 !important;
+  color: #211914;
+}
+.motion-public.motion-article.circular-007-editorial h1 {
+  color: #241a16 !important;
+  max-width: 900px;
+}
+.motion-public.motion-article.circular-007-editorial h3 {
+  color: #5a171a !important;
+}
+.motion-public.motion-article.circular-007-editorial .text-muted {
+  color: #62574f !important;
+}
+.motion-public.motion-article.circular-007-editorial .pill {
+  background: #5a171a !important;
+  border-color: #5a171a !important;
+  color: #fffaf2 !important;
+}
+.motion-public.motion-article.circular-007-editorial img {
+  border-color: #cbbdad !important;
+  box-shadow: 0 22px 48px rgba(44, 27, 19, 0.14);
+}
+.dark .motion-public.motion-inner.motion-article.circular-007-editorial > section:first-of-type:has(h1),
+.dark .motion-public.motion-article.circular-007-editorial > section {
+  background: #181310 !important;
+}
+.dark .motion-public.motion-article.circular-007-editorial h1 {
+  color: #fff7eb !important;
+}
+.dark .motion-public.motion-article.circular-007-editorial h3 {
+  color: #e4c0b2 !important;
+}
+.dark .motion-public.motion-article.circular-007-editorial .text-muted {
+  color: #d8cbbd !important;
+}
 @media (max-width: 650px) {
   .motion-public .container,
   .motion-footer .container {

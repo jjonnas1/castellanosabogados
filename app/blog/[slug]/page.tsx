@@ -5,13 +5,19 @@ import { buildWhatsAppUrl } from '@/lib/contactLinks';
 
 const articles: Record<string, { title: string; category: string; date: string; content: string; image?: string; imageAlt?: string }> = {
   'circular-externa-007-2026-alivios-financieros': {
-    title: 'Circular Externa 007 de 2026: alivios financieros para afectados por el desastre',
+    title: 'Circular Externa 007 de 2026: alivios tras el terremoto del Eje Cafetero',
     category: 'Derecho Financiero',
     date: '2026-09-17T12:00:00-05:00',
     image: '/blog/circular-007-2026-alivios-financieros.png',
-    imageAlt: 'Guía sobre la Circular Externa 007 de 2026 y los alivios financieros para personas afectadas por el desastre',
+    imageAlt: 'Alivios financieros de la Circular Externa 007 de 2026 después del terremoto del Eje Cafetero',
     content: `
-La Superintendencia Financiera de Colombia expidió la Circular Externa 007 del 26 de agosto de 2026 para mitigar los efectos del desastre declarado después del sismo del 10 de agosto. La medida establece reglas para que las entidades vigiladas atiendan a consumidores financieros cuya capacidad de pago, actividad económica o acceso a productos y servicios resultó afectado o pueda resultar afectado.
+El terremoto del 10 de agosto de 2026 tuvo epicentro en San José del Palmar, Chocó, alcanzó una magnitud de 7,4 Mw y una profundidad de 96 kilómetros. Sus efectos alcanzaron al Eje Cafetero y a otras regiones del país. Al día siguiente, el Gobierno declaró la situación de desastre nacional mediante el Decreto 1171 de 2026.
+
+La Superintendencia Financiera de Colombia expidió la Circular Externa 007 del 26 de agosto de 2026 para mitigar los efectos económicos del terremoto. La medida establece reglas para que bancos, aseguradoras y demás entidades vigiladas atiendan a consumidores cuya capacidad de pago, actividad económica o acceso a productos financieros resultó afectado o pueda resultar afectado.
+
+**Terremoto del Eje Cafetero: departamentos comprendidos**
+
+La declaratoria incluyó a Caldas, Risaralda y Quindío, departamentos que conforman el Eje Cafetero, así como a Antioquia, Cauca, Chocó, Cundinamarca, Huila, Valle del Cauca, Tolima, Putumayo, Norte de Santander y los demás territorios afectados. La situación de desastre fue declarada por doce meses, con posibilidad de prórroga.
 
 **¿Quiénes pueden solicitar estas medidas?**
 
@@ -933,7 +939,7 @@ export async function generateStaticParams() {
 }
 
 const ARTICLE_DESCRIPTIONS: Record<string, string> = {
-  'circular-externa-007-2026-alivios-financieros': 'Circular Externa 007 de 2026: refinanciación, períodos de gracia, protección de la calificación y reportes para afectados por el desastre en Colombia.',
+  'circular-externa-007-2026-alivios-financieros': 'Circular Externa 007 de 2026: alivios para afectados por el terremoto del Eje Cafetero del 10 de agosto. Refinanciación, intereses y reportes.',
   'cuando-interponer-una-tutela':        'La acción de tutela protege derechos fundamentales en Colombia. Aprende cuándo procede, sus requisitos y los términos del proceso. Asesoría en Pereira y Eje Cafetero.',
   'derechos-del-imputado-proceso-penal': 'Presunción de inocencia, derecho a guardar silencio y defensa técnica: conoce los derechos del imputado en el proceso penal colombiano. Abogados penalistas en Pereira.',
   'responsabilidad-penal-empresarial':   'La Ley 2195 de 2022 permite sancionar penalmente a empresas en Colombia. Delitos, sanciones y cómo proteger tu organización. Castellanos Abogados, Pereira.',
@@ -957,6 +963,7 @@ const ARTICLE_DESCRIPTIONS: Record<string, string> = {
 };
 
 const ARTICLE_TITLES: Record<string, string> = {
+  'circular-externa-007-2026-alivios-financieros': 'Circular 007: alivios tras el terremoto del Eje Cafetero',
   'libertad-condicional-colombia': 'Artículo 64 del Código Penal: Libertad Condicional 2026',
 };
 
@@ -967,10 +974,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const description = ARTICLE_DESCRIPTIONS[slug] ?? article.content.trim().split('\n')[0].slice(0, 160);
   const title = ARTICLE_TITLES[slug] ?? `${article.title} | Castellanos Abogados`;
+  const keywords = slug === 'circular-externa-007-2026-alivios-financieros'
+    ? ['Circular Externa 007 de 2026', 'terremoto Eje Cafetero', 'sismo 10 de agosto de 2026', 'alivios financieros', 'refinanciación de créditos', 'Caldas', 'Risaralda', 'Quindío']
+    : undefined;
 
   return {
     title,
     description,
+    keywords,
     alternates: { canonical: `/blog/${slug}` },
     openGraph: {
       type: 'article',
@@ -1017,6 +1028,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       logo: { "@type": "ImageObject", url: "https://jonatancastellanosabogado.com/logo.png" },
     },
     mainEntityOfPage: `https://jonatancastellanosabogado.com/blog/${slug}`,
+    ...(article.image ? { image: `https://jonatancastellanosabogado.com${article.image}` } : {}),
   };
 
   const faqSchema = slug === 'libertad-condicional-colombia' ? {
@@ -1066,8 +1078,47 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     ],
   } : null;
 
+  const circularFaqSchema = slug === 'circular-externa-007-2026-alivios-financieros' ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "¿A quién protege la Circular Externa 007 de 2026?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Protege a consumidores financieros domiciliados en los territorios afectados y a quienes hayan sufrido o puedan sufrir daños por el desastre que afecten su capacidad de pago, su situación económica o el manejo de productos financieros.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Qué créditos pueden refinanciarse después del terremoto?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "La Circular contempla obligaciones contraídas antes del 10 de agosto de 2026 cuyos pagos deban realizarse a partir de esa fecha, previa solicitud del consumidor y evaluación individual de la entidad.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿La Circular 007 elimina las deudas?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. La Circular no ordena una condonación general. Establece refinanciación y permite que las entidades acuerden alivios adicionales según el impacto y la capacidad de pago de cada consumidor.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "¿Cuánto tiempo pueden suspenderse los reportes negativos?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Para los créditos refinanciados bajo la Circular, los reportes negativos pueden suspenderse hasta por doce meses después de perfeccionarse la refinanciación, según las condiciones individuales y las medidas otorgadas.",
+        },
+      },
+    ],
+  } : null;
+
   return (
-    <main className="motion-public motion-inner motion-article min-h-screen bg-canvas text-ink">
+    <main className={`motion-public motion-inner motion-article min-h-screen bg-canvas text-ink ${slug === 'circular-externa-007-2026-alivios-financieros' ? 'circular-007-editorial' : ''}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -1076,6 +1127,12 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      {circularFaqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(circularFaqSchema) }}
         />
       )}
       <SiteHeader />
