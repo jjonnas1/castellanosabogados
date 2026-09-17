@@ -3,7 +3,61 @@ import { notFound } from 'next/navigation';
 import SiteHeader from '@/app/components/SiteHeader';
 import { buildWhatsAppUrl } from '@/lib/contactLinks';
 
-const articles: Record<string, { title: string; category: string; date: string; content: string }> = {
+const articles: Record<string, { title: string; category: string; date: string; content: string; image?: string; imageAlt?: string }> = {
+  'circular-externa-007-2026-alivios-financieros': {
+    title: 'Circular Externa 007 de 2026: alivios financieros para afectados por el desastre',
+    category: 'Derecho Financiero',
+    date: '2026-09-17T12:00:00-05:00',
+    image: '/blog/circular-007-2026-alivios-financieros.png',
+    imageAlt: 'Guía sobre la Circular Externa 007 de 2026 y los alivios financieros para personas afectadas por el desastre',
+    content: `
+La Superintendencia Financiera de Colombia expidió la Circular Externa 007 del 26 de agosto de 2026 para mitigar los efectos del desastre declarado después del sismo del 10 de agosto. La medida establece reglas para que las entidades vigiladas atiendan a consumidores financieros cuya capacidad de pago, actividad económica o acceso a productos y servicios resultó afectado o pueda resultar afectado.
+
+**¿Quiénes pueden solicitar estas medidas?**
+
+La Circular comprende a las personas domiciliadas en los territorios afectados y también a quienes hayan sufrido daños actuales o futuros por el desastre. La entidad debe valorar si la capacidad de pago, la situación económica o el uso y manejo de productos financieros se afectó o puede afectarse. No se exige que todas las personas tengan exactamente el mismo tipo de perjuicio.
+
+La identificación puede apoyarse en la información que ya tenga el banco, en registros disponibles y en mecanismos alternativos que permitan complementar los documentos. Esto no elimina la evaluación individual, pero sí exige que la entidad disponga de una forma razonable de comprobar la afectación.
+
+**Refinanciación: condiciones mínimas que deben ofrecer las entidades**
+
+Las entidades vigiladas deben establecer programas de refinanciación para obligaciones contraídas antes del 10 de agosto de 2026 cuyos pagos deban realizarse a partir de esa fecha. El nuevo plazo no puede superar el doble del período pendiente ni exceder veinte años, y las condiciones no pueden ser más gravosas para el consumidor.
+
+La solicitud debe presentarse mientras esté vigente la declaratoria de desastre. Entre la fecha de la declaratoria y el perfeccionamiento de la refinanciación no se causan intereses remuneratorios ni moratorios; ese trámite no puede tardar más de noventa días. La refinanciación no produce novación y, por regla general, se mantienen las garantías de la obligación.
+
+**Otros alivios que pueden acordarse**
+
+Después de analizar cada caso, la entidad puede ofrecer períodos de gracia, tasas especiales, ampliación de plazos, sistemas de amortización distintos, nuevos créditos o la condonación o suspensión temporal de intereses remuneratorios o de mora. También puede suspender gestiones de cobro prejurídico.
+
+Estos alivios adicionales no son automáticos: deben ser aceptados por el consumidor, no pueden resultar más gravosos y dependen del impacto sufrido y de la capacidad de pago potencial. La Circular no ordena una condonación general de las deudas.
+
+**Calificación del crédito y reportes negativos**
+
+Cuando el crédito sea refinanciado bajo la Circular, conservará la calificación que tenía al momento de la declaratoria de desastre. Además, la entidad debe suspender los reportes negativos a las centrales de riesgo hasta por doce meses después de perfeccionarse la refinanciación, según las condiciones particulares del deudor y las medidas otorgadas.
+
+Cumplido ese período, se aplican nuevamente las reglas ordinarias de clasificación y reporte, sin efectos retroactivos. Por eso es importante conservar la solicitud, la respuesta y el acuerdo definitivo con el banco.
+
+**¿Cómo se analiza la capacidad de pago?**
+
+La entidad puede utilizar información alternativa y no limitarse a los documentos tradicionales. El análisis puede considerar la recuperación futura del sector económico del solicitante y su capacidad de generar ingresos más adelante. Esto es especialmente relevante para trabajadores independientes, comerciantes y profesionales cuya actividad depende de la dinámica económica de la zona afectada.
+
+**Seguros, canales de atención y cesantías**
+
+Las aseguradoras deben facilitar la recepción y el trámite de reclamaciones, priorizar a los afectados y agilizar los pagos cuando haya lugar. Las entidades también deben mantener canales de atención e informar de manera clara las condiciones de los alivios. La Circular prevé, además, trámites ágiles para retiros de cesantías destinados a vivienda en los casos aplicables.
+
+**Cómo presentar la solicitud al banco**
+
+Presente una solicitud escrita e identifique la obligación o producto financiero. Explique de forma concreta cómo el desastre afectó o puede afectar sus ingresos, su actividad económica o el manejo del producto. Indique su domicilio, dirección de contacto, correo y teléfono; adjunte los soportes que tenga y, si no dispone de alguno, solicite expresamente que la entidad utilice mecanismos alternativos de verificación.
+
+Pida una respuesta escrita que detalle el nuevo plazo, la tasa, el período de gracia, el tratamiento de intereses y reportes, y la fecha en que queda perfeccionada la refinanciación. Antes de firmar, compare la cuota, el costo total y las garantías que continúan vigentes.
+
+**Una precisión importante**
+
+La Circular 007 no borra automáticamente las deudas ni suspende todos los pagos por el solo hecho de vivir en una zona afectada. Sí crea una ruta especial de atención, refinanciación y evaluación individual que los bancos y demás entidades vigiladas deben aplicar durante la vigencia de la declaratoria de desastre.
+
+En Castellanos Abogados revisamos su situación, organizamos los soportes y preparamos la solicitud dirigida a la entidad financiera. Puede escribirnos por WhatsApp al 314 830 9306.
+    `,
+  },
   'cuando-interponer-una-tutela': {
     title: '¿Cuándo interponer una acción de tutela?',
     category: 'Tutelas',
@@ -879,6 +933,7 @@ export async function generateStaticParams() {
 }
 
 const ARTICLE_DESCRIPTIONS: Record<string, string> = {
+  'circular-externa-007-2026-alivios-financieros': 'Circular Externa 007 de 2026: refinanciación, períodos de gracia, protección de la calificación y reportes para afectados por el desastre en Colombia.',
   'cuando-interponer-una-tutela':        'La acción de tutela protege derechos fundamentales en Colombia. Aprende cuándo procede, sus requisitos y los términos del proceso. Asesoría en Pereira y Eje Cafetero.',
   'derechos-del-imputado-proceso-penal': 'Presunción de inocencia, derecho a guardar silencio y defensa técnica: conoce los derechos del imputado en el proceso penal colombiano. Abogados penalistas en Pereira.',
   'responsabilidad-penal-empresarial':   'La Ley 2195 de 2022 permite sancionar penalmente a empresas en Colombia. Delitos, sanciones y cómo proteger tu organización. Castellanos Abogados, Pereira.',
@@ -924,12 +979,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description,
       publishedTime: article.date,
       authors: ['Jonatan Castellanos'],
-      images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: article.title }],
+      images: [{ url: article.image ?? '/og-image.jpg', width: 1200, height: 630, alt: article.imageAlt ?? article.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: [article.image ?? '/og-image.jpg'],
     },
   };
 }
@@ -1036,6 +1092,14 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <h1>{article.title}</h1>
           </div>
 
+          {article.image && (
+            <img
+              src={article.image}
+              alt={article.imageAlt ?? article.title}
+              className="w-full rounded-2xl border border-border"
+            />
+          )}
+
           <div className="card-shell bg-white p-6 md:p-8 space-y-4 text-muted leading-relaxed">
             {paragraphs.map((p, i) => {
               if (p.startsWith('**') && p.endsWith('**')) {
@@ -1044,6 +1108,22 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               return <p key={i} className="text-sm">{p}</p>;
             })}
           </div>
+
+          {slug === 'circular-externa-007-2026-alivios-financieros' && (
+            <div className="card-shell bg-surface p-6 space-y-2 text-sm text-muted">
+              <p className="font-semibold text-ink">Fuentes oficiales</p>
+              <p>
+                <a className="underline underline-offset-4" href="https://www.superfinanciera.gov.co/publicaciones/10116230/instrucciones-para-mitigar-el-impacto-de-la-situacion-de-desastre-sobre-los-consumidores-financieros-afectados/" target="_blank" rel="noreferrer">
+                  Superintendencia Financiera de Colombia: resumen oficial de la Circular Externa 007 de 2026
+                </a>
+              </p>
+              <p>
+                <a className="underline underline-offset-4" href="https://www.superfinanciera.gov.co/loader.php?idFile=1083332&amp;lFuncion=descargar&amp;lServicio=Tools2&amp;lTipo=descargas" target="_blank" rel="noreferrer">
+                  Texto completo de la Circular Externa 007 de 2026
+                </a>
+              </p>
+            </div>
+          )}
 
           <div className="card-shell bg-surface p-6 space-y-3">
             <p className="font-semibold text-ink">¿Tiene preguntas sobre este tema?</p>
