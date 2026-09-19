@@ -86,11 +86,11 @@ const WA_MSG = encodeURIComponent('Hola, me interesa una consulta con Castellano
 
 export default function HerramientasPage() {
   return (
-    <main className="motion-public motion-inner bg-canvas text-ink">
+    <main className="motion-public motion-inner editorial-page editorial-tools bg-canvas text-ink">
       <SiteHeader />
 
       {/* Hero */}
-      <section className="bg-[#050e1f] border-b border-slate-800/60 py-16 px-4">
+      <section className="bg-[#050e1f] border-b border-slate-800/60 py-16 px-4" style={{ backgroundImage: "linear-gradient(90deg, rgba(18,15,16,.92), rgba(18,15,16,.6)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1600&q=82&fm=webp')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="max-w-4xl mx-auto text-center">
           <p className="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-blue-400 bg-blue-900/30 border border-blue-800/40 rounded-full px-4 py-1 mb-4">
             Herramientas jurídicas

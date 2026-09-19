@@ -1,5 +1,6 @@
 export type ServiceDetail = {
   slug:
+    | "traduccion-legal"
     | "penal-personas"
     | "ejecucion-penas"
     | "responsabilidad-penal-pj"
@@ -17,9 +18,64 @@ export type ServiceDetail = {
   audience: string[];
   deliverables: string[];
   deliverablesIntro: string;
+  process?: Array<{ title: string; detail: string }>;
+  packages?: Array<{ name: string; label: string; detail: string }>;
+  trustPoints?: string[];
+  faqs?: Array<{ question: string; answer: string }>;
 };
 
 export const serviceDetails: Record<ServiceDetail['slug'], ServiceDetail> = {
+  'traduccion-legal': {
+    slug: 'traduccion-legal',
+    title: 'Traducción Legal',
+    headline: 'Traducción jurídica',
+    summary:
+      'Traducimos contratos, poderes, sentencias, expedientes y documentos corporativos entre español, inglés, francés e italiano, preservando su sentido jurídico.',
+    chips: ['TRADUCCIÓN JURÍDICA', 'ATENCIÓN REMOTA'],
+    heroStats: [
+      'Revisión jurídica y terminológica en cada entrega.',
+      'Confidencialidad para documentos sensibles.',
+      'Cotización por alcance, idioma y fecha requerida.',
+    ],
+    activation: [
+      'Contratos, poderes, certificados o sentencias que deben presentarse en otro idioma.',
+      'Expedientes y piezas procesales que requieren precisión terminológica.',
+      'Documentación empresarial, migratoria, patrimonial o académica con contenido legal.',
+    ],
+    audience: [
+      'Personas con trámites en Colombia o en el exterior.',
+      'Empresas y equipos administrativos con documentación bilingüe.',
+      'Abogados, notarías y oficinas que requieren apoyo lingüístico especializado.',
+    ],
+    deliverables: [
+      'Traducción revisada en formato editable o PDF, según el archivo fuente.',
+      'Glosario breve de términos sensibles cuando el documento lo requiere.',
+      'Observaciones sobre ambigüedades o expresiones que necesitan confirmación.',
+    ],
+    deliverablesIntro:
+      'Cada documento se revisa desde su función jurídica y el propósito para el cual será presentado, no como una traducción genérica.',
+    packages: [
+      { name: 'Documento breve', label: 'Cotización rápida', detail: 'Certificados, autorizaciones, comunicaciones y poderes simples.' },
+      { name: 'Contrato o expediente', label: 'Según complejidad', detail: 'Contratos, demandas, sentencias, anexos y documentación empresarial.' },
+      { name: 'Entrega prioritaria', label: '24–48 horas', detail: 'Atención urgente sujeta a extensión, idioma y disponibilidad.' },
+    ],
+    process: [
+      { title: 'Envío del documento', detail: 'Comparte el archivo, idiomas, finalidad y fecha límite.' },
+      { title: 'Alcance y cotización', detail: 'Revisamos extensión, formato, complejidad y urgencia.' },
+      { title: 'Traducción jurídica', detail: 'Trabajamos terminología, contexto y consistencia legal.' },
+      { title: 'Entrega y ajustes', detail: 'Entregamos la versión final y atendemos ajustes razonables.' },
+    ],
+    trustPoints: [
+      'Atención directa por abogado y licenciado en Lenguas Modernas.',
+      'Confidencialidad profesional en documentos sensibles.',
+      'Servicio remoto para Colombia y clientes en el exterior.',
+    ],
+    faqs: [
+      { question: '¿La traducción legal es lo mismo que una traducción oficial?', answer: 'No necesariamente. La traducción legal se enfoca en precisión jurídica y terminología especializada. Si la entidad receptora exige traducción oficial, lo aclaramos antes de comenzar.' },
+      { question: '¿Cómo se calcula el precio?', answer: 'Depende del idioma, la extensión, la complejidad jurídica, el formato del archivo y el plazo requerido. Primero revisamos el documento o una muestra.' },
+      { question: '¿Puedo contratar el servicio desde otra ciudad o país?', answer: 'Sí. La revisión, cotización, traducción y entrega pueden realizarse completamente en línea.' },
+    ],
+  },
   'penal-personas': {
     slug: 'penal-personas',
     title: 'Penal Personas',
@@ -235,6 +291,7 @@ export function getServiceDetail(slug: string) {
 }
 
 const SERVICE_PRIORITY: ServiceDetail['slug'][] = [
+  'traduccion-legal',
   'ejecucion-penas',
   'penal-personas',
   'familia',

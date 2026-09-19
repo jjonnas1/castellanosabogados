@@ -17,7 +17,7 @@ export default function MetodologiaClient() {
   const p = t.pages.metodologia;
 
   return (
-    <main className="motion-public motion-inner bg-canvas text-ink">
+    <main className="motion-public motion-inner editorial-page editorial-method bg-canvas text-ink">
       <SiteHeader />
 
       {/* Hero — oscuro con foto */}

@@ -8,14 +8,14 @@ import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const heroBg =
-  "linear-gradient(150deg, rgba(12,17,29,0.97) 0%, rgba(20,30,46,0.94) 100%)";
+  "linear-gradient(90deg, rgba(17,14,15,0.92) 0%, rgba(17,14,15,0.68) 58%, rgba(17,14,15,0.48) 100%), url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1600&q=82&fm=webp') center / cover";
 
 export default function NosotrosClient() {
   const { t } = useLanguage();
   const p = t.pages.nosotros;
 
   return (
-    <main className="motion-public motion-inner bg-canvas text-ink">
+    <main className="motion-public motion-inner editorial-page editorial-about bg-canvas text-ink">
       <SiteHeader />
 
       {/* Hero oscuro */}

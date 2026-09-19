@@ -15,7 +15,7 @@ export default function TutelaClient() {
   const p = t.pages.tutela;
 
   return (
-    <main className="motion-public motion-inner min-h-screen bg-canvas text-ink">
+    <main className="motion-public motion-inner editorial-page editorial-tutela min-h-screen bg-canvas text-ink">
       <SiteHeader />
 
       <section

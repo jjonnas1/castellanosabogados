@@ -1,0 +1,21 @@
+.showcase {--practice-accent:#7a3344;--practice-paper:#f5ecef;}
+.showcase[data-practice="ejecucion-penas"]{--practice-accent:#386359;--practice-paper:#edf4f0;}
+.showcase[data-practice="familia"]{--practice-accent:#785572;--practice-paper:#f4edf4;}
+.showcase[data-practice="civil"]{--practice-accent:#435e70;--practice-paper:#ecf2f5;}
+.showcase[data-practice="laboral"]{--practice-accent:#4c6555;--practice-paper:#eff4eb;}
+.showcase[data-practice="administrativo"]{--practice-accent:#60577e;--practice-paper:#f0edf7;}
+.showcase :global(.practice-panel){background:var(--practice-paper)!important;color:#29272d!important;border-top:3px solid var(--practice-accent);box-shadow:none!important;border-radius:0!important;}
+.showcase :global(.practice-panel-content){background:transparent!important;}
+.showcase :global(.practice-panel-body h3){color:#29272d!important;letter-spacing:0!important;}
+.showcase :global(.practice-panel-body>p),.showcase :global(.practice-scope p){color:#55565c!important;}
+.showcase :global(.practice-panel-top),.showcase :global(.practice-panel .eyebrow),.showcase :global(.practice-scope>div>span){color:var(--practice-accent)!important;}
+.showcase :global(.practice-watermark){color:var(--practice-accent)!important;opacity:.055!important;}
+.showcase :global(.practice-menu button.active){background:var(--practice-paper)!important;color:var(--practice-accent)!important;border-color:var(--practice-accent)!important;}
+.showcase :global(.practice-panel-actions .button){background:var(--practice-accent)!important;color:white!important;border-radius:4px!important;}
+.showcase :global(.practice-panel-actions .text-link){color:var(--practice-accent)!important;}
+.showcase :global(.practice-scope>div),.showcase :global(.practice-panel-top){border-color:#0002!important;}
+.menuScope{display:block;font-size:10px;font-weight:400;line-height:1.5;margin-top:4px;opacity:.75;}
+.support{margin:0 32px 24px;padding:18px 0;border-top:1px solid #0002;}
+.support>span{font-size:10px;font-weight:600;color:var(--practice-accent);}
+.support>p{font-size:13px!important;line-height:1.6!important;margin-top:7px;color:#45434a!important;}
+@media(max-width:600px){.support{margin:0 22px 20px;}.menuScope{font-size:9px;}}

@@ -12,14 +12,12 @@ const serviceAreas = [
   'Administrativo',
 ];
 
-const DARK_GLOW = "radial-gradient(ellipse at 15% 0%, rgba(180,195,220,0.12) 0%, transparent 55%), #121622";
-
 export default function ContactoPage() {
   return (
-    <main className="motion-public motion-inner bg-canvas text-ink">
+    <main className="motion-public motion-inner editorial-page editorial-contact bg-canvas text-ink">
       <SiteHeader />
 
-      <header className="text-white" style={{ background: DARK_GLOW }}>
+      <header className="text-white" style={{ backgroundImage: "linear-gradient(90deg, rgba(18,15,16,.9), rgba(18,15,16,.58)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=82&fm=webp')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="container section-shell space-y-5">
           <span className="pill w-fit border-white/20 bg-white/10 text-white">Contacto directo</span>
           <div className="max-w-3xl space-y-4">

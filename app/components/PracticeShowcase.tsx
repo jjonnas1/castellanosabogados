@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { serviceDetails, type ServiceDetail } from "@/lib/serviceDetails";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
+import styles from './PracticeShowcase.module.css';
 const slugs: ServiceDetail["slug"][] = [
   "penal-personas",
   "ejecucion-penas",
@@ -57,7 +58,7 @@ export default function PracticeShowcase() {
     )[slug] ?? {}),
   };
   return (
-    <section id="servicios" className="services section">
+    <section id="servicios" className={`services section ${styles.showcase}`} data-practice={slug}>
       <div className="section-heading" data-reveal>
         <div>
           <span className="eyebrow">
@@ -114,7 +115,7 @@ export default function PracticeShowcase() {
               }}
             >
               <span className="practice-tab-number">0{i + 1}</span>
-              <span>{t.header.serviceNames[s]}</span>
+              <span>{t.header.serviceNames[s]}<small className={styles.menuScope}>{({es:['Defensa y representación','Beneficios y seguimiento','Acuerdos y protección','Contratos y patrimonio','Trabajo y prestaciones','Recursos y actuaciones'],en:['Defense and representation','Benefits and follow-up','Agreements and protection','Contracts and assets','Employment and benefits','Appeals and proceedings'],fr:['Défense et représentation','Bénéfices et suivi','Accords et protection','Contrats et patrimoine','Travail et prestations','Recours et procédures'],it:['Difesa e rappresentanza','Benefici e monitoraggio','Accordi e tutela','Contratti e patrimonio','Lavoro e prestazioni','Ricorsi e procedimenti']}[language])[i]}</small></span>
               <span className="practice-tab-arrow" aria-hidden>
                 ↗
               </span>
@@ -155,6 +156,7 @@ export default function PracticeShowcase() {
                 ))}
               </div>
             </div>
+            <div className={styles.support}><span>{({es:'EL TRABAJO CONCRETO',en:'WHAT THE SERVICE INCLUDES',fr:'LE TRAVAIL CONCRET',it:'IL LAVORO CONCRETO'}[language])}</span><p>{detail.deliverables[0]}</p></div>
             <div className="practice-panel-actions">
               <Link className="button light" href={"/servicios/" + slug}>
                 {c[3]} <span aria-hidden>↗</span>

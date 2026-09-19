@@ -6,17 +6,15 @@ import WaIcon from "@/app/components/WaIcon";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const DARK_GLOW = "radial-gradient(ellipse at 15% 0%, rgba(180,195,220,0.12) 0%, transparent 55%), #121622";
-
 export default function AQuienServimosPage() {
   const { t } = useLanguage();
   const p = t.pages.aQuienServimos;
 
   return (
-    <main className="motion-public motion-inner bg-canvas text-ink">
+    <main className="motion-public motion-inner editorial-page editorial-audience bg-canvas text-ink">
       <SiteHeader />
 
-      <header className="text-white" style={{ background: DARK_GLOW }}>
+      <header className="text-white" style={{ backgroundImage: "linear-gradient(90deg, rgba(18,15,16,.91), rgba(18,15,16,.58)), url('https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=1600&q=82&fm=webp')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="container section-shell space-y-5">
           <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">{p.badge}</p>
           <h1 className="max-w-3xl text-white">{p.heroTitle}</h1>

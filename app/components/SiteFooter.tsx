@@ -7,6 +7,7 @@ import { contactConfig } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const SERVICE_SLUGS = [
+  "traduccion-legal",
   "penal-personas",
   "ejecucion-penas",
   "responsabilidad-penal-pj",

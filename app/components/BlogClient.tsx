@@ -34,10 +34,10 @@ export default function BlogClient() {
   const p = t.pages.blog;
 
   return (
-    <main className="motion-public motion-inner min-h-screen bg-canvas text-ink">
+    <main className="motion-public motion-inner editorial-page editorial-blog min-h-screen bg-canvas text-ink">
       <SiteHeader />
 
-      <section className="motion-blog-hero section-shell">
+      <section className="motion-blog-hero section-shell" style={{ backgroundImage: "linear-gradient(90deg, rgba(18,15,16,.88), rgba(18,15,16,.58)), url('https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1600&q=82&fm=webp')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
         <div className="container space-y-8">
           <div className="space-y-2">
             <p className="pill w-fit">{p.badge}</p>

@@ -10,17 +10,20 @@ export default function WhatsAppFloat() {
   const [displayed, setDisplayed] = useState('');
 
   useEffect(() => {
+    let timer: ReturnType<typeof setInterval> | undefined;
     // Pequeño delay antes de empezar a escribir
     const start = setTimeout(() => {
       let i = 0;
-      const timer = setInterval(() => {
+      timer = setInterval(() => {
         i++;
         setDisplayed(MESSAGE.slice(0, i));
         if (i >= MESSAGE.length) clearInterval(timer);
       }, 38);
-      return () => clearInterval(timer);
     }, 800);
-    return () => clearTimeout(start);
+    return () => {
+      clearTimeout(start);
+      if (timer) clearInterval(timer);
+    };
   }, []);
 
   return (
@@ -28,25 +31,24 @@ export default function WhatsAppFloat() {
       {/* Burbuja clickeable */}
       {!dismissed && (
         <div className="relative">
-          <button
-            onClick={() => window.open(WA_URL, '_blank', 'noopener,noreferrer')}
-            className="flex items-start gap-2 rounded-2xl bg-white px-4 py-2.5 shadow-lg ring-1 ring-black/8 max-w-[230px] text-left hover:shadow-xl transition-shadow cursor-pointer"
-            aria-label="Abrir WhatsApp"
-          >
-            <p className="text-[0.8rem] font-medium text-gray-800 leading-snug flex-1 min-h-[2.5rem]">
-              {displayed}
-              <span className="inline-block w-0.5 h-3.5 bg-gray-500 ml-0.5 align-middle animate-pulse" aria-hidden={displayed.length >= MESSAGE.length} style={{ opacity: displayed.length >= MESSAGE.length ? 0 : 1 }} />
-            </p>
+          <div className="relative flex max-w-[230px] items-start rounded-2xl bg-white shadow-lg ring-1 ring-black/8 transition-shadow hover:shadow-xl">
+            <a href={WA_URL} target="_blank" rel="noopener noreferrer" className="min-h-[3.75rem] flex-1 px-4 py-2.5 pr-9 text-left" aria-label="Abrir WhatsApp">
+              <span className="text-[0.8rem] font-medium text-gray-800 leading-snug">
+                {displayed}
+                <span className="inline-block w-0.5 h-3.5 bg-gray-500 ml-0.5 align-middle animate-pulse" aria-hidden={displayed.length >= MESSAGE.length} style={{ opacity: displayed.length >= MESSAGE.length ? 0 : 1 }} />
+              </span>
+            </a>
             <button
-              onClick={(e) => { e.stopPropagation(); setDismissed(true); }}
+              type="button"
+              onClick={() => setDismissed(true)}
               aria-label="Cerrar"
-              className="shrink-0 mt-0.5 text-gray-400 hover:text-gray-600 transition-colors"
+              className="absolute right-3 top-3 text-gray-400 transition-colors hover:text-gray-600"
             >
               <svg viewBox="0 0 14 14" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
                 <path d="M1 1l12 12M13 1 1 13" />
               </svg>
             </button>
-          </button>
+          </div>
           {/* Cola de la burbuja */}
           <span
             className="absolute -bottom-2 right-5 h-3 w-3 rotate-45 bg-white ring-1 ring-black/8"
