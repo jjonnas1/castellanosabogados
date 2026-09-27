@@ -10,13 +10,42 @@ import { useLanguage } from '@/contexts/LanguageContext';
 const tutelaHeroBackground =
   "linear-gradient(120deg, rgba(18,22,34,0.93), rgba(44,53,64,0.85)), url('https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
+// Contenido general sujeto a la revisión jurídica final del propietario.
+const tutelaFaqs = [
+  {
+    question: '¿Cuándo puede evaluarse una tutela contra una EPS?',
+    answer: 'Cuando una decisión, omisión o demora de la EPS puede estar afectando un derecho fundamental y los mecanismos ordinarios no ofrecen una protección eficaz para la situación concreta. Deben revisarse la urgencia, los soportes y la respuesta de la entidad.',
+  },
+  {
+    question: '¿Qué documentos conviene reunir para una tutela de salud?',
+    answer: 'La orden médica, la historia clínica relevante, las autorizaciones o negativas, las peticiones presentadas, las respuestas recibidas y cualquier prueba de la urgencia o del impacto que está causando la demora.',
+  },
+  {
+    question: '¿Es obligatorio presentar la tutela por medio de abogado?',
+    answer: 'No. La acción de tutela puede ser presentada directamente por la persona afectada o por quien actúe en su nombre. La asesoría jurídica puede ayudar a ordenar los hechos, identificar el derecho comprometido y anexar los soportes pertinentes.',
+  },
+  {
+    question: '¿Cuánto puede tardar la decisión de tutela?',
+    answer: 'El artículo 86 de la Constitución establece que entre la solicitud y su resolución no pueden transcurrir más de diez días. La atención de una medida provisional, la impugnación o el cumplimiento del fallo tienen dinámicas propias.',
+  },
+];
+
 export default function TutelaClient() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const p = t.pages.tutela;
 
   return (
     <main className="motion-public motion-inner editorial-page editorial-tutela min-h-screen bg-canvas text-ink">
       <SiteHeader />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: tutelaFaqs.map(item => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: item.answer },
+        })),
+      }) }} />
 
       <section
         className="relative overflow-hidden border-b border-border/70 text-white"
@@ -112,6 +141,25 @@ export default function TutelaClient() {
           </article>
         </div>
       </section>
+
+      {language === 'es' ? (
+        <section className="section-shell border-t border-border/70 bg-white" id="preguntas-tutela">
+          <div className="container">
+            <div className="max-w-2xl">
+              <p className="pill w-fit">Preguntas frecuentes</p>
+              <h2 className="mt-3">Antes de presentar una tutela</h2>
+            </div>
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {tutelaFaqs.map((item) => (
+                <article key={item.question} className="card-shell bg-surface p-6">
+                  <h3 className="text-lg text-ink">{item.question}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{item.answer}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <section className="section-shell bg-surface/80" id="evaluador">
         <div className="container max-w-2xl space-y-4">

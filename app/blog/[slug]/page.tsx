@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Fragment } from 'react';
 import SiteHeader from '@/app/components/SiteHeader';
 import { buildWhatsAppUrl } from '@/lib/contactLinks';
 
@@ -940,7 +941,7 @@ export async function generateStaticParams() {
 
 const ARTICLE_DESCRIPTIONS: Record<string, string> = {
   'circular-externa-007-2026-alivios-financieros': 'Circular Externa 007 de 2026: alivios para afectados por el terremoto del Eje Cafetero del 10 de agosto. Refinanciación, intereses y reportes.',
-  'cuando-interponer-una-tutela':        'La acción de tutela protege derechos fundamentales en Colombia. Aprende cuándo procede, sus requisitos y los términos del proceso. Asesoría en Pereira y Eje Cafetero.',
+  'cuando-interponer-una-tutela':        'Cuándo procede una acción de tutela en Colombia, qué documentos conviene reunir y cómo presentarla. Asesoría para tutelas en Pereira y Manizales.',
   'derechos-del-imputado-proceso-penal': 'Presunción de inocencia, derecho a guardar silencio y defensa técnica: conoce los derechos del imputado en el proceso penal colombiano. Abogados penalistas en Pereira.',
   'responsabilidad-penal-empresarial':   'La Ley 2195 de 2022 permite sancionar penalmente a empresas en Colombia. Delitos, sanciones y cómo proteger tu organización. Castellanos Abogados, Pereira.',
   'beneficios-ejecucion-penas':          'Prisión domiciliaria, libertad condicional y redención de pena en Colombia: requisitos y cómo tramitarlos ante el Juez de Ejecución de Penas en el Eje Cafetero.',
@@ -949,13 +950,13 @@ const ARTICLE_DESCRIPTIONS: Record<string, string> = {
   'detencion-domiciliaria-colombia':     'Requisitos de la detención domiciliaria preventiva y prisión domiciliaria en Colombia. Cómo solicitar este beneficio ante el Juez de Ejecución de Penas en el Eje Cafetero.',
   'divorcio-colombia':                   'Tipos de divorcio en Colombia, tiempos estimados y proceso paso a paso. Mutuo acuerdo, contencioso y cesación de efectos civiles. Abogados de familia en Pereira.',
   'acoso-laboral-colombia':              'Qué es el acoso laboral según la Ley 1010 de 2006, cómo reconocerlo y cómo denunciarlo ante el Comité de Convivencia o el Ministerio de Trabajo. Abogados en Pereira.',
-  'medida-de-aseguramiento-colombia':    'Tipos, requisitos y cómo impugnar una medida de aseguramiento en Colombia. Detención preventiva, apelación y sustitución. Abogados penalistas en Pereira.',
-  'cuota-alimentaria-colombia':          'Cómo se fija, revisa y hace cumplir la cuota de alimentos en Colombia. Requisitos del artículo 411 del Código Civil y Ley 2388 de 2024. Abogados de familia en Pereira y Eje Cafetero.',
+  'medida-de-aseguramiento-colombia':    'Qué es una medida de aseguramiento en Colombia, cuáles son sus requisitos y qué hacer frente a una decisión de detención, sustitución o revocatoria.',
+  'cuota-alimentaria-colombia':          'Cuota alimentaria en Colombia: cómo demandar, fijar, revisar o reclamar su pago y qué documentos conviene reunir antes de iniciar el trámite.',
   'violencia-intrafamiliar-medidas-proteccion': 'Medidas de protección urgentes ante violencia intrafamiliar en Colombia. Comisaría de familia, Ley 294/1996, Ley 1257/2008 y Ley 2126/2021. Abogados de familia en Pereira.',
   'ley-2466-2025-redenciones-pena':      'Ley 2466 de 2025 y redenciones de pena en Colombia: qué cambió, cómo se calculan y por qué revisar los cómputos del INPEC. Ejecución de penas en Pereira y Eje Cafetero.',
-  'libertad-condicional-colombia':       'Texto vigente del artículo 64 del Código Penal colombiano y sus 3 requisitos: 3/5 de la pena, buena conducta y arraigo. Guía clara y actualizada a 2026.',
-  'preacuerdo-penal-colombia':           'Preacuerdo penal en Colombia: ventajas, riesgos y cuándo conviene aceptarlo. Diferencias con el allanamiento a cargos. Abogados penalistas en Pereira y Eje Cafetero.',
-  'prescripcion-titulos-valores-colombia': 'Plazos de prescripción de letras de cambio, cheques y pagarés en Colombia según el Código de Comercio. Desde cuándo cuentan, cómo interrumpirlos y qué hacer cuando el título ya prescribió.',
+  'libertad-condicional-colombia':       'Requisitos de la libertad condicional en Colombia: 3/5 de la pena, comportamiento, arraigo y reparación. Cómo preparar la solicitud ante el juez.',
+  'preacuerdo-penal-colombia':           'Preacuerdo penal en Colombia: qué revisar antes de aceptarlo, sus posibles efectos sobre la pena y la diferencia frente al allanamiento a cargos.',
+  'prescripcion-titulos-valores-colombia': 'Prescripción de títulos valores en Colombia: plazos de letras, cheques y pagarés, cómo se cuentan y qué hacer ante un cobro o un título vencido.',
   'reforma-laboral-colombia-cambios-vigentes-2026': 'Reforma laboral en Colombia 2026: contrato indefinido, jornada nocturna desde las 7 p. m., recargo por descanso obligatorio y debido proceso disciplinario.',
   'nuevo-codigo-procesal-trabajo-colombia-2026': 'Nuevo Código Procesal del Trabajo vigente desde el 2 de abril de 2026: transición, procesos laborales y seguridad social en Colombia.',
   'ley-2477-2025-reforma-procesal-penal': 'Ley 2477 de 2025: cambios en reparación integral, preacuerdos, principio de oportunidad y vencimiento de términos en Colombia.',
@@ -964,7 +965,62 @@ const ARTICLE_DESCRIPTIONS: Record<string, string> = {
 
 const ARTICLE_TITLES: Record<string, string> = {
   'circular-externa-007-2026-alivios-financieros': 'Circular 007: alivios tras el terremoto del Eje Cafetero',
-  'libertad-condicional-colombia': 'Artículo 64 del Código Penal: Libertad Condicional 2026',
+  'cuando-interponer-una-tutela': 'Acción de tutela en Colombia: cuándo procede y cómo presentarla',
+  'libertad-condicional-colombia': 'Libertad condicional en Colombia: requisitos (art. 64 C.P.)',
+  'preacuerdo-penal-colombia': 'Preacuerdo penal en Colombia: qué revisar antes de aceptarlo',
+  'medida-de-aseguramiento-colombia': 'Medida de aseguramiento en Colombia: requisitos y qué hacer',
+  'prescripcion-titulos-valores-colombia': 'Prescripción de títulos valores en Colombia: plazos y qué hacer',
+  'cuota-alimentaria-colombia': 'Cuota alimentaria en Colombia: cómo demandar, fijar o reclamar',
+};
+
+type ArticleConversion = {
+  serviceHref: string;
+  serviceLabel: string;
+  message: string;
+  relatedHref?: string;
+  relatedLabel?: string;
+};
+
+// Contenido general sujeto a la revisión jurídica final del propietario.
+const ARTICLE_CONVERSIONS: Record<string, ArticleConversion> = {
+  'cuando-interponer-una-tutela': {
+    serviceHref: '/tutela',
+    serviceLabel: 'Revisar el servicio de tutelas',
+    message: 'Si una EPS o entidad está afectando un derecho fundamental, conviene ordenar los hechos, las respuestas y los soportes disponibles. Podemos ayudarle a definir si la tutela es la vía adecuada.',
+    relatedHref: '/servicios/administrativo',
+    relatedLabel: 'Ver asuntos frente a entidades públicas',
+  },
+  'libertad-condicional-colombia': {
+    serviceHref: '/servicios/ejecucion-penas',
+    serviceLabel: 'Revisar un caso de libertad condicional',
+    message: '¿Tu familiar podría cumplir los requisitos para la libertad condicional? Revisamos su caso.',
+    relatedHref: '/servicios/penal-personas',
+    relatedLabel: 'Ver defensa penal para personas',
+  },
+  'preacuerdo-penal-colombia': {
+    serviceHref: '/servicios/penal-personas',
+    serviceLabel: 'Solicitar revisión del preacuerdo',
+    message: 'Antes de aceptar un preacuerdo, conviene calcular sus efectos reales sobre la pena y los beneficios posteriores. Revisamos la propuesta y los documentos disponibles.',
+    relatedHref: '/servicios/ejecucion-penas',
+    relatedLabel: 'Ver ejecución de penas',
+  },
+  'medida-de-aseguramiento-colombia': {
+    serviceHref: '/servicios/penal-personas',
+    serviceLabel: 'Revisar la medida de aseguramiento',
+    message: 'Una medida de aseguramiento no equivale a una condena. Revisamos la decisión, sus fundamentos y las opciones procesales que puedan corresponder al caso.',
+    relatedHref: '/servicios/ejecucion-penas',
+    relatedLabel: 'Ver ejecución de penas',
+  },
+  'prescripcion-titulos-valores-colombia': {
+    serviceHref: '/servicios/civil',
+    serviceLabel: 'Solicitar revisión del título valor',
+    message: 'Antes de asumir que el título puede cobrarse o está prescrito, conviene revisar el documento, el vencimiento y las actuaciones realizadas. Analizamos el caso y la ruta disponible.',
+  },
+  'cuota-alimentaria-colombia': {
+    serviceHref: '/servicios/familia',
+    serviceLabel: 'Revisar un caso de cuota alimentaria',
+    message: 'Para fijar, revisar o cobrar una cuota, primero hay que identificar si existe un acuerdo o decisión previa y reunir los soportes de necesidades e ingresos. Le ayudamos a definir la ruta.',
+  },
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -1008,6 +1064,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   const paragraphs = article.content.trim().split('\n\n');
   const description = ARTICLE_DESCRIPTIONS[slug] ?? article.content.trim().split('\n')[0].slice(0, 160);
+  const conversion = ARTICLE_CONVERSIONS[slug];
+  const conversionInsertIndex = conversion ? Math.floor(paragraphs.length / 2) : -1;
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -1159,10 +1217,30 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
           <div className="card-shell bg-white p-6 md:p-8 space-y-4 text-muted leading-relaxed">
             {paragraphs.map((p, i) => {
-              if (p.startsWith('**') && p.endsWith('**')) {
-                return <h3 key={i} className="text-ink font-semibold text-base mt-2">{p.replace(/\*\*/g, '')}</h3>;
-              }
-              return <p key={i} className="text-sm">{p}</p>;
+              const paragraph = p.startsWith('**') && p.endsWith('**')
+                ? <h3 className="text-ink font-semibold text-base mt-2">{p.replace(/\*\*/g, '')}</h3>
+                : <p className="text-sm">{p}</p>;
+
+              return (
+                <Fragment key={i}>
+                  {paragraph}
+                  {conversion && i === conversionInsertIndex ? (
+                    <aside className="rounded-2xl border border-border bg-surface p-5 space-y-3" aria-label="Orientación relacionada">
+                      <p className="text-sm text-ink font-semibold">{conversion.message}</p>
+                      <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+                        <Link href={conversion.serviceHref} className="font-semibold text-ink underline underline-offset-4">
+                          {conversion.serviceLabel}
+                        </Link>
+                        {conversion.relatedHref && conversion.relatedLabel ? (
+                          <Link href={conversion.relatedHref} className="text-muted underline underline-offset-4">
+                            {conversion.relatedLabel}
+                          </Link>
+                        ) : null}
+                      </div>
+                    </aside>
+                  ) : null}
+                </Fragment>
+              );
             })}
           </div>
 
@@ -1183,15 +1261,19 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           )}
 
           <div className="card-shell bg-surface p-6 space-y-3">
-            <p className="font-semibold text-ink">¿Tiene preguntas sobre este tema?</p>
-            <p className="text-sm text-muted">Contáctenos y le orientamos sin compromiso.</p>
+            <p className="font-semibold text-ink">{conversion ? conversion.message : '¿Tiene preguntas sobre este tema?'}</p>
+            <p className="text-sm text-muted">{conversion ? 'La revisión del caso permite identificar la ruta y los documentos que hacen falta.' : 'Contáctenos y le orientamos sin compromiso.'}</p>
             <div className="flex flex-wrap gap-3">
-              <a
-                href={buildWhatsAppUrl({ area: article.category, source: `/blog/${slug}`, message: `Hola, leí el artículo "${article.title}" y tengo una consulta.` })}
-                className="btn-primary"
-              >
-                Escribir por WhatsApp
-              </a>
+              {conversion ? (
+                <Link href={conversion.serviceHref} className="btn-primary">{conversion.serviceLabel}</Link>
+              ) : (
+                <a
+                  href={buildWhatsAppUrl({ area: article.category, source: `/blog/${slug}`, message: `Hola, leí el artículo "${article.title}" y tengo una consulta.` })}
+                  className="btn-primary"
+                >
+                  Escribir por WhatsApp
+                </a>
+              )}
               <Link href="/blog" className="btn-secondary">Ver más artículos</Link>
             </div>
           </div>

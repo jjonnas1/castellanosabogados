@@ -289,11 +289,23 @@ export default function EditorialServiceExperience({ detail, backgroundImage }: 
   const brief = serviceBriefs[detail.slug as EditorialSlug];
   const Icon = profile.icon;
   const consult = buildWhatsAppUrl({ area: detail.title, source: `/servicios/${detail.slug}`, message: `Hola, quisiera solicitar una evaluación sobre ${detail.title}.` });
+  const visibleFaqs = detail.faqs ?? brief.faqs;
 
   return (
     <main className={s.page} data-variant={detail.slug} style={{ '--service-accent': profile.accent, '--service-soft': profile.soft, '--service-deep': profile.deep } as React.CSSProperties}>
       <SiteHeader />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'LegalService', name: detail.title, description: detail.summary, provider: { '@type': 'LegalService', name: 'Castellanos Abogados' }, areaServed: ['Pereira', 'Eje Cafetero', 'Colombia'] }) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'LegalService', name: detail.title, description: detail.summary, provider: { '@type': 'LegalService', name: 'Castellanos Abogados' }, areaServed: ['Pereira', 'Dosquebradas', 'Santa Rosa de Cabal', 'Manizales', 'Eje Cafetero', 'Colombia'] }) }} />
+      {detail.faqs?.length ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: detail.faqs.map(item => ({
+            '@type': 'Question',
+            name: item.question,
+            acceptedAnswer: { '@type': 'Answer', text: item.answer },
+          })),
+        }) }} />
+      ) : null}
 
       <header className={s.hero} style={{ backgroundImage }}>
         <div className={s.heroShade} aria-hidden />
@@ -301,6 +313,7 @@ export default function EditorialServiceExperience({ detail, backgroundImage }: 
           <Link href="/servicios" className={s.kicker}>CASTELLANOS ABOGADOS / {profile.heroLabel}</Link>
           <h1>{detail.headline}</h1>
           <p>{detail.summary}</p>
+          {detail.localPresence ? <p>{detail.localPresence}</p> : null}
           <a href={consult} target="_blank" rel="noopener noreferrer" className={s.cta}>Evaluar mi caso <ArrowUpRight size={21} /></a>
         </div>
         <aside className={s.heroIdentity}>
@@ -399,7 +412,7 @@ export default function EditorialServiceExperience({ detail, backgroundImage }: 
           <h2>Preguntas que conviene resolver.</h2>
           <p>Una primera orientación debe ayudarle a distinguir posibilidades reales, documentos pendientes y próximos pasos.</p>
         </div>
-        <div>{brief.faqs.map(item => <details key={item.question}><summary>{item.question}<Plus size={20} /></summary><p>{item.answer}</p></details>)}</div>
+        <div>{visibleFaqs.map(item => <details key={item.question}><summary>{item.question}<Plus size={20} /></summary><p>{item.answer}</p></details>)}</div>
       </section>
 
       <section className={s.related}>

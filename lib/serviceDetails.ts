@@ -18,6 +18,7 @@ export type ServiceDetail = {
   audience: string[];
   deliverables: string[];
   deliverablesIntro: string;
+  localPresence?: string;
   process?: Array<{ title: string; detail: string }>;
   packages?: Array<{ name: string; label: string; detail: string }>;
   trustPoints?: string[];
@@ -127,6 +128,27 @@ export const serviceDetails: Record<ServiceDetail['slug'], ServiceDetail> = {
     ],
     deliverablesIntro:
       'Gestionamos los trámites ante juzgados de ejecución con control riguroso de términos, documentación completa y comunicación permanente con la familia del condenado.',
+    localPresence:
+      'Atendemos asuntos de ejecución de penas en Pereira, Dosquebradas, Santa Rosa de Cabal y Manizales, con revisión virtual de documentos y reuniones cuando el caso lo permite.',
+    // Contenido general sujeto a la revisión jurídica final del propietario.
+    faqs: [
+      {
+        question: '¿Cuándo conviene revisar un caso de ejecución de penas?',
+        answer: 'Cuando existen dudas sobre cómputos, redenciones, requisitos de un beneficio, documentos pendientes o el estado de una solicitud ante el juzgado. La revisión individual permite establecer qué actuación corresponde.',
+      },
+      {
+        question: '¿Qué documentos ayudan a realizar la revisión inicial?',
+        answer: 'La sentencia, el cómputo de pena, las decisiones del juzgado, los certificados disponibles del INPEC y los soportes de redención o arraigo. Los documentos exactos dependen del beneficio o trámite que se quiera estudiar.',
+      },
+      {
+        question: '¿La revisión puede hacerse de forma virtual?',
+        answer: 'Sí. La lectura inicial de documentos y la reunión con la familia pueden realizarse virtualmente. Las actuaciones posteriores dependen del expediente y del despacho que vigila la pena.',
+      },
+      {
+        question: '¿La asesoría garantiza que concedan el beneficio?',
+        answer: 'No. La decisión corresponde a la autoridad judicial y depende de los requisitos, las pruebas y las particularidades del caso. La asesoría busca presentar una solicitud completa y jurídicamente sustentada.',
+      },
+    ],
   },
   'responsabilidad-penal-pj': {
     slug: 'responsabilidad-penal-pj',
@@ -205,6 +227,27 @@ export const serviceDetails: Record<ServiceDetail['slug'], ServiceDetail> = {
     ],
     deliverablesIntro:
       'Definimos la ruta más efectiva para cada caso: conciliación, demanda o combinación. Acompañamos el proceso desde el diagnóstico hasta la ejecución del fallo.',
+    localPresence:
+      'Atendemos asuntos civiles en Pereira, Dosquebradas, Santa Rosa de Cabal y Manizales, con revisión virtual de contratos, títulos y demás documentos cuando el caso lo permite.',
+    // Contenido general sujeto a la revisión jurídica final del propietario.
+    faqs: [
+      {
+        question: '¿Qué se revisa primero en un conflicto civil?',
+        answer: 'Los documentos que originaron la obligación o el conflicto, las fechas relevantes, los pagos, las comunicaciones entre las partes y el resultado que se busca. Con esa información se define si conviene negociar, conciliar o acudir a un proceso.',
+      },
+      {
+        question: '¿Cómo se sabe si una deuda o un título valor prescribió?',
+        answer: 'Es necesario revisar el tipo de documento, su fecha de exigibilidad y las actuaciones que pudieron afectar el cómputo. No es recomendable concluir que existe prescripción sin estudiar el caso concreto.',
+      },
+      {
+        question: '¿Siempre es necesario presentar una demanda?',
+        answer: 'No. En algunos asuntos puede ser útil intentar una negociación o conciliación; en otros, la vía judicial puede ser necesaria. La ruta depende de los documentos, el tiempo transcurrido y la posición de las partes.',
+      },
+      {
+        question: '¿Puedo enviar los documentos para una revisión virtual?',
+        answer: 'Sí. La evaluación inicial puede realizarse con copias digitales legibles. Si el asunto requiere revisar originales o realizar una actuación presencial, se indicará durante el análisis.',
+      },
+    ],
   },
   familia: {
     slug: 'familia',
@@ -231,6 +274,27 @@ export const serviceDetails: Record<ServiceDetail['slug'], ServiceDetail> = {
     ],
     deliverablesIntro:
       'Acompañamos cada etapa del proceso con rigor técnico y sensibilidad, priorizando siempre el bienestar de los hijos y la estabilidad del núcleo familiar.',
+    localPresence:
+      'Atendemos asuntos de familia en Pereira, Dosquebradas, Santa Rosa de Cabal y Manizales, con orientación virtual y revisión documental cuando la situación lo permite.',
+    // Contenido general sujeto a la revisión jurídica final del propietario.
+    faqs: [
+      {
+        question: '¿Qué asuntos de familia pueden revisarse?',
+        answer: 'Cuotas de alimentos, custodia, visitas, divorcio, liquidación de sociedad conyugal y medidas de protección, entre otros. Cada situación se analiza según las personas involucradas y las decisiones o acuerdos que ya existan.',
+      },
+      {
+        question: '¿Qué documentos conviene reunir antes de la consulta?',
+        answer: 'Registros civiles, acuerdos o decisiones previas, comprobantes de gastos y pagos, comunicaciones y cualquier soporte relacionado con los hechos. La lista definitiva cambia según el trámite.',
+      },
+      {
+        question: '¿Se puede intentar un acuerdo antes de demandar?',
+        answer: 'En muchos asuntos de familia existe la posibilidad de buscar un acuerdo o acudir a conciliación. La viabilidad y los efectos de esa ruta deben revisarse según el asunto y la protección que requieran los menores u otras personas involucradas.',
+      },
+      {
+        question: '¿La orientación puede hacerse virtualmente?',
+        answer: 'Sí. La consulta y la revisión inicial de documentos pueden hacerse de manera virtual. Si el trámite exige una comparecencia o actuación presencial, se explica desde el inicio.',
+      },
+    ],
   },
   laboral: {
     slug: 'laboral',
@@ -257,6 +321,27 @@ export const serviceDetails: Record<ServiceDetail['slug'], ServiceDetail> = {
     ],
     deliverablesIntro:
       'Asesoramos a empleadores y trabajadores en todo el ciclo laboral: desde la prevención hasta la representación en demandas, conciliaciones y procesos disciplinarios.',
+    localPresence:
+      'Atendemos consultas laborales en Pereira, Dosquebradas, Santa Rosa de Cabal y Manizales, con revisión virtual de contratos, liquidaciones y soportes cuando el caso lo permite.',
+    // Contenido general sujeto a la revisión jurídica final del propietario.
+    faqs: [
+      {
+        question: '¿Atienden a trabajadores y a empleadores?',
+        answer: 'Sí. La revisión puede abordar reclamaciones de trabajadores o prevención y defensa para empleadores, siempre después de verificar la situación y los posibles conflictos de interés.',
+      },
+      {
+        question: '¿Qué documentos sirven para una revisión laboral?',
+        answer: 'Contrato, desprendibles de nómina, comprobantes de pago, liquidación, comunicaciones, reglamentos, llamados de atención y soportes de seguridad social, según el problema consultado.',
+      },
+      {
+        question: '¿Por qué conviene revisar pronto un conflicto laboral?',
+        answer: 'Porque los hechos, documentos y fechas pueden ser determinantes para una reclamación o defensa. Una revisión temprana ayuda a conservar soportes y a identificar la vía adecuada sin asumir que todos los casos tienen el mismo término.',
+      },
+      {
+        question: '¿La consulta laboral puede hacerse de forma virtual?',
+        answer: 'Sí. La consulta y la revisión inicial pueden realizarse virtualmente. Si se requiere una audiencia, inspección u otra actuación presencial, se define de acuerdo con el caso.',
+      },
+    ],
   },
   administrativo: {
     slug: 'administrativo',

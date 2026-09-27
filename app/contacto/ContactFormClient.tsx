@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { Alert, Badge, Button, Input, Textarea } from '@/components/ui';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { trackConversion } from '@/lib/conversionTracking';
 
 type FieldErrors = {
   name?: string;
@@ -72,6 +73,7 @@ export default function ContactFormClient() {
       const json = await res.json();
 
       if (!json.ok) throw new Error(json.error || p.errorTitle);
+      trackConversion('form', { form_name: 'contacto', page_path: '/contacto' });
       setOk(true);
       setName('');
       setEmail('');

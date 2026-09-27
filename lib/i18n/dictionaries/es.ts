@@ -365,7 +365,7 @@ export const es = {
     tutela: {
       badge: "Tutelas",
       heroTitle: "Si una EPS o entidad está vulnerando sus derechos, puede actuar ya",
-      heroParagraph: "Cuando le niegan una cita, un medicamento, un tratamiento o una respuesta urgente, no tiene que quedarse esperando indefinidamente. Revise si la tutela es el camino adecuado para proteger su derecho.",
+      heroParagraph: "Cuando le niegan una cita, un medicamento, un tratamiento o una respuesta urgente, no tiene que quedarse esperando indefinidamente. Revise si la tutela es el camino adecuado para proteger su derecho. Atendemos en Pereira, Dosquebradas, Santa Rosa de Cabal y Manizales, con revisión virtual de documentos cuando el caso lo permite.",
       strategicBadge: "Enfoque estratégico",
       strategicTitle: "Primero se revisa si la tutela sí sirve para su caso",
       strategicText: "Se revisan los hechos, las respuestas de la entidad y los soportes disponibles para decidir si conviene presentar tutela, pedir una medida urgente o intentar otra vía.",
@@ -392,7 +392,7 @@ export const es = {
       clearTitle: "Sin promesas vacías ni lenguaje complicado",
       clearText: "Usted recibe una explicación directa sobre la viabilidad, los riesgos y los documentos que hacen falta. La tutela se prepara con seriedad, sin vender resultados imposibles.",
       epsTitle: "Cuando el problema es de salud, el tiempo importa",
-      epsText: "Si la EPS retrasa autorizaciones, medicamentos, cirugías, tratamientos o atención especializada, una tutela bien soportada puede ayudar a mover una respuesta judicial rápida.",
+      epsText: "Atendemos consultas como «la EPS no me autoriza un procedimiento», tutela por medicamentos, tutela por cita o cirugía y tutela contra la EPS en Pereira. Primero revisamos la orden médica, la respuesta de la entidad, la urgencia y los demás soportes para definir si la tutela es la vía adecuada.",
       evalBadge: "Evaluador preliminar",
       evalTitle: "¿Procede una tutela en su caso?",
       evalSubtitle: "Responda cuatro preguntas para revisar si su situación puede necesitar una tutela.",

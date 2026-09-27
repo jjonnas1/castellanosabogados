@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { supabase } from '@/lib/supabase-browser';
+import { trackConversion } from '@/lib/conversionTracking';
 
 const SESSION_TTL_MS = 4 * 60 * 60 * 1000;
 const VISITOR_KEY    = '_vk';
@@ -127,12 +128,20 @@ export default function VisitTracker() {
   // Detectar clics en links de contacto (capture para actuar antes del modal WA)
   useEffect(() => {
     function onClick(e: MouseEvent) {
-      const vk = visitorRef.current;
-      if (!vk) return;
       const anchor = (e.target as HTMLElement).closest('a[href]') as HTMLAnchorElement | null;
       if (!anchor) return;
       const href = anchor.getAttribute('href') ?? '';
-      if (href.includes('wa.me') || href.includes('whatsapp.com')) {
+
+      const isWhatsApp = href.includes('wa.me') || href.includes('whatsapp.com');
+      if (isWhatsApp) {
+        trackConversion('whatsapp', { page_path: pathname });
+      } else if (href.startsWith('tel:')) {
+        trackConversion('phone', { page_path: pathname });
+      }
+
+      const vk = visitorRef.current;
+      if (!vk) return;
+      if (isWhatsApp) {
         sendContactClick('whatsapp', vk);
       } else if (href.startsWith('mailto:')) {
         sendContactClick('email', vk);
@@ -142,7 +151,7 @@ export default function VisitTracker() {
     }
     document.addEventListener('click', onClick, true);
     return () => document.removeEventListener('click', onClick, true);
-  }, []);
+  }, [pathname]);
 
   return null;
 }

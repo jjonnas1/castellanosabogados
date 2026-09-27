@@ -27,15 +27,35 @@ const SERVICE_DESCRIPTIONS: Record<string, string> = {
   'administrativo':          'Representación ante autoridades administrativas y jurisdicción contenciosa en Pereira. Recursos, demandas y defensa estratégica frente al Estado.',
 };
 
+const LOCAL_SERVICE_METADATA: Record<string, { title: string; description: string }> = {
+  'ejecucion-penas': {
+    title: 'Abogado de ejecución de penas en Pereira y Manizales',
+    description: 'Libertad condicional, redenciones, cómputos y beneficios de ejecución de penas en Pereira, Dosquebradas, Santa Rosa de Cabal y Manizales. Atención virtual.',
+  },
+  civil: {
+    title: 'Abogado civil en Pereira y Manizales',
+    description: 'Asesoría civil en contratos, obligaciones, deudas y conflictos patrimoniales en Pereira, Dosquebradas, Santa Rosa de Cabal y Manizales. Atención virtual.',
+  },
+  familia: {
+    title: 'Abogado de familia en Pereira y Manizales',
+    description: 'Asesoría en alimentos, custodia, visitas y divorcio en Pereira, Dosquebradas, Santa Rosa de Cabal y Manizales, con revisión documental virtual.',
+  },
+  laboral: {
+    title: 'Abogado laboral en Pereira y Manizales',
+    description: 'Asesoría para trabajadores y empleadores en Pereira, Dosquebradas, Santa Rosa de Cabal y Manizales: contratos, liquidaciones, despidos y reclamaciones.',
+  },
+};
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const detail = getServiceDetail(slug);
   if (!detail) return {};
 
-  const description = SERVICE_DESCRIPTIONS[slug] ?? detail.summary;
-  const title = slug === 'traduccion-legal'
+  const localMetadata = LOCAL_SERVICE_METADATA[slug];
+  const description = localMetadata?.description ?? SERVICE_DESCRIPTIONS[slug] ?? detail.summary;
+  const title = localMetadata?.title ?? (slug === 'traduccion-legal'
     ? 'Traducción legal de documentos en Colombia | Castellanos Abogados'
-    : `${detail.headline} | Castellanos Abogados`;
+    : `${detail.headline} | Castellanos Abogados`);
 
   return {
     title,
