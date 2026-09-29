@@ -203,12 +203,6 @@ const serviceWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
 };
 
 const pageWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
-  '/': {
-    area: 'Consulta jurídica', eyebrow: 'Hablemos de su caso',
-    headline: '¿Qué situación jurídica necesita resolver?',
-    description: 'Cuéntenos brevemente qué ocurrió y en qué ciudad se encuentra. Le indicamos cómo iniciar la revisión.',
-    message: 'Hola, visité su página web y quisiera orientación sobre un asunto jurídico.',
-  },
   '/servicios': {
     area: 'Servicios jurídicos', eyebrow: 'Encuentre la ruta adecuada',
     headline: '¿No sabe qué área corresponde a su caso?',

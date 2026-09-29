@@ -2343,3 +2343,101 @@ main.motion-public.editorial-page.editorial-tools > section:last-of-type { backg
 .motion-public.editorial-contact .btn-secondary {
   border-radius: 999px;
 }
+
+/* Inicio conserva su cierre propio, sin la tarjeta adicional de WhatsApp. */
+.motion-public .motion-closing.home-contact-final {
+  border-top: 1px solid #315b48;
+  background: radial-gradient(ellipse at 50% 0%, #36694b77, transparent 60%), linear-gradient(145deg, #10251d, #173b2a) !important;
+  text-align: center;
+}
+.motion-public .motion-closing.home-contact-final > .container {
+  max-width: 1120px;
+}
+.motion-public .home-contact-final__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #a5e8bd;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+.motion-public .home-contact-final__eyebrow span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #25d366;
+}
+.motion-public .motion-closing.home-contact-final h2 {
+  max-width: 900px;
+  margin: 18px auto 0;
+  font-size: clamp(43px, 5.5vw, 76px);
+  line-height: 1.06;
+}
+.motion-public .home-contact-final__description {
+  max-width: 620px;
+  margin: 22px auto 0;
+  color: #d6e4da;
+  font-size: clamp(16px, 1.8vw, 19px);
+  line-height: 1.7;
+}
+.motion-public .home-contact-final__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 34px;
+}
+.motion-public .home-contact-final__actions a {
+  display: inline-flex;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 999px;
+  padding: 13px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background .2s, transform .2s, border-color .2s;
+}
+.motion-public .home-contact-final__actions a:hover {
+  transform: translateY(-2px);
+}
+.motion-public .home-contact-final__actions a:focus-visible {
+  outline: 2px solid #9ce8b3;
+  outline-offset: 4px;
+}
+.motion-public .home-contact-final__whatsapp {
+  background: #25d366;
+  color: #10241d;
+  box-shadow: 0 12px 30px #25d36626;
+}
+.motion-public .home-contact-final__whatsapp:hover {
+  background: #53e386;
+}
+.motion-public .home-contact-final__secondary {
+  border: 1px solid #a7cbbb88;
+  color: #f4fbf6;
+}
+.motion-public .home-contact-final__secondary:hover {
+  border-color: #d5eadd;
+  background: #ffffff14;
+}
+.motion-public .home-contact-final__footer {
+  width: 100%;
+  margin-top: 42px;
+  border-top: 1px solid #ffffff2a;
+  padding-top: 20px;
+  color: #adcbbb;
+  font-size: 12px;
+  letter-spacing: .06em;
+}
+@media (max-width: 650px) {
+  .motion-public .home-contact-final__actions {
+    width: 100%;
+  }
+  .motion-public .home-contact-final__actions a {
+    width: 100%;
+  }
+}

@@ -286,28 +286,32 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* ── CTA FINAL (oscuro — idéntico a sección servicios) ─────── */}
-      <section className="motion-closing section-shell text-white" style={{ background: DARK_GLOW }} data-reveal>
-        <div className="container grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-          <div className="max-w-2xl space-y-2">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400/60">Castellanos Abogados</p>
+      {/* ── CONTACTO FINAL: único cierre de Inicio ────────────────── */}
+      <section className="motion-closing home-contact-final section-shell text-white" aria-label="Contacto de Castellanos Abogados" data-reveal>
+        <div className="container">
+          <div className="home-contact-final__content">
+            <p className="home-contact-final__eyebrow"><span aria-hidden /> Contacto directo</p>
             <h2 className="text-white">¿Listo para empezar?</h2>
-            <p className="text-slate-300 text-lg">Cuéntenos su caso y definimos la ruta en 24-48 horas.</p>
+            <p className="home-contact-final__description">
+              Cuéntenos qué ocurrió y en qué ciudad se encuentra. Le indicamos cómo iniciar la revisión de su caso.
+            </p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="home-contact-final__actions">
             <a
-              href={buildWhatsAppUrl({ message: "Hola, necesito orientación jurídica." })}
+              href={buildWhatsAppUrl({ area: 'Consulta jurídica', source: '/', message: 'Hola, visité su página de inicio y necesito orientación jurídica.' })}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-wa"
+              className="home-contact-final__whatsapp"
             >
-              <WaIcon size={16} />
+              <WaIcon size={20} />
               Contactar por WhatsApp
+              <span aria-hidden>↗</span>
             </a>
-            <Link href="/contacto" className="inline-flex items-center justify-center rounded-full border-2 border-white/50 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10 hover:border-white active:scale-95">
-              Formulario de contacto
+            <Link href="/contacto" className="home-contact-final__secondary">
+              Ver página de contacto
             </Link>
           </div>
+          <p className="home-contact-final__footer">Pereira · Manizales · Atención virtual</p>
         </div>
       </section>
     </main>
