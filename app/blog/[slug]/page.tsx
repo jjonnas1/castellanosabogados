@@ -1,9 +1,8 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 import SiteHeader from '@/app/components/SiteHeader';
-import WaIcon from '@/app/components/WaIcon';
-import { buildWhatsAppUrl } from '@/lib/contactLinks';
+import WhatsAppContactCard from '@/app/components/WhatsAppContactCard';
+import { articleWhatsAppCtas } from '@/lib/whatsappCtaContent';
 
 const articles: Record<string, { title: string; category: string; date: string; content: string; image?: string; imageAlt?: string }> = {
   'circular-externa-007-2026-alivios-financieros': {
@@ -974,89 +973,6 @@ const ARTICLE_TITLES: Record<string, string> = {
   'cuota-alimentaria-colombia': 'Cuota alimentaria en Colombia: cómo demandar, fijar o reclamar',
 };
 
-type ArticleConversion = {
-  serviceHref: string;
-  serviceLabel: string;
-  message: string;
-  relatedHref?: string;
-  relatedLabel?: string;
-};
-
-// Contenido general sujeto a la revisión jurídica final del propietario.
-const ARTICLE_CONVERSIONS: Record<string, ArticleConversion> = {
-  'cuando-interponer-una-tutela': {
-    serviceHref: '/tutela',
-    serviceLabel: 'Revisar el servicio de tutelas',
-    message: 'Si una EPS o entidad está afectando un derecho fundamental, conviene ordenar los hechos, las respuestas y los soportes disponibles. Podemos ayudarle a definir si la tutela es la vía adecuada.',
-    relatedHref: '/servicios/administrativo',
-    relatedLabel: 'Ver asuntos frente a entidades públicas',
-  },
-  'preacuerdo-penal-colombia': {
-    serviceHref: '/servicios/penal-personas',
-    serviceLabel: 'Solicitar revisión del preacuerdo',
-    message: 'Antes de aceptar un preacuerdo, conviene calcular sus efectos reales sobre la pena y los beneficios posteriores. Revisamos la propuesta y los documentos disponibles.',
-    relatedHref: '/servicios/ejecucion-penas',
-    relatedLabel: 'Ver ejecución de penas',
-  },
-  'medida-de-aseguramiento-colombia': {
-    serviceHref: '/servicios/penal-personas',
-    serviceLabel: 'Revisar la medida de aseguramiento',
-    message: 'Una medida de aseguramiento no equivale a una condena. Revisamos la decisión, sus fundamentos y las opciones procesales que puedan corresponder al caso.',
-    relatedHref: '/servicios/ejecucion-penas',
-    relatedLabel: 'Ver ejecución de penas',
-  },
-  'prescripcion-titulos-valores-colombia': {
-    serviceHref: '/servicios/civil',
-    serviceLabel: 'Solicitar revisión del título valor',
-    message: 'Antes de asumir que el título puede cobrarse o está prescrito, conviene revisar el documento, el vencimiento y las actuaciones realizadas. Analizamos el caso y la ruta disponible.',
-  },
-  'cuota-alimentaria-colombia': {
-    serviceHref: '/servicios/familia',
-    serviceLabel: 'Revisar un caso de cuota alimentaria',
-    message: 'Para fijar, revisar o cobrar una cuota, primero hay que identificar si existe un acuerdo o decisión previa y reunir los soportes de necesidades e ingresos. Le ayudamos a definir la ruta.',
-  },
-};
-
-function LibertadWhatsAppCta({ href, closing = false }: { href: string; closing?: boolean }) {
-  return (
-    <aside
-      className="relative isolate overflow-hidden rounded-[28px] border border-[#275c43] bg-[#10241d] p-6 text-white shadow-[0_18px_42px_rgba(16,36,29,0.18)] sm:p-8"
-      aria-label="Consultar por WhatsApp sobre libertad condicional"
-    >
-      <div className="pointer-events-none absolute -right-12 -top-16 h-52 w-52 rounded-full bg-[#25d366]/20 blur-3xl" aria-hidden />
-      <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="max-w-xl">
-          <p className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#92eab3]">
-            <span className="h-2 w-2 rounded-full bg-[#25d366]" aria-hidden />
-            Orientación en ejecución de penas
-          </p>
-          <h3 className="font-heading text-2xl font-semibold leading-tight text-white sm:text-[1.75rem]">
-            {closing ? 'El siguiente paso es revisar el caso concreto' : '¿Su familiar puede pedir libertad condicional?'}
-          </h3>
-          <p className="mt-3 text-sm leading-relaxed text-[#d9e8df]">
-            {closing
-              ? 'Revisamos el expediente y le explicamos qué requisitos y documentos faltan antes de presentar la petición.'
-              : 'Cuéntenos el estado del caso. Revisamos el cómputo, las redenciones y los documentos necesarios para evaluar la solicitud.'}
-          </p>
-        </div>
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex min-h-14 w-full shrink-0 items-center justify-center gap-2.5 rounded-xl bg-[#25d366] px-5 py-3 text-sm font-bold text-[#10241d] shadow-[0_10px_26px_rgba(37,211,102,0.22)] transition hover:-translate-y-0.5 hover:bg-[#53e386] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#25d366] sm:w-auto"
-        >
-          <WaIcon size={21} />
-          Consultar por WhatsApp
-          <span aria-hidden>↗</span>
-        </a>
-      </div>
-      <p className="relative mt-5 border-t border-white/15 pt-4 text-xs text-[#b6d1bf]">
-        Contacto directo · 314 830 9306 · Pereira y Manizales
-      </p>
-    </aside>
-  );
-}
-
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = articles[slug];
@@ -1098,16 +1014,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   const paragraphs = article.content.trim().split('\n\n');
   const description = ARTICLE_DESCRIPTIONS[slug] ?? article.content.trim().split('\n')[0].slice(0, 160);
-  const conversion = ARTICLE_CONVERSIONS[slug];
-  const isLibertadCondicional = slug === 'libertad-condicional-colombia';
-  const libertadWhatsAppUrl = isLibertadCondicional
-    ? buildWhatsAppUrl({
-        area: 'Libertad condicional',
-        source: `/blog/${slug}`,
-        message: 'Hola, leí su artículo sobre libertad condicional y quisiera revisar el caso de mi familiar.',
-      })
-    : null;
-  const conversionInsertIndex = conversion || isLibertadCondicional ? Math.floor(paragraphs.length / 2) : -1;
+  const contactContent = articleWhatsAppCtas[slug];
+  const conversionInsertIndex = Math.floor(paragraphs.length / 2);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -1266,22 +1174,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               return (
                 <Fragment key={i}>
                   {paragraph}
-                  {libertadWhatsAppUrl && i === conversionInsertIndex ? (
-                    <LibertadWhatsAppCta href={libertadWhatsAppUrl} />
-                  ) : conversion && i === conversionInsertIndex ? (
-                    <aside className="rounded-2xl border border-border bg-surface p-5 space-y-3" aria-label="Orientación relacionada">
-                      <p className="text-sm text-ink font-semibold">{conversion.message}</p>
-                      <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
-                        <Link href={conversion.serviceHref} className="font-semibold text-ink underline underline-offset-4">
-                          {conversion.serviceLabel}
-                        </Link>
-                        {conversion.relatedHref && conversion.relatedLabel ? (
-                          <Link href={conversion.relatedHref} className="text-muted underline underline-offset-4">
-                            {conversion.relatedLabel}
-                          </Link>
-                        ) : null}
-                      </div>
-                    </aside>
+                  {contactContent && i === conversionInsertIndex ? (
+                    <WhatsAppContactCard content={contactContent} source={`/blog/${slug}`} />
                   ) : null}
                 </Fragment>
               );
@@ -1304,27 +1198,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </div>
           )}
 
-          {libertadWhatsAppUrl ? (
-            <LibertadWhatsAppCta href={libertadWhatsAppUrl} closing />
-          ) : (
-            <div className="card-shell bg-surface p-6 space-y-3">
-              <p className="font-semibold text-ink">{conversion ? conversion.message : '¿Tiene preguntas sobre este tema?'}</p>
-              <p className="text-sm text-muted">{conversion ? 'La revisión del caso permite identificar la ruta y los documentos que hacen falta.' : 'Contáctenos y le orientamos sin compromiso.'}</p>
-              <div className="flex flex-wrap gap-3">
-                {conversion ? (
-                  <Link href={conversion.serviceHref} className="btn-primary">{conversion.serviceLabel}</Link>
-                ) : (
-                  <a
-                    href={buildWhatsAppUrl({ area: article.category, source: `/blog/${slug}`, message: `Hola, leí el artículo "${article.title}" y tengo una consulta.` })}
-                    className="btn-primary"
-                  >
-                    Escribir por WhatsApp
-                  </a>
-                )}
-                <Link href="/blog" className="btn-secondary">Ver más artículos</Link>
-              </div>
-            </div>
-          )}
+          {contactContent && <WhatsAppContactCard content={contactContent} source={`/blog/${slug}`} closing />}
         </div>
       </section>
 

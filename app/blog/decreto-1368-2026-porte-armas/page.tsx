@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/app/components/SiteHeader";
-import { buildWhatsAppUrl } from "@/lib/contactLinks";
+import WhatsAppContactCard from "@/app/components/WhatsAppContactCard";
+import { articleWhatsAppCtas } from "@/lib/whatsappCtaContent";
 
 const slug = "decreto-1368-2026-porte-armas";
 const url = `https://jonatancastellanosabogado.com/blog/${slug}`;
@@ -12,12 +13,7 @@ const description =
 const cover = "/og-image.jpg";
 const officialPdf =
   "https://dapre.presidencia.gov.co/normativa/normativa/DECRETO%20No.%201368%20DEL%208%20DE%20SEPTIEMBRE%20DE%202026.pdf";
-const contact = buildWhatsAppUrl({
-  area: "Decreto 1368 de 2026 · Porte de armas",
-  source: `/blog/${slug}`,
-  message:
-    "Hola, leí la guía del Decreto 1368 de 2026. Quisiera revisar mi situación jurídica.",
-});
+const contactContent = articleWhatsAppCtas[slug];
 
 export const metadata: Metadata = {
   title:
@@ -315,9 +311,7 @@ export default function Decreto1368Page() {
                 ocurrió. La documentación se revisa después, según lo que exija
                 el caso.
               </p>
-              <a href={contact} className="btn-primary inline-flex">
-                Consultar mi situación por WhatsApp ↗
-              </a>
+              <WhatsAppContactCard content={contactContent} source={`/blog/${slug}`} />
             </section>
             <section className="space-y-4">
               <h2 className="!text-3xl">Preguntas frecuentes</h2>
@@ -395,29 +389,7 @@ export default function Decreto1368Page() {
               </p>
             </section>
           </div>
-          <aside className="rounded-lg bg-[#151b28] !text-white p-7 md:p-10 space-y-4">
-            <p className="text-xs tracking-widest uppercase text-white/65">
-              Castellanos Abogados
-            </p>
-            <h2 className="!text-3xl !text-white">
-              Una noticia general. Una situación jurídica particular.
-            </h2>
-            <p className="text-white/80">
-              Revisamos su situación y le explicamos la ruta jurídica. Atención
-              en Pereira, el Eje Cafetero y modalidad virtual.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <a href={contact} className="btn-primary">
-                WhatsApp · 314 830 9306
-              </a>
-              <Link
-                href="/servicios/penal-personas"
-                className="btn-secondary !text-white !border-white/30"
-              >
-                Conocer el área penal
-              </Link>
-            </div>
-          </aside>
+          <WhatsAppContactCard content={contactContent} source={`/blog/${slug}`} closing />
         </div>
       </article>
     </main>
