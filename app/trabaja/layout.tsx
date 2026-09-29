@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: 'Trabaja con nosotros | Castellanos Abogados',
     description:
       'Red de abogados especialistas: trabajo remoto, consultas verificadas y pagos seguros.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Trabaja con nosotros' }],
+    images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Trabaja con nosotros' }],
   },
   twitter: {
     card: 'summary_large_image',

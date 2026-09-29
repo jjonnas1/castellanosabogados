@@ -996,13 +996,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description,
       publishedTime: article.date,
       authors: ['Jonatan Castellanos'],
-      images: [{ url: article.image ?? '/og-image.jpg', width: 1200, height: 630, alt: article.imageAlt ?? article.title }],
+      images: [{ url: article.image ?? '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: article.imageAlt ?? article.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [article.image ?? '/og-image.jpg'],
+      images: [article.image ?? '/og-share-castellanos-2026.jpg'],
     },
   };
 }

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Castellanos Abogados — asesoría jurídica en Pereira y Manizales</title>
+  <desc id="desc">Tarjeta editorial verde oscuro con el nombre Castellanos Abogados en tipografía clara.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10241d"/>
+      <stop offset="0.6" stop-color="#102920"/>
+      <stop offset="1" stop-color="#071b16"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.72" cy="0.48" r="0.55">
+      <stop offset="0" stop-color="#3c8c61" stop-opacity="0.43"/>
+      <stop offset="1" stop-color="#3c8c61" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b3d9ae" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#b3d9ae" stop-opacity="0.52"/>
+      <stop offset="1" stop-color="#b3d9ae" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <path d="M749 -92H1215V720H749Z" fill="#153a2a" opacity="0.25"/>
+  <path d="M897 -170C1123 15 1133 220 958 371C836 475 850 637 1005 754" fill="none" stroke="#7fc896" stroke-width="1.5" opacity="0.28"/>
+  <path d="M969 -146C1195 39 1205 244 1030 395C908 499 922 661 1077 778" fill="none" stroke="#a0d5a5" stroke-width="1.2" opacity="0.18"/>
+  <path d="M825 -127C1051 58 1061 263 886 414C764 518 778 680 933 797" fill="none" stroke="#a0d5a5" stroke-width="1.2" opacity="0.15"/>
+  <circle cx="992" cy="316" r="220" fill="none" stroke="#b7d9b6" stroke-width="1.2" opacity="0.14"/>
+  <circle cx="992" cy="316" r="161" fill="none" stroke="#b7d9b6" stroke-width="1.2" opacity="0.18"/>
+  <circle cx="992" cy="316" r="102" fill="none" stroke="#b7d9b6" stroke-width="1.2" opacity="0.12"/>
+  <path d="M894 121v390M1090 121v390" stroke="#a8d4aa" stroke-width="1" opacity="0.13"/>
+  <path d="M824 316h336" stroke="#a8d4aa" stroke-width="1" opacity="0.10"/>
+  <text x="984" y="459" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="402" fill="#d7e8d4" opacity="0.07">C</text>
+
+  <rect x="72" y="71" width="10" height="10" rx="5" fill="#67d886"/>
+  <text x="101" y="81" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="4.4" fill="#a9d8b0">FIRMA JURÍDICA</text>
+  <text x="72" y="205" font-family="Georgia, 'Times New Roman', serif" font-size="82" font-weight="400" letter-spacing="-2.4" fill="#f4f1e9">Castellanos</text>
+  <text x="72" y="301" font-family="Georgia, 'Times New Roman', serif" font-size="82" font-weight="400" letter-spacing="-2.4" fill="#f4f1e9">Abogados</text>
+
+  <path d="M72 341H560" stroke="url(#edge)" stroke-width="1.4"/>
+  <rect x="72" y="365" width="6" height="100" rx="3" fill="#67d886"/>
+  <text x="99" y="400" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="28" font-weight="500" fill="#e5eee4">Una ruta clara para</text>
+  <text x="99" y="440" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="28" font-weight="500" fill="#e5eee4">su situación jurídica.</text>
+
+  <path d="M72 522H1128" stroke="#d2e3d0" stroke-width="1" opacity="0.18"/>
+  <text x="72" y="563" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="21" font-weight="700" letter-spacing="2.2" fill="#a9d8b0">PEREIRA  ·  MANIZALES</text>
+  <text x="1128" y="563" text-anchor="end" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="20" font-weight="500" fill="#e5eee4">jonatancastellanosabogado.com</text>
+</svg>

@@ -24,7 +24,7 @@ const organizationSchema = {
   telephone: "+573148309306",
   email: "jonatancastellanosabogado@gmail.com",
   priceRange: "$$",
-  image: "https://jonatancastellanosabogado.com/og-image.jpg",
+  image: "https://jonatancastellanosabogado.com/og-share-castellanos-2026.jpg",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Pereira",
@@ -99,23 +99,24 @@ export const metadata: Metadata = {
     locale: 'es_CO',
     url: 'https://jonatancastellanosabogado.com',
     siteName: 'Castellanos Abogados',
-    title: 'Castellanos Abogados | Firma jurídica en Pereira',
+    title: 'Castellanos Abogados · Pereira y Manizales',
     description:
-      'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Atendemos en Pereira y todo el Eje Cafetero.',
+      'Una ruta clara para su situación jurídica. Asesoría en derecho penal, familia, laboral y ejecución de penas. Hablemos de su caso.',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/og-share-castellanos-2026.jpg',
         width: 1200,
         height: 630,
-        alt: 'Castellanos Abogados — Firma jurídica en Pereira',
+        alt: 'Castellanos Abogados — Firma jurídica en Pereira y Manizales',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Castellanos Abogados | Firma jurídica en Pereira',
+    title: 'Castellanos Abogados · Pereira y Manizales',
     description:
-      'Asesoría jurídica estratégica en derecho penal, tutelas, ejecución de penas, familia y laboral. Pereira, Eje Cafetero.',
+      'Una ruta clara para su situación jurídica. Asesoría en derecho penal, familia, laboral y ejecución de penas. Hablemos de su caso.',
+    images: ['/og-share-castellanos-2026.jpg'],
   },
 };
 

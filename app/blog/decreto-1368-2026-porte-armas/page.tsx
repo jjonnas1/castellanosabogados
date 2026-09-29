@@ -10,7 +10,7 @@ const title =
   "Decreto 1368 de 2026: qué cambia en el porte de armas en Colombia";
 const description =
   "Permisos vigentes, autorización especial, tenencia y restricciones: explicamos el Decreto 1368 de 2026 y cuándo conviene revisar su situación jurídica.";
-const cover = "/og-image.jpg";
+const cover = "/og-share-castellanos-2026.jpg";
 const officialPdf =
   "https://dapre.presidencia.gov.co/normativa/normativa/DECRETO%20No.%201368%20DEL%208%20DE%20SEPTIEMBRE%20DE%202026.pdf";
 const contactContent = articleWhatsAppCtas[slug];

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     title: 'Cómo trabajamos | Castellanos Abogados',
     description:
       'Cada caso sigue una metodología estructurada: evaluación, análisis jurídico, estrategia y actuación con seguimiento directo.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Cómo trabajamos' }],
+    images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Cómo trabajamos' }],
   },
   twitter: {
     card: 'summary_large_image',
