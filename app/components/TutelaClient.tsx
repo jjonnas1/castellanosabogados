@@ -1,14 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import SiteHeader from '@/app/components/SiteHeader';
 import WaIcon from '@/app/components/WaIcon';
 import EvaluadorTutela from '@/app/components/EvaluadorTutela';
-import { buildMailtoUrl, buildWhatsAppUrl } from '@/lib/contactLinks';
+import { buildWhatsAppUrl } from '@/lib/contactLinks';
 import { useLanguage } from '@/contexts/LanguageContext';
-
-const tutelaHeroBackground =
-  "linear-gradient(120deg, rgba(18,22,34,0.93), rgba(44,53,64,0.85)), url('https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
 // Contenido general sujeto a la revisión jurídica final del propietario.
 const tutelaFaqs = [
@@ -48,8 +44,8 @@ export default function TutelaClient() {
       }) }} />
 
       <section
-        className="relative overflow-hidden border-b border-border/70 text-white"
-        style={{ backgroundImage: tutelaHeroBackground, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        className="relative overflow-hidden border-b border-[#31584b] bg-[#112820] text-white"
+        style={{ backgroundImage: 'radial-gradient(circle at 84% 20%, rgba(113,176,140,.22), transparent 38%), linear-gradient(125deg, #10241e 5%, #214838 100%)' }}
       >
         <div
           className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.12),transparent_34%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.1),transparent_38%)]"
@@ -69,35 +65,24 @@ export default function TutelaClient() {
                 })}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-wa"
+                className="tutela-whatsapp inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#25d366] px-6 py-3 text-sm font-bold text-[#10241d] transition hover:bg-[#53e386] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#25d366]"
               >
                 <WaIcon size={18} />
                 {p.evaluateCase}
               </a>
-              <a
-                href={buildMailtoUrl({
-                  area: 'Tutelas',
-                  source: '/tutela',
-                  subject: 'Solicitud de orientación – Tutelas',
-                  message: 'Hola, necesito orientación para preparar o presentar una tutela.',
-                })}
-                className="btn-secondary border-white/60 bg-white/10 text-white hover:bg-white/15 hover:text-white"
-              >
-                {t.common.goContact}
-              </a>
             </div>
           </div>
 
-          <article className="card-shell relative overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-7 text-white">
-            <div className="absolute inset-0 bg-gradient-to-b from-[#121622]/60 via-[#121622]/70 to-[#121622]/80" aria-hidden />
+          <article className="tutela-hero-panel relative overflow-hidden border border-white/20 bg-white/10 p-7 text-white backdrop-blur-sm sm:p-9">
             <div className="relative space-y-4">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-slate-200">{p.strategicBadge}</p>
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[#ace4bf]">{p.strategicBadge}</p>
               <h2 className="text-2xl text-white">{p.strategicTitle}</h2>
               <p className="text-sm text-slate-100">{p.strategicText}</p>
-              <div className="grid gap-2 text-sm text-slate-100">
-                {p.steps.map((item) => (
-                  <div key={item} className="rounded-2xl border border-white/15 bg-white/5 px-4 py-2">
-                    {item}
+              <div className="grid text-sm text-slate-100">
+                {p.steps.map((item, index) => (
+                  <div key={item} className="flex gap-4 border-t border-white/20 py-3">
+                    <span className="font-semibold text-[#ace4bf]">0{index + 1}</span>
+                    <span>{item}</span>
                   </div>
                 ))}
               </div>
@@ -108,7 +93,7 @@ export default function TutelaClient() {
 
       <section className="section-shell bg-white">
         <div className="container grid gap-6 lg:grid-cols-2">
-          <article className="card-shell bg-white p-6">
+          <article className="border-l-2 border-[#3e665e] py-2 pl-6">
             <h2 className="text-2xl">{p.whenTitle}</h2>
             <p className="mt-3 text-muted">{p.whenText}</p>
             <ul className="mt-4 space-y-2 text-sm text-muted">
@@ -118,7 +103,7 @@ export default function TutelaClient() {
             </ul>
           </article>
 
-          <article className="card-shell bg-white p-6">
+          <article className="border-l-2 border-[#3e665e] py-2 pl-6">
             <h2 className="text-2xl">{p.howTitle}</h2>
             <ul className="mt-4 space-y-3 text-sm text-muted">
               {p.howItems.map((item) => (
@@ -127,7 +112,7 @@ export default function TutelaClient() {
             </ul>
           </article>
 
-          <article className="card-shell bg-white p-6 lg:col-span-2">
+          <article className="tutela-soft-panel border border-[#dce8e1] bg-[#f6f9f7] p-6 sm:p-8 lg:col-span-2">
             <div className="grid gap-6 lg:grid-cols-2">
               <div>
                 <h2 className="text-2xl">{p.clearTitle}</h2>
@@ -151,7 +136,7 @@ export default function TutelaClient() {
             </div>
             <div className="mt-8 grid gap-4 md:grid-cols-2">
               {tutelaFaqs.map((item) => (
-                <article key={item.question} className="card-shell bg-surface p-6">
+                <article key={item.question} className="tutela-faq border-t border-[#b9cfc3] px-1 pt-5">
                   <h3 className="text-lg text-ink">{item.question}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted">{item.answer}</p>
                 </article>
@@ -179,7 +164,7 @@ export default function TutelaClient() {
             <h2>{p.formTitle}</h2>
             <p className="text-muted">{p.formSubtitle}</p>
           </div>
-          <form className="card-shell bg-surface p-6 grid gap-4" action="/api/contact" method="post">
+          <form className="tutela-soft-panel grid gap-4 border border-[#dce8e1] bg-[#f6f9f7] p-6 sm:p-8" action="/api/contact" method="post">
             <input type="hidden" name="area" value="Tutelas" />
             <input type="hidden" name="source" value="/tutela#formulario-tutela" />
             <input type="hidden" name="subject" value="Consulta de tutela" />
@@ -197,44 +182,8 @@ export default function TutelaClient() {
               {p.formMessage}
               <textarea name="message" rows={4} required placeholder={p.formMessagePlaceholder} className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" />
             </label>
-            <button type="submit" className="btn-primary justify-center">{p.formSubmit}</button>
+            <button type="submit" className="tutela-submit inline-flex min-h-12 items-center justify-center rounded-full bg-[#173e2f] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#245c45] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173e2f]">{p.formSubmit}</button>
           </form>
-        </div>
-      </section>
-
-      <section className="section-shell border-t border-border/70 bg-surface/80" id="cta-tutelas">
-        <div className="container">
-          <article className="card-shell bg-white p-8 text-center">
-            <p className="pill mx-auto w-fit">{p.ctaBadge}</p>
-            <h2 className="mt-3">{p.ctaTitle}</h2>
-            <p className="mt-3 text-muted">{p.ctaSubtitle}</p>
-            <div className="mt-5 flex flex-wrap justify-center gap-3">
-              <a
-                href={buildWhatsAppUrl({
-                  area: 'Tutelas',
-                  source: '/tutela#cta-tutelas',
-                  message: 'Hola, necesito orientación para una tutela por incumplimiento de EPS o entidad.',
-                })}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-wa"
-              >
-                <WaIcon size={18} />
-                {p.evaluateCase}
-              </a>
-              <a
-                href={buildMailtoUrl({
-                  area: 'Tutelas',
-                  source: '/tutela#cta-tutelas',
-                  subject: 'Solicitud de contacto – Tutelas',
-                  message: 'Hola, quiero agendar una revisión para un caso de tutela.',
-                })}
-                className="btn-secondary"
-              >
-                Enviar correo
-              </a>
-            </div>
-          </article>
         </div>
       </section>
     </main>

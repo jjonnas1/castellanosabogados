@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import SiteHeader from '@/app/components/SiteHeader';
-import WaIcon from '@/app/components/WaIcon';
 
 const serviceAreas = [
   'Derecho civil',
@@ -51,7 +50,7 @@ export default function ContactoPage() {
 
           <div className="grid gap-3 text-sm text-muted">
             {[
-              'Respuesta prioritaria por WhatsApp en minutos.',
+              'Contacto directo por WhatsApp para explicar la situación.',
               'Clasificación del caso por área jurídica y urgencia.',
               'Posibilidad de seguimiento desde el portal del cliente cuando el caso avance.',
             ].map((item) => (
@@ -60,40 +59,6 @@ export default function ContactoPage() {
                 <p>{item}</p>
               </div>
             ))}
-          </div>
-
-          {/* WhatsApp — acción principal */}
-          <div className="rounded-2xl border border-[#25d366]/30 bg-green-50 p-7 shadow-[0_6px_28px_rgba(37,211,102,0.14)]">
-            <div className="flex items-center gap-2 mb-1">
-              <WaIcon size={16} />
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-green-700">
-                Respuesta inmediata
-              </p>
-            </div>
-            <p className="mt-1 text-sm text-green-700/70 mb-5">
-              Escríbenos y respondemos en minutos. Sin trámites ni formularios.
-            </p>
-
-            <a
-              href="https://wa.me/573148309306?text=Hola%2C%20quiero%20agendar%20una%20evaluaci%C3%B3n%20jur%C3%ADdica."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-wa w-full justify-center py-4 text-base"
-            >
-              <WaIcon size={22} />
-              Escribir a Castellanos Abogados
-            </a>
-
-            <div className="mt-5 grid grid-cols-2 gap-3 text-center text-sm border-t border-[#25d366]/20 pt-5">
-              <div>
-                <p className="font-semibold text-ink">314 830 9306</p>
-                <p className="text-xs text-muted">Número de WhatsApp</p>
-              </div>
-              <div>
-                <p className="font-semibold text-ink">Lun – Vie · 7:00–16:00</p>
-                <p className="text-xs text-muted">Horario de atención</p>
-              </div>
-            </div>
           </div>
 
           <div className="text-center">

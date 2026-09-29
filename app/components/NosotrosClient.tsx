@@ -1,10 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import SiteHeader from "@/app/components/SiteHeader";
-import WaIcon from "@/app/components/WaIcon";
-import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const heroBg =
@@ -90,36 +87,6 @@ export default function NosotrosClient() {
               className="object-cover object-top"
               sizes="(max-width: 1024px) 100vw, 45vw"
             />
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="border-t border-border bg-gradient-to-b from-white to-surface/70">
-        <div className="container section-shell space-y-5 text-center" data-reveal>
-          <p className="pill mx-auto w-fit">Contacto directo</p>
-          <h2 className="text-ink">¿Tiene una situación jurídica?</h2>
-          <p className="mx-auto max-w-2xl text-muted">
-            Cuéntenos su caso. Revisamos el contexto, definimos el enfoque y le
-            indicamos el siguiente paso con claridad.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href={buildWhatsAppUrl({
-                area: "Nosotros",
-                source: "/nosotros",
-                message: "Hola, quisiera agendar una consulta.",
-              })}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-wa"
-            >
-              <WaIcon size={16} />
-              Agendar consulta
-            </a>
-            <Link href="/servicios" className="btn-secondary">
-              Ver servicios
-            </Link>
           </div>
         </div>
       </section>

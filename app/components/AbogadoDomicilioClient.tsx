@@ -1,12 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import SiteHeader from '@/app/components/SiteHeader';
 import WaIcon from '@/app/components/WaIcon';
-import { buildMailtoUrl, buildWhatsAppUrl } from '@/lib/contactLinks';
-
-const heroBackground =
-  "linear-gradient(120deg, rgba(18,22,34,0.93), rgba(44,53,64,0.85)), url('https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1200&q=75&fm=webp')";
+import { buildWhatsAppUrl } from '@/lib/contactLinks';
 
 const steps = [
   {
@@ -65,21 +61,14 @@ export default function AbogadoDomicilioClient() {
     source: '/abogado-a-domicilio',
     message: 'Hola, quisiera solicitar una visita de abogado a domicilio. Mi dirección y horario preferido son:',
   });
-  const mail = buildMailtoUrl({
-    area: 'Abogados a domicilio',
-    source: '/abogado-a-domicilio',
-    subject: 'Solicitud de abogado a domicilio',
-    message: 'Hola, quisiera solicitar una visita de abogado a domicilio. Mi dirección y horario preferido son:',
-  });
-
   return (
     <main className="motion-public motion-inner editorial-page editorial-domicilio min-h-screen bg-canvas text-ink">
       <SiteHeader />
 
       {/* ── HERO ─────────────────────────────────────────────── */}
       <section
-        className="relative overflow-hidden border-b border-border/70 text-white"
-        style={{ backgroundImage: heroBackground, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        className="relative overflow-hidden border-b border-[#31584b] bg-[#112820] text-white"
+        style={{ backgroundImage: 'radial-gradient(circle at 85% 18%, rgba(113,176,140,.24), transparent 38%), linear-gradient(125deg, #10241e 5%, #214838 100%)' }}
       >
         <div
           className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.12),transparent_34%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.1),transparent_38%)]"
@@ -87,30 +76,23 @@ export default function AbogadoDomicilioClient() {
         />
         <div className="container section-shell relative grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
           <div className="space-y-5">
-            <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Nuevo servicio</p>
+            <p className="pill w-fit bg-white/15 text-white ring-1 ring-white/30">Asesoría en el lugar que necesitas</p>
             <h1 className="max-w-3xl text-white">Abogados a domicilio</h1>
             <p className="max-w-3xl text-lg text-slate-100">
               Enviamos tu abogado a la casa, oficina o el lugar donde lo requieras. Recibes asesoría jurídica
               presencial y personalizada, sin filas ni desplazamientos, con la misma rigurosidad de la firma.
             </p>
             <div className="flex flex-wrap gap-3">
-              <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-wa">
+              <a href={wa} target="_blank" rel="noopener noreferrer" className="domicilio-whatsapp inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#25d366] px-6 py-3 text-sm font-bold text-[#10241d] transition hover:bg-[#53e386] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#25d366]">
                 <WaIcon size={18} />
-                Solicitar visita
-              </a>
-              <a
-                href={mail}
-                className="btn-secondary border-white/60 bg-white/10 text-white hover:bg-white/15 hover:text-white"
-              >
-                Escribir por correo
+                Consultar disponibilidad por WhatsApp
               </a>
             </div>
           </div>
 
-          <article className="card-shell relative overflow-hidden rounded-3xl border border-white/20 bg-white/10 p-7 text-white">
-            <div className="absolute inset-0 bg-gradient-to-b from-[#121622]/60 via-[#121622]/70 to-[#121622]/80" aria-hidden />
-            <div className="relative space-y-3">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-slate-200">Desplazamiento presencial</p>
+          <article className="domicilio-hero-panel relative overflow-hidden border border-white/20 bg-white/10 p-7 text-white backdrop-blur-sm sm:p-9">
+            <div className="relative space-y-4">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[#ace4bf]">Desplazamiento presencial</p>
               <p className="flex items-baseline gap-2">
                 <span className="text-sm text-slate-200">Desde</span>
                 <span className="text-4xl font-bold text-white">$250.000</span>
@@ -119,10 +101,7 @@ export default function AbogadoDomicilioClient() {
                 El valor del desplazamiento presencial puede variar según el lugar donde requieras la atención.
                 Confirmamos la tarifa exacta antes de agendar, sin sorpresas.
               </p>
-              <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-wa mt-1 w-full justify-center">
-                <WaIcon size={18} />
-                Cotizar mi ubicación
-              </a>
+              <p className="border-t border-white/20 pt-4 text-xs text-slate-200">Indícanos municipio, dirección y horario preferido para confirmar la disponibilidad.</p>
             </div>
           </article>
         </div>
@@ -131,7 +110,7 @@ export default function AbogadoDomicilioClient() {
       {/* ── QUÉ ES ───────────────────────────────────────────── */}
       <section className="section-shell bg-white">
         <div className="container grid gap-6 lg:grid-cols-2">
-          <article className="card-shell bg-white p-6">
+          <article className="border-l-2 border-[#3e665e] py-2 pl-6">
             <h2 className="text-2xl">Tu abogado, donde lo necesites</h2>
             <p className="mt-3 text-muted">
               Sabemos que no siempre es fácil desplazarse a una oficina: el tiempo, la salud o la distancia pueden
@@ -139,7 +118,7 @@ export default function AbogadoDomicilioClient() {
               y respaldo profesional que caracterizan a Castellanos Abogados.
             </p>
           </article>
-          <article className="card-shell bg-white p-6">
+          <article className="border-l-2 border-[#3e665e] py-2 pl-6">
             <h2 className="text-2xl">Atención presencial y personalizada</h2>
             <p className="mt-3 text-muted">
               Un abogado de la firma se desplaza al lugar que indiques —tu casa, tu oficina o donde lo requieras— para
@@ -160,7 +139,7 @@ export default function AbogadoDomicilioClient() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {steps.map((step) => (
-              <article key={step.n} className="card-shell bg-white p-6">
+              <article key={step.n} className="domicilio-step border-t border-[#a8c5b9] px-1 pt-5">
                 <p className="text-3xl font-bold text-accent-500">{step.n}</p>
                 <h3 className="mt-3 text-lg font-semibold text-ink">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{step.text}</p>
@@ -173,7 +152,7 @@ export default function AbogadoDomicilioClient() {
       {/* ── QUÉ INCLUYE + PARA QUIÉN ─────────────────────────── */}
       <section className="section-shell bg-white">
         <div className="container grid gap-6 lg:grid-cols-2">
-          <article className="card-shell bg-white p-6">
+          <article className="domicilio-soft-panel border border-[#dce8e1] bg-[#f6f9f7] p-6 sm:p-8">
             <h2 className="text-2xl">Qué incluye la visita</h2>
             <ul className="mt-4 space-y-2 text-sm text-muted">
               {includes.map((item) => (
@@ -181,7 +160,7 @@ export default function AbogadoDomicilioClient() {
               ))}
             </ul>
           </article>
-          <article className="card-shell bg-white p-6">
+          <article className="domicilio-soft-panel border border-[#dce8e1] bg-[#f6f9f7] p-6 sm:p-8">
             <h2 className="text-2xl">Pensado para ti si…</h2>
             <ul className="mt-4 space-y-2 text-sm text-muted">
               {audience.map((item) => (
@@ -195,7 +174,7 @@ export default function AbogadoDomicilioClient() {
       {/* ── ÁREAS + TARIFA ───────────────────────────────────── */}
       <section className="section-shell bg-surface/80">
         <div className="container grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-          <article className="card-shell bg-white p-6">
+          <article className="domicilio-soft-panel border border-[#dce8e1] bg-white p-6 sm:p-8">
             <p className="pill w-fit">Áreas disponibles</p>
             <h2 className="mt-3 text-2xl">Cobertura en todas nuestras áreas</h2>
             <p className="mt-3 text-muted">
@@ -214,40 +193,16 @@ export default function AbogadoDomicilioClient() {
             </div>
           </article>
 
-          <article className="card-shell flex flex-col bg-white p-6">
+          <article className="domicilio-soft-panel flex flex-col border border-[#dce8e1] bg-white p-6 sm:p-8">
             <p className="pill w-fit">Tarifa</p>
             <h2 className="mt-3 text-2xl">Desplazamiento desde $250.000</h2>
             <p className="mt-3 text-muted">
               El valor del desplazamiento presencial puede variar según el lugar donde requieras la atención. Los
               honorarios profesionales del caso se acuerdan aparte, de acuerdo con la complejidad del asunto.
             </p>
-            <p className="mt-3 text-sm text-muted">
+            <p className="mt-3 border-t border-[#dce8e1] pt-4 text-sm text-muted">
               Escríbenos tu dirección y te confirmamos la tarifa exacta antes de agendar.
             </p>
-            <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-wa mt-5 w-full justify-center">
-              <WaIcon size={18} />
-              Cotizar mi visita
-            </a>
-          </article>
-        </div>
-      </section>
-
-      {/* ── CTA FINAL ────────────────────────────────────────── */}
-      <section className="section-shell border-t border-border/70 bg-white" id="cta-domicilio">
-        <div className="container">
-          <article className="card-shell bg-surface p-8 text-center">
-            <p className="pill mx-auto w-fit">Agenda tu visita</p>
-            <h2 className="mt-3">¿Quieres que un abogado vaya a tu dirección?</h2>
-            <p className="mt-3 text-muted">Cuéntanos tu caso, tu ubicación y el horario que prefieres. Te confirmamos todo antes de la visita.</p>
-            <div className="mt-5 flex flex-wrap justify-center gap-3">
-              <a href={wa} target="_blank" rel="noopener noreferrer" className="btn-wa">
-                <WaIcon size={18} />
-                Solicitar visita por WhatsApp
-              </a>
-              <a href={mail} className="btn-secondary">
-                Escribir por correo
-              </a>
-            </div>
           </article>
         </div>
       </section>

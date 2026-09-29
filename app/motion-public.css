@@ -2310,3 +2310,36 @@ main.motion-public.editorial-page.editorial-tools > section:last-of-type { backg
   .motion-public.editorial-blog .motion-blog-hero.section-shell { min-height: 420px; padding-block: 55px; }
   .motion-public.editorial-blog .motion-blog-hero h1 { font-size: 47px !important; }
 }
+
+/* Domicilios y tutelas: superficies suaves, sin la cuadrícula de tarjetas editorial antigua. */
+.motion-public.editorial-domicilio,
+.motion-public.editorial-tutela {
+  --editorial-wine: #3e665e;
+  --editorial-mist: #f3f8f5;
+}
+.motion-public.editorial-domicilio > section:first-of-type .pill,
+.motion-public.editorial-tutela > section:first-of-type .pill {
+  border-radius: 999px;
+  border-color: rgba(255,255,255,.25);
+  background: rgba(255,255,255,.12);
+  color: #e0f7e9;
+}
+.motion-public.editorial-domicilio .domicilio-hero-panel,
+.motion-public.editorial-tutela .tutela-hero-panel,
+.motion-public.editorial-domicilio .domicilio-soft-panel,
+.motion-public.editorial-tutela .tutela-soft-panel {
+  border-radius: 28px;
+}
+.motion-public.editorial-domicilio .domicilio-whatsapp,
+.motion-public.editorial-tutela .tutela-whatsapp,
+.motion-public.editorial-tutela .tutela-submit {
+  border-radius: 999px;
+}
+.motion-public.editorial-tutela #evaluador :is(.card-shell, .btn-secondary),
+.motion-public.editorial-about :is(.rounded-2xl, .card-shell),
+.motion-public.editorial-contact .rounded-2xl {
+  border-radius: 22px;
+}
+.motion-public.editorial-contact .btn-secondary {
+  border-radius: 999px;
+}
