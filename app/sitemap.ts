@@ -4,6 +4,7 @@ import { serviceDetailList } from '@/lib/serviceDetails';
 const BASE = 'https://jonatancastellanosabogado.com';
 
 const BLOG_SLUGS = [
+  'quedarse-mas-tiempo-colombia',
   'circular-externa-007-2026-alivios-financieros',
   'decreto-1368-2026-porte-armas',
   'cuando-interponer-una-tutela',
@@ -29,6 +30,7 @@ const BLOG_SLUGS = [
 ];
 
 const BLOG_DATES: Record<string, string> = {
+  'quedarse-mas-tiempo-colombia': '2026-10-03',
   'circular-externa-007-2026-alivios-financieros': '2026-09-17',
   'decreto-1368-2026-porte-armas': '2026-09-09',
   'cuando-interponer-una-tutela':        '2026-03-10',
@@ -57,7 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${BASE}/visas-colombia`, priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-10-02' },
     { url: `${BASE}/`,            priority: 1.0, changeFrequency: 'weekly',  lastModified: '2026-05-12' },
-    { url: `${BASE}/servicios`,   priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-05-01' },
+    { url: `${BASE}/servicios`,   priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-10-03' },
     { url: `${BASE}/tutela`,      priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-05-01' },
     { url: `${BASE}/abogado-a-domicilio`, priority: 0.85, changeFrequency: 'monthly', lastModified: '2026-07-01' },
     { url: `${BASE}/metodologia`, priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-05-01' },

@@ -176,6 +176,17 @@ export default function PracticeShowcase() {
           </div>
         </div>
       </div>
+      <div className="mt-8 grid gap-6 border-t border-border pt-8 md:grid-cols-[1fr_auto] md:items-center" data-reveal>
+        <div>
+          <span className="eyebrow"><span className="line" />Derecho migratorio</span>
+          <h3 className="mt-3 font-heading text-2xl font-semibold text-ink">¿Quiere vivir, trabajar o permanecer más tiempo en Colombia?</h3>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">Revisamos su nacionalidad, propósito y situación actual para orientar la ruta migratoria que corresponda. Atención virtual en todo Colombia y desde el exterior.</p>
+        </div>
+        <div className="flex flex-wrap gap-3 md:justify-end">
+          <Link className="button light" href="/visas-colombia">Conocer la asesoría <span aria-hidden>↗</span></Link>
+          <a className="text-link" href={buildWhatsAppUrl({ area: 'Derecho migratorio', source: '/#servicios', message: 'Hola, necesito orientación sobre mi situación migratoria en Colombia.' })} target="_blank" rel="noopener noreferrer">Consultar por WhatsApp <span aria-hidden>→</span></a>
+        </div>
+      </div>
     </section>
   );
 }

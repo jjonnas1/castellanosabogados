@@ -8,6 +8,7 @@ type Service = {
   slug: string;
   title: string;
   description: string;
+  href?: string;
   detail?: {
     activation: string[];
     deliverables: string[];
@@ -89,7 +90,7 @@ export default function ServiciosClient({ services }: { services: Service[]; err
                   </div>
 
                   <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted">
-                    <Link href={`/servicios/${service.slug}`} className="font-semibold text-accent transition hover:text-ink">
+                    <Link href={service.href ?? `/servicios/${service.slug}`} className="font-semibold text-accent transition hover:text-ink">
                       {p.viewDetail}
                     </Link>
                     <Link href="/contacto" className="font-semibold text-muted transition hover:text-ink">

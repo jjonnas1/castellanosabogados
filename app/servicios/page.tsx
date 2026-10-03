@@ -6,13 +6,13 @@ import ServiciosClient from "@/app/components/ServiciosClient";
 
 export const metadata: Metadata = {
   title: 'Servicios legales | Castellanos Abogados',
-  description: 'Penal, ejecución de penas, tutelas, civil, familia, laboral y administrativo. Asesoría jurídica estratégica en Pereira y el Eje Cafetero.',
+  description: 'Penal, ejecución de penas, derecho migratorio, tutelas, civil, familia, laboral y administrativo. Asesoría jurídica estratégica en Colombia.',
   alternates: { canonical: '/servicios' },
   openGraph: {
     type: 'website',
     url: 'https://jonatancastellanosabogado.com/servicios',
     title: 'Servicios jurídicos en Pereira | Castellanos Abogados',
-    description: 'Penal, ejecución de penas, tutelas, civil, familia, laboral y administrativo. Asesoría estratégica en Pereira y el Eje Cafetero.',
+    description: 'Asesoría estratégica en derecho penal, migratorio, familia, laboral y otras áreas, con atención en Colombia.',
     images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Servicios — Castellanos Abogados' }],
   },
   twitter: {
@@ -26,12 +26,22 @@ export default async function ServiciosPage() {
   const { data, error } = await fetchServiceAreas();
 
   const dynamicServices = (Array.isArray(data) ? data : []).map(enrichService);
-  const fallbackServices = serviceDetailList.map((detail) => ({
+  const fallbackServices: Array<{ slug: string; name: string; title: string; description: string; href?: string }> = serviceDetailList.map((detail) => ({
     slug: detail.slug,
     name: detail.title,
     title: detail.title,
     description: detail.summary,
   }));
+
+  // Servicio editorial enlazado a la página migratoria nacional. No depende de
+  // una fila de Supabase para que siempre sea visible en el catálogo público.
+  fallbackServices.push({
+    slug: 'derecho-migratorio',
+    name: 'Derecho migratorio',
+    title: 'Derecho migratorio en Colombia',
+    description: 'Acompañamiento para visas, permanencia, residencia y cambios de situación migratoria, con atención virtual en todo el país y desde el exterior.',
+    href: '/visas-colombia',
+  });
 
   const merged = new Map<string, any>();
   [...fallbackServices, ...dynamicServices].forEach((service) => merged.set(service.slug, service));

@@ -10,6 +10,15 @@ export type WhatsAppCtaContent = {
 };
 
 export const articleWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
+  'quedarse-mas-tiempo-colombia': {
+    area: 'Derecho migratorio en Colombia', eyebrow: 'Orientación migratoria nacional',
+    headline: '¿Su permiso está por vencer o cambió su situación?',
+    description: 'Cuéntenos su nacionalidad, dónde se encuentra y qué quiere hacer en Colombia. Revisamos si conviene una prórroga, una visa u otra ruta.',
+    message: 'Hola, leí el artículo sobre quedarse más tiempo en Colombia y quisiera revisar mi situación migratoria.',
+    closingHeadline: 'Una ruta migratoria empieza por revisar su caso real',
+    closingDescription: 'Atendemos consultas virtuales en todo Colombia y desde el exterior.',
+    coverage: 'Atención virtual en todo Colombia y desde el exterior',
+  },
   'circular-externa-007-2026-alivios-financieros': {
     area: 'Alivios financieros', eyebrow: 'Orientación en asuntos financieros',
     headline: '¿Su banco respondió a la solicitud de alivio?',

@@ -4,7 +4,52 @@ import SiteHeader from '@/app/components/SiteHeader';
 import WhatsAppContactCard from '@/app/components/WhatsAppContactCard';
 import { articleWhatsAppCtas } from '@/lib/whatsappCtaContent';
 
-const articles: Record<string, { title: string; category: string; date: string; content: string; image?: string; imageAlt?: string }> = {
+const articles: Record<string, { title: string; category: string; date: string; content: string; image?: string; imageAlt?: string; sources?: Array<{ label: string; url: string }> }> = {
+  'quedarse-mas-tiempo-colombia': {
+    title: '¿Quiere quedarse más tiempo en Colombia? Permiso, visa y cambios que debe revisar',
+    category: 'Derecho migratorio',
+    date: '2026-10-03T09:00:00-05:00',
+    sources: [
+      { label: 'Cancillería: ABC de visas', url: 'https://www.cancilleria.gov.co/atencion-y-servicio-al-ciudadano/tramites-y-servicios/visa/abece-de-visas' },
+      { label: 'Cancillería: Resolución 5477 de 2022', url: 'https://www.cancilleria.gov.co/normograma/compilacion/docs/resolucion_minrelaciones_5477_2022.htm' },
+      { label: 'Migración Colombia: prórroga del permiso de permanencia', url: 'https://www.migracioncolombia.gov.co/tramites-y-servicios/tramites-generales/prorroga/permiso-temporal-de-permanencia-ptp-/-prorroga' },
+    ],
+    content: `
+Si está en Colombia y su fecha de salida está cerca, no espere al último día para buscar una solución. La ruta depende de su nacionalidad, pero también del motivo de su estadía, el permiso con el que ingresó, la actividad que quiere realizar y si su situación actual sigue siendo regular.
+
+**Primero: confirme qué autorización tiene y cuándo vence**
+
+Revise el sello o permiso de ingreso, la fecha exacta de permanencia autorizada y las condiciones asociadas. Una prórroga no es automática y una visa no convierte cualquier actividad en permitida. El punto de partida es leer el documento vigente, no adivinar la ruta por el país de origen.
+
+**Tres escenarios que suelen confundirse**
+
+Algunas personas pueden solicitar una extensión de su permiso de permanencia cuando todavía tienen un permiso vigente y su nacionalidad no exige visa. Migración Colombia informa que esa prórroga tiene límites dentro del mismo año y requisitos propios. Otras personas necesitan solicitar una visa porque quieren trabajar, estudiar, reunirse con su familia o establecerse. Y quien ya cuenta con una visa puede necesitar informar un cambio de circunstancias o revisar si debe modificarla.
+
+**El propósito de la estadía cambia la respuesta**
+
+Turismo, trabajo, estudios, vínculo familiar, inversión, rentas o permanencia de largo plazo no se analizan igual. Conviene definir primero qué quiere hacer realmente en Colombia y después comparar esa realidad con la categoría adecuada. Presentar una solicitud que no corresponde a la actividad prevista puede generar requerimientos, inadmisión o una decisión desfavorable.
+
+¿No sabe si su caso se resuelve con una prórroga, una visa de visitante, una visa de migrante o una visa de residente permanente? Escríbanos por WhatsApp antes de comprar un tiquete o presentar documentos que después tenga que corregir.
+
+**También hay que revisar los cambios sobrevenidos**
+
+Un matrimonio, una separación, el nacimiento de un hijo, un nuevo contrato, la pérdida del empleo, un cambio de estudios o una situación de salud pueden alterar la base de la permanencia. La normativa migratoria exige atender esos cambios; ignorarlos puede dejar una solicitud desconectada de la realidad del caso.
+
+**¿Y si el permiso ya venció?**
+
+No es prudente salir del país, presentar una solicitud o continuar una actividad sin analizar primero el estado migratorio. La irregularidad puede afectar el estudio de una visa y dar lugar a actuaciones administrativas. Reúna el pasaporte, permisos, sellos, comunicaciones y soportes para identificar las opciones reales y sus riesgos.
+
+**La documentación extranjera también necesita planificación**
+
+Certificados de nacimiento, matrimonio, antecedentes, estudios o ingresos pueden requerir apostilla o legalización y, según el caso, traducción al español. No todos los documentos se presentan de la misma forma ni sirven indefinidamente: conviene verificar su vigencia y la autoridad que los expidió antes de pedirlos.
+
+**Una ruta migratoria empieza con un diagnóstico**
+
+La pregunta correcta no es únicamente “¿qué visa puedo pedir?”. Es: “¿qué quiero hacer en Colombia, qué autorización tengo hoy y qué evidencia demuestra que cumplo la categoría adecuada?”. Con esas respuestas se puede organizar una ruta responsable y detectar a tiempo los obstáculos.
+
+Castellanos Abogados atiende consultas migratorias de personas y familias en todo Colombia y desde el exterior. Cuéntenos su nacionalidad, dónde se encuentra, cuándo vence su permiso y qué quiere hacer en el país; revisamos si conviene una prórroga, una solicitud de visa u otra actuación.
+    `,
+  },
   'circular-externa-007-2026-alivios-financieros': {
     title: 'Circular Externa 007 de 2026: alivios tras el terremoto del Eje Cafetero',
     category: 'Derecho Financiero',
@@ -940,6 +985,7 @@ export async function generateStaticParams() {
 }
 
 const ARTICLE_DESCRIPTIONS: Record<string, string> = {
+  'quedarse-mas-tiempo-colombia': 'Qué revisar antes de extender la permanencia en Colombia: permiso vigente, propósito de la estadía, visa, cambios de circunstancias y documentos extranjeros.',
   'circular-externa-007-2026-alivios-financieros': 'Circular Externa 007 de 2026: alivios para afectados por el terremoto del Eje Cafetero del 10 de agosto. Refinanciación, intereses y reportes.',
   'cuando-interponer-una-tutela':        'Cuándo procede una acción de tutela en Colombia, qué documentos conviene reunir y cómo presentarla. Asesoría para tutelas en Pereira y Manizales.',
   'derechos-del-imputado-proceso-penal': 'Presunción de inocencia, derecho a guardar silencio y defensa técnica: conoce los derechos del imputado en el proceso penal colombiano. Abogados penalistas en Pereira.',
@@ -964,6 +1010,7 @@ const ARTICLE_DESCRIPTIONS: Record<string, string> = {
 };
 
 const ARTICLE_TITLES: Record<string, string> = {
+  'quedarse-mas-tiempo-colombia': 'Quedarse más tiempo en Colombia: permiso, visa y opciones',
   'circular-externa-007-2026-alivios-financieros': 'Circular 007: alivios tras el terremoto del Eje Cafetero',
   'cuando-interponer-una-tutela': 'Acción de tutela en Colombia: cuándo procede y cómo presentarla',
   'libertad-condicional-colombia': 'Libertad condicional en Colombia: requisitos (art. 64 C.P.)',
@@ -1195,6 +1242,15 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                   Texto completo de la Circular Externa 007 de 2026
                 </a>
               </p>
+            </div>
+          )}
+
+          {article.sources && (
+            <div className="card-shell bg-surface p-6 space-y-2 text-sm text-muted">
+              <p className="font-semibold text-ink">Fuentes oficiales para ampliar la información</p>
+              {article.sources.map((source) => (
+                <p key={source.url}><a className="underline underline-offset-4" href={source.url} target="_blank" rel="noreferrer">{source.label}</a></p>
+              ))}
             </div>
           )}
 

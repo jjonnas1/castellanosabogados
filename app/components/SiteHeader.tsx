@@ -14,6 +14,12 @@ const PEOPLE_SLUGS = [
   "ejecucion-penas","penal-personas","familia","civil","laboral","administrativo",
 ];
 const COMPANY_SLUGS = ["responsabilidad-penal-pj","capacitaciones-penal-pj"];
+const MIGRATION_LABELS: Record<Language, { title: string; description: string; audience: string }> = {
+  es: { title: 'Derecho migratorio', description: 'Visas, permanencia y residencia en Colombia.', audience: 'Personas extranjeras y familias' },
+  en: { title: 'Immigration law', description: 'Visas, stay and residence in Colombia.', audience: 'Foreign nationals and families' },
+  fr: { title: 'Droit de l’immigration', description: 'Visas, séjour et résidence en Colombie.', audience: 'Étrangers et familles' },
+  it: { title: 'Diritto dell’immigrazione', description: 'Visti, soggiorno e residenza in Colombia.', audience: 'Stranieri e famiglie' },
+};
 
 type Language = "es"|"en"|"fr"|"it";
 const LANG_LABELS:Record<Language,string>={es:"ES",en:"EN",fr:"FR",it:"IT"};
@@ -46,6 +52,11 @@ function MegaMenuPanel({id,onClose,mailtoHref}:{id:string;onClose:()=>void;mailt
               </Link>))}
             </div>
           </div>))}
+          {(() => { const m = MIGRATION_LABELS[language as Language] ?? MIGRATION_LABELS.es; return (
+            <Link href="/visas-colombia" onClick={onClose} className="group flex items-center justify-between gap-3 rounded-xl bg-[#0f3d32]/[0.07] px-3 py-2.5 ring-1 ring-[#0f3d32]/20 transition hover:bg-[#0f3d32]/[0.12]">
+              <span className="flex flex-col gap-0.5"><span className="text-[13px] font-semibold text-[#0f3d32]">{m.title}</span><span className="text-[11px] leading-snug text-muted">{m.description}</span><span className="hidden text-[10px] font-medium text-[#0f3d32] group-hover:block">{m.audience}</span></span><span className="shrink-0 text-[#0f3d32]" aria-hidden>↗</span>
+            </Link>
+          ); })()}
           <Link href={DOMICILIO_HREF} onClick={onClose} className="flex items-center justify-between gap-3 rounded-xl bg-[#7b1e2b]/[0.06] px-3 py-2.5 ring-1 ring-[#7b1e2b]/20 transition hover:bg-[#7b1e2b]/[0.11]">
             <span className="flex flex-col gap-0.5">
               <span className="flex items-center gap-2 text-[13px] font-semibold text-[#7b1e2b]">
@@ -249,6 +260,7 @@ export default function SiteHeader(){
                     ))}
                   </div>
                 ))}
+                <Link href="/visas-colombia" onClick={()=>{setOpen(false);setMobileServicesOpen(false);}} className="rounded-xl bg-[#0f3d32]/[0.07] px-3 py-3 text-sm font-semibold text-[#0f3d32]">{(MIGRATION_LABELS[language as Language] ?? MIGRATION_LABELS.es).title}</Link>
               </div>
             )}
 

@@ -5,6 +5,7 @@ import BlogList from '@/app/components/BlogList';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const articles = [
+  { slug: 'quedarse-mas-tiempo-colombia', title: '¿Quiere quedarse más tiempo en Colombia? Permiso, visa y cambios que debe revisar', summary: 'Antes de que venza su permanencia, hay decisiones que pueden cambiar por completo la ruta migratoria. Conozca qué revisar y cuándo pedir orientación.', date: '2026-10-03T09:00:00-05:00', category: 'Derecho migratorio' },
   { slug: 'circular-externa-007-2026-alivios-financieros', title: 'Circular Externa 007 de 2026: alivios tras el terremoto del Eje Cafetero', summary: 'El sismo del 10 de agosto de 2026 afectó ingresos y capacidad de pago en Caldas, Risaralda, Quindío y otras regiones. Conozca la refinanciación, los intereses y los reportes.', date: '2026-09-17T12:00:00-05:00', category: 'Derecho Financiero' },
   { slug: 'decreto-1368-2026-porte-armas', title: 'Decreto 1368 de 2026: qué cambia en el porte de armas en Colombia', summary: 'Permisos vigentes, autorización especial, tenencia y restricciones: los puntos clave del nuevo decreto y cuándo revisar su situación jurídica.', date: '2026-09-09T12:00:00-05:00', category: 'Penal' },
   { slug: 'cuando-interponer-una-tutela', title: '¿Cuándo interponer una acción de tutela?', summary: 'La tutela es el mecanismo más efectivo para proteger derechos fundamentales en Colombia. Conozca en qué casos procede y cómo presentarla correctamente.', date: '2026-03-10', category: 'Tutelas' },
