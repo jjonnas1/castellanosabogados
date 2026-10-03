@@ -8,9 +8,10 @@ import { getProfileRoleByUserId, type AppRole } from "@/lib/profile-role";
 import { supabase } from "@/lib/supabase-browser";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/contexts/LanguageContext";
+import MigrationNav from '@/app/components/MigrationNav';
 
 const PEOPLE_SLUGS = [
-  "traduccion-legal","ejecucion-penas","penal-personas","familia","civil","laboral","administrativo",
+  "ejecucion-penas","penal-personas","familia","civil","laboral","administrativo",
 ];
 const COMPANY_SLUGS = ["responsabilidad-penal-pj","capacitaciones-penal-pj"];
 
@@ -152,7 +153,7 @@ export default function SiteHeader(){
   const HEADER_NAV=[
     {label:DOMICILIO_LABELS[language as Language],href:DOMICILIO_HREF},
     {label:t.nav.tutelas,href:"/tutela"},
-    {label:TRANSLATION_LABELS[language as Language],href:"/servicios/traduccion-legal"},
+    {label:"Visas y migración",href:"/visas-colombia"},
     {label:t.nav.blog,href:"/blog"},
     {label:t.nav.about,href:"/nosotros"},
     {label:t.nav.contact,href:"/contacto"},
@@ -185,6 +186,7 @@ export default function SiteHeader(){
           </div>
 
           {HEADER_NAV.map(item=>(
+            item.href==='/visas-colombia' ? <MigrationNav key={item.href}/> :
             <Link key={item.href} href={item.href} className={`inline-flex h-10 items-center whitespace-nowrap border-b-2 px-0.5 text-[13px] font-medium transition-colors hover:border-ink/30 hover:text-ink ${isActive(item.href)?"border-[#7b1e2b] text-ink":"border-transparent"}`}>{item.label}</Link>
           ))}
         </nav>
@@ -251,6 +253,7 @@ export default function SiteHeader(){
             )}
 
             {HEADER_NAV.map(item=>(
+              item.href==='/visas-colombia' ? <MigrationNav key={item.href} mobile onNavigate={()=>setOpen(false)}/> :
               <Link key={item.href} href={item.href} onClick={()=>setOpen(false)} className={`rounded-xl px-3 py-3.5 text-sm font-medium transition hover:bg-subtle hover:text-ink ${isActive(item.href)?"bg-subtle text-ink":"text-muted"}`}>{item.label}</Link>
             ))}
 

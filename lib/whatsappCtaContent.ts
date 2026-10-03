@@ -203,6 +203,12 @@ const serviceWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
 };
 
 const pageWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
+  '/visas-colombia': {
+    area: 'Visas y migración', eyebrow: 'Hablemos de su proyecto en Colombia',
+    headline: '¿Qué necesita resolver para quedarse?',
+    description: 'Cuéntenos su nacionalidad, dónde se encuentra y qué le gustaría hacer en Colombia. Le indicamos cómo iniciar la evaluación de su caso.',
+    message: 'Hola, visité la página de visas y migración y quisiera agendar una evaluación de mi situación en Colombia.',
+  },
   '/servicios': {
     area: 'Servicios jurídicos', eyebrow: 'Encuentre la ruta adecuada',
     headline: '¿No sabe qué área corresponde a su caso?',

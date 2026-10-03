@@ -55,6 +55,7 @@ const BLOG_DATES: Record<string, string> = {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
+    { url: `${BASE}/visas-colombia`, priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-10-02' },
     { url: `${BASE}/`,            priority: 1.0, changeFrequency: 'weekly',  lastModified: '2026-05-12' },
     { url: `${BASE}/servicios`,   priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-05-01' },
     { url: `${BASE}/tutela`,      priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-05-01' },
