@@ -153,7 +153,7 @@ export default function SiteHeader(){
   const HEADER_NAV=[
     {label:DOMICILIO_LABELS[language as Language],href:DOMICILIO_HREF},
     {label:t.nav.tutelas,href:"/tutela"},
-    {label:"Visas y migración",href:"/visas-colombia"},
+    {label:"Derecho migratorio",href:"/visas-colombia"},
     {label:t.nav.blog,href:"/blog"},
     {label:t.nav.about,href:"/nosotros"},
     {label:t.nav.contact,href:"/contacto"},

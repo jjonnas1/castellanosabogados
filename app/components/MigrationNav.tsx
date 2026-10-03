@@ -6,7 +6,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const labels = {
-  es: ['Visas y migración', 'Visas para Colombia', 'Asesoría para extranjeros y permanencia', 'Traducción de documentos', 'Documentos jurídicos en otros idiomas'],
+  es: ['Derecho migratorio', 'Asesoría migratoria', 'Visas, residencia y permanencia en Colombia', 'Traducción de documentos', 'Documentos jurídicos en otros idiomas'],
   en: ['Visas & immigration', 'Colombian visas', 'Legal advice for foreign nationals', 'Document translation', 'Legal documents in other languages'],
   fr: ['Visas et immigration', 'Visas pour la Colombie', 'Conseil juridique pour les étrangers', 'Traduction de documents', 'Documents juridiques en plusieurs langues'],
   it: ['Visti e immigrazione', 'Visti per la Colombia', 'Assistenza legale per stranieri', 'Traduzione di documenti', 'Documenti legali in altre lingue'],

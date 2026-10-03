@@ -6,6 +6,7 @@ export type WhatsAppCtaContent = {
   message: string;
   closingHeadline?: string;
   closingDescription?: string;
+  coverage?: string;
 };
 
 export const articleWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
@@ -204,10 +205,11 @@ const serviceWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
 
 const pageWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
   '/visas-colombia': {
-    area: 'Visas y migración', eyebrow: 'Hablemos de su proyecto en Colombia',
+    area: 'Derecho migratorio', eyebrow: 'Hablemos de su proyecto en Colombia',
     headline: '¿Qué necesita resolver para quedarse?',
     description: 'Cuéntenos su nacionalidad, dónde se encuentra y qué le gustaría hacer en Colombia. Le indicamos cómo iniciar la evaluación de su caso.',
-    message: 'Hola, visité la página de visas y migración y quisiera agendar una evaluación de mi situación en Colombia.',
+    message: 'Hola, quisiera consultar con un abogado migratorio y agendar una evaluación de mi situación en Colombia.',
+    coverage: 'Atención virtual en toda Colombia y desde el exterior',
   },
   '/servicios': {
     area: 'Servicios jurídicos', eyebrow: 'Encuentre la ruta adecuada',

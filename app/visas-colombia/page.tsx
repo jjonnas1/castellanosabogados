@@ -6,11 +6,11 @@ import { buildWhatsAppUrl } from '@/lib/contactLinks';
 import styles from './visas.module.css';
 
 const base = 'https://jonatancastellanosabogado.com';
-const title = 'Abogado de visas en Colombia | Pereira y Manizales';
-const description = 'Asesoría migratoria para extranjeros en Pereira, Manizales y Colombia. Visas, permanencia, familia, trabajo, pensión e inversión. Consulte su caso con un abogado.';
+const title = 'Abogado migratorio en Colombia | Castellanos Abogados';
+const description = 'Abogado migratorio para extranjeros en toda Colombia. Asesoría en visas, residencia y permanencia, con atención virtual nacional y desde el exterior.';
 export const metadata: Metadata = {
   title, description, alternates: { canonical: '/visas-colombia' },
-  openGraph: { type: 'website', url: `${base}/visas-colombia`, title, description, images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Visas y migración en Colombia' }] },
+  openGraph: { type: 'website', url: `${base}/visas-colombia`, title, description, images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Asesoría migratoria en toda Colombia' }] },
   twitter: { card: 'summary_large_image', title, description, images: ['/og-share-castellanos-2026.jpg'] },
 };
 const scenarios = [
@@ -22,19 +22,20 @@ const scenarios = [
   ['06', 'Quiero construir mi residencia', 'Si ya ha tenido visas en Colombia, revisamos su historial y las condiciones para estudiar una posible residencia.', 'Residencia en Colombia'],
 ];
 const faqs = [
+  ['¿La asesoría migratoria está disponible en toda Colombia?', 'Sí. Atendemos de forma virtual a extranjeros en cualquier ciudad de Colombia y a quienes se encuentran en el exterior. Nuestra ubicación en Pereira y Manizales no limita la cobertura nacional del servicio.'],
   ['¿Atienden extranjeros que todavía están fuera de Colombia?', 'Sí. Podemos iniciar la evaluación de su situación de forma virtual, revisar sus planes y definir el alcance del acompañamiento antes de su viaje.'],
   ['¿Pueden revisar un caso si el permiso ya venció?', 'Sí. Primero estudiamos las fechas, los documentos y las actuaciones que existan. La ruta depende de la situación concreta y puede requerir actuaciones ante Migración Colombia.'],
   ['¿Todas las visas permiten trabajar?', 'No. El permiso para trabajar depende de la categoría y de las condiciones de la visa. Revisamos que su actividad sea compatible con la autorización que solicita o tiene.'],
   ['¿La asesoría incluye traducción de documentos?', 'Podemos coordinar la revisión de sus necesidades de traducción como servicio complementario. El alcance y la necesidad de traducción oficial, apostilla o legalización se determinan según el documento y la entidad destinataria.'],
   ['¿Cuánto cuesta el servicio migratorio?', 'La evaluación inicial y el acompañamiento se cotizan según el tipo de caso y su complejidad. Recibirá una propuesta de honorarios con alcance definido; las tasas oficiales y los costos de terceros se informan aparte.'],
 ];
-function contact(subject: string) { return buildWhatsAppUrl({ area: 'Visas y migración', source: '/visas-colombia', message: `Hola, quisiera consultar mi situación migratoria. Me interesa: ${subject}.` }); }
+function contact(subject: string) { return buildWhatsAppUrl({ area: 'Derecho migratorio', source: '/visas-colombia', message: `Hola, quisiera consultar mi situación migratoria. Me interesa: ${subject}.` }); }
 
 export default function VisasPage() {
   const schema = { '@context': 'https://schema.org', '@graph': [
-    { '@type': 'Service', name: 'Asesoría de visas y migración en Colombia', serviceType: 'Asesoría jurídica migratoria', provider: { '@type': 'LegalService', name: 'Castellanos Abogados', url: base, telephone: '+573148309306' }, areaServed: ['Pereira', 'Manizales', 'Colombia'], url: `${base}/visas-colombia`, description },
+    { '@type': 'Service', name: 'Abogado migratorio en Colombia', serviceType: 'Asesoría en derecho migratorio, extranjería y visas', provider: { '@type': 'LegalService', name: 'Castellanos Abogados', url: base, telephone: '+573148309306' }, areaServed: { '@type': 'Country', name: 'Colombia' }, url: `${base}/visas-colombia`, description },
     { '@type': 'FAQPage', mainEntity: faqs.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })) },
-    { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Inicio', item: base }, { '@type': 'ListItem', position: 2, name: 'Visas y migración', item: `${base}/visas-colombia` }] },
+    { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Inicio', item: base }, { '@type': 'ListItem', position: 2, name: 'Derecho migratorio', item: `${base}/visas-colombia` }] },
   ] };
   return <main className={styles.page}>
     <SiteHeader />
@@ -42,11 +43,11 @@ export default function VisasPage() {
     <section className={styles.hero}>
       <div className={`${styles.wrap} ${styles.heroGrid}`}>
         <div>
-          <p className={styles.eyebrow}>Visas y migración · Colombia</p>
-          <h1>Visas para Colombia.<br /><em>Su próximo capítulo.</em></h1>
-          <p className={styles.heroText}>Asesoría jurídica para extranjeros que quieren vivir, trabajar o permanecer en Colombia con una ruta acorde a su situación.</p>
+          <p className={styles.eyebrow}>Derecho migratorio · Extranjería y visas</p>
+          <h1>Abogado migratorio<br /><em>en Colombia.</em></h1>
+          <p className={styles.heroText}>Asesoría jurídica para extranjeros que quieren vivir, trabajar o permanecer en Colombia. Evaluamos su situación y le acompañamos con atención virtual en todo el país y desde el exterior.</p>
           <a href={contact('una evaluación de mi caso')} target="_blank" rel="noopener noreferrer" className={styles.primary}><WaIcon size={20} />Evaluar mi situación <span aria-hidden>↗</span></a>
-          <p className={styles.heroLocation}>Pereira · Manizales · Atención virtual desde el exterior</p>
+          <p className={styles.heroLocation}>Cobertura en toda Colombia · Atención virtual desde el exterior</p>
         </div>
         <div className={styles.journey} aria-label="Asesoría para su proyecto de vida en Colombia">
           <div className={styles.journeyTop}><span>CASTELLANOS ABOGADOS</span><span>CO / 01</span></div>
@@ -66,6 +67,6 @@ export default function VisasPage() {
       <div className={styles.valueList}>{[['Criterio para elegir', 'Evaluación de las alternativas y de los riesgos que pueden afectar su permanencia.'], ['Documentos con sentido', 'Revisión de la coherencia del expediente y de las formalidades que corresponden a su caso.'], ['Acompañamiento definido', 'Un alcance de trabajo claro para la preparación, presentación y seguimiento que contrate.']].map(([a,b]) => <div key={a}><h3>{a}</h3><p>{b}</p></div>)}</div>
     </div></section>
     <section className={`${styles.wrap} ${styles.translation}`}><div><p className={styles.eyebrow}>Documentos que cruzan fronteras</p><h2>El idioma también<br />forma parte de su caso.</h2><p>Integramos el análisis jurídico con la revisión de sus necesidades de traducción. Así podrá conocer el alcance que requiere cada documento antes de encargarlo.</p><Link href="/servicios/traduccion-legal" className={styles.textLink}>Conocer traducción de documentos <span aria-hidden>↗</span></Link></div><div className={styles.languageArt} aria-hidden><span>ES</span><i>↔</i><span>EN</span><span>FR</span><i>↔</i><span>IT</span><p>Contratos · Registros civiles · Poderes · Certificaciones</p></div></section>
-    <section className={`${styles.wrap} ${styles.faq}`}><div><p className={styles.eyebrow}>Antes de conversar</p><h2>Preguntas frecuentes</h2><p>Abogado de visas en Pereira y Manizales, con atención virtual para extranjeros en Colombia y en el exterior.</p></div><div>{faqs.map(([q,a]) => <details key={q}><summary>{q}<span aria-hidden>+</span></summary><p>{a}</p></details>)}<p className={styles.note}>La decisión de visa o permanencia corresponde a la autoridad competente. La asesoría se basa en la evaluación individual de su caso.</p></div></section>
+    <section className={`${styles.wrap} ${styles.faq}`}><div><p className={styles.eyebrow}>Antes de conversar</p><h2>Preguntas frecuentes</h2><p>Asesoría en derecho migratorio y extranjería para toda Colombia. Revisamos visas, residencia y permanencia según las circunstancias de cada persona.</p></div><div>{faqs.map(([q,a]) => <details key={q}><summary>{q}<span aria-hidden>+</span></summary><p>{a}</p></details>)}<p className={styles.note}>La decisión de visa o permanencia corresponde a la autoridad competente. La asesoría se basa en la evaluación individual de su caso.</p></div></section>
   </main>;
 }

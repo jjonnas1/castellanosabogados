@@ -46,7 +46,7 @@ export default function WhatsAppContactCard({ content, source, closing = false }
         </a>
       </div>
       <p className="relative mt-5 border-t border-white/15 pt-4 text-xs text-[#b6d1bf]">
-        Contacto directo · {contactConfig.whatsappDisplay.replace('+57 ', '')} · Pereira y Manizales
+        Contacto directo · {contactConfig.whatsappDisplay.replace('+57 ', '')} · {content.coverage ?? 'Pereira y Manizales'}
       </p>
     </aside>
   );
