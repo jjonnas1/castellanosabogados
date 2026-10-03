@@ -30,7 +30,7 @@ export default function MigrationNav({ mobile = false, onNavigate }: { mobile?: 
     onMouseEnter={() => { if (!mobile) setOpen(true); }} onMouseLeave={() => { if (!mobile) setOpen(false); }}
     onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false); }}
     onKeyDown={e => { if (e.key === 'Escape') { setOpen(false); ref.current?.querySelector('button')?.focus(); } }}>
-    <button type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen(!open)}
+    <button type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen(mobile ? !open : true)}
       className={mobile ? 'flex w-full items-center justify-between rounded-xl px-3 py-3.5 text-sm font-medium text-ink hover:bg-subtle' : `inline-flex h-10 items-center gap-1.5 whitespace-nowrap border-b-2 px-0.5 text-[13px] font-medium hover:text-ink ${active ? 'border-[#7b1e2b] text-ink' : 'border-transparent text-muted'}`}>
       {text[0]}<svg viewBox="0 0 12 8" className={`h-3 w-3 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" aria-hidden><path d="m1 1.5 5 5 5-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>
     </button>
