@@ -75,16 +75,15 @@ export default function NosotrosClient() {
           </div>
 
           <div
-            className="card-shell overflow-hidden"
-            style={{ minHeight: "420px", position: "relative" }}
+            className="card-shell relative aspect-[4/5] w-full overflow-hidden bg-[#0b0b0b]"
             data-reveal
             data-reveal-delay="2"
           >
             <Image
               fill
-              src="/jonatan-castellanos-1200.jpg"
-              alt="Jonatan Castellanos — Abogado en Pereira"
-              className="object-cover object-top"
+              src="/jonatan-castellanos-retrato-2026.jpg"
+              alt="Retrato de Jonatan Castellanos, abogado de Castellanos Abogados"
+              className="object-contain brightness-[1.12] contrast-[1.02]"
               sizes="(max-width: 1024px) 100vw, 45vw"
             />
           </div>
