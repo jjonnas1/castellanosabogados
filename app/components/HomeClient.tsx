@@ -8,7 +8,6 @@ import PracticeShowcase from "./PracticeShowcase";
 import WaIcon from "@/app/components/WaIcon";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { TranslationFeature } from './TranslationExperience';
 
 function CountUp({ target = 5.0, decimals = 1, duration = 1400 }: { target?: number; decimals?: number; duration?: number }) {
   const [value, setValue] = useState(0);
@@ -97,7 +96,6 @@ export default function HomeClient() {
       <HeroCarrusel />
       <PracticeShowcase />
 
-      <TranslationFeature />
 
       {/* ── SERVICIOS + PORTAL (oscuro) ───────────────────────────── */}
       <section className="motion-portal section-shell overflow-hidden text-white" style={{ background: DARK_GLOW }}>
