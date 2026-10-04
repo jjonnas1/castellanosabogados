@@ -1,4 +1,11 @@
 .showcase {--practice-accent:#7a3344;--practice-paper:#f5ecef;}
+.migrationFeature{padding:32px;border:1px solid #a6d6bd45;border-radius:24px;background:linear-gradient(125deg,#123329,#1b4436);}
+.migrationFeature h3{color:#fff!important;font-size:clamp(24px,2.5vw,32px);line-height:1.2;max-width:680px;}
+.migrationFeature p{color:#d0e1d8!important;}
+.migrationFeature :global(.eyebrow){color:#a6ddbc!important;}
+.migrationFeature :global(.button.light){background:#e4f2e9!important;color:#16372a!important;border-radius:999px;}
+.migrationFeature :global(.text-link){color:#c5efd5!important;align-self:center;}
+@media(max-width:600px){.migrationFeature{padding:24px;}}
 .showcase[data-practice="ejecucion-penas"]{--practice-accent:#386359;--practice-paper:#edf4f0;}
 .showcase[data-practice="familia"]{--practice-accent:#785572;--practice-paper:#f4edf4;}
 .showcase[data-practice="civil"]{--practice-accent:#435e70;--practice-paper:#ecf2f5;}

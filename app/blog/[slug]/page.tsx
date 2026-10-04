@@ -37,7 +37,7 @@ Un matrimonio, una separación, el nacimiento de un hijo, un nuevo contrato, la 
 
 **¿Y si el permiso ya venció?**
 
-No es prudente salir del país, presentar una solicitud o continuar una actividad sin analizar primero el estado migratorio. La irregularidad puede afectar el estudio de una visa y dar lugar a actuaciones administrativas. Reúna el pasaporte, permisos, sellos, comunicaciones y soportes para identificar las opciones reales y sus riesgos.
+Solicite orientación cuanto antes y atienda las instrucciones de la autoridad migratoria. La irregularidad puede afectar el estudio de una visa y dar lugar a actuaciones administrativas. Presentar una solicitud de visa no regulariza por sí solo la permanencia. Reúna el pasaporte, permisos, sellos, comunicaciones y soportes para revisar las opciones y, cuando corresponda, las condiciones de salida del país.
 
 **La documentación extranjera también necesita planificación**
 

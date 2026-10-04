@@ -176,7 +176,7 @@ export default function PracticeShowcase() {
           </div>
         </div>
       </div>
-      <div className="mt-8 grid gap-6 border-t border-border pt-8 md:grid-cols-[1fr_auto] md:items-center" data-reveal>
+      <div className={`${styles.migrationFeature} mt-8 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center`}>
         <div>
           <span className="eyebrow"><span className="line" />Derecho migratorio</span>
           <h3 className="mt-3 font-heading text-2xl font-semibold text-ink">¿Quiere vivir, trabajar o permanecer más tiempo en Colombia?</h3>

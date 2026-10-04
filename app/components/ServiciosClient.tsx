@@ -3,6 +3,7 @@
 import Link from "next/link";
 import SiteHeader from "@/app/components/SiteHeader";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { buildWhatsAppUrl } from "@/lib/contactLinks";
 
 type Service = {
   slug: string;
@@ -93,9 +94,9 @@ export default function ServiciosClient({ services }: { services: Service[]; err
                     <Link href={service.href ?? `/servicios/${service.slug}`} className="font-semibold text-accent transition hover:text-ink">
                       {p.viewDetail}
                     </Link>
-                    <Link href="/contacto" className="font-semibold text-muted transition hover:text-ink">
+                    {service.slug === 'derecho-migratorio' ? <a href={buildWhatsAppUrl({ area: 'Derecho migratorio', source: '/servicios' })} target="_blank" rel="noopener noreferrer" className="font-semibold text-accent transition hover:text-ink">Consultar por WhatsApp</a> : <Link href="/contacto" className="font-semibold text-muted transition hover:text-ink">
                       {p.consultScope}
-                    </Link>
+                    </Link>}
                   </div>
                 </article>
               ))}
