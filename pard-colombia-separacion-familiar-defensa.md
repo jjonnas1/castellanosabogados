@@ -1,6 +1,8 @@
 # PARD en Colombia: separación familiar, defensa y límites de las medidas de protección
 
-Estado: borrador editorial. Basado exclusivamente en normativa colombiana.
+Estado: publicación prevista para el 6 de noviembre de 2026 a las 8:00 a. m. (Colombia). Pendiente desplegar la versión que activa la programación.
+
+Basado exclusivamente en normativa colombiana.
 
 
 La apertura de un Proceso Administrativo de Restablecimiento de Derechos puede afectar con quién vive un niño y cómo mantiene sus vínculos familiares. El PARD busca restablecer sus derechos; sus decisiones deben respetar las garantías y los límites fijados en la legislación colombiana.
@@ -35,7 +37,9 @@ El artículo 103 permite cambiarlas cuando se demuestra la alteración de las ci
 
 El artículo 208 de la Ley 1955 de 2019 contempla dieciocho meses para el proceso con seguimiento y un mecanismo excepcional de ampliación que requiere aval del ICBF y resolución motivada. Esa excepción no permite presentar el plazo inicial de seis meses como libremente prorrogable.
 
-La intervención del abogado comprende examinar competencia, notificaciones, prueba, motivación y términos; sustentar las solicitudes de modificación y ejercer los mecanismos de defensa que procedan, con atención al interés superior del niño.
+## Asesoría y representación con Castellanos Abogados
+
+En Castellanos Abogados asesoramos y representamos a familias en Procesos Administrativos de Restablecimiento de Derechos. Estudiamos el expediente, controvertimos las pruebas y sustentamos las solicitudes y los mecanismos de defensa que procedan para proteger los derechos del niño y las garantías de la familia. Si necesita acompañamiento ante el ICBF, una comisaría o un juzgado de familia, puede confiarnos la representación de su caso. Atendemos en Pereira, Manizales y de forma virtual. Escríbanos por WhatsApp al 314 830 9306 para consultar el alcance de nuestros servicios.
 
 
 ## Fuentes oficiales

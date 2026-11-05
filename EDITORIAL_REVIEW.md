@@ -16,3 +16,8 @@ Cambios preparados:
 Oportunidades pendientes: medir consultas y citas efectivas por página de entrada con datos de Analytics/Search Console; valorar una página pública que explique el portal con capturas anonimizadas de funciones verificadas. La página ya ordena el blog por fecha descendente. La cifra 0.0 observada por el lector web corresponde al estado inicial de una animación con valor objetivo 5.0; no se diagnosticó como una calificación real de cero ni se verificó el valor vigente de Google.
 
 Fuentes legales: enlaces incluidos en cada artículo. No se modificaron autenticación, expedientes, roles, datos o esquema de Supabase.
+
+
+Programación editorial solicitada: PARD — 6 de noviembre de 2026, 08:00 Colombia; divorcio unilateral — 13 de noviembre de 2026, 08:00 Colombia. Ambos textos incluyen cierre específico de asesoría y representación de Castellanos Abogados, además de contacto por WhatsApp.
+
+La programación usa una fuente común de fechas y evaluación en servidor para páginas, metadatos, listado, enlaces relacionados y sitemap. No requiere un nuevo despliegue en cada fecha una vez desplegada esta versión. Antes de su fecha, las nuevas rutas responden 404. Las fechas originales de artículos ya publicados se conservan. La versión aún no está desplegada en producción.

@@ -1,14 +1,17 @@
+import { BLOG_PUBLICATION_SCHEDULE, isBlogPublished } from '@/lib/blogPublication';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 import SiteHeader from '@/app/components/SiteHeader';
 import WhatsAppContactCard from '@/app/components/WhatsAppContactCard';
 import { articleWhatsAppCtas } from '@/lib/whatsappCtaContent';
 
+export const dynamic = 'force-dynamic';
+
 const articles: Record<string, { title: string; category: string; date: string; updatedAt?: string; content: string; relatedLinks?: Array<{ label: string; url: string }>; image?: string; imageAlt?: string; sources?: Array<{ label: string; url: string }> }> = {
   "pard-colombia-separacion-familiar-defensa": {
     title: "PARD en Colombia: separación familiar, defensa y límites de las medidas de protección",
     category: "Familia",
-    date: "2026-11-04T19:05:00-05:00",
+    date: BLOG_PUBLICATION_SCHEDULE["pard-colombia-separacion-familiar-defensa"],
     sources: [{"label": "Ley 1098 de 2006: artículos 22, 26, 50, 98 y 101", "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=22106"}, {"label": "Ley 1878 de 2018: reformas de los artículos 52, 99, 100 y 103", "url": "https://apps.procuraduria.gov.co/guia/gd_1952/docs/l1878018.htm"}, {"label": "Ley 2126 de 2021, artículo 5: competencia", "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=168066"}, {"label": "Ley 1955 de 2019, artículo 208: seguimiento y ampliación excepcional", "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/ley_1955_2019.htm"}],
     relatedLinks: [{"label": "Representación en derecho de familia", "url": "/servicios/familia"}],
     content: `
@@ -44,13 +47,15 @@ El artículo 103 permite cambiarlas cuando se demuestra la alteración de las ci
 
 El artículo 208 de la Ley 1955 de 2019 contempla dieciocho meses para el proceso con seguimiento y un mecanismo excepcional de ampliación que requiere aval del ICBF y resolución motivada. Esa excepción no permite presentar el plazo inicial de seis meses como libremente prorrogable.
 
-La intervención del abogado comprende examinar competencia, notificaciones, prueba, motivación y términos; sustentar las solicitudes de modificación y ejercer los mecanismos de defensa que procedan, con atención al interés superior del niño.
+**Asesoría y representación con Castellanos Abogados**
+
+En Castellanos Abogados asesoramos y representamos a familias en Procesos Administrativos de Restablecimiento de Derechos. Estudiamos el expediente, controvertimos las pruebas y sustentamos las solicitudes y los mecanismos de defensa que procedan para proteger los derechos del niño y las garantías de la familia. Si necesita acompañamiento ante el ICBF, una comisaría o un juzgado de familia, puede confiarnos la representación de su caso. Atendemos en Pereira, Manizales y de forma virtual. Escríbanos por WhatsApp al 314 830 9306 para consultar el alcance de nuestros servicios.
 `,
   },
   "divorcio-unilateral-colombia": {
     title: "Divorcio unilateral en Colombia: oposición, alimentos y reparación",
     category: "Familia",
-    date: "2026-11-04T19:00:00-05:00",
+    date: BLOG_PUBLICATION_SCHEDULE["divorcio-unilateral-colombia"],
     sources: [{"label": "Ley 2442 de 2024, artículos 2 a 7", "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=257036"}, {"label": "Decreto 1069 de 2015: artículos 2.2.6.8.2 y 2.2.6.8.3", "url": "https://www.cancilleria.gov.co/sites/default/files/Normograma/docs/decreto_1069_2015_pr032.htm"}],
     relatedLinks: [{"label": "Divorcio en Colombia: vías y efectos", "url": "/blog/divorcio-colombia"}, {"label": "Representación en derecho de familia", "url": "/servicios/familia"}],
     content: `
@@ -74,7 +79,9 @@ El artículo 7 permite continuar ante notario cuando los cónyuges acuerdan tram
 
 En el divorcio notarial con hijos menores, el Decreto 1069 de 2015 regula la intervención del defensor de familia respecto del acuerdo sobre alimentos, custodia y visitas. La existencia de hijos menores no obliga por sí sola a tramitar el divorcio judicialmente.
 
-La representación jurídica exige definir las pretensiones, sustentar los efectos solicitados y atender los intereses familiares y patrimoniales comprometidos. La firma acompaña ese análisis y la actuación ante la autoridad competente.
+**Asesoría y representación con Castellanos Abogados**
+
+En Castellanos Abogados asesoramos y representamos en procesos de divorcio y en sus consecuencias familiares y patrimoniales. Definimos las pretensiones, elaboramos o controvertimos la propuesta de divorcio y defendemos los intereses de nuestros clientes en materia de alimentos, hijos, bienes y reparaciones cuando correspondan. Puede confiarnos la dirección jurídica de su proceso, desde el estudio del caso hasta las actuaciones comprendidas en la representación contratada. Atendemos en Pereira, Manizales y de forma virtual. Escríbanos por WhatsApp al 314 830 9306 para consultar nuestros servicios.
 `,
   },
   'quedarse-mas-tiempo-colombia': {
@@ -1019,10 +1026,6 @@ Si usted necesita reclamar, verifique primero que exista una cuota fijada o un a
   },
 };
 
-export async function generateStaticParams() {
-  return Object.keys(articles).map((slug) => ({ slug }));
-}
-
 const ARTICLE_DESCRIPTIONS: Record<string, string> = {
   'divorcio-unilateral-colombia': 'Divorcio unilateral en Colombia: alcance de la oposición, obligaciones alimentarias, reparación por violencia y acceso al trámite notarial.',
   'pard-colombia-separacion-familiar-defensa': 'PARD en Colombia: separación familiar, contradicción de pruebas, modificación de medidas y pérdida de competencia según la legislación colombiana.',
@@ -1064,7 +1067,7 @@ const ARTICLE_TITLES: Record<string, string> = {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = articles[slug];
-  if (!article) return {};
+  if (!article || !isBlogPublished(slug)) notFound();
 
   const description = ARTICLE_DESCRIPTIONS[slug] ?? article.content.trim().split('\n')[0].slice(0, 160);
   const title = ARTICLE_TITLES[slug] ?? `${article.title} | Castellanos Abogados`;
@@ -1099,8 +1102,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = articles[slug];
-  if (!article) notFound();
+  if (!article || !isBlogPublished(slug)) notFound();
 
+  const relatedLinks = (article.relatedLinks ?? []).filter(link => !link.url.startsWith('/blog/') || isBlogPublished(link.url.slice('/blog/'.length)));
   const paragraphs = article.content.trim().split('\n\n');
   const description = ARTICLE_DESCRIPTIONS[slug] ?? article.content.trim().split('\n')[0].slice(0, 160);
   const contactContent = articleWhatsAppCtas[slug];
@@ -1289,10 +1293,10 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             </div>
           )}
 
-          {article.relatedLinks && (
+          {relatedLinks.length > 0 && (
             <nav aria-label="Lecturas y servicios relacionados" className="card-shell bg-surface p-6 space-y-3 text-sm">
               <p className="font-semibold text-ink">Continúe con el siguiente paso</p>
-              {article.relatedLinks.map((link) => <p key={link.url}><a className="underline underline-offset-4" href={link.url}>{link.label} ↗</a></p>)}
+              {relatedLinks.map((link) => <p key={link.url}><a className="underline underline-offset-4" href={link.url}>{link.label} ↗</a></p>)}
             </nav>
           )}
 

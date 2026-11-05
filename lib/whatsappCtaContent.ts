@@ -11,12 +11,16 @@ export type WhatsAppCtaContent = {
 
 export const articleWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
   'divorcio-unilateral-colombia': {
+    closingHeadline: 'Confíenos la representación de su proceso de divorcio',
+    closingDescription: 'En Castellanos Abogados asesoramos y asumimos la representación jurídica en el divorcio y sus efectos familiares y patrimoniales. Contáctenos para estudiar su caso y definir el alcance del servicio.',
     area: 'Derecho de familia', eyebrow: 'Orientación sobre divorcio',
     headline: 'Representación en divorcio y sus efectos económicos',
     description: 'Asumimos el estudio de las pretensiones, las obligaciones alimentarias y los efectos familiares y patrimoniales del divorcio.',
     message: 'Hola, leí el artículo sobre divorcio por voluntad de uno de los cónyuges y quisiera consultar mi situación.',
   },
   'pard-colombia-separacion-familiar-defensa': {
+    closingHeadline: 'Asumimos su representación jurídica en el PARD',
+    closingDescription: 'En Castellanos Abogados estudiamos el expediente y ejercemos los mecanismos de defensa que procedan ante el ICBF, comisarías y juzgados de familia. Contáctenos para evaluar la representación de su caso.',
     area: 'Proceso Administrativo de Restablecimiento de Derechos', eyebrow: 'Representación en derecho de familia',
     headline: 'Defensa jurídica en procesos de restablecimiento de derechos',
     description: 'Estudiamos la legalidad de las actuaciones, las pruebas y las medidas adoptadas para ejercer la representación que corresponda.',

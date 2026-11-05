@@ -1,3 +1,7 @@
+import { getPublishedBlogArticles } from '@/lib/blogIndex';
+
+export const dynamic = 'force-dynamic';
+
 import BlogClient from '@/app/components/BlogClient';
 
 export const metadata = {
@@ -21,5 +25,5 @@ export const metadata = {
 };
 
 export default function BlogPage() {
-  return <BlogClient />;
+  return <BlogClient articles={getPublishedBlogArticles()} />;
 }

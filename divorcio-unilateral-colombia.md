@@ -1,6 +1,8 @@
 # Divorcio unilateral en Colombia: oposición, alimentos y reparación
 
-Estado: borrador editorial. Basado exclusivamente en normativa colombiana.
+Estado: publicación prevista para el 13 de noviembre de 2026 a las 8:00 a. m. (Colombia). Pendiente desplegar la versión que activa la programación.
+
+Basado exclusivamente en normativa colombiana.
 
 
 La Ley 2442 de 2024 incorporó al artículo 154 del Código Civil la voluntad de uno de los cónyuges como causal de divorcio. El desacuerdo del otro no impide invocarla, pero los efectos familiares y económicos requieren una decisión jurídica.
@@ -23,7 +25,9 @@ El artículo 7 permite continuar ante notario cuando los cónyuges acuerdan tram
 
 En el divorcio notarial con hijos menores, el Decreto 1069 de 2015 regula la intervención del defensor de familia respecto del acuerdo sobre alimentos, custodia y visitas. La existencia de hijos menores no obliga por sí sola a tramitar el divorcio judicialmente.
 
-La representación jurídica exige definir las pretensiones, sustentar los efectos solicitados y atender los intereses familiares y patrimoniales comprometidos. La firma acompaña ese análisis y la actuación ante la autoridad competente.
+## Asesoría y representación con Castellanos Abogados
+
+En Castellanos Abogados asesoramos y representamos en procesos de divorcio y en sus consecuencias familiares y patrimoniales. Definimos las pretensiones, elaboramos o controvertimos la propuesta de divorcio y defendemos los intereses de nuestros clientes en materia de alimentos, hijos, bienes y reparaciones cuando correspondan. Puede confiarnos la dirección jurídica de su proceso, desde el estudio del caso hasta las actuaciones comprendidas en la representación contratada. Atendemos en Pereira, Manizales y de forma virtual. Escríbanos por WhatsApp al 314 830 9306 para consultar nuestros servicios.
 
 
 ## Fuentes oficiales

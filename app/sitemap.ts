@@ -1,3 +1,7 @@
+import { BLOG_PUBLICATION_SCHEDULE, isBlogPublished } from '@/lib/blogPublication';
+
+export const dynamic = 'force-dynamic';
+
 import { MetadataRoute } from 'next';
 import { serviceDetailList } from '@/lib/serviceDetails';
 
@@ -32,8 +36,8 @@ const BLOG_SLUGS = [
 ];
 
 const BLOG_DATES: Record<string, string> = {
-  'divorcio-unilateral-colombia': '2026-11-04',
-  'pard-colombia-separacion-familiar-defensa': '2026-11-04',
+  'divorcio-unilateral-colombia': BLOG_PUBLICATION_SCHEDULE['divorcio-unilateral-colombia'],
+  'pard-colombia-separacion-familiar-defensa': BLOG_PUBLICATION_SCHEDULE['pard-colombia-separacion-familiar-defensa'],
   'quedarse-mas-tiempo-colombia': '2026-10-03',
   'circular-externa-007-2026-alivios-financieros': '2026-09-17',
   'decreto-1368-2026-porte-armas': '2026-09-09',
@@ -60,6 +64,9 @@ const BLOG_DATES: Record<string, string> = {
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const now = Date.now();
+  const publishedSlugs = BLOG_SLUGS.filter(slug => isBlogPublished(slug, now));
+  const latestBlogUpdate = new Date(Math.max(Date.parse('2026-11-04'), ...publishedSlugs.map(slug => Date.parse(BLOG_DATES[slug] ?? '2026-05-01'))));
   const staticPages: MetadataRoute.Sitemap = [
     { url: `${BASE}/apps`, priority: 0.75, changeFrequency: 'monthly', lastModified: '2026-10-18' },
     { url: `${BASE}/visas-colombia`, priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-10-02' },
@@ -73,7 +80,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/asesoria-personas`, priority: 0.75, changeFrequency: 'monthly', lastModified: '2026-09-03' },
     { url: `${BASE}/penal-empresarial`, priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-09-03' },
     { url: `${BASE}/trabaja`,           priority: 0.4, changeFrequency: 'yearly',  lastModified: '2026-09-03' },
-    { url: `${BASE}/blog`,        priority: 0.8, changeFrequency: 'weekly',  lastModified: '2026-11-04' },
+    { url: `${BASE}/blog`,        priority: 0.8, changeFrequency: 'weekly',  lastModified: latestBlogUpdate },
     { url: `${BASE}/nosotros`,    priority: 0.7, changeFrequency: 'monthly', lastModified: '2026-05-07' },
     { url: `${BASE}/contacto`,    priority: 0.7, changeFrequency: 'yearly',  lastModified: '2026-01-01' },
   ];
@@ -85,7 +92,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: '2026-05-01',
   }));
 
-  const blogPages: MetadataRoute.Sitemap = BLOG_SLUGS.map((slug) => ({
+  const blogPages: MetadataRoute.Sitemap = publishedSlugs.map((slug) => ({
     url: `${BASE}/blog/${slug}`,
     priority: 0.7,
     changeFrequency: 'monthly' as const,
