@@ -10,6 +10,18 @@ export type WhatsAppCtaContent = {
 };
 
 export const articleWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
+  'divorcio-unilateral-colombia': {
+    area: 'Derecho de familia', eyebrow: 'Orientación sobre divorcio',
+    headline: '¿Quiere revisar cómo iniciar su divorcio?',
+    description: 'Cuéntenos si existe acuerdo, si hay hijos y si comparten bienes o deudas. Revisamos la ruta y los documentos.',
+    message: 'Hola, leí el artículo sobre divorcio por voluntad de uno de los cónyuges y quisiera consultar mi situación.',
+  },
+  'preparar-primera-consulta-abogado': {
+    area: 'Evaluación jurídica', eyebrow: 'Prepare su primera consulta',
+    headline: '¿Tiene una situación que necesita revisar?',
+    description: 'Indique su ciudad, el tema y si recibió una citación o tiene una fecha próxima. Coordinamos la revisión.',
+    message: 'Hola, leí la guía para preparar la primera consulta y quisiera coordinar una evaluación jurídica.',
+  },
   'quedarse-mas-tiempo-colombia': {
     area: 'Derecho migratorio en Colombia', eyebrow: 'Orientación migratoria nacional',
     headline: '¿Su permiso está por vencer o cambió su situación?',

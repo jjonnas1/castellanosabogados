@@ -133,6 +133,9 @@ export default function HomeClient() {
               >
                 {p.portalLink}
               </Link>
+              <Link href="/blog/preparar-primera-consulta-abogado" className="inline-flex mt-4 text-sm text-slate-200 underline underline-offset-4">
+                {p.portalGuide}
+              </Link>
             </div>
 
             <div className="relative">

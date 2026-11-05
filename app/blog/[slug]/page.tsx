@@ -4,7 +4,74 @@ import SiteHeader from '@/app/components/SiteHeader';
 import WhatsAppContactCard from '@/app/components/WhatsAppContactCard';
 import { articleWhatsAppCtas } from '@/lib/whatsappCtaContent';
 
-const articles: Record<string, { title: string; category: string; date: string; content: string; image?: string; imageAlt?: string; sources?: Array<{ label: string; url: string }> }> = {
+const articles: Record<string, { title: string; category: string; date: string; updatedAt?: string; content: string; relatedLinks?: Array<{ label: string; url: string }>; image?: string; imageAlt?: string; sources?: Array<{ label: string; url: string }> }> = {
+  "preparar-primera-consulta-abogado": {
+    title: "Primera consulta con un abogado: documentos y preguntas para aprovecharla",
+    category: "Orientación jurídica",
+    date: "2026-11-04T19:05:00-05:00",
+    relatedLinks: [{"label": "Solicitar una evaluación jurídica", "url": "/contacto"}, {"label": "Ingresar al portal del cliente", "url": "/cliente/login"}, {"label": "Explorar los servicios de la firma", "url": "/servicios"}],
+    content: `
+Una consulta resulta más útil cuando permite entender qué ocurrió, qué documentos existen y qué decisión necesita tomar. No hace falta llegar con un expediente perfecto: sí conviene tener una explicación ordenada y señalar cualquier citación o fecha próxima.
+
+**Escriba una cronología breve**
+
+Prepare una página con las fechas principales, las personas o entidades involucradas y los hechos que puede respaldar. Distinga lo que presenció de lo que otras personas le contaron. Si no recuerda una fecha, indíquelo; completar vacíos con suposiciones dificulta la revisión.
+
+**Reúna documentos completos y legibles**
+
+Según el asunto, pueden ser útiles contratos, citaciones, decisiones judiciales, comunicaciones de entidades, comprobantes o acuerdos. Conserve los originales y organice copias por fecha. Si comparte un correo, incluya sus anexos; si lleva una decisión, procure tener todas sus páginas.
+
+**Señale primero las fechas próximas**
+
+Si recibió una notificación o tiene una audiencia, muestre el documento e indique cuándo y por qué medio lo recibió. No calcule un plazo únicamente a partir de una publicación en internet. Pida al abogado que revise la actuación concreta antes de decidir qué hacer.
+
+**Defina qué quiere resolver**
+
+No es lo mismo pedir orientación sobre un contrato que solicitar una negociación o encargar una representación judicial. Explique su objetivo y sus principales preocupaciones. También conviene decir qué actuaciones ya intentó y cuáles respuestas recibió.
+
+**Pregunte por alcance, honorarios y seguimiento**
+
+Antes de contratar, aclare qué incluye el servicio, qué gastos se cobran aparte, quién atenderá su asunto y cómo recibirá las novedades. Pregunte qué información debe aportar y qué puede esperar de la siguiente etapa. Una evaluación inicial permite definir una ruta; los resultados dependen de las circunstancias y del trámite.
+
+**Cuando la firma habilite su portal de cliente**
+
+Solicite las instrucciones de acceso y confirme qué documentos, novedades y citas estarán disponibles. Las actualizaciones corresponden a la información registrada por el despacho; pregunte cuál será el canal para asuntos urgentes y cómo comunicar un cambio de teléfono o correo.
+
+En Castellanos Abogados puede iniciar el contacto indicando su ciudad, el tema y si existe una fecha próxima. Primero coordinamos la revisión y los documentos necesarios; comparta información sensible por el canal que acordemos para su atención.
+`,
+  },
+  "divorcio-unilateral-colombia": {
+    title: "Divorcio por voluntad de uno de los cónyuges: qué revisar antes de iniciar",
+    category: "Familia",
+    date: "2026-11-04T19:00:00-05:00",
+    sources: [{"label": "Ley 2442 de 2024: divorcio por voluntad de cualquiera de los cónyuges", "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=257036"}],
+    relatedLinks: [{"label": "Guía general de divorcio en Colombia", "url": "/blog/divorcio-colombia"}, {"label": "Asesoría en derecho de familia", "url": "/servicios/familia"}],
+    content: `
+¿Quiere divorciarse y su pareja no está de acuerdo? Esa diferencia debe explicarse desde la primera consulta, junto con los asuntos sobre hijos, vivienda, ingresos y patrimonio que necesitan una decisión.
+
+**La voluntad de uno de los cónyuges es una causal de divorcio**
+
+La Ley 2442 de 2024 agregó esta causal al artículo 154 del Código Civil. La solicitud judicial debe acompañarse de una propuesta para regular los efectos del divorcio. La decisión de terminar el vínculo no resuelve automáticamente las obligaciones familiares ni el patrimonio.
+
+**Prepare una fotografía clara de su situación**
+
+Anote cuándo se casaron, dónde viven actualmente, si siguen conviviendo y qué conversaciones han tenido sobre la separación. Diferencie aquello que ambos aceptan de los puntos en desacuerdo. Esa información permite enfocar la consulta sin convertirla en una reconstrucción desordenada de años de convivencia.
+
+**Organice los documentos disponibles**
+
+Para la revisión inicial, reúna los registros civiles que tenga, acuerdos previos, información sobre ingresos y gastos, y soportes de bienes y deudas. Señale qué documentos faltan y quién podría tenerlos. Esta es una lista de preparación de la consulta; el abogado determinará los requisitos del trámite concreto.
+
+**Ponga las necesidades de los hijos sobre la mesa**
+
+Prepare un presupuesto realista de alimentación, vivienda, salud, educación y transporte. Describa cómo se distribuyen hoy el cuidado y los gastos. Lleve las preguntas sobre visitas, rutinas y comunicaciones que le preocupan, sin involucrar a los hijos en la negociación entre adultos.
+
+**Haga preguntas concretas sobre el servicio**
+
+Solicite que le expliquen el alcance de la representación, los honorarios, los gastos adicionales y la forma de seguimiento. Pregunte cuáles decisiones necesitan una respuesta pronta y cuáles dependen de documentos o actuaciones posteriores. Conserve por escrito los compromisos acordados.
+
+En Castellanos Abogados revisamos su situación en Pereira, Manizales o mediante atención virtual. Cuéntenos si existe acuerdo, si hay hijos y si comparten bienes o deudas para preparar la evaluación de su caso.
+`,
+  },
   'quedarse-mas-tiempo-colombia': {
     title: '¿Quiere quedarse más tiempo en Colombia? Permiso, visa y cambios que debe revisar',
     category: 'Derecho migratorio',
@@ -176,35 +243,29 @@ El imputado tiene derecho a ser informado de manera clara, precisa y oportuna so
 Lo primero es no declarar sin la presencia de su abogado. Contacte a un profesional del derecho penal de inmediato. Las primeras decisiones del proceso son determinantes para la estrategia de defensa.
     `,
   },
-  'responsabilidad-penal-empresarial': {
-    title: '¿Qué es la responsabilidad penal de las personas jurídicas?',
-    category: 'Penal Empresarial',
-    date: '2026-04-01',
+  "responsabilidad-penal-empresarial": {
+    title: "Riesgo penal empresarial y responsabilidad administrativa: diferencias en Colombia",
+    category: "Penal Empresarial",
+    date: "2026-04-01",
+    updatedAt: "2026-11-04T19:00:00-05:00",
+    sources: [{"label": "Ley 2195 de 2022, artículo 2", "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/ley_2195_2022.htm"}],
     content: `
-Con la expedición de la Ley 2195 de 2022, Colombia incorporó de manera definitiva la responsabilidad penal de las personas jurídicas en su ordenamiento jurídico. Esto significa que las empresas, como entes independientes de sus socios y directivos, pueden ser investigadas, procesadas y sancionadas penalmente.
+Una investigación relacionada con una empresa exige distinguir la situación de sus administradores y funcionarios de las consecuencias para la organización.
 
-**¿Qué delitos pueden comprometer a una empresa?**
+**Qué regula la Ley 2195 de 2022**
 
-La ley establece que las personas jurídicas pueden responder penalmente por delitos cometidos en su nombre, por su cuenta y en su beneficio, tales como:
+Su artículo 2 establece un régimen de responsabilidad administrativa sancionatoria para personas jurídicas, independiente de las responsabilidades penales individuales y de las medidas del artículo 91 de la Ley 906 de 2004. No creó un régimen general de responsabilidad penal de las empresas.
 
-- Soborno transnacional.
-- Financiación de terrorismo y lavado de activos.
-- Delitos contra la administración pública (cohecho, peculado, etc.).
-- Delitos contra el medio ambiente.
-- Fraudes en contratación estatal.
+**La sanción no se presume**
 
-**¿Cómo se determina la responsabilidad?**
+La norma exige supuestos concurrentes: una condena penal ejecutoriada o un principio de oportunidad en firme respecto de administradores o funcionarios por las conductas previstas; beneficio o búsqueda de beneficio para la entidad; y consentimiento o tolerancia, por acción u omisión, considerando sus controles de riesgo.
 
-La empresa responde cuando el delito es cometido por sus representantes legales, administradores, empleados o contratistas actuando en ejercicio de sus funciones y en beneficio de la organización. La responsabilidad puede existir incluso si el individuo que cometió el delito no es identificado o condenado.
+**Cómo preparar la revisión**
 
-**¿Qué sanciones pueden imponerse?**
+Identifique quién recibió el requerimiento, qué autoridad lo emitió y qué plazo señala. Organice contratos, comunicaciones, autorizaciones y registros de decisiones. Conserve la documentación disponible y consulte antes de presentar una respuesta institucional.
 
-Las sanciones incluyen multas de hasta 200.000 SMMLV, prohibición de contratar con el Estado, cancelación de la personería jurídica, y decomiso de bienes.
-
-**¿Cómo proteger su empresa?**
-
-La mejor protección es la prevención. Un programa serio de cumplimiento (compliance) penal permite identificar riesgos, establecer controles y demostrar buena fe institucional. En Castellanos Abogados acompañamos la estructuración de estos programas y la defensa en caso de investigaciones.
-    `,
+Castellanos Abogados revisa el alcance del requerimiento y los controles existentes para definir el acompañamiento de la empresa y de las personas involucradas.
+`,
   },
   'beneficios-ejecucion-penas': {
     title: 'Beneficios administrativos en ejecución de penas',
@@ -392,53 +453,34 @@ Para muchas personas y sus familias, la diferencia entre cumplir una pena en una
 ¿Tienes un familiar con una condena o detención preventiva en Pereira, Manizales o Armenia? Podemos analizar si aplica la detención domiciliaria en tu caso. Llámanos al 314 830 9306 o escríbenos por WhatsApp para una consulta inicial.
     `,
   },
-  'divorcio-colombia': {
-    title: 'Divorcio en Colombia: tipos, proceso y tiempos',
-    category: 'Familia',
-    date: '2026-05-12',
+  "divorcio-colombia": {
+    title: "Divorcio en Colombia: mutuo acuerdo, vía judicial y documentos",
+    category: "Familia",
+    date: "2026-05-12",
+    updatedAt: "2026-11-04T19:00:00-05:00",
+    sources: [{"label": "Decreto 4436 de 2005: divorcio ante notario", "url": "https://www1.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=18346"}, {"label": "Ley 2442 de 2024: divorcio por voluntad de cualquiera de los cónyuges", "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=257036"}],
+    relatedLinks: [{"label": "Preparación del divorcio por voluntad de un cónyuge", "url": "/blog/divorcio-unilateral-colombia"}, {"label": "Consultar sobre derecho de familia", "url": "/servicios/familia"}],
     content: `
-El divorcio es uno de los procesos legales más comunes y, al mismo tiempo, uno de los más cargados emocionalmente. En Colombia existen diferentes vías para disolver el matrimonio, y conocer cuál aplica a tu situación puede ahorrarte tiempo, dinero y conflictos innecesarios.
+La ruta de divorcio debe elegirse después de revisar si existe acuerdo, qué asuntos familiares requieren atención y qué documentación está disponible.
 
-**Tipos de divorcio en Colombia**
+**Mutuo acuerdo ante notario**
 
-**Divorcio de mutuo acuerdo**
+El Decreto 4436 de 2005 permite tramitar mediante abogado el divorcio civil o la cesación de efectos civiles del matrimonio religioso ante notario. Tener hijos menores no obliga por sí solo a acudir a un juez: el acuerdo debe abordar alimentos, custodia y visitas, con intervención del defensor de familia en los términos del decreto.
 
-Es la forma más ágil y menos costosa de terminar un matrimonio. Ambos cónyuges están de acuerdo en divorciarse y en las condiciones de la separación: custodia de los hijos, alimentos, liquidación de la sociedad conyugal.
+**Cuando no hay acuerdo**
 
-Si no hay hijos menores de edad ni personas con discapacidad que dependan económicamente de alguno de los cónyuges, el divorcio puede tramitarse ante notario público sin necesidad de intervención judicial. Es el proceso más rápido: puede resolverse en semanas.
+La vía judicial permite plantear el divorcio y discutir sus efectos. Desde la Ley 2442 de 2024, la voluntad de cualquiera de los cónyuges es una causal. El abogado debe estudiar la causal y las pretensiones adecuadas para el caso.
 
-Si hay hijos menores, el divorcio requiere la aprobación de un juez de familia que verifique que los acuerdos sobre custodia y alimentos protegen adecuadamente a los menores.
+**Qué preparar para la consulta**
 
-**Divorcio contencioso**
+Reúna registros civiles, acuerdos anteriores y la información disponible sobre ingresos, gastos, bienes y deudas. Escriba qué asuntos están acordados y cuáles necesitan negociación o decisión. Si hay hijos, describa las rutinas de cuidado y los gastos reales.
 
-Cuando uno de los cónyuges no quiere divorciarse o no hay acuerdo sobre las condiciones, el otro puede demandar el divorcio ante un juez de familia. Las causales del artículo 154 del Código Civil incluyen relaciones sexuares extramatrimoniales, grave incumplimiento de los deberes conyugales o parentales, ultrajes o trato cruel, embriaguez habitual o drogadicción, separación de cuerpos judicial por más de dos años, y separación de hecho por más de dos años.
+**Duración y costos**
 
-**Cesación de efectos civiles del matrimonio católico**
+Solicite una estimación después de revisar los documentos. Las correcciones, notificaciones, controversias y actuaciones de las autoridades influyen en el trámite; una cifra general no permite prometer una fecha de terminación. Aclare si el encargo incluye asuntos patrimoniales y qué costos adicionales existen.
 
-En Colombia, los matrimonios religiosos católicos tienen efectos civiles. Para disolver estos efectos ante la ley se tramita la cesación de efectos civiles ante un juez de familia, siguiendo un proceso similar al divorcio contencioso.
-
-**Paso a paso del proceso de divorcio judicial**
-
-Paso 1: Consulta con un abogado de familia para entender tus derechos y la ruta más conveniente según tu situación.
-
-Paso 2: Intento de conciliación. Antes de acudir al juez, la ley colombiana exige intentar la conciliación en un centro de conciliación.
-
-Paso 3: Presentación de la demanda ante el Juzgado de Familia del circuito donde tuvo el último domicilio conyugal. En el Eje Cafetero, los juzgados de familia están en Pereira, Manizales y Armenia.
-
-Paso 4: Trámite judicial con admisión de la demanda, notificación al cónyuge demandado, período probatorio, audiencias y sentencia.
-
-Paso 5: Liquidación de la sociedad conyugal. El divorcio no liquida automáticamente los bienes. Después del fallo, las partes deben tramitar la liquidación, ya sea por acuerdo o ante el juez.
-
-**Tiempos aproximados**
-
-Mutuo acuerdo sin hijos ante notaría: 2 a 6 semanas. Mutuo acuerdo con hijos por vía judicial: 3 a 6 meses. Divorcio contencioso con causal: 8 meses a 2 años.
-
-**¿Qué pasa con los hijos y la custodia?**
-
-Cuando hay hijos menores de edad, el divorcio no puede tramitarse sin definir la custodia y cuidado personal, el régimen de visitas y la cuota alimentaria. El juez de familia tiene la última palabra para garantizar el interés superior del menor. Si los padres no se ponen de acuerdo, el juez decide.
-
-¿Necesitas asesoría para un proceso de divorcio en Pereira, Manizales o Armenia? Contáctanos por WhatsApp o llámanos al 314 830 9306. Te explicamos cuál es la mejor ruta para tu caso y acompañamos el proceso de principio a fin.
-    `,
+En Castellanos Abogados revisamos su situación y explicamos qué ruta puede corresponder antes de iniciar el trámite.
+`,
   },
   'acoso-laboral-colombia': {
     title: 'Acoso laboral en Colombia: qué es, cómo reconocerlo y cómo denunciarlo',
@@ -524,41 +566,33 @@ En los juzgados de control de garantías de Pereira, Manizales y Armenia, la exp
 ¿Te impusieron o le impusieron a un familiar una medida de aseguramiento en el Eje Cafetero? El tiempo importa. Llámanos al 314 830 9306 o escríbenos por WhatsApp para analizar las opciones de impugnación o sustitución.
     `,
   },
-  'ley-2466-2025-redenciones-pena': {
-    title: 'Ley 2466 de 2025: cómo cambiaron las redenciones de pena en Colombia',
-    category: 'Ejecución de Penas',
-    date: '2026-05-15',
+  "ley-2466-2025-redenciones-pena": {
+    title: "Ley 2466 de 2025: redención de pena y revisión de cómputos",
+    category: "Ejecución de Penas",
+    date: "2026-05-15",
+    updatedAt: "2026-11-04T19:00:00-05:00",
+    sources: [{"label": "Ley 2466 de 2025, artículo 19", "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=260676"}, {"label": "Corte Suprema: redención por estudio y unificación del criterio", "url": "https://cortesuprema.gov.co/sala-de-tutelas-ampara-derecho-a-redencion-de-pena-por-estudio-y-unifica-las-reglas-para-su-aplicacion/"}, {"label": "Código Penal, artículo 64", "url": "https://www1.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=6388"}],
     content: `
-En febrero de 2025 Colombia promulgó la Ley 2466, una reforma que modificó de manera importante el régimen de redenciones de pena para personas privadas de la libertad. Si tiene un familiar condenado en un establecimiento del INPEC, entender este cambio puede significar semanas o incluso meses de diferencia en su fecha de acceso a beneficios como la libertad condicional o la prisión domiciliaria.
+Para revisar una redención de pena hay que distinguir la regla aplicable, las actividades certificadas y lo que ya reconoció el juzgado.
 
-**¿Qué son las redenciones de pena?**
+**Fecha y regla de la reforma**
 
-Las redenciones de pena son un mecanismo legal que permite a los internos descontar días de su condena a través del trabajo, el estudio y la enseñanza dentro del establecimiento penitenciario. Están reguladas en el Código Penitenciario y Carcelario (Ley 65 de 1993) y han sido objeto de varias modificaciones a lo largo de los años. Su importancia práctica es enorme: los días redimidos se descuentan del total de la pena y aceleran el momento en que el condenado puede solicitar beneficios como la libertad condicional.
+La Ley 2466 fue expedida el 25 de junio de 2025. Su artículo 19 contempla dos días de redención por cada tres días de trabajo. El texto legal se refiere al trabajo; para otras actividades debe explicarse también la interpretación judicial.
 
-**¿Qué cambió con la Ley 2466 de 2025?**
+**Estudio y enseñanza**
 
-La ley establece que se abonarán dos días de reclusión por cada tres días efectivos de trabajo o estudio dentro del establecimiento. Esta relación (2 por cada 3 días) busca incentivar la participación activa de los internos en actividades productivas y educativas, reconociendo que estas actividades tienen un impacto real en la reducción de la reincidencia.
+La Sala de Decisión de Tutelas número tres de la Corte Suprema informó la unificación de su criterio para aplicar esa fórmula a trabajo, estudio y enseñanza. La revisión de un expediente debe identificar las providencias aplicables y el período certificado, sin presentar el reconocimiento como automático.
 
-Uno de los aspectos más relevantes de la norma es el reconocimiento de las actividades laborales desarrolladas dentro del penal como experiencia laboral válida. El Ministerio de Trabajo tiene un plazo de seis meses desde la promulgación de la ley para reglamentar cómo se certifica y reconoce esta experiencia, con el objetivo de facilitar la inserción laboral al momento de la libertad. Esto representa un cambio significativo frente al estigma que históricamente ha enfrentado la población pospenada en el mercado laboral.
+**Qué documentos conviene organizar**
 
-El INPEC y la USPEC (Unidad de Servicios Penitenciarios y Carcelarios) quedan encargados de consolidar y reportar la información sobre participación de los internos en actividades productivas, para que el Ministerio de Trabajo pueda llevar estadísticas actualizadas sobre inserción laboral.
+Reúna los certificados de actividades, las decisiones de redención, los cómputos disponibles y la sentencia. Compare los períodos para detectar faltantes o duplicaciones. Una tabla de fechas ayuda a formular una solicitud verificable ante el despacho que vigila la condena.
 
-**Por qué importa la exactitud en los cómputos del INPEC**
+**Redención y libertad condicional son decisiones diferentes**
 
-El registro de las actividades de trabajo y estudio es responsabilidad del INPEC, pero en la práctica los errores en los cómputos son frecuentes. Días trabajados que no quedaron registrados, períodos de estudio que no fueron certificados a tiempo o redenciones calculadas con la norma equivocada son situaciones que se presentan con más regularidad de lo que debería. Cada error en el cómputo puede retrasar semanas o meses la fecha en que el condenado alcanza el 60% de la pena necesario para solicitar la libertad condicional.
+El artículo 64 del Código Penal exige, entre otros presupuestos, cumplir tres quintas partes de la pena. Alcanzar ese tiempo no concede automáticamente la libertad: también deben revisarse los demás requisitos y las restricciones aplicables al caso.
 
-Por eso, la revisión técnica y oportuna de los cómputos del INPEC no es un lujo: es una necesidad para cualquier persona privada de la libertad y para su familia. La diferencia entre un cómputo correcto y uno erróneo puede ser determinante en la estrategia de ejecución de penas.
-
-**¿Cómo se tramita el reconocimiento de las redenciones ante el Juez de Ejecución?**
-
-Las redenciones no se reconocen automáticamente. El INPEC debe certificarlas y el abogado o el condenado deben presentar esa certificación ante el Juez de Ejecución de Penas y Medidas de Seguridad para que queden formalmente reconocidas en el expediente. Si hay discrepancias entre lo que certifica el INPEC y lo que el abogado calcula, se puede controvertir ante el juez con la documentación de respaldo de las actividades realizadas.
-
-**Lo que debe revisar si tiene un familiar condenado**
-
-Si tiene un familiar privado de la libertad en un establecimiento del INPEC, hay tres cosas que vale la pena verificar: primero, si las actividades de trabajo o estudio que realiza están siendo registradas correctamente por el INPEC; segundo, si los cómputos que lleva el juzgado de ejecución de penas coinciden con los que reporta el INPEC; y tercero, cuándo —con los cómputos correctos y las redenciones reconocidas— se alcanza el 60% de la pena para solicitar la libertad condicional o los demás beneficios aplicables.
-
-¿Tiene dudas sobre los cómputos de pena o las redenciones de su familiar en el Eje Cafetero? Revisamos el expediente y le explicamos con exactitud a qué tiene derecho y cuándo. Contáctenos por WhatsApp o llámenos al 314 830 9306.
-    `,
+Castellanos Abogados revisa certificados, cómputos y decisiones para explicar qué solicitudes están respaldadas y qué soportes faltan.
+`,
   },
   'libertad-condicional-colombia': {
     title: 'Libertad condicional en Colombia: requisitos del artículo 64 del Código Penal',
@@ -985,16 +1019,18 @@ export async function generateStaticParams() {
 }
 
 const ARTICLE_DESCRIPTIONS: Record<string, string> = {
+  'divorcio-unilateral-colombia': 'Divorcio por voluntad de un cónyuge en Colombia: qué permite la Ley 2442 de 2024 y cómo preparar documentos y preguntas para su consulta.',
+  'preparar-primera-consulta-abogado': 'Qué documentos y preguntas preparar antes de consultar a un abogado en Pereira o Manizales. Honorarios, alcance del servicio y seguimiento del caso.',
   'quedarse-mas-tiempo-colombia': 'Qué revisar antes de extender la permanencia en Colombia: permiso vigente, propósito de la estadía, visa, cambios de circunstancias y documentos extranjeros.',
   'circular-externa-007-2026-alivios-financieros': 'Circular Externa 007 de 2026: alivios para afectados por el terremoto del Eje Cafetero del 10 de agosto. Refinanciación, intereses y reportes.',
   'cuando-interponer-una-tutela':        'Cuándo procede una acción de tutela en Colombia, qué documentos conviene reunir y cómo presentarla. Asesoría para tutelas en Pereira y Manizales.',
   'derechos-del-imputado-proceso-penal': 'Presunción de inocencia, derecho a guardar silencio y defensa técnica: conoce los derechos del imputado en el proceso penal colombiano. Abogados penalistas en Pereira.',
-  'responsabilidad-penal-empresarial':   'La Ley 2195 de 2022 permite sancionar penalmente a empresas en Colombia. Delitos, sanciones y cómo proteger tu organización. Castellanos Abogados, Pereira.',
+  'responsabilidad-penal-empresarial':   'Riesgo penal individual y responsabilidad administrativa de empresas: qué establece la Ley 2195 de 2022 y qué revisar ante un requerimiento.',
   'beneficios-ejecucion-penas':          'Prisión domiciliaria, libertad condicional y redención de pena en Colombia: requisitos y cómo tramitarlos ante el Juez de Ejecución de Penas en el Eje Cafetero.',
   'abogado-penalista-pereira':           '¿Cuándo necesitas un abogado penalista en Pereira? Guía completa sobre captura, imputación, medidas de aseguramiento y ejecución de penas en el Eje Cafetero.',
   'que-hacer-si-te-detienen-colombia':   'Guía paso a paso: derechos si te detienen en Colombia, qué no hacer y cómo actúa tu abogado en la audiencia de legalización de captura. Atención urgente en Pereira.',
   'detencion-domiciliaria-colombia':     'Requisitos de la detención domiciliaria preventiva y prisión domiciliaria en Colombia. Cómo solicitar este beneficio ante el Juez de Ejecución de Penas en el Eje Cafetero.',
-  'divorcio-colombia':                   'Tipos de divorcio en Colombia, tiempos estimados y proceso paso a paso. Mutuo acuerdo, contencioso y cesación de efectos civiles. Abogados de familia en Pereira.',
+  'divorcio-colombia':                   'Divorcio en Colombia: mutuo acuerdo ante notario, hijos menores, vía judicial y voluntad de uno de los cónyuges. Documentos para preparar la consulta.',
   'acoso-laboral-colombia':              'Qué es el acoso laboral según la Ley 1010 de 2006, cómo reconocerlo y cómo denunciarlo ante el Comité de Convivencia o el Ministerio de Trabajo. Abogados en Pereira.',
   'medida-de-aseguramiento-colombia':    'Qué es una medida de aseguramiento en Colombia, cuáles son sus requisitos y qué hacer frente a una decisión de detención, sustitución o revocatoria.',
   'cuota-alimentaria-colombia':          'Cuota alimentaria en Colombia: cómo demandar, fijar, revisar o reclamar su pago y qué documentos conviene reunir antes de iniciar el trámite.',
@@ -1042,6 +1078,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title,
       description,
       publishedTime: article.date,
+      modifiedTime: article.updatedAt ?? article.date,
       authors: ['Jonatan Castellanos'],
       images: [{ url: `/share/articulo-${slug}.jpg`, width: 1200, height: 630, alt: article.title }],
     },
@@ -1070,7 +1107,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     headline: article.title,
     description,
     datePublished: article.date,
-    dateModified: article.date,
+    dateModified: article.updatedAt ?? article.date,
     author: {
       "@type": "Person",
       name: "Jonatan Castellanos",
@@ -1202,6 +1239,8 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </span>
             </div>
             <h1>{article.title}</h1>
+            <p className="text-sm text-muted">Por Jonatan Castellanos · Abogado</p>
+            {article.updatedAt && <p className="text-xs text-muted">Actualizado el <time dateTime={article.updatedAt}>{new Date(article.updatedAt).toLocaleDateString('es-CO', { timeZone: 'America/Bogota', year: 'numeric', month: 'long', day: 'numeric' })}</time></p>}
           </div>
 
           {article.image && (
@@ -1243,6 +1282,13 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
                 </a>
               </p>
             </div>
+          )}
+
+          {article.relatedLinks && (
+            <nav aria-label="Lecturas y servicios relacionados" className="card-shell bg-surface p-6 space-y-3 text-sm">
+              <p className="font-semibold text-ink">Continúe con el siguiente paso</p>
+              {article.relatedLinks.map((link) => <p key={link.url}><a className="underline underline-offset-4" href={link.url}>{link.label} ↗</a></p>)}
+            </nav>
           )}
 
           {article.sources && (

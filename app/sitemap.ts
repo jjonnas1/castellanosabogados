@@ -4,6 +4,8 @@ import { serviceDetailList } from '@/lib/serviceDetails';
 const BASE = 'https://jonatancastellanosabogado.com';
 
 const BLOG_SLUGS = [
+  'divorcio-unilateral-colombia',
+  'preparar-primera-consulta-abogado',
   'quedarse-mas-tiempo-colombia',
   'circular-externa-007-2026-alivios-financieros',
   'decreto-1368-2026-porte-armas',
@@ -30,17 +32,19 @@ const BLOG_SLUGS = [
 ];
 
 const BLOG_DATES: Record<string, string> = {
+  'divorcio-unilateral-colombia': '2026-11-04',
+  'preparar-primera-consulta-abogado': '2026-11-04',
   'quedarse-mas-tiempo-colombia': '2026-10-03',
   'circular-externa-007-2026-alivios-financieros': '2026-09-17',
   'decreto-1368-2026-porte-armas': '2026-09-09',
   'cuando-interponer-una-tutela':        '2026-03-10',
   'derechos-del-imputado-proceso-penal': '2026-03-18',
-  'responsabilidad-penal-empresarial':   '2026-04-01',
+  'responsabilidad-penal-empresarial':   '2026-11-04',
   'beneficios-ejecucion-penas':          '2026-04-05',
   'abogado-penalista-pereira':           '2026-05-05',
   'que-hacer-si-te-detienen-colombia':   '2026-05-05',
   'detencion-domiciliaria-colombia':     '2026-05-05',
-  'divorcio-colombia':                   '2026-05-12',
+  'divorcio-colombia':                   '2026-11-04',
   'acoso-laboral-colombia':              '2026-05-12',
   'medida-de-aseguramiento-colombia':    '2026-05-19',
   'libertad-condicional-colombia':       '2026-05-19',
@@ -50,7 +54,7 @@ const BLOG_DATES: Record<string, string> = {
   'ley-2477-2025-reforma-procesal-penal':            '2026-08-19',
   'cuota-alimentaria-colombia':                      '2026-03-25',
   'violencia-intrafamiliar-medidas-proteccion':      '2026-04-22',
-  'ley-2466-2025-redenciones-pena':                  '2026-05-15',
+  'ley-2466-2025-redenciones-pena':                  '2026-11-04',
   'prescripcion-titulos-valores-colombia':           '2026-05-20',
   'inasistencia-alimentaria-colombia':               '2026-09-03',
 };
@@ -69,7 +73,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/asesoria-personas`, priority: 0.75, changeFrequency: 'monthly', lastModified: '2026-09-03' },
     { url: `${BASE}/penal-empresarial`, priority: 0.8, changeFrequency: 'monthly', lastModified: '2026-09-03' },
     { url: `${BASE}/trabaja`,           priority: 0.4, changeFrequency: 'yearly',  lastModified: '2026-09-03' },
-    { url: `${BASE}/blog`,        priority: 0.8, changeFrequency: 'weekly',  lastModified: '2026-09-17' },
+    { url: `${BASE}/blog`,        priority: 0.8, changeFrequency: 'weekly',  lastModified: '2026-11-04' },
     { url: `${BASE}/nosotros`,    priority: 0.7, changeFrequency: 'monthly', lastModified: '2026-05-07' },
     { url: `${BASE}/contacto`,    priority: 0.7, changeFrequency: 'yearly',  lastModified: '2026-01-01' },
   ];

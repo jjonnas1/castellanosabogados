@@ -309,6 +309,7 @@ export const en = {
       portalFeature2: "Process updates without needing to call",
       portalFeature3: "Schedule and manage your appointments easily",
       portalLink: "Learn about the portal",
+      portalGuide: "Not a client yet? Prepare for your first consultation",
       googleReviews: {
         badge: "Google reviews",
         title: "Trust backed by clients",
