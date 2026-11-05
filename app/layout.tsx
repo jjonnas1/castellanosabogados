@@ -24,7 +24,7 @@ const organizationSchema = {
   telephone: "+573148309306",
   email: "jonatancastellanosabogado@gmail.com",
   priceRange: "$$",
-  image: "https://jonatancastellanosabogado.com/og-share-castellanos-2026.jpg",
+  image: "https://jonatancastellanosabogado.com/share/inicio.jpg",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Pereira",
@@ -104,7 +104,7 @@ export const metadata: Metadata = {
       'Una ruta clara para su situación jurídica. Asesoría en derecho penal, familia, laboral y ejecución de penas. Hablemos de su caso.',
     images: [
       {
-        url: '/og-share-castellanos-2026.jpg',
+        url: '/share/inicio.jpg',
         width: 1200,
         height: 630,
         alt: 'Castellanos Abogados — Firma jurídica en Pereira y Manizales',
@@ -116,7 +116,7 @@ export const metadata: Metadata = {
     title: 'Castellanos Abogados · Pereira y Manizales',
     description:
       'Una ruta clara para su situación jurídica. Asesoría en derecho penal, familia, laboral y ejecución de penas. Hablemos de su caso.',
-    images: ['/og-share-castellanos-2026.jpg'],
+    images: ['/share/inicio.jpg'],
   },
 };
 

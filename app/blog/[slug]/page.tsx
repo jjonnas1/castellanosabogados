@@ -1043,13 +1043,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description,
       publishedTime: article.date,
       authors: ['Jonatan Castellanos'],
-      images: [{ url: article.image ?? '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: article.imageAlt ?? article.title }],
+      images: [{ url: `/share/articulo-${slug}.jpg`, width: 1200, height: 630, alt: article.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [article.image ?? '/og-share-castellanos-2026.jpg'],
+      images: [`/share/articulo-${slug}.jpg`],
     },
   };
 }

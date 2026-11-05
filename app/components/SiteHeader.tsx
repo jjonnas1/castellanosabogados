@@ -163,8 +163,8 @@ export default function SiteHeader(){
 
   const HEADER_NAV=[
     {label:DOMICILIO_LABELS[language as Language],href:DOMICILIO_HREF},
-    {label:t.nav.tutelas,href:"/tutela"},
     {label:"Derecho migratorio",href:"/visas-colombia"},
+    {label:"Apps",href:"/apps"},
     {label:t.nav.blog,href:"/blog"},
     {label:t.nav.about,href:"/nosotros"},
     {label:t.nav.contact,href:"/contacto"},
@@ -198,6 +198,7 @@ export default function SiteHeader(){
 
           {HEADER_NAV.map(item=>(
             item.href==='/visas-colombia' ? <MigrationNav key={item.href}/> :
+            item.href==='/apps' ? <Link key={item.href} href={item.href} className={`inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#c4a46a]/70 bg-[#182842] px-3 text-[13px] font-semibold text-[#f3d8a4] shadow-sm transition hover:-translate-y-0.5 hover:bg-[#263b5d] hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b68b42] ${isActive(item.href)?"ring-2 ring-[#c4a46a]/50 ring-offset-2":""}`}><span className="text-[10px]" aria-hidden>✦</span>{item.label}</Link> :
             <Link key={item.href} href={item.href} className={`inline-flex h-10 items-center whitespace-nowrap border-b-2 px-0.5 text-[13px] font-medium transition-colors hover:border-ink/30 hover:text-ink ${isActive(item.href)?"border-[#7b1e2b] text-ink":"border-transparent"}`}>{item.label}</Link>
           ))}
         </nav>
@@ -260,12 +261,14 @@ export default function SiteHeader(){
                     ))}
                   </div>
                 ))}
+                <Link href="/tutela" onClick={()=>{setOpen(false);setMobileServicesOpen(false);}} className={`rounded-xl px-3 py-3 text-sm font-semibold transition hover:bg-subtle hover:text-ink ${isActive('/tutela')?"bg-subtle text-ink":"text-muted"}`}>{t.nav.tutelas}</Link>
                 <Link href="/visas-colombia" onClick={()=>{setOpen(false);setMobileServicesOpen(false);}} className="rounded-xl bg-[#0f3d32]/[0.07] px-3 py-3 text-sm font-semibold text-[#0f3d32]">{(MIGRATION_LABELS[language as Language] ?? MIGRATION_LABELS.es).title}</Link>
               </div>
             )}
 
             {HEADER_NAV.map(item=>(
               item.href==='/visas-colombia' ? <MigrationNav key={item.href} mobile onNavigate={()=>setOpen(false)}/> :
+              item.href==='/apps' ? <Link key={item.href} href={item.href} onClick={()=>setOpen(false)} className="flex items-center gap-2 rounded-xl border border-[#c4a46a]/60 bg-[#182842] px-3 py-3.5 text-sm font-semibold text-[#f3d8a4] shadow-sm"><span aria-hidden>✦</span>{item.label}</Link> :
               <Link key={item.href} href={item.href} onClick={()=>setOpen(false)} className={`rounded-xl px-3 py-3.5 text-sm font-medium transition hover:bg-subtle hover:text-ink ${isActive(item.href)?"bg-subtle text-ink":"text-muted"}`}>{item.label}</Link>
             ))}
 

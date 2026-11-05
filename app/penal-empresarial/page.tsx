@@ -16,13 +16,14 @@ export const metadata: Metadata = {
     title: 'Derecho penal empresarial | Castellanos Abogados',
     description:
       'Prevención de riesgos penales, defensa de empresas y representantes legales, y acompañamiento estratégico.',
-    images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Penal empresarial' }],
+    images: [{ url: '/share/penal-empresarial.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Penal empresarial' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Derecho penal empresarial | Castellanos Abogados',
     description:
       'Prevención de riesgos penales y defensa de empresas en Pereira y el Eje Cafetero.',
+    images: ['/share/penal-empresarial.jpg'],
   },
 };
 

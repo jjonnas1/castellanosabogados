@@ -11,13 +11,14 @@ export const metadata: Metadata = {
     title: 'Asesoría penal a personas naturales | Castellanos Abogados',
     description:
       'Orientación y defensa penal para personas naturales, con atención directa del abogado y estrategia clara.',
-    images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Asesoría a personas' }],
+    images: [{ url: '/share/asesoria-personas.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Asesoría a personas' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Asesoría penal a personas naturales | Castellanos Abogados',
     description:
       'Orientación y defensa penal para personas naturales en Pereira y el Eje Cafetero.',
+    images: ['/share/asesoria-personas.jpg'],
   },
 };
 

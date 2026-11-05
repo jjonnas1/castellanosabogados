@@ -5,6 +5,7 @@ import Link from "next/link";
 import SiteHeader from "./SiteHeader";
 import HeroCarrusel from "./HeroCarrusel";
 import PracticeShowcase from "./PracticeShowcase";
+import AppsTeaser from "./AppsTeaser";
 import WaIcon from "@/app/components/WaIcon";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -95,6 +96,7 @@ export default function HomeClient() {
       <SiteHeader />
       <HeroCarrusel />
       <PracticeShowcase />
+      <AppsTeaser />
 
 
       {/* ── SERVICIOS + PORTAL (oscuro) ───────────────────────────── */}

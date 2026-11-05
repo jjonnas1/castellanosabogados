@@ -10,12 +10,13 @@ export const metadata: Metadata = {
     url: 'https://jonatancastellanosabogado.com/tutela',
     title: 'Abogado de tutela en Pereira y Manizales | Castellanos Abogados',
     description: 'Tutelas contra EPS por medicamentos, citas, cirugías y procedimientos en Pereira y Manizales, con revisión virtual del caso.',
-    images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Tutelas' }],
+    images: [{ url: '/share/tutela.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Acción de tutela' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Abogado de tutela en Pereira y Manizales | Castellanos Abogados',
     description: 'Tutelas contra EPS por medicamentos, citas, cirugías y procedimientos, con revisión del caso.',
+    images: ['/share/tutela.jpg'],
   },
 };
 

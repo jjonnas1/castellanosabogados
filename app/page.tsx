@@ -11,13 +11,13 @@ export const metadata: Metadata = {
     url: 'https://jonatancastellanosabogado.com',
     title: 'Castellanos Abogados · Pereira y Manizales',
     description: 'Una ruta clara para su situación jurídica. Asesoría en derecho penal, familia, laboral y ejecución de penas. Hablemos de su caso.',
-    images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados' }],
+    images: [{ url: '/share/inicio.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Asesoría jurídica' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Castellanos Abogados · Pereira y Manizales',
     description: 'Una ruta clara para su situación jurídica. Asesoría en derecho penal, familia, laboral y ejecución de penas. Hablemos de su caso.',
-    images: ['/og-share-castellanos-2026.jpg'],
+    images: ['/share/inicio.jpg'],
   },
 };
 

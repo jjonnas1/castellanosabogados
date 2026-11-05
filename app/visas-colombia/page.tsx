@@ -10,8 +10,8 @@ const title = 'Abogado migratorio en Colombia | Castellanos Abogados';
 const description = 'Abogado migratorio para extranjeros en toda Colombia. Asesoría en visas, residencia y permanencia, con atención virtual nacional y desde el exterior.';
 export const metadata: Metadata = {
   title, description, alternates: { canonical: '/visas-colombia' },
-  openGraph: { type: 'website', url: `${base}/visas-colombia`, title, description, images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Asesoría migratoria en toda Colombia' }] },
-  twitter: { card: 'summary_large_image', title, description, images: ['/og-share-castellanos-2026.jpg'] },
+  openGraph: { type: 'website', url: `${base}/visas-colombia`, title, description, images: [{ url: '/share/visas-colombia.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Asesoría migratoria en toda Colombia' }] },
+  twitter: { card: 'summary_large_image', title, description, images: ['/share/visas-colombia.jpg'] },
 };
 const scenarios = [
   ['01', 'Quiero quedarme más tiempo', 'Su permiso está por vencer o Colombia ya forma parte de sus planes. Revisamos qué opciones corresponden a su situación.', 'Permanencia en Colombia'],

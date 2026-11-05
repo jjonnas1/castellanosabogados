@@ -10,12 +10,13 @@ export const metadata = {
     url: 'https://jonatancastellanosabogado.com/metodologia',
     title: 'Metodología de trabajo | Castellanos Abogados',
     description: 'Conoce cómo trabajamos: diagnóstico jurídico, plan de actuación y seguimiento continuo en cada proceso.',
-    images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Metodología' }],
+    images: [{ url: '/share/metodologia.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — Metodología' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Metodología de trabajo | Castellanos Abogados',
     description: 'Diagnóstico jurídico, plan de actuación y seguimiento continuo. Así trabajamos en Castellanos Abogados.',
+    images: ['/share/metodologia.jpg'],
   },
 };
 

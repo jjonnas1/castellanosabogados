@@ -7,6 +7,14 @@ export const metadata: Metadata = {
   title: 'Herramientas Jurídicas | Castellanos Abogados',
   description: 'Calculadoras y herramientas jurídicas especializadas en derecho laboral, civil, familia y penal colombiano. Descubra sus derechos con Castellanos Abogados en Pereira.',
   alternates: { canonical: '/herramientas' },
+  openGraph: {
+    type: 'website',
+    url: 'https://jonatancastellanosabogado.com/herramientas',
+    title: 'Herramientas jurídicas | Castellanos Abogados',
+    description: 'Calculadoras y herramientas para comprender mejor sus opciones jurídicas.',
+    images: [{ url: '/share/herramientas.jpg', width: 1200, height: 630, alt: 'Herramientas jurídicas de Castellanos Abogados' }],
+  },
+  twitter: { card: 'summary_large_image', images: ['/share/herramientas.jpg'] },
 };
 
 const HERRAMIENTAS = [

@@ -11,13 +11,14 @@ export const metadata: Metadata = {
     title: 'A quién servimos | Castellanos Abogados',
     description:
       'Acompañamiento jurídico a personas naturales, familias, personas en ejecución de penas, trabajadores y empresas.',
-    images: [{ url: '/og-share-castellanos-2026.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — A quién servimos' }],
+    images: [{ url: '/share/a-quien-servimos.jpg', width: 1200, height: 630, alt: 'Castellanos Abogados — A quién servimos' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'A quién servimos | Castellanos Abogados',
     description:
       'Asesoría jurídica para personas y empresas: penal, ejecución de penas, familia, laboral y administrativo.',
+    images: ['/share/a-quien-servimos.jpg'],
   },
 };
 
