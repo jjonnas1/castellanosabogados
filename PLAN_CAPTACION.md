@@ -36,3 +36,8 @@ Una vez disponibles:
 `node scripts/test-acquisition.mjs` verifica la separación de eventos, deduplicación, respuesta de API y compatibilidad de esquema, formulario real con envío simultáneo y reintento, rutas privadas, clasificación y resumen agregado, sin crear contactos ni enviar correos reales. `node scripts/test-blog-publication.mjs` comprueba fechas y visibilidad de las publicaciones. También se ejecutan TypeScript, compilación de producción y comprobaciones HTTP de las páginas públicas y de la protección del administrador.
 
 Referencias técnicas: [IDs de transacción en Google Ads](https://support.google.com/google-ads/answer/6386790?hl=es), [factores de posicionamiento local](https://support.google.com/business/answer/7091?hl=es). No se garantizan posiciones ni aumentos de contratación.
+
+
+## Despliegue y comprobación pública
+
+Publicado el 4 de noviembre de 2026 en `jonatancastellanosabogado.com`, despliegue `dpl_49FvY3p7yb8jW8sxwhnWeqPtnqmV`, código `a51d63a`. La portada, seguimiento del caso, familia, blog y sitemap respondieron HTTP 200; las dos entradas futuras siguieron respondiendo 404; la API del administrador respondió 401 sin sesión. La prueba del guardado y los eventos usa dobles controlados para evitar contactos y correos ficticios en producción. La medición efectiva dentro de Google Ads/GA4 requiere la conexión de las cuentas correspondientes. No se ha accedido a expedientes privados ni cambiado campañas o presupuestos.
