@@ -1,5 +1,7 @@
 export const it = {
   nav: {
+    caseFollowUp: "Segui il caso",
+    caseFollowUpShort: "Segui il caso",
     home: "Inizio",
     services: "Servizi",
     about: "Chi siamo",

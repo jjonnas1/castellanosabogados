@@ -1,5 +1,7 @@
 export const fr = {
   nav: {
+    caseFollowUp: "Suivi du dossier",
+    caseFollowUpShort: "Suivi",
     home: "Accueil",
     services: "Services",
     about: "À propos",

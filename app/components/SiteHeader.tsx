@@ -165,6 +165,7 @@ export default function SiteHeader(){
     {label:DOMICILIO_LABELS[language as Language],href:DOMICILIO_HREF},
     {label:"Derecho migratorio",href:"/visas-colombia"},
     {label:"Apps",href:"/apps"},
+    {label:t.nav.caseFollowUp,href:"/seguimiento-del-caso"},
     {label:t.nav.blog,href:"/blog"},
     {label:t.nav.about,href:"/nosotros"},
     {label:t.nav.contact,href:"/contacto"},
@@ -187,7 +188,7 @@ export default function SiteHeader(){
           </span>
         </Link>
 
-        <nav className="hidden flex-1 items-center justify-center gap-4 text-[13px] font-medium text-muted xl:flex 2xl:gap-6" aria-label="Navegación principal">
+        <nav className="hidden flex-1 items-center justify-center gap-3 text-[13px] font-medium text-muted xl:flex 2xl:gap-5" aria-label="Navegación principal">
           <div className="relative" ref={megaRef}>
             <button type="button" aria-expanded={megaOpen} aria-controls={megaMenuId} aria-haspopup="true" onClick={()=>setMegaOpen(v=>!v)} className={`inline-flex h-10 items-center gap-1.5 whitespace-nowrap border-b-2 px-0.5 text-[13px] font-medium transition-colors hover:border-ink/30 hover:text-ink ${isServicesActive()?"border-[#7b1e2b] text-ink":"border-transparent"}`}>
               {t.nav.services}
@@ -199,7 +200,7 @@ export default function SiteHeader(){
           {HEADER_NAV.map(item=>(
             item.href==='/visas-colombia' ? <MigrationNav key={item.href}/> :
             item.href==='/apps' ? <Link key={item.href} href={item.href} className={`inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-full border border-[#c4a46a]/70 bg-[#182842] px-3 text-[13px] font-semibold text-[#f3d8a4] shadow-sm transition hover:-translate-y-0.5 hover:bg-[#263b5d] hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b68b42] ${isActive(item.href)?"ring-2 ring-[#c4a46a]/50 ring-offset-2":""}`}><span className="text-[10px]" aria-hidden>✦</span>{item.label}</Link> :
-            <Link key={item.href} href={item.href} className={`inline-flex h-10 items-center whitespace-nowrap border-b-2 px-0.5 text-[13px] font-medium transition-colors hover:border-ink/30 hover:text-ink ${isActive(item.href)?"border-[#7b1e2b] text-ink":"border-transparent"}`}>{item.label}</Link>
+            <Link key={item.href} href={item.href} aria-label={item.label} aria-current={isActive(item.href) ? "page" : undefined} className={`inline-flex h-10 items-center whitespace-nowrap border-b-2 px-0.5 text-[13px] font-medium transition-colors hover:border-ink/30 hover:text-ink ${isActive(item.href)?"border-[#7b1e2b] text-ink":"border-transparent"}`}>{item.href === "/seguimiento-del-caso" ? <><span className="2xl:hidden">{t.nav.caseFollowUpShort}</span><span className="hidden 2xl:inline">{item.label}</span></> : item.label}</Link>
           ))}
         </nav>
 

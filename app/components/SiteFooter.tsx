@@ -19,6 +19,7 @@ const SERVICE_SLUGS = [
 ];
 
 const QUICK_LINKS = [
+  { href: "/seguimiento-del-caso", labelKey: "caseFollowUp" as const },
   { href: "/tutela", labelKey: "tutelas" as const },
   { href: "/blog", labelKey: "blog" as const },
   { href: "/nosotros", labelKey: "about" as const },
