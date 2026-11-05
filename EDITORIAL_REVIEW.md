@@ -7,11 +7,11 @@ El artículo más reciente del blog en vivo es del 3 de octubre de 2026. La resp
 El correo de la captura es una propuesta comercial. La portada anuncia documentos, novedades y citas en un portal. No se comprobó su exclusividad frente a otros despachos, el funcionamiento de una cuenta privada ni un incremento de consultas atribuible al portal. No se validó la identidad del remitente ni se respondió al correo.
 
 Cambios preparados:
-- Dos entradas nuevas: divorcio por voluntad de un cónyuge y preparación de la primera consulta.
+- Dos entradas nuevas revisadas: PARD (separación familiar, defensa, medidas y términos) y divorcio unilateral (oposición, alimentos y reparación).
 - Corrección de tres artículos: responsabilidad administrativa de personas jurídicas, divorcio notarial con hijos menores y redenciones de pena.
 - Fuentes oficiales enlazadas, autor visible y fecha real de actualización separada de la publicación original.
 - Enlaces internos, contacto por WhatsApp, portadas para compartir y sitemap actualizado.
-- La sección del portal aclara que el despacho registra las novedades y ofrece un enlace de orientación a futuros clientes.
+- La sección del portal aclara que el despacho registra las novedades y conserva su acceso directo. Se retiró la guía superficial de preparación de documentos.
 
 Oportunidades pendientes: medir consultas y citas efectivas por página de entrada con datos de Analytics/Search Console; valorar una página pública que explique el portal con capturas anonimizadas de funciones verificadas. La página ya ordena el blog por fecha descendente. La cifra 0.0 observada por el lector web corresponde al estado inicial de una animación con valor objetivo 5.0; no se diagnosticó como una calificación real de cero ni se verificó el valor vigente de Google.
 

@@ -5,71 +5,76 @@ import WhatsAppContactCard from '@/app/components/WhatsAppContactCard';
 import { articleWhatsAppCtas } from '@/lib/whatsappCtaContent';
 
 const articles: Record<string, { title: string; category: string; date: string; updatedAt?: string; content: string; relatedLinks?: Array<{ label: string; url: string }>; image?: string; imageAlt?: string; sources?: Array<{ label: string; url: string }> }> = {
-  "preparar-primera-consulta-abogado": {
-    title: "Primera consulta con un abogado: documentos y preguntas para aprovecharla",
-    category: "Orientación jurídica",
+  "pard-colombia-separacion-familiar-defensa": {
+    title: "PARD en Colombia: separación familiar, defensa y límites de las medidas de protección",
+    category: "Familia",
     date: "2026-11-04T19:05:00-05:00",
-    relatedLinks: [{"label": "Solicitar una evaluación jurídica", "url": "/contacto"}, {"label": "Ingresar al portal del cliente", "url": "/cliente/login"}, {"label": "Explorar los servicios de la firma", "url": "/servicios"}],
+    sources: [{"label": "Ley 1098 de 2006: artículos 22, 26, 50, 98 y 101", "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=22106"}, {"label": "Ley 1878 de 2018: reformas de los artículos 52, 99, 100 y 103", "url": "https://apps.procuraduria.gov.co/guia/gd_1952/docs/l1878018.htm"}, {"label": "Ley 2126 de 2021, artículo 5: competencia", "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=168066"}, {"label": "Ley 1955 de 2019, artículo 208: seguimiento y ampliación excepcional", "url": "https://www.cancilleria.gov.co/normograma/compilacion/docs/ley_1955_2019.htm"}],
+    relatedLinks: [{"label": "Representación en derecho de familia", "url": "/servicios/familia"}],
     content: `
-Una consulta resulta más útil cuando permite entender qué ocurrió, qué documentos existen y qué decisión necesita tomar. No hace falta llegar con un expediente perfecto: sí conviene tener una explicación ordenada y señalar cualquier citación o fecha próxima.
+La apertura de un Proceso Administrativo de Restablecimiento de Derechos puede afectar con quién vive un niño y cómo mantiene sus vínculos familiares. El PARD busca restablecer sus derechos; sus decisiones deben respetar las garantías y los límites fijados en la legislación colombiana.
 
-**Escriba una cronología breve**
+**La separación familiar debe tener un fundamento concreto**
 
-Prepare una página con las fechas principales, las personas o entidades involucradas y los hechos que puede respaldar. Distinga lo que presenció de lo que otras personas le contaron. Si no recuerda una fecha, indíquelo; completar vacíos con suposiciones dificulta la revisión.
+El artículo 22 de la Ley 1098 de 2006 protege el derecho a tener una familia y a no ser separado de ella. La separación procede cuando la familia no garantiza las condiciones para el ejercicio de los derechos. La condición económica, por sí misma, no autoriza separar al niño.
 
-**Reúna documentos completos y legibles**
+Esto exige distinguir una vulneración de derechos de una carencia económica que requiere respuesta estatal. La protección del niño y la preservación de sus vínculos deben examinarse en las circunstancias acreditadas del caso.
 
-Según el asunto, pueden ser útiles contratos, citaciones, decisiones judiciales, comunicaciones de entidades, comprobantes o acuerdos. Conserve los originales y organice copias por fecha. Si comparte un correo, incluya sus anexos; si lleva una decisión, procure tener todas sus páginas.
+**Una medida de protección debe estar motivada**
 
-**Señale primero las fechas próximas**
+El artículo 101 exige al fallo examinar críticamente las pruebas, exponer sus fundamentos jurídicos y justificar la medida, su cumplimiento y su evaluación. El artículo 26 reconoce el debido proceso y el derecho del niño a ser escuchado y a que su opinión se tenga en cuenta.
 
-Si recibió una notificación o tiene una audiencia, muestre el documento e indique cuándo y por qué medio lo recibió. No calcule un plazo únicamente a partir de una publicación en internet. Pida al abogado que revise la actuación concreta antes de decidir qué hacer.
+**¿Quién tiene competencia?**
 
-**Defina qué quiere resolver**
+Según el artículo 5 de la Ley 2126 de 2021, cuando concurren ambas autoridades, las comisarías conocen las amenazas o vulneraciones en el contexto de violencia familiar, con las excepciones legales. Las defensorías conocen las demás y las formas de violencia sexual. La concurrencia de violencia contra adultos del mismo núcleo exige aplicar la regla especial del numeral 4. También debe verificarse la competencia subsidiaria: no todos los PARD corresponden a una comisaría.
 
-No es lo mismo pedir orientación sobre un contrato que solicitar una negociación o encargar una representación judicial. Explique su objetivo y sus principales preocupaciones. También conviene decir qué actuaciones ya intentó y cuáles respuestas recibió.
+**La defensa incluye controvertir las pruebas**
 
-**Pregunte por alcance, honorarios y seguimiento**
+El artículo 100, reformado por la Ley 1878 de 2018, establece cinco días de traslado del auto de apertura para pronunciarse y aportar pruebas. Las practicadas antes de la audiencia tienen un traslado de cinco días. El fallo admite reposición; quienes asisten deben interponerla verbalmente en audiencia. La remisión para homologación judicial procede en las condiciones legales de inconformidad dentro de los quince días siguientes a la ejecutoria.
 
-Antes de contratar, aclare qué incluye el servicio, qué gastos se cobran aparte, quién atenderá su asunto y cómo recibirá las novedades. Pregunte qué información debe aportar y qué puede esperar de la siguiente etapa. Una evaluación inicial permite definir una ruta; los resultados dependen de las circunstancias y del trámite.
+**Los seis meses no comienzan necesariamente con el auto de apertura**
 
-**Cuando la firma habilite su portal de cliente**
+La definición inicial de la situación jurídica debe producirse dentro de seis meses desde el conocimiento de la presunta amenaza o vulneración. Vencido el término para fallar o resolver la reposición sin decisión, la autoridad pierde competencia y debe remitir el expediente al juez de familia. Esa consecuencia no equivale a un reintegro automático.
 
-Solicite las instrucciones de acceso y confirme qué documentos, novedades y citas estarán disponibles. Las actualizaciones corresponden a la información registrada por el despacho; pregunte cuál será el canal para asuntos urgentes y cómo comunicar un cambio de teléfono o correo.
+**Las medidas pueden modificarse**
 
-En Castellanos Abogados puede iniciar el contacto indicando su ciudad, el tema y si existe una fecha próxima. Primero coordinamos la revisión y los documentos necesarios; comparta información sensible por el canal que acordemos para su atención.
+El artículo 103 permite cambiarlas cuando se demuestra la alteración de las circunstancias que las originaron. Antes de la audiencia de pruebas y fallo, el cambio exige auto motivado notificado por estado, sin recurso. Después del fallo, la modificación se adopta en audiencia y queda sometida a sus mecanismos de oposición.
+
+**Seguimiento y plazo inicial son etapas distintas**
+
+El artículo 208 de la Ley 1955 de 2019 contempla dieciocho meses para el proceso con seguimiento y un mecanismo excepcional de ampliación que requiere aval del ICBF y resolución motivada. Esa excepción no permite presentar el plazo inicial de seis meses como libremente prorrogable.
+
+La intervención del abogado comprende examinar competencia, notificaciones, prueba, motivación y términos; sustentar las solicitudes de modificación y ejercer los mecanismos de defensa que procedan, con atención al interés superior del niño.
 `,
   },
   "divorcio-unilateral-colombia": {
-    title: "Divorcio por voluntad de uno de los cónyuges: qué revisar antes de iniciar",
+    title: "Divorcio unilateral en Colombia: oposición, alimentos y reparación",
     category: "Familia",
     date: "2026-11-04T19:00:00-05:00",
-    sources: [{"label": "Ley 2442 de 2024: divorcio por voluntad de cualquiera de los cónyuges", "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=257036"}],
-    relatedLinks: [{"label": "Guía general de divorcio en Colombia", "url": "/blog/divorcio-colombia"}, {"label": "Asesoría en derecho de familia", "url": "/servicios/familia"}],
+    sources: [{"label": "Ley 2442 de 2024, artículos 2 a 7", "url": "https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=257036"}, {"label": "Decreto 1069 de 2015: artículos 2.2.6.8.2 y 2.2.6.8.3", "url": "https://www.cancilleria.gov.co/sites/default/files/Normograma/docs/decreto_1069_2015_pr032.htm"}],
+    relatedLinks: [{"label": "Divorcio en Colombia: vías y efectos", "url": "/blog/divorcio-colombia"}, {"label": "Representación en derecho de familia", "url": "/servicios/familia"}],
     content: `
-¿Quiere divorciarse y su pareja no está de acuerdo? Esa diferencia debe explicarse desde la primera consulta, junto con los asuntos sobre hijos, vivienda, ingresos y patrimonio que necesitan una decisión.
+La Ley 2442 de 2024 incorporó al artículo 154 del Código Civil la voluntad de uno de los cónyuges como causal de divorcio. El desacuerdo del otro no impide invocarla, pero los efectos familiares y económicos requieren una decisión jurídica.
 
-**La voluntad de uno de los cónyuges es una causal de divorcio**
+**La oposición se concentra en los efectos propuestos**
 
-La Ley 2442 de 2024 agregó esta causal al artículo 154 del Código Civil. La solicitud judicial debe acompañarse de una propuesta para regular los efectos del divorcio. La decisión de terminar el vínculo no resuelve automáticamente las obligaciones familiares ni el patrimonio.
+La demanda debe acompañarse de una propuesta sobre los efectos del divorcio. El demandado puede controvertirla mediante una distinta. Si hay hijos, deben abordarse alimentos, custodia, cuidado y visitas. El juez revisa de oficio las obligaciones alimentarias y las situaciones de riesgo previstas en la ley.
 
-**Prepare una fotografía clara de su situación**
+**El divorcio puede dejar obligaciones entre excónyuges**
 
-Anote cuándo se casaron, dónde viven actualmente, si siguen conviviendo y qué conversaciones han tenido sobre la separación. Diferencie aquello que ambos aceptan de los puntos en desacuerdo. Esa información permite enfocar la consulta sin convertirla en una reconstrucción desordenada de años de convivencia.
+La reforma reconoce alimentos a quien, por el divorcio bajo esta causal, carezca de medios de subsistencia, mientras no contraiga nuevo matrimonio o unión marital de hecho. Terminar el vínculo no autoriza asumir que desaparecen todas las obligaciones económicas.
 
-**Organice los documentos disponibles**
+**Violencia y reparación tienen consecuencias propias**
 
-Para la revisión inicial, reúna los registros civiles que tenga, acuerdos previos, información sobre ingresos y gastos, y soportes de bienes y deudas. Señale qué documentos faltan y quién podría tenerlos. Esta es una lista de preparación de la consulta; el abogado determinará los requisitos del trámite concreto.
+La causal de ultrajes, trato cruel y maltratamientos, debidamente probada, da lugar a reparación integral, incluidas medidas económicas y simbólicas. Elegir la vía del divorcio exige analizar también los derechos de la víctima y las pretensiones correspondientes.
 
-**Ponga las necesidades de los hijos sobre la mesa**
+**La notaría requiere acuerdo**
 
-Prepare un presupuesto realista de alimentación, vivienda, salud, educación y transporte. Describa cómo se distribuyen hoy el cuidado y los gastos. Lleve las preguntas sobre visitas, rutinas y comunicaciones que le preocupan, sin involucrar a los hijos en la negociación entre adultos.
+El artículo 7 permite continuar ante notario cuando los cónyuges acuerdan tramitar el divorcio bajo la causal de mutuo consentimiento. La solicitud unilateral no convierte por sí sola el asunto en un trámite notarial.
 
-**Haga preguntas concretas sobre el servicio**
+En el divorcio notarial con hijos menores, el Decreto 1069 de 2015 regula la intervención del defensor de familia respecto del acuerdo sobre alimentos, custodia y visitas. La existencia de hijos menores no obliga por sí sola a tramitar el divorcio judicialmente.
 
-Solicite que le expliquen el alcance de la representación, los honorarios, los gastos adicionales y la forma de seguimiento. Pregunte cuáles decisiones necesitan una respuesta pronta y cuáles dependen de documentos o actuaciones posteriores. Conserve por escrito los compromisos acordados.
-
-En Castellanos Abogados revisamos su situación en Pereira, Manizales o mediante atención virtual. Cuéntenos si existe acuerdo, si hay hijos y si comparten bienes o deudas para preparar la evaluación de su caso.
+La representación jurídica exige definir las pretensiones, sustentar los efectos solicitados y atender los intereses familiares y patrimoniales comprometidos. La firma acompaña ese análisis y la actuación ante la autoridad competente.
 `,
   },
   'quedarse-mas-tiempo-colombia': {
@@ -1019,8 +1024,8 @@ export async function generateStaticParams() {
 }
 
 const ARTICLE_DESCRIPTIONS: Record<string, string> = {
-  'divorcio-unilateral-colombia': 'Divorcio por voluntad de un cónyuge en Colombia: qué permite la Ley 2442 de 2024 y cómo preparar documentos y preguntas para su consulta.',
-  'preparar-primera-consulta-abogado': 'Qué documentos y preguntas preparar antes de consultar a un abogado en Pereira o Manizales. Honorarios, alcance del servicio y seguimiento del caso.',
+  'divorcio-unilateral-colombia': 'Divorcio unilateral en Colombia: alcance de la oposición, obligaciones alimentarias, reparación por violencia y acceso al trámite notarial.',
+  'pard-colombia-separacion-familiar-defensa': 'PARD en Colombia: separación familiar, contradicción de pruebas, modificación de medidas y pérdida de competencia según la legislación colombiana.',
   'quedarse-mas-tiempo-colombia': 'Qué revisar antes de extender la permanencia en Colombia: permiso vigente, propósito de la estadía, visa, cambios de circunstancias y documentos extranjeros.',
   'circular-externa-007-2026-alivios-financieros': 'Circular Externa 007 de 2026: alivios para afectados por el terremoto del Eje Cafetero del 10 de agosto. Refinanciación, intereses y reportes.',
   'cuando-interponer-una-tutela':        'Cuándo procede una acción de tutela en Colombia, qué documentos conviene reunir y cómo presentarla. Asesoría para tutelas en Pereira y Manizales.',

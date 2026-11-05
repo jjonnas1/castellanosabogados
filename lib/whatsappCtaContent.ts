@@ -12,15 +12,15 @@ export type WhatsAppCtaContent = {
 export const articleWhatsAppCtas: Record<string, WhatsAppCtaContent> = {
   'divorcio-unilateral-colombia': {
     area: 'Derecho de familia', eyebrow: 'Orientación sobre divorcio',
-    headline: '¿Quiere revisar cómo iniciar su divorcio?',
-    description: 'Cuéntenos si existe acuerdo, si hay hijos y si comparten bienes o deudas. Revisamos la ruta y los documentos.',
+    headline: 'Representación en divorcio y sus efectos económicos',
+    description: 'Asumimos el estudio de las pretensiones, las obligaciones alimentarias y los efectos familiares y patrimoniales del divorcio.',
     message: 'Hola, leí el artículo sobre divorcio por voluntad de uno de los cónyuges y quisiera consultar mi situación.',
   },
-  'preparar-primera-consulta-abogado': {
-    area: 'Evaluación jurídica', eyebrow: 'Prepare su primera consulta',
-    headline: '¿Tiene una situación que necesita revisar?',
-    description: 'Indique su ciudad, el tema y si recibió una citación o tiene una fecha próxima. Coordinamos la revisión.',
-    message: 'Hola, leí la guía para preparar la primera consulta y quisiera coordinar una evaluación jurídica.',
+  'pard-colombia-separacion-familiar-defensa': {
+    area: 'Proceso Administrativo de Restablecimiento de Derechos', eyebrow: 'Representación en derecho de familia',
+    headline: 'Defensa jurídica en procesos de restablecimiento de derechos',
+    description: 'Estudiamos la legalidad de las actuaciones, las pruebas y las medidas adoptadas para ejercer la representación que corresponda.',
+    message: 'Hola, leí el artículo sobre el PARD y necesito representación jurídica en un proceso de restablecimiento de derechos.',
   },
   'quedarse-mas-tiempo-colombia': {
     area: 'Derecho migratorio en Colombia', eyebrow: 'Orientación migratoria nacional',

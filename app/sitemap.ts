@@ -5,7 +5,7 @@ const BASE = 'https://jonatancastellanosabogado.com';
 
 const BLOG_SLUGS = [
   'divorcio-unilateral-colombia',
-  'preparar-primera-consulta-abogado',
+  'pard-colombia-separacion-familiar-defensa',
   'quedarse-mas-tiempo-colombia',
   'circular-externa-007-2026-alivios-financieros',
   'decreto-1368-2026-porte-armas',
@@ -33,7 +33,7 @@ const BLOG_SLUGS = [
 
 const BLOG_DATES: Record<string, string> = {
   'divorcio-unilateral-colombia': '2026-11-04',
-  'preparar-primera-consulta-abogado': '2026-11-04',
+  'pard-colombia-separacion-familiar-defensa': '2026-11-04',
   'quedarse-mas-tiempo-colombia': '2026-10-03',
   'circular-externa-007-2026-alivios-financieros': '2026-09-17',
   'decreto-1368-2026-porte-armas': '2026-09-09',

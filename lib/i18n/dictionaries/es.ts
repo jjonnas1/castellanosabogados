@@ -334,7 +334,6 @@ export const es = {
       portalFeature2: "Actualizaciones del proceso sin tener que llamar",
       portalFeature3: "Agenda y gestiona tus citas fácilmente",
       portalLink: "Ingresar al portal",
-      portalGuide: "¿Aún no eres cliente? Prepara tu primera consulta",
       googleReviews: {
         badge: "Opiniones de Google",
         title: "Confianza respaldada por clientes",

@@ -78,8 +78,8 @@ async function makeCard({ slug, eyebrow, title, detail = '', photo: photoKey = '
 }
 
 const cards = [
-{slug: 'articulo-divorcio-unilateral-colombia', eyebrow: 'Derecho de familia', title: 'Divorcio por voluntad de un cónyuge', detail: 'Qué revisar antes de iniciar', photo: '/hero-despacho.jpg'},
-{slug: 'articulo-preparar-primera-consulta-abogado', eyebrow: 'Orientación jurídica', title: 'Prepare su primera consulta', detail: 'Documentos · Preguntas · Seguimiento', photo: '/hero-despacho.jpg'},
+{slug: 'articulo-divorcio-unilateral-colombia', eyebrow: 'Derecho de familia', title: 'Divorcio unilateral en Colombia', detail: 'Oposición · Alimentos · Reparación', photo: '/hero-despacho.jpg'},
+{slug: 'articulo-pard-colombia-separacion-familiar-defensa', eyebrow: 'Derecho de familia', title: 'PARD: protección y defensa jurídica', detail: 'Separación familiar · Pruebas · Términos', photo: '/hero-despacho.jpg'},
 {slug: 'articulo-responsabilidad-penal-empresarial', eyebrow: 'Empresas y administradores', title: 'Riesgo penal y responsabilidad administrativa', detail: 'Las diferencias que debe conocer', photo: '/hero-despacho.jpg'},
 {slug: 'articulo-divorcio-colombia', eyebrow: 'Derecho de familia', title: 'Divorcio en Colombia', detail: 'Mutuo acuerdo · Notaría · Vía judicial', photo: '/hero-despacho.jpg'},
 {slug: 'articulo-ley-2466-2025-redenciones-pena', eyebrow: 'Ejecución de penas', title: 'Redención y cómputos de pena', detail: 'Ley 2466 de 2025 y criterio judicial', photo: '/hero-despacho.jpg'},
