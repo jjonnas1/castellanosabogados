@@ -1,6 +1,6 @@
 # PARD en Colombia: separación familiar, defensa y límites de las medidas de protección
 
-Estado: publicación prevista para el 6 de noviembre de 2026 a las 8:00 a. m. (Colombia). Pendiente desplegar la versión que activa la programación.
+Estado: publicación programada para el 6 de noviembre de 2026 a las 8:00 a. m. (Colombia). Programación activa en el sitio web; el artículo será visible a partir de esa fecha.
 
 Basado exclusivamente en normativa colombiana.
 

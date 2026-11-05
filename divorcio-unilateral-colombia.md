@@ -1,6 +1,6 @@
 # Divorcio unilateral en Colombia: oposición, alimentos y reparación
 
-Estado: publicación prevista para el 13 de noviembre de 2026 a las 8:00 a. m. (Colombia). Pendiente desplegar la versión que activa la programación.
+Estado: publicación programada para el 13 de noviembre de 2026 a las 8:00 a. m. (Colombia). Programación activa en el sitio web; el artículo será visible a partir de esa fecha.
 
 Basado exclusivamente en normativa colombiana.
 
