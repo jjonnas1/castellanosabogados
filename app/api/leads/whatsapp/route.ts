@@ -72,11 +72,11 @@ export async function POST(req: NextRequest) {
   };
 
   async function insertLead() {
-    const enriched = await supabase.from('whatsapp_leads').insert(leadPayload);
+    const enriched = await supabase.from('whatsapp_leads').insert(leadPayload).select('id').single();
     if (!enriched.error) return enriched;
     // Fallback temporal para proyectos donde la migración aún no se haya aplicado.
     if (/column .* does not exist|schema cache|Could not find/i.test(enriched.error.message)) {
-      return supabase.from('whatsapp_leads').insert({ nombre, telefono, wa_url: wa_url ?? null });
+      return supabase.from('whatsapp_leads').insert({ nombre, telefono, wa_url: wa_url ?? null }).select('id').single();
     }
     return enriched;
   }
@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
   ]);
 
   // El error de DB es crítico — lo devolvemos
-  if (dbResult.status === 'rejected' || dbResult.value?.error != null) {
+  if (dbResult.status === 'rejected' || dbResult.value?.error != null || !dbResult.value?.data?.id) {
     const msg = dbResult.status === 'rejected'
       ? dbResult.reason?.message
       : dbResult.value?.error?.message;
@@ -101,5 +101,5 @@ export async function POST(req: NextRequest) {
     console.error('[leads/whatsapp] Email error:', emailResult.reason?.message);
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, lead_id: dbResult.status === 'fulfilled' ? dbResult.value.data?.id : null });
 }

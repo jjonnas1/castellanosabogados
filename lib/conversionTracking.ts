@@ -33,11 +33,25 @@ export function trackConversion(type: ConversionType, payload: Record<string, un
 
   // No se envían conversiones de Ads mientras la etiqueta siga siendo provisional.
   const sendTo = GOOGLE_ADS_CONVERSION_LABELS[type];
-  if (isConfiguredGoogleAdsLabel(sendTo)) {
+  // Pulsar WhatsApp expresa intención; la conversión se envía al guardar el contacto.
+  if (type !== 'whatsapp' && isConfiguredGoogleAdsLabel(sendTo)) {
     conversionWindow.gtag?.('event', 'conversion', {
       send_to: sendTo,
       event_label: eventName,
       ...eventPayload,
     });
   }
+}
+
+const registeredLeads = new Set<string>();
+
+export function trackWhatsAppLeadRegistered(leadId: string, pagePath: string) {
+  if (typeof window === 'undefined' || !leadId || registeredLeads.has(leadId)) return;
+  const gtag = (window as ConversionWindow).gtag;
+  if (!gtag) return;
+  registeredLeads.add(leadId);
+  // Solo identificador del registro y ruta; nunca nombre, teléfono o texto del caso.
+  const payload = { event_category: 'contacto', page_path: pagePath, method: 'whatsapp', transaction_id: leadId };
+  gtag('event', 'generate_lead', payload);
+  gtag('event', 'conversion', { ...payload, send_to: GOOGLE_ADS_CONVERSION_LABELS.whatsapp });
 }

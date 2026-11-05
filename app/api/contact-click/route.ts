@@ -15,7 +15,8 @@ export async function POST(req: NextRequest) {
     }
 
     const supabase = getSupabaseServer({ serviceRole: true });
-    await supabase.from('site_contact_clicks').insert({ visitor_key, type, visit_id });
+    const { error } = await supabase.from('site_contact_clicks').insert({ visitor_key, type, visit_id });
+    if (error) return NextResponse.json({ ok: false }, { status: 503 });
 
     return NextResponse.json({ ok: true });
   } catch {

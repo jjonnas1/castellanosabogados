@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-declare global { function gtag(...args: unknown[]): void; }
+import { trackWhatsAppLeadRegistered } from '@/lib/conversionTracking';
+import { inferServiceInterest } from '@/lib/leadInsights';
 import { buildWhatsAppUrl } from '@/lib/contactLinks';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -27,6 +28,7 @@ export default function WhatsAppLeadModal() {
     linkText: '',
     serviceInterest: '',
   });
+  const submittingRef = useRef(false);
   const overlayRef              = useRef<HTMLDivElement>(null);
   const firstInputRef           = useRef<HTMLInputElement>(null);
 
@@ -34,20 +36,10 @@ export default function WhatsAppLeadModal() {
   // Palabras clave que identifican un CTA de conversión
   const TRIGGER_WORDS = ['solicitar', 'agendar', 'programar', 'consultar', 'contactar ahora'];
 
-  function inferService(href: string, text: string) {
-    const haystack = `${href} ${text}`.toLowerCase();
-    if (haystack.includes('ejecucion') || haystack.includes('redencion') || haystack.includes('pena') || haystack.includes('libertad')) return 'Ejecución de penas';
-    if (haystack.includes('penal')) return 'Penal';
-    if (haystack.includes('familia') || haystack.includes('alimento') || haystack.includes('custodia')) return 'Familia';
-    if (haystack.includes('civil') || haystack.includes('arrend') || haystack.includes('prescrip') || haystack.includes('deuda')) return 'Civil';
-    if (haystack.includes('laboral') || haystack.includes('liquidaci') || haystack.includes('trabajo')) return 'Laboral';
-    if (haystack.includes('administrativo') || haystack.includes('caducidad') || haystack.includes('uvt') || haystack.includes('costas')) return 'Administrativo';
-    if (haystack.includes('tutela')) return 'Tutela';
-    return 'Consulta general';
-  }
 
   useEffect(() => {
     function intercept(e: MouseEvent) {
+      if (/^\/(admin|cliente|clientes|portal|panel)(\/|$)/.test(window.location.pathname)) return;
       const el = e.target as HTMLElement;
 
       // GUARDIA 1: nunca interferir dentro de un <form> existente
@@ -84,7 +76,7 @@ export default function WhatsAppLeadModal() {
       setLeadContext({
         sourcePath: window.location.pathname,
         linkText: linkText.slice(0, 180),
-        serviceInterest: inferService(href, linkText),
+        serviceInterest: inferServiceInterest(href, linkText, window.location.pathname),
       });
       setUiState('open');
     }
@@ -126,7 +118,8 @@ export default function WhatsAppLeadModal() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!nombre.trim() || !telefono.trim()) return;
+    if (submittingRef.current || !nombre.trim() || !telefono.trim()) return;
+    submittingRef.current = true;
 
     setUiState('loading');
     setErrorMsg('');
@@ -147,17 +140,14 @@ export default function WhatsAppLeadModal() {
       });
       if (!res.ok) throw new Error('api_error');
 
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'conversion', {
-          send_to: 'AW-18056733453/cC0KCL_sk58cEI3Gj6JD',
-          event_category: 'contacto',
-          event_label: 'whatsapp_modal',
-        });
-        gtag('event', 'click_whatsapp', { event_category: 'contacto' });
+      const result = await res.json();
+      if (typeof result.lead_id === 'string') {
+        trackWhatsAppLeadRegistered(result.lead_id, leadContext.sourcePath || window.location.pathname);
       }
 
       window.location.assign(waUrl || buildWhatsAppUrl({ source: leadContext.serviceInterest || 'CTA' }));
     } catch {
+      submittingRef.current = false;
       setUiState('error');
       setErrorMsg(t.whatsappLead.error);
     }

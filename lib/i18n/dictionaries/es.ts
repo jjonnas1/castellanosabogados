@@ -334,6 +334,7 @@ export const es = {
       portalFeature2: "Actualizaciones del proceso sin tener que llamar",
       portalFeature3: "Agenda y gestiona tus citas fácilmente",
       portalLink: "Ingresar al portal",
+      portalOverview: "Cómo acompañamos su proceso",
       googleReviews: {
         badge: "Opiniones de Google",
         title: "Confianza respaldada por clientes",
@@ -630,7 +631,7 @@ export const es = {
         },
         familia: {
           headline: "Si un conflicto familiar ya afecta a sus hijos, su tranquilidad o su patrimonio",
-          summary: "Cuando hay desacuerdos por alimentos, custodia, visitas, divorcio o medidas de protección, necesita una ruta clara antes de que el problema crezca.",
+          summary: "Asesoría y representación en alimentos, custodia, divorcio y PARD ante el ICBF o comisarías. Defendemos sus intereses con atención a los derechos de niños y adolescentes.",
           chips: ["DERECHO DE FAMILIA", "PROTECCIÓN FAMILIAR"] as [string, string],
           heroStats: [
             "Definición de lo que puede exigir y lo que debe responder.",
@@ -640,7 +641,7 @@ export const es = {
           activation: [
             "No hay acuerdo sobre custodia, visitas, cuota alimentaria o cuidado de los hijos.",
             "Está pensando en divorciarse o necesita liquidar bienes en común.",
-            "Hay incumplimientos, amenazas o una situación familiar que requiere protección urgente.",
+            "Existe un PARD, una medida de protección o una actuación ante el ICBF o una comisaría.",
           ],
           audience: [
             "Madres o padres que necesitan proteger a sus hijos.",

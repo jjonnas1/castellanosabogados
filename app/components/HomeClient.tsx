@@ -133,6 +133,7 @@ export default function HomeClient() {
               >
                 {p.portalLink}
               </Link>
+              <Link href="/seguimiento-del-caso" className="mt-4 block text-sm text-slate-200 underline underline-offset-4">{p.portalOverview}</Link>
             </div>
 
             <div className="relative">

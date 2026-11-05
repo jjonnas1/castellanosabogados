@@ -38,7 +38,7 @@ const LOCAL_SERVICE_METADATA: Record<string, { title: string; description: strin
   },
   familia: {
     title: 'Abogado de familia en Pereira y Manizales',
-    description: 'Asesoría en alimentos, custodia, visitas y divorcio en Pereira, Dosquebradas, Santa Rosa de Cabal y Manizales, con revisión documental virtual.',
+    description: 'Abogado de familia en Pereira y Manizales: representación en PARD ante el ICBF, divorcio, alimentos, custodia y medidas de protección. Atención virtual.',
   },
   laboral: {
     title: 'Abogado laboral en Pereira y Manizales',

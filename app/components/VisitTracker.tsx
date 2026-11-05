@@ -128,6 +128,7 @@ export default function VisitTracker() {
   // Detectar clics en links de contacto (capture para actuar antes del modal WA)
   useEffect(() => {
     function onClick(e: MouseEvent) {
+      if (/^\/(admin|cliente|clientes|portal|panel)(\/|$)/.test(pathname)) return;
       const anchor = (e.target as HTMLElement).closest('a[href]') as HTMLAnchorElement | null;
       if (!anchor) return;
       const href = anchor.getAttribute('href') ?? '';

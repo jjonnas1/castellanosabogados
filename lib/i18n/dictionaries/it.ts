@@ -309,6 +309,7 @@ export const it = {
       portalFeature2: "Aggiornamenti del processo senza dover chiamare",
       portalFeature3: "Pianifica e gestisci i tuoi appuntamenti facilmente",
       portalLink: "Scopri il portale",
+      portalOverview: "Come seguiamo il tuo caso",
       googleReviews: {
         badge: "Recensioni Google",
         title: "Fiducia sostenuta dai clienti",

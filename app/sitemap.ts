@@ -68,9 +68,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const publishedSlugs = BLOG_SLUGS.filter(slug => isBlogPublished(slug, now));
   const latestBlogUpdate = new Date(Math.max(Date.parse('2026-11-04'), ...publishedSlugs.map(slug => Date.parse(BLOG_DATES[slug] ?? '2026-05-01'))));
   const staticPages: MetadataRoute.Sitemap = [
+    { url: `${BASE}/seguimiento-del-caso`, priority: 0.7, changeFrequency: 'monthly', lastModified: '2026-11-04' },
     { url: `${BASE}/apps`, priority: 0.75, changeFrequency: 'monthly', lastModified: '2026-10-18' },
     { url: `${BASE}/visas-colombia`, priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-10-02' },
-    { url: `${BASE}/`,            priority: 1.0, changeFrequency: 'weekly',  lastModified: '2026-05-12' },
+    { url: `${BASE}/`,            priority: 1.0, changeFrequency: 'weekly',  lastModified: '2026-11-04' },
     { url: `${BASE}/servicios`,   priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-10-03' },
     { url: `${BASE}/tutela`,      priority: 0.9, changeFrequency: 'monthly', lastModified: '2026-05-01' },
     { url: `${BASE}/abogado-a-domicilio`, priority: 0.85, changeFrequency: 'monthly', lastModified: '2026-07-01' },
@@ -89,7 +90,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${BASE}/servicios/${service.slug}`,
     priority: 0.85,
     changeFrequency: 'monthly' as const,
-    lastModified: '2026-05-01',
+    lastModified: service.slug === 'familia' ? '2026-11-04' : '2026-05-01',
   }));
 
   const blogPages: MetadataRoute.Sitemap = publishedSlugs.map((slug) => ({

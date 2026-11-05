@@ -254,7 +254,7 @@ export const serviceDetails: Record<ServiceDetail['slug'], ServiceDetail> = {
     title: 'Familia',
     headline: 'Protección jurídica en asuntos de familia',
     summary:
-      'Acompañamiento en procesos de familia con enfoque humano y técnico: custodia, alimentos, divorcios y medidas de protección.',
+      'Acompañamiento en procesos de familia con enfoque humano y técnico: custodia, alimentos, divorcios, PARD y medidas de protección.',
     chips: ['DERECHO DE FAMILIA', 'PROTECCIÓN FAMILIAR'],
     heroStats: [
       'Custodia, alimentos, visitas y patria potestad.',
@@ -283,8 +283,8 @@ export const serviceDetails: Record<ServiceDetail['slug'], ServiceDetail> = {
         answer: 'Cuotas de alimentos, custodia, visitas, divorcio, liquidación de sociedad conyugal y medidas de protección, entre otros. Cada situación se analiza según las personas involucradas y las decisiones o acuerdos que ya existan.',
       },
       {
-        question: '¿Qué documentos conviene reunir antes de la consulta?',
-        answer: 'Registros civiles, acuerdos o decisiones previas, comprobantes de gastos y pagos, comunicaciones y cualquier soporte relacionado con los hechos. La lista definitiva cambia según el trámite.',
+        question: '¿Asumen representación en un PARD ante el ICBF o una comisaría?',
+        answer: 'Sí. Estudiamos el expediente, la competencia de la autoridad, las pruebas y las medidas adoptadas, y ejercemos las solicitudes y los medios de defensa que procedan según la etapa del proceso. El alcance se define en la contratación.',
       },
       {
         question: '¿Se puede intentar un acuerdo antes de demandar?',

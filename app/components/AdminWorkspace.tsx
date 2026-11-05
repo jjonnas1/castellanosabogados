@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import LeadPerformance from './LeadPerformance';
+import { clientWhatsAppUrl } from '@/lib/leadInsights';
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase-browser';
 import { useAdminAuth } from '@/contexts/admin-auth';
@@ -936,6 +938,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
         <article className="bg-[#0b1929] border border-[#1e3a6e]/50 rounded-2xl p-5">
           <h2 className="text-lg font-semibold text-slate-100">Leads y consultas</h2>
           <p className="mt-1 text-sm text-slate-500">Seguimiento de personas que dejaron datos por WhatsApp o que contactaron pero aún no son clientes.</p>
+          <LeadPerformance leads={whatsappLeads} />
           {overdueWhatsAppLeads.length > 0 && (
             <div className="mt-4 rounded-2xl border border-amber-500/30 bg-amber-950/25 p-4 text-sm text-amber-200">
               <p className="font-semibold">Hay {overdueWhatsAppLeads.length} lead(s) nuevo(s) con seguimiento vencido.</p>
@@ -948,7 +951,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
               <option value="">Todos los estados</option>
               <option value="nuevo">Nuevo lead</option>
               <option value="contactado">Contactado</option>
-              <option value="convertido">Convertido</option>
+              <option value="convertido">Contratado / convertido</option>
               <option value="descartado">Descartado</option>
               <option value="pendiente">Consulta pendiente</option>
               <option value="atendida">Consulta atendida</option>
@@ -963,7 +966,7 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
             <div className="max-h-[28rem] space-y-3 overflow-auto">
               {filteredWhatsAppLeads.length === 0 && <p className="text-sm text-slate-500">No hay leads de WhatsApp con este filtro.</p>}
               {filteredWhatsAppLeads.map((lead) => {
-                const waHref = lead.wa_url || `https://wa.me/57${lead.telefono.replace(/\D/g, '')}`;
+                const waHref = clientWhatsAppUrl(lead.telefono);
                 const isOverdue = (lead.status ?? 'nuevo') === 'nuevo' && lead.follow_up_due_at && new Date(lead.follow_up_due_at).getTime() <= Date.now();
                 const statusClass =
                   lead.status === 'convertido' ? 'bg-green-900/40 text-green-300'
@@ -989,12 +992,12 @@ export default function AdminWorkspace({ section = 'all', clientId }: { section?
                         {lead.link_text && <p className="mt-1 text-xs text-slate-500">CTA: {lead.link_text}</p>}
                         {lead.notes && <p className="mt-2 italic text-slate-500">{lead.notes}</p>}
                       </div>
-                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${statusClass}`}>{lead.status ?? 'nuevo'}</span>
+                      <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold ${statusClass}`}>{lead.status === 'convertido' ? 'Contratado / convertido' : lead.status ?? 'nuevo'}</span>
                     </div>
                     <div className="mt-3 flex flex-wrap gap-2">
                       <a href={waHref} target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 rounded-lg bg-[#25D366] text-[#082515] text-xs font-bold transition hover:brightness-110">Abrir WhatsApp</a>
                       <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => updateWhatsAppLead(lead.id, { status: 'contactado', contacted_at: new Date().toISOString() })}>Marcar contactado</button>
-                      <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => updateWhatsAppLead(lead.id, { status: 'convertido' })}>Convertido</button>
+                      <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => updateWhatsAppLead(lead.id, { status: 'convertido' })}>Marcar contratado</button>
                       <button className="px-3 py-1.5 rounded-lg bg-[#1e3a6e]/30 hover:bg-[#1e3a6e]/60 text-slate-300 text-xs border border-[#1e3a6e]/40 transition" onClick={() => updateWhatsAppLead(lead.id, { status: 'descartado' })}>Descartar</button>
                     </div>
                   </div>

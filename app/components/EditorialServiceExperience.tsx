@@ -93,7 +93,7 @@ const profiles: Record<EditorialSlug, Profile> = {
     cards: [
       { label: 'CUIDADO', title: 'Niños y adolescentes', detail: 'Custodia, alimentos, visitas y decisiones orientadas a su bienestar.' },
       { label: 'ACUERDOS', title: 'Separación y patrimonio', detail: 'Divorcio, sociedad conyugal y acuerdos que reduzcan el conflicto.' },
-      { label: 'PROTECCIÓN', title: 'Respuesta urgente', detail: 'Medidas frente a violencia o riesgos que no pueden esperar.' },
+      { label: 'PROTECCIÓN', title: 'Respuesta urgente', detail: 'Representación en PARD ante ICBF y comisarías, y medidas de protección según el caso.' },
     ],
     deliverablesTitle: 'Una ruta comprensible para decisiones sensibles.', processTitle: 'Acompañamiento firme, trato humano.',
     closeTitle: 'Protejamos primero lo que no puede esperar.', closeBody: 'Explique quiénes están involucrados y cuál es la urgencia actual.'
@@ -201,7 +201,7 @@ const serviceBriefs: Record<EditorialSlug, ServiceBrief> = {
     question: '¿Qué necesita protección inmediata y qué puede resolverse mediante acuerdo?',
     answer: 'La ruta cambia cuando hay menores, violencia, incumplimientos alimentarios o bienes que deben organizarse antes de negociar.',
     outcome: 'Prioridades claras para proteger, conciliar o acudir ante comisaría, defensoría o juez.',
-    preparation: ['Registros civiles y documentos que acrediten el vínculo familiar.', 'Acuerdos, sentencias o actas de conciliación anteriores.', 'Soportes de pagos, gastos, comunicaciones o hechos urgentes.'],
+    preparation: ['Estudio jurídico de hechos, decisiones y pruebas del expediente.', 'Definición de pretensiones, solicitudes y medios de defensa procedentes.', 'Preparación de escritos, audiencias y seguimiento de las actuaciones contratadas.'],
     credential: 'El acompañamiento combina firmeza jurídica con una comunicación cuidadosa cuando las decisiones afectan hijos, vivienda o patrimonio familiar.',
     faqs: [
       { question: '¿Siempre hay que demandar?', answer: 'No. Cuando existe margen de acuerdo puede intentarse una conciliación; si hay riesgo, incumplimiento o bloqueo, se evalúa la vía judicial.' },
@@ -366,11 +366,11 @@ export default function EditorialServiceExperience({ detail, backgroundImage }: 
         <div className={s.preparation}>
           <div>
             <span className={s.kicker}>PARA EMPEZAR</span>
-            <h2>Prepare su consulta.</h2>
-            <p>No necesita tener un expediente perfecto. Estos tres elementos permiten aprovechar mejor la primera conversación.</p>
+            <h2>{detail.slug === 'familia' ? 'Asumimos la dirección jurídica de su asunto.' : 'Prepare su consulta.'}</h2>
+            <p>{detail.slug === 'familia' ? 'Estudiamos el expediente, definimos la estrategia y preparamos las actuaciones incluidas en la representación contratada.' : 'No necesita tener un expediente perfecto. Estos tres elementos permiten aprovechar mejor la primera conversación.'}</p>
           </div>
           <ol>{brief.preparation.map((item, index) => <li key={item}><span>0{index + 1}</span><FileText size={22} strokeWidth={1.35} /><p>{item}</p></li>)}</ol>
-          <a href={consult} target="_blank" rel="noopener noreferrer" className={s.textLink}>Enviar información inicial <ArrowUpRight size={19} /></a>
+          <a href={consult} target="_blank" rel="noopener noreferrer" className={s.textLink}>{detail.slug === 'familia' ? 'Consultar representación en familia' : 'Enviar información inicial'} <ArrowUpRight size={19} /></a>
         </div>
       </section>
 
