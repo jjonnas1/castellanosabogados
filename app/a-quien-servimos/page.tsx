@@ -6,6 +6,16 @@ import WaIcon from "@/app/components/WaIcon";
 import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+// Cada situación enlaza con el área que la atiende (mismo orden que el diccionario).
+const CONTEXT_LINKS = [
+  '/servicios/penal-personas',
+  '/servicios/ejecucion-penas',
+  '/servicios/civil',
+  '/servicios/familia',
+  '/servicios/laboral',
+  '/servicios/administrativo',
+];
+
 export default function AQuienServimosPage() {
   const { t } = useLanguage();
   const p = t.pages.aQuienServimos;
@@ -40,70 +50,43 @@ export default function AQuienServimosPage() {
         </div>
       </header>
 
-      <section className="bg-canvas">
-        <div className="container section-shell space-y-8">
-          <div className="space-y-3" data-reveal>
-            <p className="pill w-fit">{p.rolesBadge}</p>
-            <h2>{p.rolesTitle}</h2>
-            <p className="max-w-3xl text-muted">{p.rolesSubtitle}</p>
+      <section className="ed-section">
+        <div className="ed-wrap ed-split">
+          <div className="ed-split__head" data-reveal>
+            <p className="ed-eyebrow">{p.rolesBadge}</p>
+            <h2 className="ed-h2">{p.rolesTitle}</h2>
+            <p className="ed-lead">{p.rolesSubtitle}</p>
+            <div className="ed-actions">
+              <Link href="/servicios" className="ed-btn ed-btn--ghost">{t.common.viewServices}</Link>
+            </div>
           </div>
-          <div className="divide-y divide-border">
+          <ol className="ed-rows">
             {p.roles.map((role, idx) => (
-              <div
-                key={role.title}
-                className="flex gap-6 py-8 first:pt-2 last:pb-0"
-                data-reveal
-                data-reveal-delay={String(Math.min((idx % 3) + 1, 3))}
-              >
-                <span className="shrink-0 pt-0.5 text-2xl font-bold text-border tabular-nums leading-none select-none">
-                  {String(idx + 1).padStart(2, '0')}
-                </span>
-                <div className="space-y-1.5">
-                  <h3 className="text-ink leading-snug">{role.title}</h3>
-                  <p className="text-sm text-muted leading-relaxed">{role.detail}</p>
+              <li key={role.title} className="ed-row" data-reveal>
+                <span className="ed-row__num">{String(idx + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{role.title}</h3>
+                  <p>{role.detail}</p>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
-      <section className="bg-white border-t border-border/50">
-        <div className="container section-shell grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="space-y-3" data-reveal>
-            <p className="pill w-fit">{p.contextsBadge}</p>
-            <h2>{p.contextsTitle}</h2>
-            <ul className="divide-y divide-border mt-4">
-              {p.contexts.map((item) => (
-                <li key={item} className="flex items-center gap-3 py-3.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent shrink-0" />
-                  <span className="text-sm font-medium text-ink">{item}</span>
-                </li>
-              ))}
-            </ul>
+      <section className="ed-section ed--band">
+        <div className="ed-wrap">
+          <div data-reveal>
+            <p className="ed-eyebrow">{p.contextsBadge}</p>
+            <h2 className="ed-h2">{p.contextsTitle}</h2>
           </div>
-          <div className="rounded-2xl border border-border bg-canvas p-8 shadow-[0_4px_20px_rgba(15,23,42,0.08)]" data-reveal data-reveal-delay="3">
-            <p className="pill w-fit">{p.ctaBadge}</p>
-            <h3 className="mt-3 text-ink">{p.ctaTitle}</h3>
-            <p className="mt-2 text-sm text-muted">{p.ctaSubtitle}</p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href={buildWhatsAppUrl({
-                  area: "A quién servimos",
-                  source: "/a-quien-servimos",
-                  message: "Hola, quisiera programar una sesión.",
-                })}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[#25d366] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:bg-[#20bd5a] active:scale-95"
-              >
-                <WaIcon size={16} />
-                {t.common.scheduleSession}
-              </a>
-              <Link href="/servicios" className="btn-secondary">
-                {t.common.viewServices}
+          <div className="ed-linkgrid" data-reveal>
+            {p.contexts.map((item, idx) => (
+              <Link key={item} href={CONTEXT_LINKS[idx] ?? '/servicios'}>
+                {item}
+                <span aria-hidden>→</span>
               </Link>
-            </div>
+            ))}
           </div>
         </div>
       </section>

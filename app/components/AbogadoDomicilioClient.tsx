@@ -108,19 +108,19 @@ export default function AbogadoDomicilioClient() {
       </section>
 
       {/* ── QUÉ ES ───────────────────────────────────────────── */}
-      <section className="section-shell bg-white">
-        <div className="container grid gap-6 lg:grid-cols-2">
-          <article className="border-l-2 border-[#762c3a] py-2 pl-6">
-            <h2 className="text-2xl">Tu abogado, donde lo necesites</h2>
-            <p className="mt-3 text-muted">
+      <section className="ed-section">
+        <div className="ed-wrap ed-pair">
+          <article>
+            <h2 className="ed-h3">Tu abogado, donde lo necesites</h2>
+            <p className="ed-text">
               Sabemos que no siempre es fácil desplazarse a una oficina: el tiempo, la salud o la distancia pueden
               complicarlo. Por eso llevamos la asesoría jurídica hasta tu puerta, con la misma seriedad, confidencialidad
               y respaldo profesional que caracterizan a Castellanos Abogados.
             </p>
           </article>
-          <article className="border-l-2 border-[#762c3a] py-2 pl-6">
-            <h2 className="text-2xl">Atención presencial y personalizada</h2>
-            <p className="mt-3 text-muted">
+          <article>
+            <h2 className="ed-h3">Atención presencial y personalizada</h2>
+            <p className="ed-text">
               Un abogado de la firma se desplaza al lugar que indiques —tu casa, tu oficina o donde lo requieras— para
               escuchar tu caso, revisar documentos, orientarte y, si es necesario, dejar firmados los poderes para
               iniciar el proceso de inmediato.
@@ -130,19 +130,17 @@ export default function AbogadoDomicilioClient() {
       </section>
 
       {/* ── CÓMO FUNCIONA ────────────────────────────────────── */}
-      <section className="section-shell bg-surface/80">
-        <div className="container space-y-8">
-          <div className="max-w-2xl space-y-2">
-            <p className="pill w-fit">Cómo funciona</p>
-            <h2>Tan sencillo como cuatro pasos</h2>
-            <p className="text-muted">Del primer mensaje a la visita presencial, acompañándote en cada momento.</p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="ed-section ed--mist">
+        <div className="ed-wrap">
+          <p className="ed-eyebrow">Cómo funciona</p>
+          <h2 className="ed-h2">Tan sencillo como cuatro pasos</h2>
+          <p className="ed-lead">Del primer mensaje a la visita presencial, acompañándote en cada momento.</p>
+          <div className="ed-cols" style={{ '--ed-cols': 4 } as React.CSSProperties}>
             {steps.map((step) => (
-              <article key={step.n} className="domicilio-step border-t border-[#c5cbd6] px-1 pt-5">
-                <p className="text-3xl font-bold text-accent-500">{step.n}</p>
-                <h3 className="mt-3 text-lg font-semibold text-ink">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{step.text}</p>
+              <article key={step.n} className="ed-col">
+                <span className="ed-col__num">{step.n}</span>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
               </article>
             ))}
           </div>
@@ -150,21 +148,21 @@ export default function AbogadoDomicilioClient() {
       </section>
 
       {/* ── QUÉ INCLUYE + PARA QUIÉN ─────────────────────────── */}
-      <section className="section-shell bg-white">
-        <div className="container grid gap-6 lg:grid-cols-2">
-          <article className="domicilio-soft-panel border border-[#e3dfe0] bg-[#faf8f8] p-6 sm:p-8">
-            <h2 className="text-2xl">Qué incluye la visita</h2>
-            <ul className="mt-4 space-y-2 text-sm text-muted">
+      <section className="ed-section">
+        <div className="ed-wrap ed-pair">
+          <article>
+            <h2 className="ed-h3">Qué incluye la visita</h2>
+            <ul className="ed-list">
               {includes.map((item) => (
-                <li key={item}>• {item}</li>
+                <li key={item}>{item}</li>
               ))}
             </ul>
           </article>
-          <article className="domicilio-soft-panel border border-[#e3dfe0] bg-[#faf8f8] p-6 sm:p-8">
-            <h2 className="text-2xl">Pensado para ti si…</h2>
-            <ul className="mt-4 space-y-2 text-sm text-muted">
+          <article>
+            <h2 className="ed-h3">Pensado para ti si…</h2>
+            <ul className="ed-list">
               {audience.map((item) => (
-                <li key={item}>• {item}</li>
+                <li key={item}>{item}</li>
               ))}
             </ul>
           </article>
@@ -172,35 +170,30 @@ export default function AbogadoDomicilioClient() {
       </section>
 
       {/* ── ÁREAS + TARIFA ───────────────────────────────────── */}
-      <section className="section-shell bg-surface/80">
-        <div className="container grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-          <article className="domicilio-soft-panel border border-[#e3dfe0] bg-white p-6 sm:p-8">
-            <p className="pill w-fit">Áreas disponibles</p>
-            <h2 className="mt-3 text-2xl">Cobertura en todas nuestras áreas</h2>
-            <p className="mt-3 text-muted">
+      <section className="ed-section ed--band">
+        <div className="ed-wrap ed-pair">
+          <article>
+            <p className="ed-eyebrow">Áreas disponibles</p>
+            <h2 className="ed-h2">Cobertura en todas nuestras áreas</h2>
+            <p className="ed-text">
               El servicio a domicilio aplica a las áreas de práctica de la firma. Si tu caso corresponde a otra materia,
               lo evaluamos y te orientamos.
             </p>
-            <div className="mt-5 flex flex-wrap gap-2">
+            <div className="ed-tags">
               {areas.map((area) => (
-                <span
-                  key={area}
-                  className="rounded-full border border-border bg-canvas px-3 py-1.5 text-[13px] font-medium text-ink"
-                >
-                  {area}
-                </span>
+                <span key={area}>{area}</span>
               ))}
             </div>
           </article>
-
-          <article className="domicilio-soft-panel flex flex-col border border-[#e3dfe0] bg-white p-6 sm:p-8">
-            <p className="pill w-fit">Tarifa</p>
-            <h2 className="mt-3 text-2xl">Desplazamiento desde $250.000</h2>
-            <p className="mt-3 text-muted">
+          <article>
+            <p className="ed-eyebrow">Tarifa</p>
+            <h2 className="ed-h3" style={{ marginTop: 18 }}>Desplazamiento desde</h2>
+            <span className="ed-price">$250.000</span>
+            <p className="ed-text">
               El valor del desplazamiento presencial puede variar según el lugar donde requieras la atención. Los
               honorarios profesionales del caso se acuerdan aparte, de acuerdo con la complejidad del asunto.
             </p>
-            <p className="mt-3 border-t border-[#e3dfe0] pt-4 text-sm text-muted">
+            <p className="ed-text">
               Escríbenos tu dirección y te confirmamos la tarifa exacta antes de agendar.
             </p>
           </article>

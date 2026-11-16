@@ -10,7 +10,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const heroBackground =
   "linear-gradient(140deg, rgba(12,17,29,0.93), rgba(28,42,60,0.84)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=75&fm=webp')";
 
-const DARK_GLOW = "radial-gradient(ellipse at 15% 0%, rgba(180,195,220,0.12) 0%, transparent 55%), #121622";
 
 export default function MetodologiaClient() {
   const { t } = useLanguage();
@@ -64,7 +63,7 @@ export default function MetodologiaClient() {
                   <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/35">{p.visualEyebrow}</p>
                   <p className="mt-3 text-xl font-semibold leading-snug text-white sm:text-2xl">{p.visualTitle}</p>
                 </div>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                   {p.heroKpis.map((item) => (
                     <div key={item.value} className="rounded-2xl bg-white/[0.08] border border-white/15 p-4 text-center">
                       <p className="text-base font-bold text-white leading-tight sm:text-lg">{item.value}</p>
@@ -81,146 +80,103 @@ export default function MetodologiaClient() {
         </div>
       </header>
 
-      {/* Process */}
-      <section className="border-y border-border/70 bg-white">
-        <div className="container space-y-10">
-          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between" data-reveal>
-            <div className="max-w-2xl space-y-2">
-              <p className="pill w-fit">{p.processBadge}</p>
-              <h2>{p.processTitle}</h2>
-            </div>
-            <p className="max-w-md text-sm leading-relaxed text-muted">{p.processIntro}</p>
+      {/* Proceso: cuatro momentos en una sola línea de tiempo */}
+      <section className="ed-section">
+        <div className="ed-wrap">
+          <div data-reveal>
+            <p className="ed-eyebrow">{p.processBadge}</p>
+            <h2 className="ed-h2">{p.processTitle}</h2>
+            <p className="ed-lead">{p.processIntro}</p>
           </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="ed-cols" style={{ '--ed-cols': 4 } as React.CSSProperties}>
             {p.steps.map((step, index) => (
-              <article
-                key={step.title}
-                className="flex flex-col gap-5 rounded-2xl bg-canvas border border-border p-8 shadow-[0_2px_12px_rgba(15,23,42,0.06)]"
-                data-reveal
-                data-reveal-delay={String((index % 2) + 1)}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <span className="inline-flex items-center rounded-full bg-accent/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-accent">
-                    {step.when}
-                  </span>
-                  <span className="text-5xl font-bold text-border tabular-nums leading-none select-none">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl font-semibold text-ink leading-snug">{step.title}</h3>
-                  <p className="text-sm text-muted leading-relaxed">{step.desc}</p>
-                </div>
+              <article key={step.title} className="ed-col" data-reveal>
+                <span className="ed-col__num">{String(index + 1).padStart(2, '0')}</span>
+                <h3>{step.title}</h3>
+                <p className="ed-col__kicker" style={{ marginTop: 8 }}>{step.when}</p>
+                <p>{step.desc}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Modality */}
-      <section className="section-shell border-b border-border/70 bg-surface/70">
-        <div className="container grid gap-10 lg:grid-cols-[0.42fr_0.58fr] lg:items-start">
-          <div className="space-y-3" data-reveal>
-            <p className="pill w-fit">{p.modalityTitle}</p>
-            <h2 className="text-ink leading-snug">Cómo nos coordinamos con usted</h2>
-            <p className="text-muted text-sm leading-relaxed">
+      {/* Modalidad */}
+      <section className="ed-section ed--mist">
+        <div className="ed-wrap ed-split">
+          <div className="ed-split__head" data-reveal>
+            <p className="ed-eyebrow">{p.modalityTitle}</p>
+            <h2 className="ed-h2">Cómo nos coordinamos con usted</h2>
+            <p className="ed-lead">
               Sin intermediarios, sin demoras. Un sistema de trabajo directo y documentado.
             </p>
           </div>
-          <ul className="divide-y divide-border" data-reveal data-reveal-delay="2">
+          <ol className="ed-rows">
             {p.modalityItems.map((item, idx) => (
-              <li key={item} className="flex items-start gap-4 py-5 first:pt-0 last:pb-0">
-                <span className="shrink-0 pt-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-accent/60 w-6">
-                  {String(idx + 1).padStart(2, '0')}
-                </span>
-                <span className="text-sm text-ink leading-relaxed">{item}</span>
+              <li key={item} className="ed-row ed-row--plain" data-reveal>
+                <span className="ed-row__num">{String(idx + 1).padStart(2, '0')}</span>
+                <p>{item}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Principios */}
+      <section className="ed-section ed--band">
+        <div className="ed-wrap">
+          <div data-reveal>
+            <p className="ed-eyebrow">{p.principlesBadge}</p>
+            <h2 className="ed-h2">{p.principlesTitle}</h2>
+            <p className="ed-lead">{p.principlesSubtitle}</p>
+          </div>
+          <div className="ed-cols">
+            {p.principles.map((item, idx) => (
+              <article key={item.title} className="ed-col" data-reveal>
+                <span className="ed-col__num">{String(idx + 1).padStart(2, '0')}</span>
+                <h3>{item.title}</h3>
+                <p>{item.detail}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Servicios: índice de áreas */}
+      <section className="ed-section">
+        <div className="ed-wrap ed-split">
+          <div className="ed-split__head" data-reveal>
+            <p className="ed-eyebrow">{p.servicesBadge}</p>
+            <h2 className="ed-h2">{p.servicesTitle}</h2>
+            <p className="ed-lead">{p.servicesSubtitle}</p>
+            <div className="ed-actions">
+              <a
+                href={buildWhatsAppUrl({
+                  area: "Metodología",
+                  source: "/metodologia",
+                  message: "Hola, quisiera agendar una consulta.",
+                })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ed-btn ed-btn--wa"
+              >
+                <WaIcon size={16} />
+                {p.ctaBtn}
+              </a>
+              <Link href="/servicios" className="ed-btn ed-btn--ghost">{p.viewAllServices}</Link>
+            </div>
+          </div>
+          <ul className="ed-index">
+            {serviceDetailList.slice(0, 8).map((svc) => (
+              <li key={svc.slug} data-reveal>
+                <Link href={`/servicios/${svc.slug}`}>
+                  <span className="ed-index__title">{(t.header.serviceNames as Record<string, string>)[svc.slug] ?? svc.title}</span>
+                  <span className="ed-index__sub">{svc.headline}</span>
+                  <span className="ed-index__arrow" aria-hidden>→</span>
+                </Link>
               </li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      {/* Principles */}
-      <section className="border-y border-border/70 bg-white">
-        <div className="container space-y-10">
-          <div className="space-y-3" data-reveal>
-            <p className="pill w-fit">{p.principlesBadge}</p>
-            <h2>{p.principlesTitle}</h2>
-            <p className="max-w-2xl text-muted">{p.principlesSubtitle}</p>
-          </div>
-          <div className="divide-y divide-border max-w-3xl" data-reveal data-reveal-delay="1">
-            {p.principles.map((item, idx) => (
-              <div key={item.title} className="flex gap-8 py-8 first:pt-0 last:pb-0">
-                <span className="shrink-0 text-4xl font-bold text-border tabular-nums leading-none select-none">
-                  {String(idx + 1).padStart(2, '0')}
-                </span>
-                <div className="space-y-1.5">
-                  <h3 className="text-xl font-semibold text-ink">{item.title}</h3>
-                  <p className="text-muted">{item.detail}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section className="section-shell bg-surface/70">
-        <div className="container space-y-8">
-          <div className="max-w-2xl space-y-2" data-reveal>
-            <p className="pill w-fit">{p.servicesBadge}</p>
-            <h2>{p.servicesTitle}</h2>
-            <p className="text-muted">{p.servicesSubtitle}</p>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {serviceDetailList.slice(0, 8).map((svc, idx) => (
-              <Link
-                key={svc.slug}
-                href={`/servicios/${svc.slug}`}
-                className="group flex flex-col rounded-2xl border border-border bg-white p-6 shadow-[0_2px_12px_rgba(15,23,42,0.05)] transition hover:-translate-y-0.5 hover:border-accent/30 hover:shadow-[0_8px_24px_rgba(15,23,42,0.10)]"
-                data-reveal
-                data-reveal-delay={String((idx % 3) + 1)}
-              >
-                <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">{svc.title}</p>
-                <h3 className="mt-3 text-base font-semibold leading-snug text-ink">{svc.headline}</h3>
-                <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted flex-1">{svc.summary}</p>
-                <span className="mt-5 inline-flex text-xs font-semibold text-accent group-hover:text-ink transition-colors">
-                  {p.viewService} →
-                </span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="section-shell text-white" style={{ background: DARK_GLOW }} data-reveal>
-        <div className="container grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-          <div className="max-w-2xl space-y-3">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-blue-300/60">Castellanos Abogados</p>
-            <h2 className="text-white">{p.ctaTitle}</h2>
-            <p className="text-slate-300">{p.ctaSubtitle}</p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={buildWhatsAppUrl({
-                area: "Metodología",
-                source: "/metodologia",
-                message: "Hola, quisiera agendar una consulta.",
-              })}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-wa"
-            >
-              <WaIcon size={16} />
-              {p.ctaBtn}
-            </a>
-            <Link href="/servicios" className="btn-secondary border-white/25 bg-white/8 text-white hover:bg-white/14 hover:text-white">
-              {p.viewAllServices}
-            </Link>
-          </div>
         </div>
       </section>
     </main>

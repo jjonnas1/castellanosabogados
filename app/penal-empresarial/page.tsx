@@ -86,120 +86,138 @@ export default async function PenalEmpresarialPage() {
         </div>
       </header>
 
-      <section className="section-shell bg-surface/70">
-        <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div className="space-y-4">
-            <p className="pill w-fit">Qué hacemos</p>
-            <h2>Intervenciones que evitan improvisación</h2>
-            <p className="max-w-2xl text-muted">
+      {/* Qué hacemos */}
+      <section className="ed-section">
+        <div className="ed-wrap ed-split">
+          <div className="ed-split__head">
+            <p className="ed-eyebrow">Qué hacemos</p>
+            <h2 className="ed-h2">Intervenciones que evitan improvisación</h2>
+            <p className="ed-lead">
               Definimos ritmo, responsables, soportes y alcance definido antes, durante y después de cada decisión sensible. No asumimos litigio, sí
               aseguramos análisis especializado, trazabilidad y protocolos accionables.
             </p>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {["Diseño de rutas de prevención", "Mapeo de riesgo penal", "Protocolos activables", "Coordinación con control interno"].map(
-                (item) => (
-                  <div key={item} className="card-shell bg-white px-4 py-4 text-sm font-semibold text-ink shadow-soft/30">
-                    {item}
-                  </div>
-                ),
-              )}
-            </div>
           </div>
-          <div className="card-shell bg-white p-8 shadow-soft/40">
-            <p className="pill w-fit">Modelo</p>
-            <h3 className="mt-3 text-ink">Documento de acompañamiento estratégico</h3>
-            <p className="mt-2 text-muted text-sm">
-              Un solo documento vivo que alinea comités, define alcance definido y activa protocolos. Incluye minutas, escenarios, mensajes clave y
-              responsables. Mantiene un rastro claro para auditoría y órganos de control.
-            </p>
-            <div className="mt-5 grid gap-3 text-xs uppercase tracking-[0.16em] text-muted sm:grid-cols-3">
-              {["Diagnóstico", "Protocolos", "Activación"].map((tag) => (
-                <div key={tag} className="rounded-full bg-subtle px-3 py-2 text-center text-ink">
-                  {tag}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-border/70 bg-white">
-        <div className="container section-shell space-y-6">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div className="space-y-2">
-              <p className="pill w-fit">Servicios activos</p>
-              <h2 className="text-ink">Portafolio penal corporativo</h2>
-              <p className="max-w-2xl text-muted">
-                Iniciamos por DRP-CE y escalamos a AEC-CE e ICP-CE según la madurez y la presión del caso. Todos los servicios mantienen
-                límite: no litigio, sí control y trazabilidad.
-              </p>
-            </div>
-            <Link href="/servicios" className="btn-secondary">
-              Ver hub de servicios
-            </Link>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {serviceList.map((service) => (
-              <div key={service.slug} className="card-shell flex h-full flex-col justify-between bg-subtle px-5 py-5 shadow-soft/30">
-                <div className="space-y-2">
-                  <p className="text-xs uppercase tracking-[0.16em] text-muted">{service.title}</p>
-                  <h3 className="text-ink">{service.name}</h3>
-                  <p className="text-sm text-muted">{service.description}</p>
-                </div>
-                <Link
-                  href={`/servicios/${service.slug}`}
-                  className="btn-primary mt-4 justify-center"
-                >
-                  Activar {service.title}
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section-shell bg-surface/70">
-        <div className="container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
-          <div className="space-y-3">
-            <p className="pill w-fit">Cómo actuamos</p>
-            <h2>Metodología breve y trazable</h2>
-            <p className="max-w-2xl text-muted">
-              Etapas cortas con documentos especializados para juntas y órganos de control. Cada fase puede activarse de forma independiente y
-              mantiene registro especializado.
-            </p>
-            <div className="grid gap-4 md:grid-cols-2">
-              {[{ title: "Evaluación", body: "Contexto, hipótesis de riesgo y responsables." }, { title: "Mapa de riesgo", body: "Matrices, dependencias y rutas de mitigación." }, { title: "Acompañamiento", body: "Sesiones de análisis con documentos listos." }, { title: "Respuesta estratégica", body: "Protocolos, mensajes y coordinación especializada." }].map(
-                (item) => (
-                  <div key={item.title} className="rounded-2xl border border-border bg-white px-4 py-4 shadow-soft/30">
-                    <h3 className="text-ink">{item.title}</h3>
-                    <p className="mt-2 text-sm text-muted">{item.body}</p>
-                  </div>
-                ),
-              )}
-            </div>
-          </div>
-          <div className="card-shell bg-white p-8 shadow-soft/40">
-            <p className="pill w-fit">Límites y alcance</p>
-            <h3 className="mt-3 text-ink">Sin litigio, con documentación sólida</h3>
-            <ul className="mt-4 space-y-3 text-sm text-muted">
-              {["No asumimos representación litigiosa.", "No reemplazamos equipos jurídicos internos.", "Actuamos en coordinación con compliance y auditoría.", "Si se requiere defensa, articulamos aliados manteniendo trazabilidad."].map((item) => (
-                <li key={item} className="flex gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-ink" aria-hidden />
-                  {item}
+          <div>
+            <ol className="ed-rows">
+              {["Diseño de rutas de prevención", "Mapeo de riesgo penal", "Protocolos activables", "Coordinación con control interno"].map((item, idx) => (
+                <li key={item} className="ed-row">
+                  <span className="ed-row__num">{String(idx + 1).padStart(2, "0")}</span>
+                  <h3>{item}</h3>
                 </li>
               ))}
+            </ol>
+            <div style={{ marginTop: 44 }}>
+              <p className="ed-service__label">Modelo · Diagnóstico, protocolos y activación</p>
+              <h3 style={{ marginTop: 12, fontFamily: "var(--font-serif)", fontSize: 26, fontWeight: 400, lineHeight: 1.2 }}>
+                Documento de acompañamiento estratégico
+              </h3>
+              <p className="ed-lead" style={{ maxWidth: "60ch" }}>
+                Un solo documento vivo que alinea comités, define alcance definido y activa protocolos. Incluye minutas, escenarios, mensajes clave y
+                responsables. Mantiene un rastro claro para auditoría y órganos de control.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Portafolio */}
+      <section className="ed-section ed--mist">
+        <div className="ed-wrap ed-split">
+          <div className="ed-split__head">
+            <p className="ed-eyebrow">Servicios activos</p>
+            <h2 className="ed-h2">Portafolio penal corporativo</h2>
+            <p className="ed-lead">
+              Iniciamos por DRP-CE y escalamos a AEC-CE e ICP-CE según la madurez y la presión del caso. Todos los servicios mantienen
+              límite: no litigio, sí control y trazabilidad.
+            </p>
+            <div className="ed-actions">
+              <Link href="/servicios" className="ed-btn ed-btn--ghost">Ver todos los servicios</Link>
+            </div>
+          </div>
+          <ul className="ed-index">
+            {(serviceList.length > 0
+              ? serviceList.map((service) => ({ slug: service.slug, title: service.name ?? service.title, sub: service.description }))
+              : [
+                  { slug: "responsabilidad-penal-pj", title: "Riesgo penal empresarial", sub: "Prevención y defensa frente a la responsabilidad penal de personas jurídicas." },
+                  { slug: "capacitaciones-penal-pj", title: "Capacitaciones empresariales", sub: "Formación para juntas directivas y equipos en prevención de riesgo penal corporativo." },
+                ]
+            ).map((service) => (
+              <li key={service.slug}>
+                <Link href={`/servicios/${service.slug}`}>
+                  <span className="ed-index__title">{service.title}</span>
+                  <span className="ed-index__sub">{service.sub}</span>
+                  <span className="ed-index__arrow" aria-hidden>→</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Metodología */}
+      <section className="ed-section">
+        <div className="ed-wrap">
+          <p className="ed-eyebrow">Cómo actuamos</p>
+          <h2 className="ed-h2">Metodología breve y trazable</h2>
+          <p className="ed-lead" style={{ maxWidth: "62ch" }}>
+            Etapas cortas con documentos especializados para juntas y órganos de control. Cada fase puede activarse de forma independiente y
+            mantiene registro especializado.
+          </p>
+          <div className="ed-cols" style={{ "--ed-cols": 4 } as React.CSSProperties}>
+            {[{ title: "Evaluación", body: "Contexto, hipótesis de riesgo y responsables." }, { title: "Mapa de riesgo", body: "Matrices, dependencias y rutas de mitigación." }, { title: "Acompañamiento", body: "Sesiones de análisis con documentos listos." }, { title: "Respuesta estratégica", body: "Protocolos, mensajes y coordinación especializada." }].map(
+              (item, idx) => (
+                <article key={item.title} className="ed-col">
+                  <span className="ed-col__num">{String(idx + 1).padStart(2, "0")}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </article>
+              ),
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Límites y cierre */}
+      <section className="ed-section ed--band">
+        <div className="ed-wrap">
+          <div className="ed-split">
+            <div className="ed-split__head">
+              <p className="ed-eyebrow">Límites y alcance</p>
+              <h2 className="ed-h2">Sin litigio, con documentación sólida</h2>
+            </div>
+            <ul className="ed-notes">
+              {["No asumimos representación litigiosa.", "No reemplazamos equipos jurídicos internos.", "Actuamos en coordinación con compliance y auditoría.", "Si se requiere defensa, articulamos aliados manteniendo trazabilidad."].map((item) => (
+                <li key={item}>{item}</li>
+              ))}
             </ul>
-            <div className="mt-6 flex flex-wrap gap-3">
+          </div>
+          <div className="ed-cta">
+            <div>
+              <h3>Empecemos por DRP-CE y escale según el riesgo</h3>
+              <p>Definimos el primer control en 48-72 horas y articulamos los pasos siguientes con tus responsables clave.</p>
+            </div>
+            <div className="ed-actions">
+              <a
+                href={buildMailtoUrl({
+                  area: "Penal empresarial",
+                  source: "/penal-empresarial",
+                  subject: "Solicitud de evaluación – Penal empresarial",
+                  message: "Hola, deseo solicitar una evaluación estratégica.",
+                })}
+                data-wa-lead
+                className="ed-btn"
+              >
+                Solicitar evaluación
+              </a>
               <a
                 href={buildWhatsAppUrl({
                   area: "Penal empresarial",
                   source: "/penal-empresarial",
                   message: "Hola, quisiera agendar una evaluación.",
                 })}
-                className="btn-primary"
+                className="ed-btn ed-btn--wa"
               >
-                Agendar evaluación
+                Agendar por WhatsApp
               </a>
               <a
                 href={buildMailtoUrl({
@@ -208,38 +226,11 @@ export default async function PenalEmpresarialPage() {
                   subject: "Solicitud de coordinación con junta – Penal empresarial",
                   message: "Hola, necesito coordinar una sesión con junta o comité.",
                 })}
-                className="btn-secondary"
+                className="ed-btn ed-btn--ghost"
               >
                 Coordinar con junta
               </a>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-t border-border bg-gradient-to-b from-white to-surface/70">
-        <div className="container section-shell space-y-5 text-center">
-          <p className="pill mx-auto w-fit">Activar ahora</p>
-          <h2>Empecemos por DRP-CE y escale según el riesgo</h2>
-          <p className="mx-auto max-w-3xl text-muted">
-            Definimos el primer control en 48-72 horas y articulamos los pasos siguientes con tus responsables clave.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href={buildMailtoUrl({
-                area: "Penal empresarial",
-                source: "/penal-empresarial",
-                subject: "Solicitud de evaluación – Penal empresarial",
-                message: "Hola, deseo solicitar una evaluación estratégica.",
-              })}
-              data-wa-lead
-              className="btn-primary"
-            >
-              Solicitar evaluación
-            </a>
-            <Link href="/servicios" className="btn-secondary">
-              Explorar servicios
-            </Link>
           </div>
         </div>
       </section>

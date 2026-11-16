@@ -4,6 +4,7 @@ import '@fontsource-variable/source-serif-4/wght-italic.css';
 import './globals.css';
 import './motion-public.css';
 import './brand.css';
+import './editorial-layouts.css';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { GoogleTagManager } from '@next/third-parties/google';

@@ -4,15 +4,15 @@ import { getServiceDetail, serviceDetailList } from "@/lib/serviceDetails";
 import ServiceDetailClient from "@/app/components/ServiceDetailClient";
 
 const backgrounds: Record<string, string> = {
-  'traduccion-legal': "linear-gradient(135deg, #0f1420 0%, #182842 100%)",
-  'penal-personas': "linear-gradient(135deg, #0f1420 0%, #182842 100%)",
-  'ejecucion-penas': "linear-gradient(135deg, #0f1420 0%, #182842 100%)",
-  'responsabilidad-penal-pj': "linear-gradient(135deg, #0f1420 0%, #182842 100%)",
-  'capacitaciones-penal-pj': "linear-gradient(135deg, #0f1420 0%, #182842 100%)",
-  civil: "linear-gradient(135deg, #0f1420 0%, #182842 100%)",
-  familia: "linear-gradient(135deg, #0f1420 0%, #182842 100%)",
-  laboral: "linear-gradient(135deg, #0f1420 0%, #182842 100%)",
-  administrativo: "linear-gradient(135deg, #0f1420 0%, #182842 100%)",
+  'traduccion-legal': "linear-gradient(110deg, rgba(12,16,25,0.96) 0%, rgba(18,22,34,0.82) 52%, rgba(73,22,32,0.42) 100%), url('https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1600&q=82&fm=webp')",
+  'penal-personas': "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=75&fm=webp')",
+  'ejecucion-penas': "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=75&fm=webp')",
+  'responsabilidad-penal-pj': "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=75&fm=webp')",
+  'capacitaciones-penal-pj': "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=75&fm=webp')",
+  civil: "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1436450412740-6b988f486c6b?auto=format&fit=crop&w=1200&q=75&fm=webp')",
+  familia: "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=75&fm=webp')",
+  laboral: "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=75&fm=webp')",
+  administrativo: "linear-gradient(140deg, rgba(12,17,29,0.9), rgba(17,37,68,0.78)), url('https://images.unsplash.com/photo-1562564055-71e051d33c19?auto=format&fit=crop&w=1200&q=75&fm=webp')",
 };
 
 const SERVICE_DESCRIPTIONS: Record<string, string> = {

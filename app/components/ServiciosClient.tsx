@@ -22,6 +22,8 @@ const headerBackground =
 export default function ServiciosClient({ services }: { services: Service[]; error: boolean }) {
   const { t } = useLanguage();
   const p = t.pages.servicios;
+  // Nombres de área en lenguaje claro (los mismos del menú), con el título de datos como respaldo.
+  const names = t.header.serviceNames as Record<string, string>;
 
   return (
     <main className="motion-public motion-inner editorial-page editorial-services bg-canvas text-ink">
@@ -49,55 +51,54 @@ export default function ServiciosClient({ services }: { services: Service[]; err
         </div>
       </header>
 
-      <section className="bg-canvas">
-        <div className="container section-shell space-y-8">
+      <section className="ed-section">
+        <div className="ed-wrap">
           {services.length === 0 ? (
-            <div className="rounded-2xl border border-border bg-white px-6 py-10 text-center text-muted shadow-[0_2px_12px_rgba(15,23,42,0.06)]">
-              <p className="text-lg font-semibold text-ink">{p.empty}</p>
-              <p className="mt-2">{p.emptySubtitle}</p>
-              <Link href="/contacto" className="mt-4 inline-block btn-primary">{p.openContact}</Link>
+            <div className="ed-cta ed-cta--solo" style={{ color: 'inherit' }}>
+              <div>
+                <h2 className="ed-h2" style={{ marginTop: 0 }}>{p.empty}</h2>
+                <p className="ed-lead">{p.emptySubtitle}</p>
+              </div>
+              <div className="ed-actions">
+                <Link href="/contacto" className="ed-btn">{p.openContact}</Link>
+              </div>
             </div>
           ) : (
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="ed-catalog">
               {services.map((service) => (
-                <article key={service.slug} className="rounded-2xl border border-border bg-white p-6 shadow-[0_2px_12px_rgba(15,23,42,0.06)] flex h-full flex-col justify-between">
-                  <div className="space-y-3">
-                    <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-                      {service.slug}
-                    </p>
-                    <h3 className="text-lg font-heading font-semibold text-ink">{service.title}</h3>
-                    <p className="text-sm text-muted leading-relaxed">{service.description}</p>
-
-                    {service.detail && (
-                      <div className="space-y-3 text-sm text-muted">
-                        <div>
-                          <p className="font-semibold text-ink">{p.whenActivated}</p>
-                          <ul className="mt-1 list-disc space-y-1 pl-4">
-                            {service.detail.activation.slice(0, 2).map((item) => (
-                              <li key={item}>{item}</li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div>
-                          <p className="font-semibold text-ink">{p.deliverables}</p>
-                          <ul className="mt-1 list-disc space-y-1 pl-4">
-                            {service.detail.deliverables.slice(0, 2).map((item) => (
-                              <li key={item}>{item}</li>
-                            ))}
-                          </ul>
-                        </div>
+                <article key={service.slug} className="ed-service" data-reveal>
+                  <div>
+                    <h3>{names[service.slug] ?? service.title}</h3>
+                    <p className="ed-service__desc">{service.description}</p>
+                    <div className="ed-service__links">
+                      <Link href={service.href ?? `/servicios/${service.slug}`}>{p.viewDetail} →</Link>
+                      {service.slug === 'derecho-migratorio' ? (
+                        <a href={buildWhatsAppUrl({ area: 'Derecho migratorio', source: '/servicios' })} target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+                      ) : (
+                        <Link href="/contacto">{p.consultScope}</Link>
+                      )}
+                    </div>
+                  </div>
+                  {service.detail ? (
+                    <>
+                      <div>
+                        <p className="ed-service__label">{p.whenActivated}</p>
+                        <ul>
+                          {service.detail.activation.slice(0, 3).map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
                       </div>
-                    )}
-                  </div>
-
-                  <div className="mt-6 flex flex-wrap items-center gap-3 text-sm text-muted">
-                    <Link href={service.href ?? `/servicios/${service.slug}`} className="font-semibold text-accent transition hover:text-ink">
-                      {p.viewDetail}
-                    </Link>
-                    {service.slug === 'derecho-migratorio' ? <a href={buildWhatsAppUrl({ area: 'Derecho migratorio', source: '/servicios' })} target="_blank" rel="noopener noreferrer" className="font-semibold text-accent transition hover:text-ink">Consultar por WhatsApp</a> : <Link href="/contacto" className="font-semibold text-muted transition hover:text-ink">
-                      {p.consultScope}
-                    </Link>}
-                  </div>
+                      <div>
+                        <p className="ed-service__label">{p.deliverables}</p>
+                        <ul>
+                          {service.detail.deliverables.slice(0, 3).map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </>
+                  ) : null}
                 </article>
               ))}
             </div>

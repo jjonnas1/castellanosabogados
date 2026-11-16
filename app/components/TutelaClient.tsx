@@ -91,54 +91,53 @@ export default function TutelaClient() {
         </div>
       </section>
 
-      <section className="section-shell bg-white">
-        <div className="container grid gap-6 lg:grid-cols-2">
-          <article className="border-l-2 border-[#762c3a] py-2 pl-6">
-            <h2 className="text-2xl">{p.whenTitle}</h2>
-            <p className="mt-3 text-muted">{p.whenText}</p>
-            <ul className="mt-4 space-y-2 text-sm text-muted">
+      <section className="ed-section">
+        <div className="ed-wrap ed-pair">
+          <article>
+            <p className="ed-eyebrow">01</p>
+            <h2 className="ed-h2">{p.whenTitle}</h2>
+            <p className="ed-text">{p.whenText}</p>
+            <ul className="ed-list">
               {p.whenItems.map((item) => (
-                <li key={item}>• {item}</li>
+                <li key={item}>{item}</li>
               ))}
             </ul>
           </article>
-
-          <article className="border-l-2 border-[#762c3a] py-2 pl-6">
-            <h2 className="text-2xl">{p.howTitle}</h2>
-            <ul className="mt-4 space-y-3 text-sm text-muted">
+          <article>
+            <p className="ed-eyebrow">02</p>
+            <h2 className="ed-h2">{p.howTitle}</h2>
+            <ul className="ed-list">
               {p.howItems.map((item) => (
-                <li key={item}>• {item}</li>
+                <li key={item}>{item}</li>
               ))}
             </ul>
-          </article>
-
-          <article className="tutela-soft-panel border border-[#e3dfe0] bg-[#faf8f8] p-6 sm:p-8 lg:col-span-2">
-            <div className="grid gap-6 lg:grid-cols-2">
-              <div>
-                <h2 className="text-2xl">{p.clearTitle}</h2>
-                <p className="mt-3 text-muted">{p.clearText}</p>
-              </div>
-              <div>
-                <h2 className="text-2xl">{p.epsTitle}</h2>
-                <p className="mt-3 text-muted">{p.epsText}</p>
-              </div>
-            </div>
           </article>
         </div>
       </section>
 
+      <section className="ed-section ed--band">
+        <div className="ed-wrap ed-pair">
+          <div>
+            <h2 className="ed-h3">{p.clearTitle}</h2>
+            <p className="ed-text">{p.clearText}</p>
+          </div>
+          <div>
+            <h2 className="ed-h3">{p.epsTitle}</h2>
+            <p className="ed-text">{p.epsText}</p>
+          </div>
+        </div>
+      </section>
+
       {language === 'es' ? (
-        <section className="section-shell border-t border-border/70 bg-white" id="preguntas-tutela">
-          <div className="container">
-            <div className="max-w-2xl">
-              <p className="pill w-fit">Preguntas frecuentes</p>
-              <h2 className="mt-3">Antes de presentar una tutela</h2>
-            </div>
-            <div className="mt-8 grid gap-4 md:grid-cols-2">
+        <section className="ed-section" id="preguntas-tutela">
+          <div className="ed-wrap">
+            <p className="ed-eyebrow">Preguntas frecuentes</p>
+            <h2 className="ed-h2">Antes de presentar una tutela</h2>
+            <div className="ed-faq">
               {tutelaFaqs.map((item) => (
-                <article key={item.question} className="tutela-faq border-t border-[#c5cbd6] px-1 pt-5">
-                  <h3 className="text-lg text-ink">{item.question}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">{item.answer}</p>
+                <article key={item.question}>
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
                 </article>
               ))}
             </div>
@@ -146,23 +145,23 @@ export default function TutelaClient() {
         </section>
       ) : null}
 
-      <section className="section-shell bg-surface/80" id="evaluador">
-        <div className="container max-w-2xl space-y-4">
-          <div className="space-y-2">
-            <p className="pill w-fit">{p.evalBadge}</p>
-            <h2>{p.evalTitle}</h2>
-            <p className="text-muted">{p.evalSubtitle}</p>
+      <section className="ed-section ed--mist" id="evaluador">
+        <div className="ed-wrap ed-split">
+          <div className="ed-split__head">
+            <p className="ed-eyebrow">{p.evalBadge}</p>
+            <h2 className="ed-h2">{p.evalTitle}</h2>
+            <p className="ed-lead">{p.evalSubtitle}</p>
           </div>
           <EvaluadorTutela />
         </div>
       </section>
 
-      <section className="section-shell border-t border-border/70 bg-white" id="formulario-tutela">
-        <div className="container max-w-2xl">
-          <div className="space-y-2 mb-6">
-            <p className="pill w-fit">{p.formBadge}</p>
-            <h2>{p.formTitle}</h2>
-            <p className="text-muted">{p.formSubtitle}</p>
+      <section className="ed-section" id="formulario-tutela">
+        <div className="ed-wrap ed-split">
+          <div className="ed-split__head">
+            <p className="ed-eyebrow">{p.formBadge}</p>
+            <h2 className="ed-h2">{p.formTitle}</h2>
+            <p className="ed-lead">{p.formSubtitle}</p>
           </div>
           <form className="tutela-soft-panel grid gap-4 border border-[#e3dfe0] bg-[#faf8f8] p-6 sm:p-8" action="/api/contact" method="post">
             <input type="hidden" name="area" value="Tutelas" />

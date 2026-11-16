@@ -1,6 +1,8 @@
 import Link from 'next/link';
 
 import SiteHeader from '@/app/components/SiteHeader';
+import WaIcon from '@/app/components/WaIcon';
+import { buildMailtoUrl, buildWhatsAppUrl, contactConfig } from '@/lib/contactLinks';
 
 const serviceAreas = [
   'Derecho civil',
@@ -36,35 +38,65 @@ export default function ContactoPage() {
         </div>
       </header>
 
-      <section className="bg-canvas">
-        <div className="container section-shell max-w-2xl space-y-8">
-
-          <div className="space-y-3">
-            <p className="pill w-fit">Evaluación inicial</p>
-            <h2>Cuéntanos qué ocurrió y revisamos la ruta jurídica más conveniente</h2>
-            <p className="text-muted">
+      <section className="ed-section">
+        <div className="ed-wrap ed-split">
+          <div className="ed-split__head">
+            <p className="ed-eyebrow">Evaluación inicial</p>
+            <h2 className="ed-h2">Cuéntanos qué ocurrió y revisamos la ruta jurídica más conveniente</h2>
+            <p className="ed-lead">
               La información que envíes se trata con reserva profesional. Entre más claro sea el contexto,
               más rápido podremos orientar el siguiente paso.
             </p>
+            <div className="ed-actions">
+              <a
+                href={buildWhatsAppUrl({ area: 'Contacto', source: '/contacto', message: 'Hola, quisiera agendar una evaluación jurídica.' })}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ed-btn ed-btn--wa"
+              >
+                <WaIcon size={16} />
+                Escribir por WhatsApp
+              </a>
+              <a href={`tel:+${contactConfig.whatsapp}`} className="ed-btn ed-btn--ghost">Llamar al 314 830 9306</a>
+            </div>
           </div>
 
-          <div className="grid gap-3 text-sm text-muted">
-            {[
-              'Contacto directo por WhatsApp para explicar la situación.',
-              'Clasificación del caso por área jurídica y urgencia.',
-              'Posibilidad de seguimiento desde el portal del cliente cuando el caso avance.',
-            ].map((item) => (
-              <div key={item} className="flex gap-3 rounded-2xl border border-border bg-white p-4">
-                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-accent shrink-0" aria-hidden />
-                <p>{item}</p>
+          <div>
+            <ol className="ed-rows">
+              {[
+                'Contacto directo por WhatsApp para explicar la situación.',
+                'Clasificación del caso por área jurídica y urgencia.',
+                'Posibilidad de seguimiento desde el portal del cliente cuando el caso avance.',
+              ].map((item, idx) => (
+                <li key={item} className="ed-row ed-row--plain">
+                  <span className="ed-row__num">{String(idx + 1).padStart(2, '0')}</span>
+                  <p>{item}</p>
+                </li>
+              ))}
+            </ol>
+
+            <dl className="ed-contact" style={{ marginTop: 56 }}>
+              <div>
+                <dt>WhatsApp y teléfono</dt>
+                <dd><a href={`tel:+${contactConfig.whatsapp}`}>{contactConfig.whatsappDisplay}</a></dd>
               </div>
-            ))}
-          </div>
+              <div>
+                <dt>Correo</dt>
+                <dd><a href={buildMailtoUrl({ source: '/contacto' })}>{contactConfig.email}</a></dd>
+              </div>
+              <div>
+                <dt>Horario</dt>
+                <dd>Lunes a viernes, 7:00 a. m. – 4:00 p. m.</dd>
+              </div>
+              <div>
+                <dt>Dónde atendemos</dt>
+                <dd>Pereira y el Eje Cafetero<small>Atención virtual para el resto del país.</small></dd>
+              </div>
+            </dl>
 
-          <div className="text-center">
-            <Link href="/servicios" className="btn-secondary">
-              Ver todas las áreas de práctica
-            </Link>
+            <div className="ed-actions">
+              <Link href="/servicios" className="ed-btn ed-btn--ghost">Ver todas las áreas de práctica</Link>
+            </div>
           </div>
         </div>
       </section>

@@ -44,56 +44,38 @@
   border-top-color: var(--brand-wine);
 }
 
-/* 2. Un solo encabezado para las páginas internas: azul de marca, sin fotos de banco. */
+/* 2. Encabezados de páginas internas: conservan su fotografía y comparten un
+      mismo velo azul noche, para que todas las páginas tengan el mismo tono. */
 .motion-public.editorial-page > header:not(.sticky),
 .motion-public.editorial-page > section:first-of-type:has(h1),
 .motion-public.editorial-blog .motion-blog-hero.section-shell {
-  background: linear-gradient(135deg, var(--brand-night) 0%, var(--brand-navy) 100%) !important;
+  position: relative;
+  isolation: isolate;
   border-bottom: 1px solid rgba(201, 168, 76, 0.28);
 }
-/* Los velos y destellos decorativos sobre el encabezado dejan de ser necesarios. */
-.motion-public.editorial-page > header:not(.sticky) > [aria-hidden].absolute.inset-0,
-.motion-public.editorial-page > section:first-of-type:has(h1) > [aria-hidden].absolute.inset-0 {
-  display: none;
+.motion-public.editorial-page > header:not(.sticky)::before,
+.motion-public.editorial-page > section:first-of-type:has(h1)::before,
+.motion-public.editorial-blog .motion-blog-hero.section-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(100deg, rgba(15, 20, 32, 0.88) 0%, rgba(20, 32, 54, 0.66) 58%, rgba(24, 40, 66, 0.4) 100%);
 }
 .motion-public.editorial-page > header:not(.sticky) h1,
 .motion-public.editorial-page > section:first-of-type:has(h1) h1 {
-  font-size: clamp(40px, 4.6vw, 68px);
-  line-height: 1.06;
+  font-size: clamp(42px, 4.8vw, 72px);
+  line-height: 1.05;
 }
 .motion-public.editorial-page > header:not(.sticky),
 .motion-public.editorial-page > section:first-of-type:has(h1) {
-  min-height: 440px;
+  min-height: 520px;
 }
 @media (max-width: 700px) {
   .motion-public.editorial-page > header:not(.sticky),
-  .motion-public.editorial-page > section:first-of-type:has(h1) { min-height: 380px; }
+  .motion-public.editorial-page > section:first-of-type:has(h1) { min-height: 420px; }
   .motion-public.editorial-page > header:not(.sticky) h1,
   .motion-public.editorial-page > section:first-of-type:has(h1) h1 { font-size: 38px; }
-}
-
-/* 3. Sobre Jonatan: retrato real en el encabezado. */
-.motion-public.editorial-about > header:not(.sticky) { min-height: 520px; }
-.about-hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-  gap: 48px;
-  align-items: center;
-}
-.about-hero-portrait {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  max-width: 360px;
-  width: 100%;
-  margin-left: auto;
-  overflow: hidden;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-}
-.about-hero-portrait img { object-fit: cover; object-position: center 18%; }
-@media (max-width: 860px) {
-  .about-hero-grid { grid-template-columns: 1fr; gap: 28px; }
-  .about-hero-portrait { max-width: 260px; margin-left: 0; }
 }
 
 /* 4. Cierre del inicio en azul de marca (antes verde). */
