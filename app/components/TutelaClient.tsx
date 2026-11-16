@@ -44,8 +44,8 @@ export default function TutelaClient() {
       }) }} />
 
       <section
-        className="relative overflow-hidden border-b border-[#31584b] bg-[#112820] text-white"
-        style={{ backgroundImage: 'radial-gradient(circle at 84% 20%, rgba(113,176,140,.22), transparent 38%), linear-gradient(125deg, #10241e 5%, #214838 100%)' }}
+        className="relative overflow-hidden border-b border-[#1f2c44] bg-[#0f1420] text-white"
+        style={{ backgroundImage: 'linear-gradient(135deg, #0f1420 0%, #182842 100%)' }}
       >
         <div
           className="absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.12),transparent_34%),radial-gradient(circle_at_82%_12%,rgba(255,255,255,0.1),transparent_38%)]"
@@ -65,7 +65,7 @@ export default function TutelaClient() {
                 })}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="tutela-whatsapp inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#25d366] px-6 py-3 text-sm font-bold text-[#10241d] transition hover:bg-[#53e386] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#25d366]"
+                className="tutela-whatsapp inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#25d366] px-6 py-3 text-sm font-bold text-[#0f1420] transition hover:bg-[#53e386] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#25d366]"
               >
                 <WaIcon size={18} />
                 {p.evaluateCase}
@@ -75,13 +75,13 @@ export default function TutelaClient() {
 
           <article className="tutela-hero-panel relative overflow-hidden border border-white/20 bg-white/10 p-7 text-white backdrop-blur-sm sm:p-9">
             <div className="relative space-y-4">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-[#ace4bf]">{p.strategicBadge}</p>
+              <p className="text-[11px] uppercase tracking-[0.16em] text-[#d9c391]">{p.strategicBadge}</p>
               <h2 className="text-2xl text-white">{p.strategicTitle}</h2>
               <p className="text-sm text-slate-100">{p.strategicText}</p>
               <div className="grid text-sm text-slate-100">
                 {p.steps.map((item, index) => (
                   <div key={item} className="flex gap-4 border-t border-white/20 py-3">
-                    <span className="font-semibold text-[#ace4bf]">0{index + 1}</span>
+                    <span className="font-semibold text-[#d9c391]">0{index + 1}</span>
                     <span>{item}</span>
                   </div>
                 ))}
@@ -93,7 +93,7 @@ export default function TutelaClient() {
 
       <section className="section-shell bg-white">
         <div className="container grid gap-6 lg:grid-cols-2">
-          <article className="border-l-2 border-[#3e665e] py-2 pl-6">
+          <article className="border-l-2 border-[#762c3a] py-2 pl-6">
             <h2 className="text-2xl">{p.whenTitle}</h2>
             <p className="mt-3 text-muted">{p.whenText}</p>
             <ul className="mt-4 space-y-2 text-sm text-muted">
@@ -103,7 +103,7 @@ export default function TutelaClient() {
             </ul>
           </article>
 
-          <article className="border-l-2 border-[#3e665e] py-2 pl-6">
+          <article className="border-l-2 border-[#762c3a] py-2 pl-6">
             <h2 className="text-2xl">{p.howTitle}</h2>
             <ul className="mt-4 space-y-3 text-sm text-muted">
               {p.howItems.map((item) => (
@@ -112,7 +112,7 @@ export default function TutelaClient() {
             </ul>
           </article>
 
-          <article className="tutela-soft-panel border border-[#dce8e1] bg-[#f6f9f7] p-6 sm:p-8 lg:col-span-2">
+          <article className="tutela-soft-panel border border-[#e3dfe0] bg-[#faf8f8] p-6 sm:p-8 lg:col-span-2">
             <div className="grid gap-6 lg:grid-cols-2">
               <div>
                 <h2 className="text-2xl">{p.clearTitle}</h2>
@@ -136,7 +136,7 @@ export default function TutelaClient() {
             </div>
             <div className="mt-8 grid gap-4 md:grid-cols-2">
               {tutelaFaqs.map((item) => (
-                <article key={item.question} className="tutela-faq border-t border-[#b9cfc3] px-1 pt-5">
+                <article key={item.question} className="tutela-faq border-t border-[#c5cbd6] px-1 pt-5">
                   <h3 className="text-lg text-ink">{item.question}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted">{item.answer}</p>
                 </article>
@@ -164,7 +164,7 @@ export default function TutelaClient() {
             <h2>{p.formTitle}</h2>
             <p className="text-muted">{p.formSubtitle}</p>
           </div>
-          <form className="tutela-soft-panel grid gap-4 border border-[#dce8e1] bg-[#f6f9f7] p-6 sm:p-8" action="/api/contact" method="post">
+          <form className="tutela-soft-panel grid gap-4 border border-[#e3dfe0] bg-[#faf8f8] p-6 sm:p-8" action="/api/contact" method="post">
             <input type="hidden" name="area" value="Tutelas" />
             <input type="hidden" name="source" value="/tutela#formulario-tutela" />
             <input type="hidden" name="subject" value="Consulta de tutela" />
@@ -182,7 +182,7 @@ export default function TutelaClient() {
               {p.formMessage}
               <textarea name="message" rows={4} required placeholder={p.formMessagePlaceholder} className="mt-2 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink focus:border-ink focus:outline-none focus:ring-2 focus:ring-accent-50" />
             </label>
-            <button type="submit" className="tutela-submit inline-flex min-h-12 items-center justify-center rounded-full bg-[#173e2f] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#245c45] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173e2f]">{p.formSubmit}</button>
+            <button type="submit" className="tutela-submit inline-flex min-h-12 items-center justify-center rounded-full bg-[#182842] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1f2c44] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#182842]">{p.formSubmit}</button>
           </form>
         </div>
       </section>

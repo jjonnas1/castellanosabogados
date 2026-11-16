@@ -42,9 +42,9 @@ export default function ServiciosClient({ services }: { services: Service[]; err
             <Link href="/contacto" className="btn-primary bg-white text-ink shadow-hover hover:bg-slate-100">
               {p.contact}
             </Link>
-            <Link href="/" className="btn-secondary border-white/30 bg-white/10 text-white hover:bg-white/15 hover:text-white">
-              {p.backHome}
-            </Link>
+            <a href={buildWhatsAppUrl({ area: 'Consulta jurídica', source: '/servicios' })} target="_blank" rel="noopener noreferrer" className="btn-secondary border-white/30 bg-white/10 text-white hover:bg-white/15 hover:text-white">
+              WhatsApp · 314 830 9306
+            </a>
           </div>
         </div>
       </header>

@@ -33,7 +33,14 @@ export default function HeroCarrusel() {
     );
     return () => clearTimeout(id);
   }, [current, paused, focused, reduced, slides.length]);
-  const slide = slides[current];
+  // Cada idioma puede tener un número distinto de diapositivas: al cambiar de
+  // idioma se vuelve a la primera para no leer un índice inexistente.
+  useEffect(() => {
+    setCurrent(0);
+  }, [language]);
+  const safeIndex = current < slides.length ? current : 0;
+  const slide = slides[safeIndex];
+  const Headline = safeIndex === 0 ? "h1" : "p";
   return (
     <section
       className="hero"
@@ -47,12 +54,11 @@ export default function HeroCarrusel() {
     >
       <Image
         src="/hero-despacho.jpg"
-        alt=""
+        alt="Jonatan Castellanos, abogado, en su despacho en Pereira"
         fill
         priority
         sizes="100vw"
         className="object-cover object-center scale-[1.02]"
-        aria-hidden
       />
       <div className="hero-overlay" />
       <div className="hero-grain" />
@@ -67,7 +73,7 @@ export default function HeroCarrusel() {
             {slide.tag}
           </div>
           <div className="headline-mask">
-            <h1 key={"title" + current}>{slide.title}</h1>
+            <Headline className="hero-headline" key={"title" + current}>{slide.title}</Headline>
           </div>
           <p className="hero-description" key={"copy" + current}>
             {slide.subtitle}

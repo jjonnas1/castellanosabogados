@@ -1,0 +1,162 @@
+/*
+ * Capa de marca unificada (noviembre de 2026).
+ * Una sola paleta para todo el sitio público: azul noche + un acento vino.
+ * El dorado se reserva para detalles finos sobre fondos oscuros.
+ * Se carga después de motion-public.css y solo ajusta apariencia.
+ */
+:root {
+  --font-inter: "Inter Variable", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Source Serif 4 Variable", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --brand-night: #0f1420;
+  --brand-navy: #182842;
+  --brand-wine: #762c3a;
+  --brand-wine-deep: #54202c;
+  --brand-mist: #f6f4f2;
+  --brand-gold: #c9a84c;
+}
+
+/* 1. Un solo acento en todas las variantes de página interna. */
+.motion-public.editorial-page,
+.motion-public.editorial-personas,
+.motion-public.editorial-audience,
+.motion-public.editorial-method,
+.motion-public.editorial-business,
+.motion-public.editorial-domicilio,
+.motion-public.editorial-tutela {
+  --editorial-wine: var(--brand-wine);
+  --editorial-green: var(--brand-wine);
+  --editorial-violet: var(--brand-wine);
+  --editorial-mist: var(--brand-mist);
+}
+.motion-public.editorial-contact > section { background: var(--brand-mist) !important; }
+.motion-public.editorial-blog .motion-blog-list { background: var(--brand-mist) !important; }
+
+/* Tarjetas: un borde superior del mismo color, sin alternar tonos. */
+.motion-public.editorial-page section .rounded-2xl.bg-white,
+.motion-public.editorial-page section .rounded-2xl.bg-white:nth-child(2n),
+.motion-public.editorial-page section .rounded-2xl.bg-white:nth-child(3n),
+.motion-public.editorial-business section .rounded-2xl.bg-white,
+.motion-public.editorial-business section .card-shell.bg-white,
+.motion-public.editorial-contact > section .rounded-2xl.bg-white,
+.motion-public.editorial-blog .motion-blog-list article,
+.motion-public.editorial-blog .motion-blog-list article:nth-child(3n+2),
+.motion-public.editorial-blog .motion-blog-list article:nth-child(3n) {
+  border-top-color: var(--brand-wine);
+}
+
+/* 2. Un solo encabezado para las páginas internas: azul de marca, sin fotos de banco. */
+.motion-public.editorial-page > header:not(.sticky),
+.motion-public.editorial-page > section:first-of-type:has(h1),
+.motion-public.editorial-blog .motion-blog-hero.section-shell {
+  background: linear-gradient(135deg, var(--brand-night) 0%, var(--brand-navy) 100%) !important;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.28);
+}
+/* Los velos y destellos decorativos sobre el encabezado dejan de ser necesarios. */
+.motion-public.editorial-page > header:not(.sticky) > [aria-hidden].absolute.inset-0,
+.motion-public.editorial-page > section:first-of-type:has(h1) > [aria-hidden].absolute.inset-0 {
+  display: none;
+}
+.motion-public.editorial-page > header:not(.sticky) h1,
+.motion-public.editorial-page > section:first-of-type:has(h1) h1 {
+  font-size: clamp(40px, 4.6vw, 68px);
+  line-height: 1.06;
+}
+.motion-public.editorial-page > header:not(.sticky),
+.motion-public.editorial-page > section:first-of-type:has(h1) {
+  min-height: 440px;
+}
+@media (max-width: 700px) {
+  .motion-public.editorial-page > header:not(.sticky),
+  .motion-public.editorial-page > section:first-of-type:has(h1) { min-height: 380px; }
+  .motion-public.editorial-page > header:not(.sticky) h1,
+  .motion-public.editorial-page > section:first-of-type:has(h1) h1 { font-size: 38px; }
+}
+
+/* 3. Sobre Jonatan: retrato real en el encabezado. */
+.motion-public.editorial-about > header:not(.sticky) { min-height: 520px; }
+.about-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: 48px;
+  align-items: center;
+}
+.about-hero-portrait {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-width: 360px;
+  width: 100%;
+  margin-left: auto;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.about-hero-portrait img { object-fit: cover; object-position: center 18%; }
+@media (max-width: 860px) {
+  .about-hero-grid { grid-template-columns: 1fr; gap: 28px; }
+  .about-hero-portrait { max-width: 260px; margin-left: 0; }
+}
+
+/* 4. Cierre del inicio en azul de marca (antes verde). */
+.motion-public .motion-closing.home-contact-final {
+  border-top: 1px solid rgba(201, 168, 76, 0.28);
+  background: linear-gradient(135deg, var(--brand-night) 0%, var(--brand-navy) 100%) !important;
+}
+.motion-public .home-contact-final__eyebrow { color: #d9c391; }
+.motion-public .home-contact-final__description { color: #d5dae3; }
+
+/* 5. Artículos del blog: subtítulos que se leen como subtítulos. */
+.article-subheading {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgb(var(--color-border));
+  color: rgb(var(--color-ink));
+  font-family: var(--font-serif);
+  font-size: 1.45rem !important;
+  font-weight: 500;
+  line-height: 1.25;
+}
+.article-body > p { font-size: 1rem; line-height: 1.8; }
+
+/* 6. Página simple (trabaje con nosotros, 404). */
+.plain-page { background: rgb(var(--color-canvas)); color: rgb(var(--color-ink)); }
+.plain-page__inner { max-width: 760px; margin-inline: auto; padding: 72px 24px 88px; }
+.plain-page__eyebrow {
+  color: var(--brand-wine);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.plain-page h1 {
+  margin-top: 14px;
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 4.4vw, 54px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+.plain-page__lead { margin-top: 20px; color: rgb(var(--color-muted)); font-size: 1.08rem; line-height: 1.75; }
+.plain-page__list { margin: 28px 0 0; padding: 0; list-style: none; border-top: 1px solid rgb(var(--color-border)); }
+.plain-page__list li { padding: 16px 0; border-bottom: 1px solid rgb(var(--color-border)); line-height: 1.65; }
+.plain-page__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.plain-page__btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 48px; padding: 12px 22px; border-radius: 3px;
+  background: var(--brand-night); color: #fff; font-size: 14px; font-weight: 600;
+}
+.plain-page__btn:hover { background: var(--brand-navy); }
+.plain-page__btn--ghost { background: transparent; color: rgb(var(--color-ink)); border: 1px solid rgb(var(--color-border)); }
+.plain-page__btn--ghost:hover { background: rgb(var(--color-subtle)); }
+
+/* 7. Zonas táctiles cómodas en móvil para enlaces de pie de página y menús. */
+@media (max-width: 767px) {
+  .motion-footer a { display: inline-block; padding-block: 6px; }
+}
+
+/* 8. Etiquetas dentro de encabezados oscuros: siempre claras y legibles. */
+.motion-public.editorial-page > header:not(.sticky) .pill,
+.motion-public.editorial-page > section:first-of-type:has(h1) .pill {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-radius: 2px;
+}

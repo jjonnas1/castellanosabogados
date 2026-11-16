@@ -94,7 +94,7 @@
   overflow: hidden;
   padding-bottom: 10px;
 }
-.motion-public .hero h1 {
+.motion-public .hero :is(h1, .hero-headline) {
   font-size: clamp(50px, 5.8vw, 88px);
   line-height: 1.03;
   letter-spacing: -0.035em;
@@ -174,7 +174,7 @@
   color: #b3b9c4;
 }
 .motion-public .panel-number {
-  font-family: Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 34px;
   color: #bda974;
   font-style: italic;
@@ -459,7 +459,7 @@
     padding-left: 8%;
     padding-right: 8%;
   }
-  .motion-public .hero h1 {
+  .motion-public .hero :is(h1, .hero-headline) {
     font-size: 90px;
   }
   .motion-public .hero-top {
@@ -491,7 +491,7 @@
     padding-top: 70px;
     padding-bottom: 60px;
   }
-  .motion-public .hero h1 {
+  .motion-public .hero :is(h1, .hero-headline) {
     font-size: 60px;
   }
   .motion-public .hero-actions {
@@ -551,7 +551,7 @@
   .motion-public .hero .line {
     width: 21px;
   }
-  .motion-public .hero h1 {
+  .motion-public .hero :is(h1, .hero-headline) {
     font-size: 49px;
     line-height: 1.04;
     margin: 20px 0 14px;
@@ -680,7 +680,7 @@
   }
 }
 @media (max-width: 370px) {
-  .motion-public .hero h1 {
+  .motion-public .hero :is(h1, .hero-headline) {
     font-size: 43px;
   }
   .motion-public .hero-actions {
@@ -748,7 +748,7 @@
   gap: 25px;
 }
 .motion-public .practice-count {
-  font-family: Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 55px;
   line-height: 1;
   color: #e0e8f5;
@@ -822,7 +822,7 @@
   background: linear-gradient(90deg, #bdceeb0a, transparent);
 }
 .motion-public .practice-menu > button > span:nth-child(2) {
-  font-family: Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 25px;
   letter-spacing: -0.03em;
   transition: transform 0.5s var(--ease);
@@ -887,7 +887,7 @@
   right: 18px;
   top: 58px;
   font-size: 225px;
-  font-family: Georgia, serif;
+  font-family: var(--font-serif);
   line-height: 1;
   color: #b0c6e709;
   z-index: -1;
@@ -1109,7 +1109,7 @@
   transform: translateY(-5px);
 }
 .motion-public .scope-card-index {
-  font-family: Georgia, serif;
+  font-family: var(--font-serif);
   font-size: 40px;
   color: #7b91af;
 }
@@ -1659,7 +1659,7 @@
   .motion-public .hero-description {
     font-size: 15px;
   }
-  .motion-public .hero h1 {
+  .motion-public .hero :is(h1, .hero-headline) {
     min-height: 0;
   }
   .motion-public .hero-description {
@@ -1673,7 +1673,7 @@
   .motion-public .hero-actions {
     margin-top: 25px;
   }
-  .motion-public .hero h1 {
+  .motion-public .hero :is(h1, .hero-headline) {
     margin-top: 20px;
     margin-bottom: 18px;
   }
@@ -1707,7 +1707,7 @@
 .motion-public .hero-grain {
   z-index: -1;
 }
-.motion-public .hero h1 {
+.motion-public .hero :is(h1, .hero-headline) {
   max-width: 720px;
 }
 .motion-public .hero .eyebrow {
@@ -2082,7 +2082,7 @@
   .motion-public .hero-copy {
     min-height: 350px;
   }
-  .motion-public .hero h1 {
+  .motion-public .hero :is(h1, .hero-headline) {
     min-height: 0;
     font-size: 48px;
   }

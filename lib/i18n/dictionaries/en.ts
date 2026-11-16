@@ -531,7 +531,7 @@ export const en = {
     servicios: {
       badge: "Services",
       heroTitle: "Firm services",
-      heroParagraph: "Here you find the active areas and access to details per service. If the connection fails, you can contact us and we will coordinate the right area.",
+      heroParagraph: "These are the areas in which we advise and represent clients. Choose the one closest to your case; if you are unsure, write to us and we will tell you where to start.",
       contact: "Contact",
       backHome: "Back to home",
       errorMsg: "We could not retrieve services from Supabase. You can contact us and we will assign the correct area.",

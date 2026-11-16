@@ -71,7 +71,7 @@ export default async function PenalEmpresarialPage() {
             >
               Solicitar evaluación estratégica
             </a>
-            <Link href="/como-trabajamos" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
+            <Link href="/metodologia" className="btn-secondary border-white/50 bg-white/10 text-white hover:bg-white/15 hover:text-white">
               Ver metodología
             </Link>
           </div>

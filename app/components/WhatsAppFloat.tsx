@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 
 const WA_URL = 'https://wa.me/573148309306?text=Hola,%20necesito%20asesor%C3%ADa%20jur%C3%ADdica%20sobre...';
 const MESSAGE = 'Hola 👋 Cuéntanos tu caso — respondemos de inmediato';
+const TYPED_KEY = 'ca_wa_bubble_typed';
+const DISMISSED_KEY = 'ca_wa_bubble_closed';
 
 export default function WhatsAppFloat() {
   const [dismissed, setDismissed] = useState(false);
@@ -11,6 +13,14 @@ export default function WhatsAppFloat() {
 
   useEffect(() => {
     let timer: ReturnType<typeof setInterval> | undefined;
+    let seen = false;
+    try {
+      if (sessionStorage.getItem(DISMISSED_KEY)) { setDismissed(true); return; }
+      seen = sessionStorage.getItem(TYPED_KEY) === '1';
+      sessionStorage.setItem(TYPED_KEY, '1');
+    } catch { /* almacenamiento no disponible: se muestra la animación normal */ }
+    // La invitación se muestra una vez por sesión; después queda solo el botón.
+    if (seen) { setDismissed(true); return; }
     // Pequeño delay antes de empezar a escribir
     const start = setTimeout(() => {
       let i = 0;
@@ -40,7 +50,7 @@ export default function WhatsAppFloat() {
             </a>
             <button
               type="button"
-              onClick={() => setDismissed(true)}
+              onClick={() => { setDismissed(true); try { sessionStorage.setItem(DISMISSED_KEY, '1'); } catch {} }}
               aria-label="Cerrar"
               className="absolute right-3 top-3 text-gray-400 transition-colors hover:text-gray-600"
             >

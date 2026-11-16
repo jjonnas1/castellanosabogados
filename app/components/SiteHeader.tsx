@@ -53,8 +53,8 @@ function MegaMenuPanel({id,onClose,mailtoHref}:{id:string;onClose:()=>void;mailt
             </div>
           </div>))}
           {(() => { const m = MIGRATION_LABELS[language as Language] ?? MIGRATION_LABELS.es; return (
-            <Link href="/visas-colombia" onClick={onClose} className="group flex items-center justify-between gap-3 rounded-xl bg-[#0f3d32]/[0.07] px-3 py-2.5 ring-1 ring-[#0f3d32]/20 transition hover:bg-[#0f3d32]/[0.12]">
-              <span className="flex flex-col gap-0.5"><span className="text-[13px] font-semibold text-[#0f3d32]">{m.title}</span><span className="text-[11px] leading-snug text-muted">{m.description}</span><span className="hidden text-[10px] font-medium text-[#0f3d32] group-hover:block">{m.audience}</span></span><span className="shrink-0 text-[#0f3d32]" aria-hidden>↗</span>
+            <Link href="/visas-colombia" onClick={onClose} className="group flex items-center justify-between gap-3 rounded-xl bg-[#762c3a]/[0.07] px-3 py-2.5 ring-1 ring-[#762c3a]/20 transition hover:bg-[#762c3a]/[0.12]">
+              <span className="flex flex-col gap-0.5"><span className="text-[13px] font-semibold text-[#762c3a]">{m.title}</span><span className="text-[11px] leading-snug text-muted">{m.description}</span><span className="hidden text-[10px] font-medium text-[#762c3a] group-hover:block">{m.audience}</span></span><span className="shrink-0 text-[#762c3a]" aria-hidden>↗</span>
             </Link>
           ); })()}
           <Link href={DOMICILIO_HREF} onClick={onClose} className="flex items-center justify-between gap-3 rounded-xl bg-[#7b1e2b]/[0.06] px-3 py-2.5 ring-1 ring-[#7b1e2b]/20 transition hover:bg-[#7b1e2b]/[0.11]">
@@ -229,8 +229,8 @@ export default function SiteHeader(){
         </button>
       </div>
 
-      {/* ── Mobile secondary bar: dark mode + lang switcher always visible ── */}
-      <div className="flex items-center gap-2 border-t border-border/50 bg-surface/70 px-3 py-2 backdrop-blur-sm dark:bg-canvas/80 xl:hidden">
+      {/* ── Modo oscuro e idioma: dentro del menú móvil, no como barra fija ── */}
+      {open&&(<div className="flex items-center gap-2 border-t border-border/50 bg-surface/70 px-3 py-2 backdrop-blur-sm dark:bg-canvas/80 xl:hidden">
         <button type="button" onClick={()=>setTheme(isDark?"light":"dark")} aria-label={isDark?h.lightMode:h.darkMode} className="flex min-w-0 flex-1 items-center justify-center gap-2 rounded-lg border border-border bg-card px-2 py-2 text-[12px] font-semibold text-ink shadow-soft/20 transition hover:bg-subtle">
           {isDark?<SunIcon/>:<MoonIcon/>}
           <span className="hidden text-ink min-[355px]:inline">{isDark?h.lightMode:h.darkMode}</span>
@@ -242,7 +242,7 @@ export default function SiteHeader(){
             </button>
           ))}
         </div>
-      </div>
+      </div>)}
 
       {open&&(
         <div className="border-t border-border/60 bg-white/98 backdrop-blur-md dark:bg-canvas/97 xl:hidden">
@@ -263,7 +263,7 @@ export default function SiteHeader(){
                   </div>
                 ))}
                 <Link href="/tutela" onClick={()=>{setOpen(false);setMobileServicesOpen(false);}} className={`rounded-xl px-3 py-3 text-sm font-semibold transition hover:bg-subtle hover:text-ink ${isActive('/tutela')?"bg-subtle text-ink":"text-muted"}`}>{t.nav.tutelas}</Link>
-                <Link href="/visas-colombia" onClick={()=>{setOpen(false);setMobileServicesOpen(false);}} className="rounded-xl bg-[#0f3d32]/[0.07] px-3 py-3 text-sm font-semibold text-[#0f3d32]">{(MIGRATION_LABELS[language as Language] ?? MIGRATION_LABELS.es).title}</Link>
+                <Link href="/visas-colombia" onClick={()=>{setOpen(false);setMobileServicesOpen(false);}} className="rounded-xl bg-[#762c3a]/[0.07] px-3 py-3 text-sm font-semibold text-[#762c3a]">{(MIGRATION_LABELS[language as Language] ?? MIGRATION_LABELS.es).title}</Link>
               </div>
             )}
 

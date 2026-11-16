@@ -1260,16 +1260,21 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             />
           )}
 
-          <div className="card-shell bg-white p-6 md:p-8 space-y-4 text-muted leading-relaxed">
+          <div className="article-body card-shell bg-white p-6 md:p-8 space-y-4 text-muted leading-relaxed">
             {paragraphs.map((p, i) => {
-              const paragraph = p.startsWith('**') && p.endsWith('**')
-                ? <h3 className="text-ink font-semibold text-base mt-2">{p.replace(/\*\*/g, '')}</h3>
-                : <p className="text-sm">{p}</p>;
+              const isHeading = (text?: string) => Boolean(text && text.startsWith('**') && text.endsWith('**'));
+              const paragraph = isHeading(p)
+                ? <h2 className="article-subheading">{p.replace(/\*\*/g, '')}</h2>
+                : <p>{p}</p>;
+              // Si el punto de inserción cae en un subtítulo, la tarjeta se muestra
+              // después del párrafo que lo desarrolla.
+              let insertAt = conversionInsertIndex;
+              while (insertAt < paragraphs.length - 1 && isHeading(paragraphs[insertAt])) insertAt += 1;
 
               return (
                 <Fragment key={i}>
                   {paragraph}
-                  {contactContent && i === conversionInsertIndex ? (
+                  {contactContent && i === insertAt ? (
                     <WhatsAppContactCard content={contactContent} source={`/blog/${slug}`} />
                   ) : null}
                 </Fragment>

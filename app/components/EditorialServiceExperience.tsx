@@ -57,7 +57,7 @@ type ServiceBrief = {
 
 const profiles: Record<EditorialSlug, Profile> = {
   'penal-personas': {
-    accent: '#7b3040', soft: '#f3e9ec', deep: '#54202c', icon: ShieldCheck, layout: 'protocol',
+    accent: '#762c3a', soft: '#f6f1f2', deep: '#54202c', icon: ShieldCheck, layout: 'protocol',
     heroLabel: 'DEFENSA PENAL', heroStatement: 'La primera respuesta importa.', keywords: ['Hechos', 'Evidencia', 'Decisión'],
     activationTitle: 'Actuar antes de que el proceso marque el ritmo.',
     signatureTitle: 'Defensa construida desde la primera actuación.',
@@ -71,7 +71,7 @@ const profiles: Record<EditorialSlug, Profile> = {
     closeTitle: 'La estrategia penal no debería empezar tarde.', closeBody: 'Cuéntenos qué ocurrió y qué actuación está próxima.'
   },
   'ejecucion-penas': {
-    accent: '#3e665e', soft: '#e9f0ed', deep: '#294a43', icon: Clock3, layout: 'timeline',
+    accent: '#762c3a', soft: '#f6f1f2', deep: '#54202c', icon: Clock3, layout: 'timeline',
     heroLabel: 'TIEMPO Y LIBERTAD', heroStatement: 'Cada día cuenta.', keywords: ['Cómputo', 'Redención', 'Beneficio'],
     activationTitle: 'El expediente debe decir cuánto tiempo falta.',
     signatureTitle: 'Tiempo cumplido, soporte y petición.',
@@ -85,7 +85,7 @@ const profiles: Record<EditorialSlug, Profile> = {
     closeTitle: 'Revisemos cuánto tiempo puede reconocerse.', closeBody: 'Comparta la sentencia, el cómputo y los certificados disponibles.'
   },
   familia: {
-    accent: '#9a5e56', soft: '#f5ece9', deep: '#6e403b', icon: HeartHandshake, layout: 'split',
+    accent: '#762c3a', soft: '#f6f1f2', deep: '#54202c', icon: HeartHandshake, layout: 'split',
     heroLabel: 'FAMILIA Y PROTECCIÓN', heroStatement: 'Proteger también es ordenar.', keywords: ['Personas', 'Acuerdos', 'Medidas'],
     activationTitle: 'Resolver sin perder de vista a la familia.',
     signatureTitle: 'Personas, acuerdos y medidas urgentes.',
@@ -99,7 +99,7 @@ const profiles: Record<EditorialSlug, Profile> = {
     closeTitle: 'Protejamos primero lo que no puede esperar.', closeBody: 'Explique quiénes están involucrados y cuál es la urgencia actual.'
   },
   civil: {
-    accent: '#4c6278', soft: '#ebf0f3', deep: '#334657', icon: FileCheck2, layout: 'dossier',
+    accent: '#762c3a', soft: '#f6f1f2', deep: '#54202c', icon: FileCheck2, layout: 'dossier',
     heroLabel: 'PATRIMONIO Y OBLIGACIONES', heroStatement: 'Los documentos cuentan la historia.', keywords: ['Contrato', 'Prueba', 'Resultado'],
     activationTitle: 'Un conflicto civil se prepara desde sus soportes.',
     signatureTitle: 'Del documento al resultado buscado.',
@@ -113,7 +113,7 @@ const profiles: Record<EditorialSlug, Profile> = {
     closeTitle: 'Pongamos en orden el conflicto patrimonial.', closeBody: 'Comparta el contrato o documento principal y el resultado que necesita.'
   },
   laboral: {
-    accent: '#426474', soft: '#e9f0f3', deep: '#2e4855', icon: BriefcaseBusiness, layout: 'dual',
+    accent: '#762c3a', soft: '#f6f1f2', deep: '#54202c', icon: BriefcaseBusiness, layout: 'dual',
     heroLabel: 'TRABAJO Y PRESTACIONES', heroStatement: 'Cada relación deja evidencia.', keywords: ['Trabajador', 'Empleador', 'Soportes'],
     activationTitle: 'La relación laboral debe revisarse completa.',
     signatureTitle: 'Dos perspectivas, una misma evidencia.',
@@ -127,7 +127,7 @@ const profiles: Record<EditorialSlug, Profile> = {
     closeTitle: 'Revisemos la relación antes de tomar posición.', closeBody: 'Indique si consulta como trabajador o empleador y qué decisión enfrenta.'
   },
   administrativo: {
-    accent: '#6b6047', soft: '#f1eee7', deep: '#4a412e', icon: Landmark, layout: 'timeline',
+    accent: '#762c3a', soft: '#f6f1f2', deep: '#54202c', icon: Landmark, layout: 'timeline',
     heroLabel: 'ACTOS Y TÉRMINOS', heroStatement: 'Frente al Estado, el término manda.', keywords: ['Notificación', 'Recurso', 'Control'],
     activationTitle: 'Una notificación activa el reloj.',
     signatureTitle: 'Acto, término y respuesta.',
@@ -141,7 +141,7 @@ const profiles: Record<EditorialSlug, Profile> = {
     closeTitle: 'No deje vencer la oportunidad de controvertir.', closeBody: 'Comparta la decisión recibida y la fecha exacta de notificación.'
   },
   'responsabilidad-penal-pj': {
-    accent: '#5b526e', soft: '#eeecf2', deep: '#3f384f', icon: Building2, layout: 'matrix',
+    accent: '#762c3a', soft: '#f6f1f2', deep: '#54202c', icon: Building2, layout: 'matrix',
     heroLabel: 'RIESGO CORPORATIVO', heroStatement: 'Decidir también deja trazabilidad.', keywords: ['Gobierno', 'Control', 'Evidencia'],
     activationTitle: 'El riesgo penal empieza antes de la investigación.',
     signatureTitle: 'Decisión, soporte y responsables.',
@@ -155,7 +155,7 @@ const profiles: Record<EditorialSlug, Profile> = {
     closeTitle: 'Convirtamos una alerta en una decisión controlada.', closeBody: 'Indique el proceso, la decisión sensible y los responsables involucrados.'
   },
   'capacitaciones-penal-pj': {
-    accent: '#866b35', soft: '#f3efe5', deep: '#5d4923', icon: GraduationCap, layout: 'modules',
+    accent: '#762c3a', soft: '#f6f1f2', deep: '#54202c', icon: GraduationCap, layout: 'modules',
     heroLabel: 'FORMACIÓN EJECUTIVA', heroStatement: 'Aprender para decidir mejor.', keywords: ['Casos', 'Protocolos', 'Aplicación'],
     activationTitle: 'La capacitación debe cambiar decisiones reales.',
     signatureTitle: 'Contenido, práctica y evidencia de formación.',

@@ -11,7 +11,7 @@ import { buildWhatsAppUrl } from "@/lib/contactLinks";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 function CountUp({ target = 5.0, decimals = 1, duration = 1400 }: { target?: number; decimals?: number; duration?: number }) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(target);
   const ref = useRef<HTMLSpanElement>(null);
   const triggered = useRef(false);
 

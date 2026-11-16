@@ -1,5 +1,9 @@
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/source-serif-4/wght.css';
+import '@fontsource-variable/source-serif-4/wght-italic.css';
 import './globals.css';
 import './motion-public.css';
+import './brand.css';
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { GoogleTagManager } from '@next/third-parties/google';
@@ -74,6 +78,8 @@ const organizationSchema = {
     },
   ],
   sameAs: [
+    "https://www.instagram.com/castellanos_abogado/",
+    "https://www.facebook.com/profile.php?id=61588299650396",
     "https://wa.me/573148309306",
   ],
 };
@@ -99,7 +105,7 @@ export const metadata: Metadata = {
     locale: 'es_CO',
     url: 'https://jonatancastellanosabogado.com',
     siteName: 'Castellanos Abogados',
-    title: 'Castellanos Abogados · Pereira y Manizales',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira',
     description:
       'Una ruta clara para su situación jurídica. Asesoría en derecho penal, familia, laboral y ejecución de penas. Hablemos de su caso.',
     images: [
@@ -107,13 +113,13 @@ export const metadata: Metadata = {
         url: '/share/inicio.jpg',
         width: 1200,
         height: 630,
-        alt: 'Castellanos Abogados — Firma jurídica en Pereira y Manizales',
+        alt: 'Castellanos Abogados, firma jurídica en Pereira',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Castellanos Abogados · Pereira y Manizales',
+    title: 'Castellanos Abogados | Firma jurídica en Pereira',
     description:
       'Una ruta clara para su situación jurídica. Asesoría en derecho penal, familia, laboral y ejecución de penas. Hablemos de su caso.',
     images: ['/share/inicio.jpg'],
