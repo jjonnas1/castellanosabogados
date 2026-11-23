@@ -38,7 +38,7 @@ for (const [href, text, path, expected] of [
   ['', 'Consultar', '/visas-colombia', 'Derecho migratorio'],
   ['', 'Consultar', '/servicios/traduccion-legal', 'Traducción jurídica'],
 ]) assert.equal(insights.inferServiceInterest(href, text, path), expected);
-assert.equal(insights.clientWhatsAppUrl('314 830 9306'), 'https://wa.me/573148309306');
+assert.equal(insights.clientWhatsAppUrl('313 691 0577'), 'https://wa.me/573136910577');
 assert.equal(insights.clientWhatsAppUrl('+1 202 555 0111'), 'https://wa.me/12025550111');
 const summary = insights.summarizeLeads([
   { source_path: '/servicios/familia?utm_source=test', service_interest: 'Familia', status: 'convertido' },
@@ -74,7 +74,7 @@ assert.equal(Object.keys(fallback[1]).length, 3, 'Preserve legacy schema compati
 async function testModal(ok) {
   let submit, click, fetchCount = 0, saved = 0, navigated = 0;
   const effects = [], changes = [];
-  const values = ['open', 'https://wa.me/573148309306', 'Prueba', '3000000000', '', { sourcePath: '/servicios/familia', linkText: 'consultar', serviceInterest: 'Familia' }];
+  const values = ['open', 'https://wa.me/573136910577', 'Prueba', '3000000000', '', { sourcePath: '/servicios/familia', linkText: 'consultar', serviceInterest: 'Familia' }];
   const location = { pathname: '/servicios/familia', assign() { navigated++; } };
   const jsx = (type, props) => { if (type === 'form') submit = props.onSubmit; return { type, props }; };
   const modal = load('app/components/WhatsAppLeadModal.tsx', {
@@ -82,7 +82,7 @@ async function testModal(ok) {
     react: { useState: () => [values.shift(), value => changes.push(value)], useRef: value => ({ current: value }), useEffect: effect => effects.push(effect) },
     '@/lib/conversionTracking': { trackWhatsAppLeadRegistered: () => saved++ },
     '@/lib/leadInsights': insights,
-    '@/lib/contactLinks': { buildWhatsAppUrl: () => 'https://wa.me/573148309306' },
+    '@/lib/contactLinks': { buildWhatsAppUrl: () => 'https://wa.me/573136910577' },
     '@/contexts/LanguageContext': { useLanguage: () => ({ t: { whatsappLead: {} }, language: 'es' }) },
   }, {
     window: { location }, document: { addEventListener: (name, handler) => { if (name === 'click') click = handler; }, removeEventListener() {} },

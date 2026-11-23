@@ -43,7 +43,7 @@ const personSchema = {
     occupationLocation: { "@type": "City", name: "Pereira" },
     skills: "Derecho penal, ejecución de penas, tutelas, derecho de familia, derecho laboral",
   },
-  sameAs: ["https://wa.me/573148309306"],
+  sameAs: ["https://wa.me/573136910577"],
 };
 
 export default function NosotrosPage() {

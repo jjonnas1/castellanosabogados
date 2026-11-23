@@ -39,7 +39,7 @@ El artículo 208 de la Ley 1955 de 2019 contempla dieciocho meses para el proces
 
 ## Asesoría y representación con Castellanos Abogados
 
-En Castellanos Abogados asesoramos y representamos a familias en Procesos Administrativos de Restablecimiento de Derechos. Estudiamos el expediente, controvertimos las pruebas y sustentamos las solicitudes y los mecanismos de defensa que procedan para proteger los derechos del niño y las garantías de la familia. Si necesita acompañamiento ante el ICBF, una comisaría o un juzgado de familia, puede confiarnos la representación de su caso. Atendemos en Pereira, Manizales y de forma virtual. Escríbanos por WhatsApp al 314 830 9306 para consultar el alcance de nuestros servicios.
+En Castellanos Abogados asesoramos y representamos a familias en Procesos Administrativos de Restablecimiento de Derechos. Estudiamos el expediente, controvertimos las pruebas y sustentamos las solicitudes y los mecanismos de defensa que procedan para proteger los derechos del niño y las garantías de la familia. Si necesita acompañamiento ante el ICBF, una comisaría o un juzgado de familia, puede confiarnos la representación de su caso. Atendemos en Pereira, Manizales y de forma virtual. Escríbanos por WhatsApp al 313 691 0577 para consultar el alcance de nuestros servicios.
 
 
 ## Fuentes oficiales

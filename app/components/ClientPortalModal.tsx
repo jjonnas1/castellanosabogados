@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase-browser';
 
 const STORAGE_KEY = 'ca_lead_modal_dismissed';
 
-const WA_URL = 'https://wa.me/573148309306?text=Hola%2C%20tengo%20una%20situaci%C3%B3n%20legal%20y%20quisiera%20orientaci%C3%B3n.';
+const WA_URL = 'https://wa.me/573136910577?text=Hola%2C%20tengo%20una%20situaci%C3%B3n%20legal%20y%20quisiera%20orientaci%C3%B3n.';
 
 export default function ClientPortalModal() {
   const [visible, setVisible] = useState(false);

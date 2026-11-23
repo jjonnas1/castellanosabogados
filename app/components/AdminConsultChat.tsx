@@ -9,7 +9,7 @@ type Msg = {
   whatsapp?: string;
 };
 
-const WA_BASE = "https://wa.me/573148309306?text=";
+const WA_BASE = "https://wa.me/573136910577?text=";
 const TOPICS = ["Tutela", "Penal", "Familia", "Laboral", "Administrativo", "Otro"];
 
 function waUrl(topic?: string) {

@@ -33,7 +33,7 @@ function contact(subject: string) { return buildWhatsAppUrl({ area: 'Derecho mig
 
 export default function VisasPage() {
   const schema = { '@context': 'https://schema.org', '@graph': [
-    { '@type': 'Service', name: 'Abogado migratorio en Colombia', serviceType: 'Asesoría en derecho migratorio, extranjería y visas', provider: { '@type': 'LegalService', name: 'Castellanos Abogados', url: base, telephone: '+573148309306' }, areaServed: { '@type': 'Country', name: 'Colombia' }, url: `${base}/visas-colombia`, description },
+    { '@type': 'Service', name: 'Abogado migratorio en Colombia', serviceType: 'Asesoría en derecho migratorio, extranjería y visas', provider: { '@type': 'LegalService', name: 'Castellanos Abogados', url: base, telephone: '+573136910577' }, areaServed: { '@type': 'Country', name: 'Colombia' }, url: `${base}/visas-colombia`, description },
     { '@type': 'FAQPage', mainEntity: faqs.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })) },
     { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Inicio', item: base }, { '@type': 'ListItem', position: 2, name: 'Derecho migratorio', item: `${base}/visas-colombia` }] },
   ] };

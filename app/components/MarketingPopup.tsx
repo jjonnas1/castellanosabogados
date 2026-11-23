@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-const WA_NUMBER = '573148309306';
+const WA_NUMBER = '573136910577';
 const STORAGE_KEY = 'ca_mktpopup_shown';
 const DELAY_MS = 8000;
 
@@ -166,7 +166,7 @@ export default function MarketingPopup() {
               id="mp-tel"
               type="tel"
               autoComplete="tel"
-              placeholder="Ej. 314 830 9306"
+              placeholder="Ej. 313 691 0577"
               value={telefono}
               onChange={e => setTelefono(e.target.value)}
               disabled={loading}

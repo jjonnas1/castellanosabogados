@@ -79,12 +79,12 @@ export default function HeroCarrusel() {
             </Link>
             <a
               className="phone"
-              href={`https://wa.me/573148309306?text=${encodeURIComponent(slide.whatsappText)}`}
+              href={`https://wa.me/573136910577?text=${encodeURIComponent(slide.whatsappText)}`}
               target="_blank"
               rel="noopener noreferrer"
             >
               <WaIcon size={20} />
-              314 830 9306
+              313 691 0577
             </a>
           </div>
         </div>

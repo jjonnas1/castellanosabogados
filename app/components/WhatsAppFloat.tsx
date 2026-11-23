@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-const WA_URL = 'https://wa.me/573148309306?text=Hola,%20necesito%20asesor%C3%ADa%20jur%C3%ADdica%20sobre...';
+const WA_URL = 'https://wa.me/573136910577?text=Hola,%20necesito%20asesor%C3%ADa%20jur%C3%ADdica%20sobre...';
 const MESSAGE = 'Hola 👋 Cuéntanos tu caso — respondemos de inmediato';
 
 export default function WhatsAppFloat() {

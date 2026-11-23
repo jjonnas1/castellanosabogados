@@ -214,7 +214,7 @@ export default function ClienteDashboardPage() {
             <div className="mt-8 p-6 bg-gradient-to-br from-white/10 to-white/5 border border-white/10 rounded-3xl">
               <p className="text-xs uppercase tracking-wider text-white/50 mb-2">Su Abogado</p>
               <p className="text-base font-serif text-white mb-4">Jonatan Castellanos</p>
-              <a href="https://wa.me/573148309306" target="_blank" rel="noopener noreferrer" className="block w-full py-3 text-center text-sm font-medium text-canvas bg-white rounded-xl hover:bg-white/90 transition">
+              <a href="https://wa.me/573136910577" target="_blank" rel="noopener noreferrer" className="block w-full py-3 text-center text-sm font-medium text-canvas bg-white rounded-xl hover:bg-white/90 transition">
                 Contactar por WhatsApp
               </a>
             </div>

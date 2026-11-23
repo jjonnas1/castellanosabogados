@@ -89,7 +89,7 @@ const HERRAMIENTAS = [
   },
 ];
 
-const WA_NUMBER = '573148309306';
+const WA_NUMBER = '573136910577';
 const WA_MSG = encodeURIComponent('Hola, me interesa una consulta con Castellanos Abogados.');
 
 export default function HerramientasPage() {

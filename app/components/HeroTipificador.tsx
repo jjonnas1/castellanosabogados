@@ -91,7 +91,7 @@ export default function HeroTipificador() {
         const text = encodeURIComponent(
           `Hola, necesito asesoría jurídica en: ${area.label}.\n${form.mensaje}`
         );
-        window.open(`https://wa.me/573148309306?text=${text}`, "_blank");
+        window.open(`https://wa.me/573136910577?text=${text}`, "_blank");
       }
       setStep(2);
     } catch {

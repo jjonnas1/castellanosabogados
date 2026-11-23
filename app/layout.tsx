@@ -21,7 +21,7 @@ const organizationSchema = {
   description:
     "Firma jurídica con enfoque en derecho penal, ejecución de penas, tutelas y asesoría jurídica estratégica en Pereira y el Eje Cafetero.",
   url: "https://jonatancastellanosabogado.com",
-  telephone: "+573148309306",
+  telephone: "+573136910577",
   email: "jonatancastellanosabogado@gmail.com",
   priceRange: "$$",
   image: "https://jonatancastellanosabogado.com/share/inicio.jpg",
@@ -74,7 +74,7 @@ const organizationSchema = {
     },
   ],
   sameAs: [
-    "https://wa.me/573148309306",
+    "https://wa.me/573136910577",
   ],
 };
 

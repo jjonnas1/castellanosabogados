@@ -126,7 +126,7 @@ export default function EvaluadorTutela() {
         const text = encodeURIComponent(
           `Hola, realicé la evaluación de tutela en su sitio web. Resumen de mi caso:\n${summary}`
         );
-        window.open(`https://wa.me/573148309306?text=${text}`, "_blank");
+        window.open(`https://wa.me/573136910577?text=${text}`, "_blank");
       }
       setDone(true);
     } catch {

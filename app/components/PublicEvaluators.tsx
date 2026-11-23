@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-const WA_NUMBER = '573148309306';
+const WA_NUMBER = '573136910577';
 
 type Evaluator = {
   id: string;

@@ -27,7 +27,7 @@ En el divorcio notarial con hijos menores, el Decreto 1069 de 2015 regula la int
 
 ## Asesoría y representación con Castellanos Abogados
 
-En Castellanos Abogados asesoramos y representamos en procesos de divorcio y en sus consecuencias familiares y patrimoniales. Definimos las pretensiones, elaboramos o controvertimos la propuesta de divorcio y defendemos los intereses de nuestros clientes en materia de alimentos, hijos, bienes y reparaciones cuando correspondan. Puede confiarnos la dirección jurídica de su proceso, desde el estudio del caso hasta las actuaciones comprendidas en la representación contratada. Atendemos en Pereira, Manizales y de forma virtual. Escríbanos por WhatsApp al 314 830 9306 para consultar nuestros servicios.
+En Castellanos Abogados asesoramos y representamos en procesos de divorcio y en sus consecuencias familiares y patrimoniales. Definimos las pretensiones, elaboramos o controvertimos la propuesta de divorcio y defendemos los intereses de nuestros clientes en materia de alimentos, hijos, bienes y reparaciones cuando correspondan. Puede confiarnos la dirección jurídica de su proceso, desde el estudio del caso hasta las actuaciones comprendidas en la representación contratada. Atendemos en Pereira, Manizales y de forma virtual. Escríbanos por WhatsApp al 313 691 0577 para consultar nuestros servicios.
 
 
 ## Fuentes oficiales
