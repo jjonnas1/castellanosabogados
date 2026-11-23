@@ -364,7 +364,7 @@ En derecho penal, el tiempo es un recurso crítico. Las primeras horas después 
 
 Si estás enfrentando una situación penal en Pereira o en cualquier municipio del Eje Cafetero, la consulta inicial no tiene costo y puede darte la claridad que necesitas para tomar la mejor decisión.
 
-¿Necesitas un abogado penalista en Pereira? Contáctanos ahora por WhatsApp o llámanos al 313 691 0577. Atendemos casos en todo el Eje Cafetero: Pereira, Manizales, Armenia y municipios aledaños.
+¿Necesitas un abogado penalista en Pereira? Contáctanos ahora por WhatsApp o llámanos al 314 830 9306. Atendemos casos en todo el Eje Cafetero: Pereira, Manizales, Armenia y municipios aledaños.
     `,
   },
   'que-hacer-si-te-detienen-colombia': {
@@ -424,7 +424,7 @@ Si la Policía no tenía orden judicial y no había flagrancia, o si el procedim
 
 Si eres el familiar de alguien detenido en el Eje Cafetero, lo primero es ubicar a la persona. Puedes consultar la Sijin, la seccional de Policía correspondiente o el INPEC si ya fue trasladado. Lo segundo, y más importante, es contactar de inmediato a un abogado penalista. Cada hora que pasa sin representación legal es una hora en que el proceso avanza sin defensa.
 
-¿Capturaron a un familiar en Pereira, Manizales o Armenia? Llámanos ahora al 313 691 0577 o escríbenos por WhatsApp. Atendemos urgencias penales en todo el Eje Cafetero.
+¿Capturaron a un familiar en Pereira, Manizales o Armenia? Llámanos ahora al 314 830 9306 o escríbenos por WhatsApp. Atendemos urgencias penales en todo el Eje Cafetero.
     `,
   },
   'detencion-domiciliaria-colombia': {
@@ -462,7 +462,7 @@ La solicitud se presenta ante el Juez de Ejecución de Penas y Medidas de Seguri
 
 Para muchas personas y sus familias, la diferencia entre cumplir una pena en una cárcel del INPEC y hacerlo en casa es enorme: en términos de salud, de relaciones familiares y de posibilidades de reinserción social. El proceso requiere conocimiento técnico del derecho penal de ejecución, manejo de los jueces de ejecución en el Eje Cafetero y capacidad de argumentación.
 
-¿Tienes un familiar con una condena o detención preventiva en Pereira, Manizales o Armenia? Podemos analizar si aplica la detención domiciliaria en tu caso. Llámanos al 313 691 0577 o escríbenos por WhatsApp para una consulta inicial.
+¿Tienes un familiar con una condena o detención preventiva en Pereira, Manizales o Armenia? Podemos analizar si aplica la detención domiciliaria en tu caso. Llámanos al 314 830 9306 o escríbenos por WhatsApp para una consulta inicial.
     `,
   },
   "divorcio-colombia": {
@@ -531,7 +531,7 @@ Paso 4: Acción penal o civil si hay daño grave. Algunos casos también pueden 
 
 La Ley 1010 establece multas de 2 a 10 salarios mínimos para el agresor, terminación del contrato con justa causa si el acosador es un empleado, y obligación de realizar procesos de convivencia en la empresa. En casos graves, la víctima puede dar por terminado su contrato e invocar el despido indirecto, reclamando las indemnizaciones correspondientes.
 
-¿Estás viviendo acoso laboral en Pereira, Manizales, Armenia o cualquier municipio del Eje Cafetero? Podemos orientarte sobre las acciones legales disponibles. Contáctanos por WhatsApp o llámanos al 313 691 0577.
+¿Estás viviendo acoso laboral en Pereira, Manizales, Armenia o cualquier municipio del Eje Cafetero? Podemos orientarte sobre las acciones legales disponibles. Contáctanos por WhatsApp o llámanos al 314 830 9306.
     `,
   },
   'medida-de-aseguramiento-colombia': {
@@ -575,7 +575,7 @@ Este es uno de los momentos más críticos de un proceso penal. Un defensor téc
 
 En los juzgados de control de garantías de Pereira, Manizales y Armenia, la experiencia en litigación oral y el conocimiento del sistema local hacen una diferencia real en el resultado de estas audiencias.
 
-¿Te impusieron o le impusieron a un familiar una medida de aseguramiento en el Eje Cafetero? El tiempo importa. Llámanos al 313 691 0577 o escríbenos por WhatsApp para analizar las opciones de impugnación o sustitución.
+¿Te impusieron o le impusieron a un familiar una medida de aseguramiento en el Eje Cafetero? El tiempo importa. Llámanos al 314 830 9306 o escríbenos por WhatsApp para analizar las opciones de impugnación o sustitución.
     `,
   },
   "ley-2466-2025-redenciones-pena": {
@@ -675,7 +675,7 @@ La concede el Juez de Ejecución de Penas y Medidas de Seguridad que vigila la c
 
 El juez puede revocar la libertad condicional y ordenar el regreso a prisión para cumplir el tiempo restante de la pena. El período de prueba equivale al tiempo que faltaba de condena y, cuando es inferior a tres años, el juez puede aumentarlo hasta en otro tanto igual.
 
-¿Tienes un familiar privado de la libertad en el Eje Cafetero que podría tener derecho a la libertad condicional? Podemos revisar su caso sin costo. Llámanos al 313 691 0577 o escríbenos por WhatsApp.
+¿Tienes un familiar privado de la libertad en el Eje Cafetero que podría tener derecho a la libertad condicional? Podemos revisar su caso sin costo. Llámanos al 314 830 9306 o escríbenos por WhatsApp.
     `,
   },
   'cuota-alimentaria-colombia': {
@@ -715,7 +715,7 @@ El incumplimiento de la cuota alimentaria tiene consecuencias jurídicas en dos 
 
 Muchas personas esperan meses antes de iniciar el proceso de fijación de alimentos, y ese tiempo no se recupera fácilmente. La cuota no opera de manera retroactiva salvo en casos excepcionales: se empieza a contar desde la notificación de la demanda. Iniciar el trámite a tiempo protege mejor los intereses del menor o del alimentario.
 
-¿Necesita fijar, revisar o hacer cumplir una cuota de alimentos en Pereira, Manizales o Armenia? En Castellanos Abogados acompañamos todo el proceso. Contáctenos por WhatsApp o llámenos al 313 691 0577.
+¿Necesita fijar, revisar o hacer cumplir una cuota de alimentos en Pereira, Manizales o Armenia? En Castellanos Abogados acompañamos todo el proceso. Contáctenos por WhatsApp o llámenos al 314 830 9306.
     `,
   },
   'violencia-intrafamiliar-medidas-proteccion': {
@@ -753,7 +753,7 @@ La violencia intrafamiliar también puede ser constitutiva del delito tipificado
 
 Cuando hay violencia física o amenaza grave, el primer paso es ponerse a salvo. El segundo, activar la comisaría de familia con los hechos documentados: fotos de lesiones, capturas de mensajes amenazantes, llamadas recibidas, testigos. Un abogado de familia puede acompañar este proceso para garantizar que las medidas solicitadas sean las más adecuadas al caso y que se cumplan efectivamente.
 
-¿Usted o alguien de su familia necesita medidas de protección urgentes en Pereira, Manizales o Armenia? Contáctenos por WhatsApp o llámenos al 313 691 0577. Atendemos con reserva y urgencia.
+¿Usted o alguien de su familia necesita medidas de protección urgentes en Pereira, Manizales o Armenia? Contáctenos por WhatsApp o llámenos al 314 830 9306. Atendemos con reserva y urgencia.
     `,
   },
   'prescripcion-titulos-valores-colombia': {
@@ -831,7 +831,7 @@ Si tiene en su poder una letra de cambio, un cheque o un pagaré que no ha podid
 
 Si usted firmó un título valor hace años y le están cobrando una deuda que podría estar prescrita, es igualmente importante verificar los términos antes de pagar, porque podría estar asumiendo una obligación que ya no era judicialmente exigible.
 
-¿Tiene dudas sobre si un título valor que le deben o que firmó ya prescribió? En Castellanos Abogados revisamos la situación de su título y le explicamos las opciones disponibles. Contáctenos por WhatsApp o llámenos al 313 691 0577.
+¿Tiene dudas sobre si un título valor que le deben o que firmó ya prescribió? En Castellanos Abogados revisamos la situación de su título y le explicamos las opciones disponibles. Contáctenos por WhatsApp o llámenos al 314 830 9306.
     `,
   },
   'preacuerdo-penal-colombia': {
@@ -877,7 +877,7 @@ No conviene cuando la defensa tiene elementos sólidos para controvertir la acus
 
 La decisión de aceptar o rechazar un preacuerdo es una de las más importantes en todo el proceso penal. Debe tomarse con información completa y con el acompañamiento de un abogado penalista de confianza.
 
-¿Te ofrecieron un preacuerdo en Pereira, Manizales o Armenia y no sabes si conviene aceptarlo? Analizamos tu caso y te damos una opinión clara y honesta. Llámanos al 313 691 0577 o contáctanos por WhatsApp.
+¿Te ofrecieron un preacuerdo en Pereira, Manizales o Armenia y no sabes si conviene aceptarlo? Analizamos tu caso y te damos una opinión clara y honesta. Llámanos al 314 830 9306 o contáctanos por WhatsApp.
     `,
   },
   'reforma-laboral-colombia-cambios-vigentes-2026': {
@@ -1021,7 +1021,7 @@ Si usted fue denunciado, reúna los soportes de los pagos realizados, su situaci
 
 Si usted necesita reclamar, verifique primero que exista una cuota fijada o un acuerdo, y documente el incumplimiento y la capacidad económica del obligado. Actuar con soporte probatorio es lo que diferencia una denuncia que prospera de una que se archiva.
 
-¿Enfrenta una investigación por inasistencia alimentaria o necesita hacer cumplir una cuota de alimentos en Pereira, Manizales, Armenia o el Eje Cafetero? En Castellanos Abogados analizamos su caso y le explicamos con claridad la ruta jurídica que corresponde. Llámenos al 313 691 0577 o escríbanos por WhatsApp.
+¿Enfrenta una investigación por inasistencia alimentaria o necesita hacer cumplir una cuota de alimentos en Pereira, Manizales, Armenia o el Eje Cafetero? En Castellanos Abogados analizamos su caso y le explicamos con claridad la ruta jurídica que corresponde. Llámenos al 314 830 9306 o escríbanos por WhatsApp.
     `,
   },
 };

@@ -1,5 +1,7 @@
 export const contactConfig = {
   email: 'jonatan@jonatancastellanosabogado.com',
+  phone: '573148309306',
+  phoneDisplay: '+57 314 830 9306',
   whatsapp: '573136910577',
   whatsappDisplay: '+57 313 691 0577',
 };

@@ -165,11 +165,11 @@ export default function SiteFooter() {
             </p>
             <div className="space-y-3">
               <a
-                href={`tel:+${contactConfig.whatsapp}`}
+                href={`tel:+${contactConfig.phone}`}
                 className="flex items-center gap-2.5 text-[13px] text-white/60 transition hover:text-white"
               >
                 <PhoneIcon />
-                {contactConfig.whatsappDisplay.replace("+57 ", "")}
+                {contactConfig.phoneDisplay.replace("+57 ", "")}
               </a>
 
               {visibleEmail && (

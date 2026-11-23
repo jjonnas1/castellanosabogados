@@ -10,6 +10,7 @@ import ContextualPageContact from '@/app/components/ContextualPageContact';
 import ScrollReveal from '@/app/components/ScrollReveal';
 import { ThemeProvider } from '@/components/theme-provider';
 import { LanguageProvider } from '@/contexts/LanguageContext';
+import { contactConfig } from '@/lib/contactLinks';
 
 const GADS_ID = 'AW-18056733453';
 const GT_ID   = 'GT-NCNRRTDW';
@@ -21,7 +22,7 @@ const organizationSchema = {
   description:
     "Firma jurídica con enfoque en derecho penal, ejecución de penas, tutelas y asesoría jurídica estratégica en Pereira y el Eje Cafetero.",
   url: "https://jonatancastellanosabogado.com",
-  telephone: "+573136910577",
+  telephone: `+${contactConfig.phone}`,
   email: "jonatancastellanosabogado@gmail.com",
   priceRange: "$$",
   image: "https://jonatancastellanosabogado.com/share/inicio.jpg",

@@ -166,7 +166,7 @@ export default function MarketingPopup() {
               id="mp-tel"
               type="tel"
               autoComplete="tel"
-              placeholder="Ej. 313 691 0577"
+              placeholder="Ej. 300 123 4567"
               value={telefono}
               onChange={e => setTelefono(e.target.value)}
               disabled={loading}
