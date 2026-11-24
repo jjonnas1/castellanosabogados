@@ -33,8 +33,10 @@ export function trackConversion(type: ConversionType, payload: Record<string, un
 
   // No se envían conversiones de Ads mientras la etiqueta siga siendo provisional.
   const sendTo = GOOGLE_ADS_CONVERSION_LABELS[type];
-  // Pulsar WhatsApp expresa intención; la conversión se envía al guardar el contacto.
-  if (type !== 'whatsapp' && isConfiguredGoogleAdsLabel(sendTo)) {
+  // Cada clic a WhatsApp se reporta como conversión "Contacto Whatsapp" en Google Ads
+  // (así funcionó hasta el 4 de noviembre de 2026). Google Ads la cuenta una sola vez por
+  // clic en el anuncio, de modo que no se duplica con el registro del formulario.
+  if (isConfiguredGoogleAdsLabel(sendTo)) {
     conversionWindow.gtag?.('event', 'conversion', {
       send_to: sendTo,
       event_label: eventName,
